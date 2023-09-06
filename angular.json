@@ -6,6 +6,9 @@
     "inspector-web-frontend": {
       "projectType": "application",
       "schematics": {
+        "@schematics/angular:service": {
+          "skipTests": true
+        },
         "@schematics/angular:component": {
           "style": "scss",
           "changeDetection": "OnPush",
