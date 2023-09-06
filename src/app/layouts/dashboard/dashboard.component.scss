@@ -1,0 +1,34 @@
+.layout {
+  width: 100%;
+  height: 100dvh;
+
+  display: grid;
+  grid:
+    "header header header" auto
+    "leftSide body ." 1fr
+    "leftSide footer footer" auto
+    / auto 1fr auto;
+  gap: 8px;
+}
+
+.header {
+  background-color: bisque;
+  grid-area: header;
+  height: 45px;
+}
+
+.leftSide {
+  background-color: #0e4583;
+  grid-area: leftSide;
+  width: 250px;
+}
+
+.body {
+  grid-area: body;
+}
+
+.footer {
+  background-color: #126ac6;
+  grid-area: footer;
+  height: 45px;
+}
