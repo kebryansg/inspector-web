@@ -2,8 +2,8 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {tap} from "rxjs";
 import {KeyLocalStorage} from "../enums/key-storage.enum";
-import {LoginResponse} from "../interfaces/login.interface";
 import {environment} from "../../../../environments/environment";
+import {LoginResponse} from "../interfaces/login.interface";
 
 @Injectable({
   providedIn: 'root'

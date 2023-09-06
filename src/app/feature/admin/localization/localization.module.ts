@@ -5,9 +5,8 @@ import {LocalizationRoutingModule} from './localization-routing.module';
 import {CantonComponent} from './canton/canton.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {PopupCantonComponent} from './canton/popup/popup.component';
-import {DxDataGridModule, DxSelectBoxModule} from "devextreme-angular";
+import {DxButtonModule, DxDataGridModule, DxSelectBoxModule} from "devextreme-angular";
 import {IcofontComponent} from "../../../shared/components/icofont/icofont.component";
-import {SweetAlert2Module} from "@sweetalert2/ngx-sweetalert2";
 import {CardComponent} from "../../../shared/components/card/card.component";
 // import {ProvinciaComponent} from './provincia/provincia.component';
 // import {ParroquiaComponent} from './parroquia/parroquia.component';
@@ -35,14 +34,13 @@ const popups = [
     DxDataGridModule,
     DxSelectBoxModule,
 
-    SweetAlert2Module.forChild(),
-
     // SharedModule,
     // DevExtremeModule,
     // NgbTooltipModule
 
     IcofontComponent,
-    CardComponent
+    CardComponent,
+    DxButtonModule
   ],
   declarations: [
     CantonComponent,

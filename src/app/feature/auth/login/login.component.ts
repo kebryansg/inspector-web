@@ -4,6 +4,7 @@ import {NgIf, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {debounceTime, map, Subject, switchMap, tap} from "rxjs";
 import {LoginService} from "../service/login.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ import {LoginService} from "../service/login.service";
 export class LoginComponent implements AfterViewInit {
 
   private loginService = inject(LoginService)
+  router = inject(Router)
 
   loginData: any;
   message: string = '';
@@ -34,17 +36,21 @@ export class LoginComponent implements AfterViewInit {
   $submitLogin: Subject<void> = new Subject<void>();
 
   ngAfterViewInit() {
-    this.$submitLogin.pipe(
-      debounceTime(500),
-      map(() => this.loginData),
-      tap(console.log),
-      switchMap(({Email, Password}) =>
-        this.loginService.login({
-          username: Email,
-          password: Password
-        })
-      ),
-    ).subscribe()
+    this.$submitLogin
+      .pipe(
+        debounceTime(500),
+        map(() => this.loginData),
+        tap(console.log),
+        switchMap(({Email, Password}) =>
+          this.loginService.login({
+            username: Email,
+            password: Password
+          })
+        ),
+      ).subscribe(response => {
+      this.router.navigate(['/admin'])
+    })
   }
 
 }
+

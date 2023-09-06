@@ -48,7 +48,14 @@
 
     <div *dxTemplate="let data of 'cellOptionsTemplate'">
       <div class="btn-group-icons">
-        <icofont ico="icofont icofont-edit m-r-15 f-20 text-primary cursor-pointer"
+        <dx-button icon="edit"
+                   (onClick)="edit(data.data)"
+        ></dx-button>
+        <dx-button icon="trash"
+                   [disabled]="data.data?.Estado !== 'ACT'"
+                   (onClick)="delete(data.data)"
+        ></dx-button>
+        <!--<icofont ico="icofont icofont-edit m-r-15 f-20 text-primary cursor-pointer"
                  (click)="edit(data.data)"
                  ngbTooltip="Editar"
         ></icofont>
@@ -57,7 +64,7 @@
                  ico="icofont icofont-trash m-r-15 f-20 text-danger cursor-pointer"
                  (click)="delete(data.data)"
                  ngbTooltip="Inactivar"
-        ></icofont>
+        ></icofont>-->
       </div>
     </div>
   </dx-data-grid>
