@@ -1,0 +1,8 @@
+li > a:before {
+  content: unset !important;
+}
+
+li > a {
+  text-decoration: none;
+  padding: 10px 7px 10px 22px !important;
+}

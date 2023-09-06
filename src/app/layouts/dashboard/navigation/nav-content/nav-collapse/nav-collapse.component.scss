@@ -1,0 +1,11 @@
+.pcoded-submenu li > a:before {
+  content: unset !important;
+}
+
+.pcoded-submenu li > a:after {
+  top: 16px
+}
+
+.pcoded-submenu li > a {
+  padding: 10px 7px 10px 22px !important;
+}

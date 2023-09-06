@@ -3,7 +3,10 @@
 
   </div>
   <div class="leftSide">
-
+    <app-navigation class="pcoded-navbar"
+                    [ngClass]="{'navbar-collapsed' : navCollapsed, 'theme-horizontal': false, 'mob-open' : navCollapsedMob}"
+                    (onNavMobCollapse)="navMobClick()"
+    />
   </div>
   <div class="body">
     <router-outlet></router-outlet>

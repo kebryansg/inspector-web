@@ -1,4 +1,12 @@
 /* You can add global styles to this file, and also import other style files */
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/mixins";
+
+@import "../node_modules/bootstrap/scss/nav";
+
+@import "scss/style";
+
 *, body {
   margin: 0;
   padding: 0;
@@ -10,3 +18,5 @@
   display: flex;
   gap: 5px;
 }
+
+
