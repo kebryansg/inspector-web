@@ -1,6 +1,7 @@
-import {Injectable} from '@angular/core';
-import {of} from 'rxjs';
-import {NavigationStore, NavigationItem as NavItem} from "./navigation.interface";
+import {inject, Injectable} from '@angular/core';
+import {map, shareReplay} from 'rxjs';
+import {NavigationItem as NavItem, NavigationStore} from "./navigation.interface";
+import {MenuService} from "../services/menu.service";
 
 
 const NavigationItems: NavItem[] = [
@@ -55,13 +56,13 @@ const NavigationItems: NavItem[] = [
 })
 export class NavigationItem {
   // private Routes_Perm: string[];
-  // private menuService: MenuService = inject(MenuService);
+  private menuService: MenuService = inject(MenuService);
 
-  /*getMenu$ = this.menuService.menu$
+  getMenu$ = this.menuService.menu$
     .pipe(
       map(mapData),
       map(this.mapMenu),
-      switchMap(rows => of([
+      /*switchMap(rows => of([
           {
             id: 'navigation',
             title: 'Mi Panel',
@@ -70,11 +71,11 @@ export class NavigationItem {
             children: rows
           }
         ])
-      ),
+      ),*/
       shareReplay(1)
-    )*/
+    )
 
-  getMenu$ = of(NavigationItems)
+  // getMenu$ = of(NavigationItems)
 
   /*public getMenu() {
     return this.menuService.menu$
