@@ -7,6 +7,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DxButtonModule, DxDataGridModule, DxSelectBoxModule} from "devextreme-angular";
 import {CardComponent} from "../../../shared/components/card/card.component";
 import {DialogModule} from "@angular/cdk/dialog";
+import {ProvinciaComponent} from "./provincia/provincia.component";
 // import {ProvinciaComponent} from './provincia/provincia.component';
 // import {ParroquiaComponent} from './parroquia/parroquia.component';
 // import {SectorComponent} from './sector/sector.component';
@@ -27,7 +28,7 @@ import {DialogModule} from "@angular/cdk/dialog";
   ],
   declarations: [
     CantonComponent,
-    // ProvinciaComponent,
+    ProvinciaComponent,
     // ParroquiaComponent,
     // SectorComponent,
   ],
