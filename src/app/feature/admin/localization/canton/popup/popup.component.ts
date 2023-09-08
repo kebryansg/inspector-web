@@ -1,48 +1,73 @@
 import {Component, inject, Input, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {ModalTemplateInputInterface} from "../../../interfaces/modal-template-input.interface";
 import {CatalogoService} from "../../../services/catalogo.service";
 import {ToolsService} from "../../../services/tools.service";
+import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
+import {AsyncPipe, NgClass} from "@angular/common";
+import {DialogRef} from "@angular/cdk/dialog";
 
 @Component({
-  selector: 'app-popup',
-  templateUrl: './popup.component.html',
-  styles: []
+    standalone: true,
+    imports: [
+        ReactiveFormsModule,
+        DxSelectBoxModule,
+        AsyncPipe,
+        NgClass,
+        DxTextBoxModule
+    ],
+    templateUrl: './popup.component.html',
+    styles: []
 })
 export class PopupCantonComponent implements OnInit, ModalTemplateInputInterface {
 
-  @Input() data: any;
-  @Input() titleModal: string = 'default';
+    @Input() data: any;
+    @Input() titleModal: string = 'default';
 
-  form!: FormGroup;
-  lsProvincias$!: Observable<any>;
-  status$: Observable<any[]> = inject(ToolsService).status$;
+    private activeModal = inject(DialogRef)
 
-  constructor(
-    private fb: FormBuilder,
-    private catalogoService: CatalogoService,) {
-    this.lsProvincias$ = this.catalogoService.obtenerProvincia();
-  }
+    form!: FormGroup;
+    lsProvincias$!: Observable<any>;
+    status$: Observable<any[]> = inject(ToolsService).status$;
 
-  ngOnInit() {
-    this.buildForm();
-  }
+    constructor(
+        private fb: FormBuilder,
+        private catalogoService: CatalogoService,) {
+        this.lsProvincias$ = this.catalogoService.obtenerProvincia();
+    }
 
-  buildForm() {
-    this.form = this.fb.group({
-      ID: [this.data.ID || 0],
-      Descripcion: [this.data.Descripcion || '', Validators.required],
-      IDProvincia: [this.data.IDProvincia || '', Validators.required],
-      Estado: [this.data.Estado || 'ACT', Validators.required]
-    });
-  }
+    ngOnInit() {
+        this.buildForm();
+    }
 
-  submit() {
-    // this.activeModal.close(this.form.value);
-  }
+    buildForm() {
+        this.form = this.fb.group({
+            ID: [0],
+            Descripcion: [null, Validators.required],
+            IDProvincia: [null, Validators.required],
+            Estado: [null, Validators.required]
+        });
+    }
 
-  close() {
-  }
+    editData(data: any) {
+        this.form.patchValue({
+            ID: data.ID,
+            Descripcion: data.Descripcion,
+            IDProvincia: data.IDProvincia,
+            Estado: data.Estado,
+        });
+    }
+
+    submit() {
+        this.form.markAsTouched();
+        if (this.form.invalid)
+            return;
+        this.activeModal.close(this.form.value);
+    }
+
+    close() {
+        this.activeModal.close()
+    }
 
 }
