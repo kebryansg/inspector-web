@@ -1,4 +1,4 @@
-import {of, shareReplay} from "rxjs";
+import {Observable, of, shareReplay} from "rxjs";
 import {Injectable} from "@angular/core";
 
 
@@ -13,6 +13,6 @@ export const STATUS = [
 })
 export class ToolsService {
 
-  status$ = of([...STATUS]).pipe(shareReplay());
+  status$: Observable<{value:string, label:string}[]> = of([...STATUS]).pipe(shareReplay());
 
 }

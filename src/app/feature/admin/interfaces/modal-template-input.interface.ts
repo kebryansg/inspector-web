@@ -1,4 +1,4 @@
 export interface ModalTemplateInputInterface {
-  data: any;
+  data?: any;
   titleModal: string;
 }
