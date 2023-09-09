@@ -1,32 +1,35 @@
 import {NgModule} from '@angular/core';
-import {Routes, RouterModule} from '@angular/router';
+import {RouterModule, Routes} from '@angular/router';
 import {CantonComponent} from './canton/canton.component';
 import {ProvinciaComponent} from "./provincia/provincia.component";
-// import {ProvinciaComponent} from './provincia/provincia.component';
-// import {ParroquiaComponent} from './parroquia/parroquia.component';
-// import {SectorComponent} from './sector/sector.component';
+import {ParroquiaComponent} from "./parroquia/parroquia.component";
+import {SectorComponent} from "./sector/sector.component";
 
 const routes: Routes = [
   {
     path: 'provincia',
     component: ProvinciaComponent,
+    title: 'Provincia',
     data: {title: 'Provincia', status: true}
   },
   {
     path: 'canton',
     component: CantonComponent,
+    title: 'Canton',
     data: {title: 'Canton', status: true}
   },
-  // {
-  //   path: 'parroquia',
-  //   component: ParroquiaComponent,
-  //   data: {title: 'Parroquía', status: true}
-  // },
-  // {
-  //   path: 'sector',
-  //   component: SectorComponent,
-  //   data: {title: 'Sector', status: true}
-  // },
+  {
+    path: 'parroquia',
+    component: ParroquiaComponent,
+    title: 'Parroquía',
+    data: {title: 'Parroquía', status: true}
+  },
+  {
+    path: 'sector',
+    component: SectorComponent,
+    title: 'Sector',
+    data: {title: 'Sector', status: true}
+  },
 ];
 
 @NgModule({

@@ -16,6 +16,20 @@ export class CatalogoService {
     return this.httpClient.get(this.url + 'combo/provincia');
   }
 
+  obtenerCanton(idProvincia: string) {
+    return this.httpClient.get(this.url + 'combo/canton', {
+      params: {IDProvincia: idProvincia}
+    });
+  }
+
+  obtenerParroquia(idCanton: string) {
+    return this.httpClient.get(this.url + 'combo/parroquia', {
+      params: {
+        IDCanton: idCanton
+      }
+    });
+  }
+
   obtenerCompania() {
     return this.httpClient.get(this.url + 'combo/compania');
   }

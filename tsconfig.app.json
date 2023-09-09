@@ -10,6 +10,9 @@
       ],
       "@modal/*": [
         "src/app/common/modal/*"
+      ],
+      "@utils/*": [
+        "src/app/shared/utils/*"
       ]
     }
   },

@@ -1,13 +1,14 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import {environment} from "@environments/environment";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ParroquiaService {
 
-  private endpointUrl: string = 'parroquia';
+  private endpointUrl: string = environment.ApiUrl + 'parroquia';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<any[]> {

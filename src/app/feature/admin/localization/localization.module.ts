@@ -8,9 +8,8 @@ import {DxButtonModule, DxDataGridModule, DxSelectBoxModule} from "devextreme-an
 import {CardComponent} from "../../../shared/components/card/card.component";
 import {DialogModule} from "@angular/cdk/dialog";
 import {ProvinciaComponent} from "./provincia/provincia.component";
-// import {ProvinciaComponent} from './provincia/provincia.component';
-// import {ParroquiaComponent} from './parroquia/parroquia.component';
-// import {SectorComponent} from './sector/sector.component';
+import {ParroquiaComponent} from "./parroquia/parroquia.component";
+import {SectorComponent} from "./sector/sector.component";
 
 @NgModule({
   imports: [
@@ -29,8 +28,8 @@ import {ProvinciaComponent} from "./provincia/provincia.component";
   declarations: [
     CantonComponent,
     ProvinciaComponent,
-    // ParroquiaComponent,
-    // SectorComponent,
+    ParroquiaComponent,
+    SectorComponent,
   ],
 })
 export class LocalizationModule {
