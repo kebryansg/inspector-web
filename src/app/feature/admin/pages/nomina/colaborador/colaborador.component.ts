@@ -1,20 +1,22 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
-import {PopupProvinciaComponent} from './popup/popup.component';
+import {Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
+import {PopupColaboradorComponent} from './popup/popup.component';
 import {filter, Observable, Subject} from 'rxjs';
-import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
-import {ToolsService} from "../../services/tools.service";
+import {debounceTime, map, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {CatalogoService} from "../../../services/catalogo.service";
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../shared/services/notificacion.service";
-import {ProvinciaService} from "../services/provincia.service";
+import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {ToolsService} from "../../../services/tools.service";
+import {ColaboradorService} from "../services/colaborador.service";
 
 @Component({
-  selector: 'app-provincia',
-  templateUrl: './provincia.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-colaborador',
+  templateUrl: './colaborador.component.html',
+  styleUrls: []
 })
-export class ProvinciaComponent implements OnInit, OnDestroy {
+export class ColaboradorComponent implements OnInit, OnDestroy {
 
-  private provinciaService: ProvinciaService = inject(ProvinciaService);
+  private colaboradorService: ColaboradorService = inject(ColaboradorService);
+  private catalogoService: CatalogoService = inject(CatalogoService);
   private modalService: Dialog = inject(Dialog);
   private notificacionService: NotificacionService = inject(NotificacionService);
 
@@ -24,6 +26,8 @@ export class ProvinciaComponent implements OnInit, OnDestroy {
 
   lsRows = signal<any[]>([]);
   lsEstados$: Observable<any[]> = inject(ToolsService).status$;
+  lsCargo$: Observable<any> = this.catalogoService.obtenerCargo();
+  lsCompania$: Observable<any> = this.catalogoService.obtenerCompania();
 
 
   ngOnInit() {
@@ -63,18 +67,23 @@ export class ProvinciaComponent implements OnInit, OnDestroy {
   }
 
   getItems() {
-    return this.provinciaService.getAll()
+    return this.colaboradorService.getAll()
       .pipe(
-        tap(response => this.lsRows.set(response))
+        map(ls => ls.map(row => ({
+          ...row,
+          Nombres: `${row.ApellidoPaterno} ${row.ApellidoMaterno} ${row.NombrePrimero}`
+        }))),
+        tap(ls => this.lsRows.set(ls))
       );
   }
 
   edit(row?: any) {
+
     const isEdit = !!row;
-    const modalRef = this.modalService.open(PopupProvinciaComponent, {
+    const modalRef = this.modalService.open(PopupColaboradorComponent, {
       data: {
         data: row ?? {},
-        titleModal: isEdit ? 'Editar Provincia' : 'Nuevo Provincia'
+        titleModal: isEdit ? 'Editar Colaborador' : 'Nuevo Colaborador'
       }
     });
 
@@ -82,12 +91,20 @@ export class ProvinciaComponent implements OnInit, OnDestroy {
       .pipe(
         filter(data => !!data),
         switchMap<any, any>(data => {
-          return isEdit ? this.provinciaService.update(row.ID, data) : this.provinciaService.create(data)
+          return isEdit ? this.colaboradorService.update(row.ID, data) : this.colaboradorService.create(data)
         })
       )
-      .subscribe(() => {
+      .subscribe((data: any) => {
         this.refreshTable$.next();
-      })
+      });
+  }
+
+  synchronize(row: any) {
+    this.colaboradorService.sync(row.ID)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(_ => {
+        this.refreshTable$.next();
+      });
   }
 
   delete(row: any) {
@@ -99,11 +116,13 @@ export class ProvinciaComponent implements OnInit, OnDestroy {
       if (!response) {
         return;
       }
-      this.provinciaService.delete(row.ID)
-        .subscribe(async data => {
+      this.colaboradorService.delete(row.ID)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(data => {
           this.refreshTable$.next();
         });
     });
+
   }
 
 }

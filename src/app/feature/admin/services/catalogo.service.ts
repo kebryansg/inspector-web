@@ -1,6 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
+import {Observable} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -30,16 +31,24 @@ export class CatalogoService {
     });
   }
 
-  obtenerCompania() {
-    return this.httpClient.get(this.url + 'combo/compania');
+  obtenerCompania(): Observable<any[]> {
+    return this.httpClient.get<any[]>(this.url + 'combo/compania');
   }
 
-  obtenerCargo() {
-    return this.httpClient.get(this.url + 'combo/cargo');
+  obtenerCargo(): Observable<any[]> {
+    return this.httpClient.get<any[]>(this.url + 'combo/cargo');
   }
 
-  obtenerDepartamento() {
-    return this.httpClient.get(this.url + 'combo/departamento');
+  obtenerDepartamento(): Observable<any[]> {
+    return this.httpClient.get<any[]>(this.url + 'combo/departamento');
+  }
+
+  obtenerArea(idDepartamento: string): Observable<any[]> {
+    return this.httpClient.get<any[]>(this.url + 'combo/area', {
+      params: {
+        IDDepartamento: idDepartamento
+      }
+    });
   }
 
   obtenerActividadEconominca() {

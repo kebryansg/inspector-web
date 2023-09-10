@@ -14,7 +14,10 @@ export const ADMIN_ROUTES: Routes = [
       {
         path: 'localization',
         loadChildren: () => import('./localization/localization.module').then(m => m.LocalizationModule)
-        // loadComponent: () => import('./admin.component').then(m => m.AdminComponent)
+      },
+      {
+        path: 'nomina',
+        loadChildren: () => import('./pages/nomina/nomina.module').then(m => m.NominaModule)
       }
     ]
   }

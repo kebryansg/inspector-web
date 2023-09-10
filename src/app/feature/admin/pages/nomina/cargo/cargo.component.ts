@@ -1,20 +1,20 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
-import {PopupProvinciaComponent} from './popup/popup.component';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal,} from '@angular/core';
+import {PopupCargoComponent} from './popup/popup.component';
 import {filter, Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
-import {ToolsService} from "../../services/tools.service";
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../shared/services/notificacion.service";
-import {ProvinciaService} from "../services/provincia.service";
+import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {ToolsService} from "../../../services/tools.service";
+import {CargoService} from "../services/cargo.service";
 
 @Component({
-  selector: 'app-provincia',
-  templateUrl: './provincia.component.html',
+  selector: 'app-cargo',
+  templateUrl: './cargo.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProvinciaComponent implements OnInit, OnDestroy {
+export class CargoComponent implements OnInit, OnDestroy {
 
-  private provinciaService: ProvinciaService = inject(ProvinciaService);
+  private cargoService: CargoService = inject(CargoService);
   private modalService: Dialog = inject(Dialog);
   private notificacionService: NotificacionService = inject(NotificacionService);
 
@@ -24,7 +24,6 @@ export class ProvinciaComponent implements OnInit, OnDestroy {
 
   lsRows = signal<any[]>([]);
   lsEstados$: Observable<any[]> = inject(ToolsService).status$;
-
 
   ngOnInit() {
     this.refreshTable$
@@ -63,18 +62,19 @@ export class ProvinciaComponent implements OnInit, OnDestroy {
   }
 
   getItems() {
-    return this.provinciaService.getAll()
+    return this.cargoService.getAll()
       .pipe(
         tap(response => this.lsRows.set(response))
       );
   }
 
   edit(row?: any) {
+
     const isEdit = !!row;
-    const modalRef = this.modalService.open(PopupProvinciaComponent, {
+    const modalRef = this.modalService.open(PopupCargoComponent, {
       data: {
         data: row ?? {},
-        titleModal: isEdit ? 'Editar Provincia' : 'Nuevo Provincia'
+        titleModal: isEdit ? 'Editar Cargo' : 'Nuevo Cargo'
       }
     });
 
@@ -82,12 +82,12 @@ export class ProvinciaComponent implements OnInit, OnDestroy {
       .pipe(
         filter(data => !!data),
         switchMap<any, any>(data => {
-          return isEdit ? this.provinciaService.update(row.ID, data) : this.provinciaService.create(data)
+          return isEdit ? this.cargoService.update(row.ID, data) : this.cargoService.create(data)
         })
       )
-      .subscribe(() => {
+      .subscribe((data: any) => {
         this.refreshTable$.next();
-      })
+      });
   }
 
   delete(row: any) {
@@ -99,8 +99,8 @@ export class ProvinciaComponent implements OnInit, OnDestroy {
       if (!response) {
         return;
       }
-      this.provinciaService.delete(row.ID)
-        .subscribe(async data => {
+      this.cargoService.delete(row.ID)
+        .subscribe(data => {
           this.refreshTable$.next();
         });
     });

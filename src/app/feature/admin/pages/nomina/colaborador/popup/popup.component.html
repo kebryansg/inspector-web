@@ -1,0 +1,144 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{titleModal}}
+  </h4>
+  <button type="button" class="close" aria-label="Close"
+          (click)="activeModal.close()">
+    <i class="feather icon-x-circle"></i>
+  </button>
+</div>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Primer Nombre</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="NombrePrimero"/>
+          </div>
+        </div>
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Nombre Segundo</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="NombreSegundo"/>
+
+          </div>
+        </div>
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Cédula</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="Cedula"/>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-6">
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Apellido Paterno</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="ApellidoPaterno"/>
+          </div>
+        </div>
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Apellido Materno</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="ApellidoMaterno"/>
+          </div>
+        </div>
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Email</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="Email"/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <h5 class="mt-2 font-weight-bold">
+      Datos Administrativos
+    </h5>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Departamento</label>
+          <div class="col-sm-12">
+            <dx-select-box [dataSource]="lsDepartamento$ | async"
+                           valueExpr="ID"
+                           displayExpr="Descripcion"
+                           formControlName="IDDepartamento"
+                           [searchEnabled]="true"
+                           [showClearButton]="true"
+            ></dx-select-box>
+          </div>
+        </div>
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Area</label>
+          <div class="col-sm-12">
+            <dx-select-box [dataSource]="lsAreas$ | async"
+                           valueExpr="ID"
+                           displayExpr="Descripcion"
+                           formControlName="IDArea"
+                           [searchEnabled]="true"
+                           [showClearButton]="true"
+            ></dx-select-box>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-6">
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Compañía</label>
+          <div class="col-sm-12">
+            <dx-select-box [dataSource]="lsCompania$ | async"
+                           valueExpr="ID"
+                           displayExpr="Nombre"
+                           formControlName="IDCompania"
+                           [searchEnabled]="true"
+                           [showClearButton]="true"
+            ></dx-select-box>
+          </div>
+        </div>
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Cargo</label>
+          <div class="col-sm-12">
+            <dx-select-box [dataSource]="lsCargo$ | async"
+                           valueExpr="ID"
+                           displayExpr="Descripcion"
+                           formControlName="IDCargo"
+                           [searchEnabled]="true"
+                           [showClearButton]="true"
+            ></dx-select-box>
+          </div>
+        </div>
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Estado</label>
+          <div class="col-sm-12">
+
+            <dx-select-box [dataSource]="status$ | async"
+                           valueExpr="value"
+                           displayExpr="label"
+                           formControlName="Estado"
+                           [searchEnabled]="true"
+                           [showClearButton]="true"
+            ></dx-select-box>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer d-flex g-2 justify-content-end">
+    <button type="button" class="btn btn-outline-danger m-r-10"
+            (click)="activeModal.close()">
+      Cancelar
+    </button>
+    <button type="submit" class="btn btn-primary"
+            [disabled]="form.invalid">
+      Guardar
+    </button>
+  </div>
+</form>
