@@ -2,6 +2,7 @@ import {Component, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {PopupEntidadComponent} from './popup/popup.component';
 import {switchMap} from 'rxjs/operators';
 import DataSource from 'devextreme/data/data_source';
+import ArrayStore from "devextreme/data/array_store";
 import {DxDataGridComponent} from 'devextreme-angular';
 import {filter, Observable, Subject} from 'rxjs';
 import {ToolsService} from "../../../services/tools.service";
@@ -29,6 +30,7 @@ export class EntidadComponent implements OnInit, OnDestroy {
 
   @ViewChild(DxDataGridComponent, {static: true}) dataGrid!: DxDataGridComponent;
   gridDataSource: any;
+  typeEntidadDataSource: any;
 
   lsEstados$: Observable<any[]> = inject(ToolsService).status$;
   lsTipoEntidad = typeEntitySignal;
@@ -52,6 +54,15 @@ export class EntidadComponent implements OnInit, OnDestroy {
         return this.entidadService.getAll(params)
           .toPromise();
       }
+    });
+
+    this.typeEntidadDataSource = new ArrayStore({
+      key: "value",
+      data: [
+        {value: 'P', label: 'Persona'},
+        {value: 'E', label: 'Empresa'},
+      ],
+      // Other ArrayStore properties go here
     });
   }
 

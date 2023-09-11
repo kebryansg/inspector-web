@@ -6,10 +6,10 @@ import {ActividadEconomicaComponent} from "./actividad-economica/actividad-econo
 import {EntidadComponent} from "./entidad/entidad.component";
 
 const routes: Routes = [
-  // {
-  //   path: 'empresa',
-  //   loadChildren: () => import('./empresa/empresa.module').then(module => module.EmpresaModule),
-  // },
+  {
+    path: 'empresa',
+    loadChildren: () => import('./empresa/empresa.module').then(module => module.EmpresaModule),
+  },
   // {
   //   path: 'grupo',
   //   loadChildren: () => import('./grupo/grupo.module').then(module => module.GrupoModule),

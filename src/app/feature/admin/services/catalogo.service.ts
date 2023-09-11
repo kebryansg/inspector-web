@@ -31,6 +31,14 @@ export class CatalogoService {
     });
   }
 
+  obtenerSector(idParroquia: string) {
+    return this.httpClient.get(this.url + 'combo/sector', {
+      params: {
+        IDParroquia: idParroquia
+      }
+    });
+  }
+
   obtenerCompania(): Observable<any[]> {
     return this.httpClient.get<any[]>(this.url + 'combo/compania');
   }
@@ -51,15 +59,23 @@ export class CatalogoService {
     });
   }
 
-  obtenerActividadEconominca() {
-    return this.httpClient.get(this.url + 'combo/acteconomica');
+  obtenerActividadEconominca(): Observable<any[]> {
+    return this.httpClient.get<any[]>(this.url + 'combo/acteconomica');
   }
 
-  obtenerTipoEmpresa() {
-    return this.httpClient.get(this.url + 'combo/tipoEmpresa');
+  obtenerTipoEmpresa(): Observable<any[]> {
+    return this.httpClient.get<any[]>(this.url + 'combo/tipoEmpresa');
   }
 
-  obtenerInspector() {
-    return this.httpClient.get(this.url + 'combo/inspector');
+  obtenerGrupo(): Observable<any[]> {
+    return this.httpClient.get<any[]>(this.url + 'combo/grupo');
+  }
+
+  obtenerTarifarioGrupo(idGrupo: string): Observable<any[]> {
+    return this.httpClient.get<any[]>(this.url + 'combo/grupo/' + idGrupo);
+  }
+
+  obtenerInspector(): Observable<any[]> {
+    return this.httpClient.get<any[]>(this.url + 'combo/inspector');
   }
 }

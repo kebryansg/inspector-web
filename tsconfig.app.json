@@ -13,6 +13,9 @@
       ],
       "@utils/*": [
         "src/app/shared/utils/*"
+      ],
+      "@standalone-shared/*": [
+        "src/app/shared/components/*"
       ]
     }
   },

@@ -1,0 +1,479 @@
+<form [formGroup]="form" (submit)="submit()">
+  <app-card [hidHeader]="true">
+    <div class="row">
+      <div class="col-md-12 d-flex flex-row flex-nowrap justify-content-between align-items-center ">
+        <h5 class="font-weight-bold">
+          {{ edit ? 'Editar' : 'Nueva' }}  Empresa
+        </h5>
+        <section class="d-flex justify-content-end">
+          <button type="reset" class="btn btn-danger"
+                  (click)="cancel()">
+            <i class="feather icon-toggle-left"></i>
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-primary ms-2"
+                  [disabled]="form.invalid"
+                  [ngClass]="{'btn-disabled':form.invalid}">
+            <i class="feather icon-save"></i>
+            Guardar
+          </button>
+        </section>
+      </div>
+    </div>
+  </app-card>
+
+  <dx-tabs [dataSource]="longtabs"
+           [itemTemplate]="'tabItem'"
+           [selectedIndex]="0"
+           (onItemClick)="onItemClick($event)">
+
+    <div *dxTemplate="let itemData of 'tabItem'">
+      <i class="feather {{ itemData.icon }}"></i>
+      {{itemData.text}}
+    </div>
+  </dx-tabs>
+
+  <app-card cardClass="mt-2" [hidHeader]="true">
+
+    <ng-container [ngSwitch]="selectTab()">
+
+      <ng-container *ngSwitchCase="'INFB'">
+        <div class="row">
+          <div class="col-md-6">
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">RUC</label>
+              <div class="col-sm-12">
+                <dx-text-box maxLength="13" formControlName="RUC"/>
+              </div>
+            </div>
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Nombre Comercial</label>
+              <div class="col-sm-12">
+                <dx-text-box formControlName="NombreComercial"/>
+              </div>
+            </div>
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Razón Social</label>
+              <div class="col-sm-12">
+                <dx-text-box formControlName="RazonSocial"/>
+              </div>
+            </div>
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Estado</label>
+              <div class="col-sm-12">
+                <dx-select-box [dataSource]="status$ | async"
+                               displayExpr="label"
+                               valueExpr="value"
+                               formControlName="Estado"
+                               [searchEnabled]="true"
+                               [showClearButton]="true"
+                ></dx-select-box>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-6">
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Dirección</label>
+              <div class="col-sm-12">
+                <dx-text-box formControlName="Direccion"/>
+              </div>
+            </div>
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Referencia</label>
+              <div class="col-sm-12">
+                <dx-text-box formControlName="Referencia"/>
+              </div>
+            </div>
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Teléfono</label>
+              <div class="col-sm-12">
+                <dx-text-box formControlName="Telefono"/>
+              </div>
+            </div>
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Celular</label>
+              <div class="col-sm-12">
+                <dx-text-box formControlName="Celular"/>
+              </div>
+            </div>
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Email</label>
+              <div class="col-sm-12">
+                <dx-text-box formControlName="Email"/>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'ENT'">
+        <div class="row">
+
+          <div class="col-md-12">
+            <div class="pull-left">
+              <label style="font-size: 1.45rem;">
+                Entidad
+              </label>
+              <!--<icofont ico="icofont-search cursor-pointer ml-5"
+                       style="font-size: 1.45rem;"
+                       ngbTooltip="Buscar Entidad"
+                       placement="right"
+                       (click)="loadModalEntidad()"
+              ></icofont>-->
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <dx-form [formData]="entidad"
+                     [readOnly]="true"
+                     colCount="2"
+                     labelLocation="top">
+              <dxi-item dataField="Identificacion"
+                        [label]="{text:'Identificación'}"
+              ></dxi-item>
+              <dxi-item dataField="Nombres"></dxi-item>
+              <dxi-item dataField="Apellidos"></dxi-item>
+              <dxi-item dataField="Telefono"
+                        [label]="{text:'Teléfono'}"
+              ></dxi-item>
+              <dxi-item dataField="Celular"
+                        [label]="{text:'Celular'}"
+              ></dxi-item>
+              <dxi-item dataField="Email"></dxi-item>
+              <dxi-item dataField="Direccion"
+                        [label]="{text:'Dirección'}"
+                        editorType="dxTextArea"
+                        [editorOptions]="{ height: 60 }"
+                        [colSpan]="2"
+              ></dxi-item>
+            </dx-form>
+            <!--
+            <div class="general-info">
+              <div class="row">
+
+                <div class="col-lg-12 col-xl-6">
+                  <div class="table-responsive">
+                    <table class="table m-0 table-sm">
+                      <tbody>
+                      <tr>
+                        <th scope="row">Nombres</th>
+                        <td>{{ entidad?.Nombres }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Apellidos</th>
+                        <td>{{ entidad?.Apellidos }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Identificación</th>
+                        <td>{{ entidad?.Identificacion }}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-lg-12 col-xl-6">
+                  <div class="table-responsive">
+                    <table class="table table-sm">
+                      <tbody>
+                      <tr>
+                        <th scope="row">Dirección</th>
+                        <td>{{ entidad?.Direccion }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Teléfono - Celular</th>
+                        <td>{{ entidad?.Telefono }} - {{ entidad?.Celular }}</td>
+                      </tr>
+                      <tr>
+                        <th scope="row">Email</th>
+                        <td>{{ entidad?.Email }}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+            -->
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'ACTE'">
+        <div class="row">
+          <div class="col-md-6">
+            <h3 class="sub-title text-c-blue font-weight-bold">
+              Organización
+            </h3>
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Actividad Económica</label>
+              <div class="col-sm-10 pr-0">
+
+                <dx-select-box [dataSource]="lsActEconomica"
+                               displayExpr="Descripcion"
+                               valueExpr="ID"
+                               formControlName="IDActEconomica"
+                               [searchEnabled]="true"
+                               [showClearButton]="true"
+                ></dx-select-box>
+
+                <!--                      <ng-select class="mb-1" formControlName="IDActEconomica"-->
+                <!--                                 [items]="lsActEconomica" bindLabel="Descripcion" bindValue="ID">-->
+                <!--                      </ng-select>-->
+              </div>
+              <div class="col-sm-2 btn-group-select p-0">
+                <!--<icofont ico=" icofont-plus mr-1 text-primary cursor-pointer"
+                         ngbTooltip="Agregar Act. Economica"
+                         (click)="modalActividadEconomica()"
+                ></icofont>
+                <icofont ico=" icofont-refresh text-danger cursor-pointer"
+                         ngbTooltip="Refrescar" (click)="refreshCombo$.next('ActividadEconomica')"
+                ></icofont>-->
+              </div>
+            </div>
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Tipo Empresa</label>
+              <div class="col-sm-10 pr-0">
+                <dx-select-box [dataSource]="lsTipoEmpresa"
+                               displayExpr="Nombre"
+                               valueExpr="ID"
+                               formControlName="IDTipoEmpresa"
+                               [searchEnabled]="true"
+                               [showClearButton]="true"
+                ></dx-select-box>
+                <!--                      <ng-select class="mb-1" formControlName="IDTipoEmpresa"-->
+                <!--                                 [items]="lsTipoEmpresa" bindLabel="Nombre" bindValue="ID">-->
+                <!--                      </ng-select>-->
+              </div>
+              <div class="col-sm-2 btn-group-select p-0">
+                <!--<icofont ico=" icofont-plus mr-1 text-primary cursor-pointer"
+                         ngbTooltip="Agregar Tipo Empresa"
+                         (click)="modalTipoEmpresa()"
+                ></icofont>
+                <icofont ico=" icofont-refresh text-danger cursor-pointer"
+                         ngbTooltip="Refrescar"
+                         (click)="refreshCombo$.next('TipoEmpresa')"
+                ></icofont>-->
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-6">
+            <h3 class="sub-title text-c-blue font-weight-bold">Tarifario</h3>
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Grupo</label>
+              <div class="col-sm-10 pr-0">
+                <dx-select-box [dataSource]="lsGrupo"
+                               displayExpr="Nombre"
+                               valueExpr="ID"
+                               formControlName="IDTarifaGrupo"
+                               [searchEnabled]="true"
+                               [showClearButton]="true"
+                ></dx-select-box>
+              </div>
+              <div class="col-sm-2 btn-group-select p-0">
+                <!-- <icofont ico="icofont-plus mr-1 text-primary cursor-pointer"
+                          ngbTooltip="Agregar Grupo"
+                          (click)="modalGrupo()"
+                 ></icofont>
+                 <icofont ico="icofont-refresh text-danger cursor-pointer"
+                          ngbTooltip="Refrescar"
+                          (click)="refreshCombo$.next('Grupo')"
+                 ></icofont>-->
+              </div>
+            </div>
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Actividad</label>
+              <div class="col-sm-10 pr-0">
+                <dx-select-box [dataSource]="lsActividad"
+                               displayExpr="Nombre"
+                               valueExpr="ID"
+                               formControlName="IDTarifaActividad"
+                               [searchEnabled]="true"
+                               [showClearButton]="true"
+                ></dx-select-box>
+                <!--                      <ng-select class="mb-1" formControlName="IDTarifaActividad"-->
+                <!--                                 [items]="lsActividad" bindLabel="Nombre" bindValue="ID">-->
+                <!--                      </ng-select>-->
+              </div>
+              <div class="col-sm-2 btn-group-select p-0">
+                <!--<icofont ico="icofont-plus mr-1 text-primary cursor-pointer"
+                         ngbTooltip="Agregar Actividad"
+                         (click)="modalActividadTarifario()"
+                ></icofont>-->
+              </div>
+            </div>
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Categoría</label>
+              <div class="col-sm-10 pr-0">
+                <dx-select-box [dataSource]="lsCategoria"
+                               displayExpr="Nombre"
+                               valueExpr="ID"
+                               formControlName="IDTarifaCategoria"
+                               [searchEnabled]="true"
+                               [showClearButton]="true"
+                ></dx-select-box>
+                <!--                      <ng-select class="mb-1" formControlName="IDTarifaCategoria"-->
+                <!--                                 [items]="lsCategoria" bindLabel="Nombre" bindValue="ID">-->
+                <!--                      </ng-select>-->
+              </div>
+              <div class="col-sm-2 btn-group-select p-0">
+                <!--<icofont ico="icofont-plus mr-1 text-primary cursor-pointer"
+                         ngbTooltip="Agregar Actividad"
+                         (click)="modalCategoria()"
+                ></icofont>
+                <icofont ico="icofont-search text-danger cursor-pointer"
+                         *ngIf="form.controls['IDTarifaGrupo'].value"
+                         ngbTooltip="Asignar Categoría ya existente"
+                         placement="left"
+                         (click)="asignCategoria()"
+                ></icofont>-->
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'UBC'">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="pull-right">
+              <button type="button"
+                      class="btn btn-sm btn-danger"
+                      (click)="refreshCombo$.next('Location')">
+                <!--              <icofont ico="icofont-refresh"></icofont>-->
+                Refrescar Catalogos
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Provincia</label>
+              <div class="col-sm-12">
+                <dx-select-box [dataSource]="lsProvincias"
+                               displayExpr="Descripcion"
+                               valueExpr="ID"
+                               formControlName="IDProvincia"
+                               [searchEnabled]="true"
+                               [showClearButton]="true"
+                ></dx-select-box>
+                <!--                      <ng-select [clearable]="false"-->
+                <!--                                 [items]="lsProvincias" bindLabel="Descripcion" bindValue="ID"-->
+                <!--                                 class="mb-1" formControlName="IDProvincia">-->
+                <!--                      </ng-select>-->
+              </div>
+            </div>
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Cantón</label>
+              <div class="col-sm-12">
+                <dx-select-box [dataSource]="lsCanton"
+                               displayExpr="Descripcion"
+                               valueExpr="ID"
+                               formControlName="IDCanton"
+                               [searchEnabled]="true"
+                               [showClearButton]="true"
+                ></dx-select-box>
+                <!--                      <ng-select [clearable]="false"-->
+                <!--                                 [items]="lsCanton" bindLabel="Descripcion" bindValue="ID"-->
+                <!--                                 class="mb-1" formControlName="IDCanton">-->
+                <!--                      </ng-select>-->
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-6">
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Parroquía</label>
+              <div class="col-sm-12">
+                <dx-select-box [dataSource]="lsParroquia"
+                               displayExpr="Descripcion"
+                               valueExpr="ID"
+                               formControlName="IDParroquia"
+                               [searchEnabled]="true"
+                               [showClearButton]="true"
+                ></dx-select-box>
+                <!--                      <ng-select [clearable]="false"-->
+                <!--                                 [items]="lsParroquia" bindLabel="Descripcion" bindValue="ID"-->
+                <!--                                 class="mb-1" formControlName="IDParroquia">-->
+                <!--                      </ng-select>-->
+              </div>
+            </div>
+
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Sector</label>
+              <div class="col-sm-12">
+                <dx-select-box [dataSource]="lsSector"
+                               displayExpr="Descripcion"
+                               valueExpr="ID"
+                               formControlName="IDSector"
+                               [searchEnabled]="true"
+                               [showClearButton]="true"
+                ></dx-select-box>
+                <!--                      <ng-select [clearable]="false"-->
+                <!--                                 [items]="lsSector" bindLabel="Descripcion" bindValue="ID"-->
+                <!--                                 class="mb-1" formControlName="IDSector">-->
+                <!--                      </ng-select>-->
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'MPS'">
+        <div class="row">
+          <div class="col-md-12">
+
+            <!--
+            <agm-map (mapClick)="selectMarcador($event)"
+                     [latitude]="lat"
+                     [longitude]="lng"
+                     [zoom]="17"
+                     style="height: 450px;">
+
+              <agm-marker *ngFor="let coord of lsMarcardoresMaps"
+                          [latitude]="coord.lat"
+                          [longitude]="coord.lng">
+                <agm-info-window [isOpen]="true">
+                  <h5 class="font-weight-bold">
+                    Ubicación de la empresa
+                  </h5>
+                </agm-info-window>
+              </agm-marker>
+
+            </agm-map>
+            -->
+
+          </div>
+        </div>
+      </ng-container>
+
+    </ng-container>
+
+  </app-card>
+
+</form>
+

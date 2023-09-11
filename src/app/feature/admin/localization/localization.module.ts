@@ -5,7 +5,7 @@ import {LocalizationRoutingModule} from './localization-routing.module';
 import {CantonComponent} from './canton/canton.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {DxButtonModule, DxDataGridModule, DxSelectBoxModule} from "devextreme-angular";
-import {CardComponent} from "../../../shared/components/card/card.component";
+import {CardComponent} from "@standalone-shared/card/card.component";
 import {DialogModule} from "@angular/cdk/dialog";
 import {ProvinciaComponent} from "./provincia/provincia.component";
 import {ParroquiaComponent} from "./parroquia/parroquia.component";

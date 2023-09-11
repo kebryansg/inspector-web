@@ -7,7 +7,7 @@ import {ColaboradorComponent} from './colaborador/colaborador.component';
 import {FormsModule} from '@angular/forms';
 import {DxButtonModule, DxDataGridModule} from "devextreme-angular";
 import {DialogModule} from "@angular/cdk/dialog";
-import {CardComponent} from "../../../../shared/components/card/card.component";
+import {CardComponent} from "@standalone-shared/card/card.component";
 
 @NgModule({
   imports: [
