@@ -6,6 +6,7 @@ import {Dialog} from "@angular/cdk/dialog";
 import {NotificacionService} from "../../../../shared/services/notificacion.service";
 import {ToolsService} from "../../services/tools.service";
 import {SectorService} from "../services/sector.service";
+import {Sector} from "../interfaces/base.interface";
 
 @Component({
   selector: 'app-sector',
@@ -14,14 +15,14 @@ import {SectorService} from "../services/sector.service";
 })
 export class SectorComponent implements OnInit, OnDestroy {
 
-  private sectorService: SectorService = inject(SectorService);
+  private sectorService: SectorService<Sector> = inject(SectorService);
   private modalService: Dialog = inject(Dialog);
   private notificacionService: NotificacionService = inject(NotificacionService);
 
   destroy$: Subject<void> = new Subject<void>();
   refreshTable$: Subject<void> = new Subject<void>();
 
-  lsRows = signal<any[]>([]);
+  lsRows = signal<Sector[]>([]);
   lsEstados$ = inject(ToolsService).status$;
 
   ngOnInit() {

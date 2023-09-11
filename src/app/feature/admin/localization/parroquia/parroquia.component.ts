@@ -6,6 +6,7 @@ import {Dialog} from "@angular/cdk/dialog";
 import {NotificacionService} from "../../../../shared/services/notificacion.service";
 import {ToolsService} from "../../services/tools.service";
 import {ParroquiaService} from "../services/parroquia.service";
+import {Parroquia} from "../interfaces/base.interface";
 
 @Component({
   selector: 'app-parroquia',
@@ -14,7 +15,7 @@ import {ParroquiaService} from "../services/parroquia.service";
 })
 export class ParroquiaComponent implements OnInit, OnDestroy {
 
-  private parroquiaService: ParroquiaService = inject(ParroquiaService);
+  private parroquiaService: ParroquiaService<Parroquia> = inject(ParroquiaService);
   private modalService: Dialog = inject(Dialog);
   private notificacionService: NotificacionService = inject(NotificacionService);
 
@@ -22,7 +23,7 @@ export class ParroquiaComponent implements OnInit, OnDestroy {
   destroy$: Subject<void> = new Subject<void>();
   refreshTable$: Subject<void> = new Subject<void>();
 
-  lsRows = signal<any[]>([]);
+  lsRows = signal<Parroquia[]>([]);
   lsEstados$ = inject(ToolsService).status$;
 
   ngOnInit() {
@@ -87,7 +88,7 @@ export class ParroquiaComponent implements OnInit, OnDestroy {
           return isEdit ? this.parroquiaService.update(row.ID, data) : this.parroquiaService.create(data)
         })
       )
-      .subscribe((data: any) => {
+      .subscribe(_ => {
         this.refreshTable$.next();
       });
   }

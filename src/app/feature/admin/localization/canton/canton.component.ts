@@ -6,6 +6,7 @@ import {ToolsService} from "../../services/tools.service";
 import {CantonService} from "../services/canton.service";
 import {NotificacionService} from "../../../../shared/services/notificacion.service";
 import {Dialog} from "@angular/cdk/dialog";
+import {Canton} from "../interfaces/base.interface";
 
 @Component({
   selector: 'app-canton',
@@ -14,14 +15,14 @@ import {Dialog} from "@angular/cdk/dialog";
 })
 export class CantonComponent implements OnInit, OnDestroy {
 
-  private cantonService: CantonService = inject(CantonService);
+  private cantonService: CantonService<Canton> = inject(CantonService);
   private modalService: Dialog = inject(Dialog);
   private notificacionService: NotificacionService = inject(NotificacionService);
 
   destroy$: Subject<void> = new Subject<void>();
   refreshTable$: Subject<void> = new Subject<void>();
 
-  lsRows  = signal<any[]>([]);
+  lsRows = signal<Canton[]>([]);
   lsEstados$ = inject(ToolsService).status$;
 
   ngOnInit() {

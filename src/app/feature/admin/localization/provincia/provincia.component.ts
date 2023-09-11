@@ -6,6 +6,7 @@ import {ToolsService} from "../../services/tools.service";
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificacionService} from "../../../../shared/services/notificacion.service";
 import {ProvinciaService} from "../services/provincia.service";
+import {Provincia} from "../interfaces/base.interface";
 
 @Component({
   selector: 'app-provincia',
@@ -14,7 +15,7 @@ import {ProvinciaService} from "../services/provincia.service";
 })
 export class ProvinciaComponent implements OnInit, OnDestroy {
 
-  private provinciaService: ProvinciaService = inject(ProvinciaService);
+  private provinciaService: ProvinciaService<Provincia> = inject(ProvinciaService);
   private modalService: Dialog = inject(Dialog);
   private notificacionService: NotificacionService = inject(NotificacionService);
 
@@ -22,7 +23,7 @@ export class ProvinciaComponent implements OnInit, OnDestroy {
   destroy$: Subject<void> = new Subject<void>();
   refreshTable$: Subject<void> = new Subject<void>();
 
-  lsRows = signal<any[]>([]);
+  lsRows = signal<Provincia[]>([]);
   lsEstados$: Observable<any[]> = inject(ToolsService).status$;
 
 
@@ -69,7 +70,7 @@ export class ProvinciaComponent implements OnInit, OnDestroy {
       );
   }
 
-  edit(row?: any) {
+  edit(row?: Provincia) {
     const isEdit = !!row;
     const modalRef = this.modalService.open(PopupProvinciaComponent, {
       data: {
@@ -90,7 +91,7 @@ export class ProvinciaComponent implements OnInit, OnDestroy {
       })
   }
 
-  delete(row: any) {
+  delete(row: Provincia) {
     this.notificacionService.showSwalConfirm({
       title: 'Esta seguro?',
       text: 'Esta seguro de inactivar el registro.',
