@@ -3,6 +3,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {TipoEmpresaComponent} from './tipo-empresa/tipo-empresa.component';
 import {CategoriaComponent} from "./categoria/categoria.component";
 import {ActividadEconomicaComponent} from "./actividad-economica/actividad-economica.component";
+import {EntidadComponent} from "./entidad/entidad.component";
 
 const routes: Routes = [
   // {
@@ -13,11 +14,12 @@ const routes: Routes = [
   //   path: 'grupo',
   //   loadChildren: () => import('./grupo/grupo.module').then(module => module.GrupoModule),
   // },
-  // {
-  //   path: 'entidad',
-  //   component: EntidadComponent,
-  //   data: {title: 'Entidad', status: true}
-  // },
+  {
+    path: 'entidad',
+    component: EntidadComponent,
+    title: 'Entidad',
+    data: {title: 'Entidad', status: true}
+  },
   {
     path: 'categoria',
     component: CategoriaComponent,

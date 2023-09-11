@@ -1,0 +1,110 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{titleModal}}
+  </h4>
+  <button type="button" class="close" aria-label="Close"
+          (click)="activeModal.close()">
+    <i class="feather icon-x-circle"></i>
+  </button>
+</div>
+<form [formGroup]="form" (submit)="submit()">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Identificación</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="Identificacion" maxLength="13"/>
+          </div>
+        </div>
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Nombres</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="Nombres"/>
+          </div>
+        </div>
+
+        <ng-container *ngIf="tipoControl.value == 'P'">
+          <div class="form-group form-default row">
+            <label class="col-sm-12 col-form-label">Apellidos</label>
+            <div class="col-sm-12">
+              <dx-text-box formControlName="Apellidos"/>
+            </div>
+          </div>
+        </ng-container>
+
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Email</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="Email"/>
+          </div>
+        </div>
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Tipo Empresa</label>
+          <div class="col-sm-12">
+            <dx-select-box [dataSource]="typeEntity$()"
+                           displayExpr="label"
+                           valueExpr="value"
+                           formControlName="Tipo"
+                           [searchEnabled]="true"
+                           [showClearButton]="true"
+            ></dx-select-box>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-6">
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Dirección</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="Direccion"/>
+
+          </div>
+        </div>
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Teléfono</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="Telefono"/>
+          </div>
+        </div>
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Celular</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="Celular"/>
+          </div>
+        </div>
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Estado</label>
+          <div class="col-sm-12">
+            <dx-select-box [dataSource]="status$ | async"
+                           displayExpr="label"
+                           valueExpr="value"
+                           formControlName="Estado"
+                           [searchEnabled]="true"
+                           [showClearButton]="true"
+            ></dx-select-box>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer p-1 d-flex g-2 justify-content-end">
+    <button type="reset" class="btn btn-outline-danger"
+            (click)="activeModal.close()">
+      Cancelar
+    </button>
+    <button type="submit" class="btn btn-primary"
+            [ngClass]="{'btn-disabled': form.invalid}">
+      Guardar
+    </button>
+  </div>
+</form>

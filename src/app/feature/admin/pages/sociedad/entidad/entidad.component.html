@@ -1,0 +1,77 @@
+<app-card [cardTitle]="'Entidad'">
+  <dx-data-grid [dataSource]="gridDataSource"
+                [columnAutoWidth]="true"
+                [columnMinWidth]="80"
+                [hoverStateEnabled]="true"
+                [rowAlternationEnabled]="true"
+                (onToolbarPreparing)="onToolbarPreparing($event)"
+                [showBorders]="true">
+    <dxo-remote-operations
+      [groupPaging]="true">
+    </dxo-remote-operations>
+
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [allowedPageSizes]="[10, 20, 40, 60]"
+      [showInfo]="true">
+    </dxo-pager>
+
+    <dxo-search-panel [visible]="true"
+    ></dxo-search-panel>
+    <dxo-filter-row [visible]="true"
+    ></dxo-filter-row>
+
+    <dxo-load-panel [enabled]="true"></dxo-load-panel>
+
+    <dxi-column caption="Opciones" [width]="120" [allowFiltering]="false"
+                [allowExporting]="false" [fixed]="true"
+                [allowSorting]="false" cellTemplate="cellOptionsTemplate">
+    </dxi-column>
+    <dxi-column dataField="Identificacion"
+                caption="Identificación"
+    ></dxi-column>
+    <dxi-column dataField="Nombres"
+                caption="Nombres"
+    ></dxi-column>
+    <dxi-column dataField="Apellidos"
+                caption="Apellidos"
+    ></dxi-column>
+    <dxi-column dataField="Tipo"
+                caption="Tipo Entidad"
+                alignment="center">
+      <dxo-lookup [dataSource]="lsTipoEntidad()"
+                  valueExpr="value"
+                  displayExpr="label"
+      ></dxo-lookup>
+    </dxi-column>
+    <dxi-column dataField="Estado" alignment="center">
+      <dxo-lookup [dataSource]="lsEstados$ | async"
+                  valueExpr="value"
+                  displayExpr="label"
+      ></dxo-lookup>
+    </dxi-column>
+
+    <div *dxTemplate="let data of 'cellOptionsTemplate'">
+      <div class="btn-group-icons">
+        <ng-container *ngIf="data.data.Estado != 'INA'; else activarRegistro">
+          <dx-button icon="edit"
+                     (onClick)="edit(data.data)"
+          ></dx-button>
+
+          <dx-button icon="trash"
+                     (onClick)="delete(data.data)"
+          ></dx-button>
+        </ng-container>
+
+      </div>
+      <ng-template #activarRegistro>
+        <dx-button icon="check"
+                   (onClick)="reactivar(data.data)"
+        ></dx-button>
+      </ng-template>
+    </div>
+  </dx-data-grid>
+
+</app-card>
+

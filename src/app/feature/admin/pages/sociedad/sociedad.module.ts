@@ -8,12 +8,13 @@ import {DxButtonModule, DxDataGridModule} from "devextreme-angular";
 import {CardComponent} from "../../../../shared/components/card/card.component";
 import {CategoriaComponent} from "./categoria/categoria.component";
 import {ActividadEconomicaComponent} from "./actividad-economica/actividad-economica.component";
+import {EntidadComponent} from "./entidad/entidad.component";
 
 @NgModule({
   declarations: [
     CategoriaComponent,
     ActividadEconomicaComponent,
-    //EntidadComponent,
+    EntidadComponent,
     TipoEmpresaComponent
   ],
   imports: [
