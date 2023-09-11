@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {environment} from "@environments/environment";
-import {keyBase} from "../interfaces/base.interface";
+import {keyBase} from "../../interfaces/base-catalog.interface";
 
 @Injectable({
   providedIn: 'root'

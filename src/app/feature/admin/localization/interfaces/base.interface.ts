@@ -1,10 +1,5 @@
-export type keyBase = string | number
+import {BaseInterface} from "../../interfaces/base-catalog.interface";
 
-export interface BaseInterface {
-  ID: keyBase;
-  Estado: string;
-  Descripcion: string;
-}
 
 export interface Provincia extends BaseInterface {
 }
