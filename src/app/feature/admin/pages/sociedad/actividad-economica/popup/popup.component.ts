@@ -1,10 +1,10 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ModalTemplate} from "@modal/modal-template";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {AsyncPipe, NgClass} from "@angular/common";
 import {Observable} from "rxjs";
 import {ToolsService} from "../../../../services/tools.service";
+import {ModalTemplate} from "@modal/modal-template";
 
 @Component({
   standalone: true,
@@ -18,7 +18,7 @@ import {ToolsService} from "../../../../services/tools.service";
   templateUrl: './popup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PopupTipoEmpresaComponent extends ModalTemplate implements OnInit {
+export class PopupActividadEconomicaComponent extends ModalTemplate implements OnInit {
 
   private fb: FormBuilder = inject(FormBuilder);
 
@@ -28,8 +28,7 @@ export class PopupTipoEmpresaComponent extends ModalTemplate implements OnInit {
   buildForm() {
     this.form = this.fb.group({
       ID: [0],
-      Nombre: [null, Validators.required],
-      Descripcion: [null],
+      Descripcion: [null, Validators.required],
       Estado: ['ACT', Validators.required]
     });
   }

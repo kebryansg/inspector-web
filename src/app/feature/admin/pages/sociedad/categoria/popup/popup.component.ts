@@ -18,7 +18,7 @@ import {ToolsService} from "../../../../services/tools.service";
   templateUrl: './popup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PopupTipoEmpresaComponent extends ModalTemplate implements OnInit {
+export class PopupCategoriaComponent extends ModalTemplate implements OnInit {
 
   private fb: FormBuilder = inject(FormBuilder);
 
