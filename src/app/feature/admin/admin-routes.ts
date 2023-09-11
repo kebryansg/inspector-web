@@ -18,6 +18,10 @@ export const ADMIN_ROUTES: Routes = [
       {
         path: 'nomina',
         loadChildren: () => import('./pages/nomina/nomina.module').then(m => m.NominaModule)
+      },
+      {
+        path: 'sociedad',
+        loadChildren: () => import('./pages/sociedad/sociedad.module').then(m => m.SociedadModule)
       }
     ]
   }
