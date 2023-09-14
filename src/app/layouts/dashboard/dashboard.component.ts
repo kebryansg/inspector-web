@@ -11,7 +11,7 @@ import {NavbarComponent} from "./components/navbar/navbar.component";
     RouterOutlet,
     NavigationComponent,
     NgClass,
-    NavbarComponent
+    NavbarComponent,
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
