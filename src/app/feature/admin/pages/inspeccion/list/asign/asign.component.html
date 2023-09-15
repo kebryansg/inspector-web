@@ -1,0 +1,41 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{titleModal}}
+  </h4>
+  <button type="button" class="close" aria-label="Close"
+          (click)="activeModal.close()">
+    <i class="feather icon-x-circle"></i>
+  </button>
+</div>
+
+<div class="modal-body">
+  <h5>
+    <i class="feather icon-x-circle"></i>
+    {{ NombreComercial }}
+  </h5>
+  <div class="form-group form-default row">
+    <label class="col-sm-12 col-form-label">
+      Colaborador
+    </label>
+    <div class="col-sm-12">
+      <dx-select-box [dataSource]="lsColaborador$ | async"
+                     [formControl]="inspectorControl"
+                     [isValid]="!inspectorFieldInvalid"
+                     valueExpr="ID"
+                     displayExpr="Colaborador"
+      ></dx-select-box>
+    </div>
+  </div>
+
+
+</div>
+<div class="modal-footer p-2">
+  <button type="button" class="btn btn-outline-danger"
+          (click)="activeModal.close()">
+    Cancelar
+  </button>
+  <button type="button" class="btn btn-primary "
+          (click)="submit()">
+    Guardar
+  </button>
+</div>

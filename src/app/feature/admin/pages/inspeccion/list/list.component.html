@@ -1,0 +1,147 @@
+<app-card cardTitle="Listado Inspección">
+
+  <dx-data-grid #dataGridComponent
+                id="gridContainer"
+                [dataSource]="gridDataSource"
+                [showBorders]="true"
+                [rowAlternationEnabled]="true"
+                (onToolbarPreparing)="onToolbarPreparing($event)"
+                [columnAutoWidth]="true"
+                [searchPanel]="{visible:true}"
+                [headerFilter]="{visible:true}"
+                [filterRow]="{visible:true, applyFilter: 'auto'}">
+    <dxo-remote-operations
+      [groupPaging]="true">
+    </dxo-remote-operations>
+
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true"
+               [allowedPageSizes]="[10, 20, 30]"
+               [showInfo]="true"
+    ></dxo-pager>
+
+    <!--#region Columns -->
+
+    <dxi-column caption="Opciones"
+                [width]="200"
+                [allowFiltering]="false"
+                [allowExporting]="false"
+                [fixed]="true"
+                [allowSorting]="false"
+                cellTemplate="cellOptionsTemplate"
+    ></dxi-column>
+    <dxi-column dataField="Id"
+                caption="Código Solicitud"
+                alignment="center"
+                [allowHeaderFiltering]="false"
+    ></dxi-column>
+    <dxi-column dataField="FechaRegistro"
+                caption="Fecha Registro"
+                dataType="date"
+                format="yyyy, MMMM dd"
+                [allowHeaderFiltering]="false"
+    ></dxi-column>
+    <dxi-column dataField="FechaInspeccion"
+                caption="Fecha Inspección"
+                dataType="date"
+                format="yyyy, MMMM dd"
+                [allowHeaderFiltering]="false"
+    ></dxi-column>
+    <dxi-column dataField="RUC"
+                [allowHeaderFiltering]="false"
+                caption="RUC"
+    ></dxi-column>
+    <dxi-column dataField="RazonSocial"
+                [allowHeaderFiltering]="false"
+                caption="Razón Social"
+    ></dxi-column>
+    <dxi-column dataField="NombreComercial"
+                [allowHeaderFiltering]="false"
+                caption="Nombre Comercial"
+    ></dxi-column>
+    <dxi-column dataField="Estado"
+                caption="Estado">
+      <dxo-lookup [dataSource]="lsStatus$ | async"
+                  displayExpr="label"
+                  valueExpr="value"
+      ></dxo-lookup>
+    </dxi-column>
+    <dxi-column dataField="IdColaborador"
+                caption="Inspector Asignado">
+      <dxo-lookup [dataSource]="lsColaborador$ | async"
+                  valueExpr="ID"
+                  displayExpr="Colaborador"
+      ></dxo-lookup>
+    </dxi-column>
+    <!--#endregion -->
+
+    <div *dxTemplate="let data of 'cellOptionsTemplate'">
+      <div class="btn-group-icons">
+
+        <ng-container *ngIf="data.data.Estado == 'APR' || data.data.Estado == 'REP'">
+          <!-- Descargar Resultados -->
+          <dx-button icon="icofont icofont-download m-r-15 f-20 text-success cursor-pointer"
+                     (click)="downloadFormulario(data.data)"
+          />
+
+          <!-- Reenviar Resultados -->
+          <dx-button icon="exportpdf"
+                     ngbTooltip="Reenviar Resultados"
+                     (click)="sendMailFormulario(data.data)"
+          />
+        </ng-container>
+
+        <!-- Revisar Resultados -->
+        <dx-button icon="eyeopen"
+                   [routerLink]="['../view', data.data?.Id]"
+        />
+
+        <ng-container *ngIf="data.data?.Estado == 'PEN'">
+
+          <!-- Reasignar colaborador -->
+          <dx-button icon="group"
+                     (onClick)="asign_colaborador(data.data)"
+                     *ngIf="!data.data?.InspWeb"
+          />
+          <!-- Eliminar Inspeccion -->
+          <dx-button icon="trash"
+                     (onClick)="delete(data.data)"
+          />
+
+          <!-- Asignar Colaborador  -->
+          <dx-button icon="group"
+                     *ngIf="!data.data?.IdColaborador && !data.data?.InspWeb"
+                     (click)="asign_colaborador(data.data)"
+          />
+
+          <!-- Reimprimir solicitud -->
+          <dx-button icon="print"
+                     (click)="viewSolicitud(data.data)"
+                     *ngIf="!(data.data?.IDRef)"
+          />
+
+
+        </ng-container>
+
+        <!-- Enviar solicitud -->
+        <dx-button icon="email"
+                   (click)="sendMailSolicitud(data.data)"
+        />
+        <!--        <a class="icofont icofont-printer m-r-15 f-20 text-success cursor-pointer"-->
+        <!--           ngbTooltip="Reimprimir solicitud"-->
+        <!--           *ngIf="data.data?.Estado == 'PEN' && !(data.data?.IDRef)"-->
+        <!--           target="_blank"-->
+        <!--           [href]="urlHost + 'solicitud_pdf/' + data.data.Id"-->
+        <!--        ></a>-->
+
+
+        <!-- Realizar en Web -->
+        <dx-button icon="box"
+                   *ngIf="data.data?.InspWeb"
+                   [routerLink]="['../inspweb/', data.data.Id]"
+        />
+
+      </div>
+    </div>
+  </dx-data-grid>
+</app-card>
