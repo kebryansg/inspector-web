@@ -131,7 +131,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
         //    ).subscribe();
 
         forkJoin([
-            this.catalogoService.obtenerActividadEconominca(),
+            this.catalogoService.obtenerActividadEconomica(),
             this.catalogoService.obtenerTipoEmpresa(),
             this.catalogoService.obtenerProvincia()
         ]).subscribe(

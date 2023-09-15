@@ -1,0 +1,184 @@
+<form *ngIf="form" [formGroup]="form" (submit)="submit()">
+
+  <dx-tabs [dataSource]="longTabs"
+           [itemTemplate]="'tabItem'"
+           [selectedIndex]="0"
+           (onItemClick)="onItemClick($event)">
+    <div *dxTemplate="let itemData of 'tabItem'">
+      <i class="feather {{ itemData.icon }}"></i>
+      {{itemData.text}}
+    </div>
+  </dx-tabs>
+
+  <app-card cardClass="mt-2" [hidHeader]="true">
+    <ng-container [ngSwitch]="selectTab()">
+
+      <ng-container *ngSwitchCase="'home'">
+        <h5>
+          <i class="feather icon-home"></i>
+          Información Básica
+        </h5>
+
+        <div [@fadeInOutTranslate] class="m-20">
+          <div class="row">
+
+            <div class="col-md-5">
+
+              <div class="row">
+                <div class="col-md-12">
+
+                  <div class="form-group form-default row">
+                    <label class="col-sm-12 col-form-label">Nombre</label>
+                    <div class="col-sm-12">
+                      <dx-text-box formControlName="Nombre"/>
+                    </div>
+                  </div>
+
+                  <div class="form-group form-default row">
+                    <label class="col-sm-12 col-form-label">Descripción</label>
+                    <div class="col-sm-12">
+                      <dx-text-box formControlName="Descripcion"/>
+                    </div>
+                  </div>
+
+                  <div class="form-group form-default row">
+                    <label class="col-sm-12 col-form-label">Estado</label>
+                    <div class="col-sm-12">
+                      <dx-select-box [dataSource]="status$ | async"
+                                     displayExpr="label"
+                                     valueExpr="value"
+                                     formControlName="Estado"
+                                     [searchEnabled]="true"
+                                     [showClearButton]="true"
+                      ></dx-select-box>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+
+              <div class="row mt-2">
+                <div class="col-md-12 d-flex justify-content-end gap-2">
+                  <button type="reset"
+                          class="btn btn-danger"
+                          (click)="cancel()">
+                    Cancelar
+                  </button>
+                  <button type="submit"
+                          class="btn btn-primary">
+                    Guardar
+                  </button>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-7">
+
+              <ng-container *ngIf="lsCategoria$ | async as lsCategorias">
+                <dx-data-grid [dataSource]="lsCategorias"
+                              [remoteOperations]="false"
+                              [columnAutoWidth]="true"
+                              height="500"
+                              keyExpr="ID"
+                              [hoverStateEnabled]="true"
+                              [rowAlternationEnabled]="true"
+                              [selectedRowKeys]="selected()"
+                              (selectedRowKeysChange)="selected.set($event) "
+                              [showBorders]="true"
+                              [loadPanel]="{enabled:true}"
+                              (onContentReady)="onContentReady($event)"
+                              (onToolbarPreparing)="onCategoriaToolbarPreparing($event)">
+
+                  <dxo-selection
+                    [selectAllMode]="'allPages'"
+                    [showCheckBoxesMode]="'onClick'"
+                    mode="multiple"
+                  />
+
+                  <dxo-scrolling mode="virtual"/>
+
+                  <dxo-pager [showInfo]="true"/>
+
+                  <dxo-search-panel
+                    [visible]="true"
+                  />
+
+                  <dxi-column dataField="Nombre"
+                              caption="Categoría"/>
+                </dx-data-grid>
+              </ng-container>
+            </div>
+
+          </div>
+        </div>
+
+      </ng-container>
+
+      <ng-container *ngSwitchCase="'act-grupo'">
+
+        <div [@fadeInOutTranslate] class="m-20">
+
+          <div class="row">
+            <div class="col-md-12">
+
+              <dx-data-grid [dataSource]="lsActividad()"
+                            [remoteOperations]="false"
+                            [columnAutoWidth]="true"
+                            [columnMinWidth]="80"
+                            [hoverStateEnabled]="true"
+                            [rowAlternationEnabled]="true"
+                            (onToolbarPreparing)="onActividadToolbarPreparing($event)"
+                            [searchPanel]="{visible:true}"
+                            [showBorders]="true">
+
+                <dxo-paging [pageSize]="10"/>
+                <dxo-pager
+                  [showPageSizeSelector]="true"
+                  [allowedPageSizes]="[10, 20, 30]"
+                  [showInfo]="true"/>
+
+                <dxi-column caption="Opciones"
+                            [width]="120"
+                            [allowFiltering]="false"
+                            [allowExporting]="false"
+                            [fixed]="true"
+                            [allowSorting]="false"
+                            cellTemplate="cellOptionsTemplate"
+                />
+                <dxi-column dataField="Nombre"/>
+                <dxi-column dataField="Descripcion"
+                            caption="Descripción"
+                />
+                <dxi-column dataField="Estado" alignment="center">
+                  <dxo-lookup [dataSource]="status$ | async"
+                              valueExpr="value"
+                              displayExpr="label"
+                  />
+                </dxi-column>
+
+
+                <div *dxTemplate="let data of 'cellOptionsTemplate'">
+                  <div class="btn-group-icons">
+
+                    <dx-button icon="edit"
+                               (onClick)="openModalGrupoActividad(data.data)"
+                    />
+
+                    <dx-button icon="trash"
+                               (onClick)="deleteActividadGrupo(data.data)"
+                    />
+
+
+                  </div>
+                </div>
+              </dx-data-grid>
+            </div>
+          </div>
+
+        </div>
+
+      </ng-container>
+    </ng-container>
+  </app-card>
+</form>

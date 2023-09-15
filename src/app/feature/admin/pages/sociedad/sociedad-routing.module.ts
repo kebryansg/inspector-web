@@ -10,10 +10,10 @@ const routes: Routes = [
     path: 'empresa',
     loadChildren: () => import('./empresa/empresa.module').then(module => module.EmpresaModule),
   },
-  // {
-  //   path: 'grupo',
-  //   loadChildren: () => import('./grupo/grupo.module').then(module => module.GrupoModule),
-  // },
+  {
+    path: 'grupo',
+    loadChildren: () => import('./grupo/grupo.module').then(module => module.GrupoModule),
+  },
   {
     path: 'entidad',
     component: EntidadComponent,

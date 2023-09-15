@@ -26,7 +26,7 @@ export class EmpresaComponent implements OnInit {
   @ViewChild(DxDataGridComponent) dataGrid!: DxDataGridComponent;
   gridDataSource: any;
 
-  lsActiEconomica$: Observable<any> = this.catalogoService.obtenerActividadEconominca();
+  lsActiEconomica$: Observable<any> = this.catalogoService.obtenerActividadEconomica();
   lsTipoEmpresa$: Observable<any> = this.catalogoService.obtenerTipoEmpresa();
 
 

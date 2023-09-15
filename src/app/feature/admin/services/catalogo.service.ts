@@ -61,7 +61,7 @@ export class CatalogoService {
         });
     }
 
-    obtenerActividadEconominca(): Observable<ActividadEconomica[]> {
+    obtenerActividadEconomica(): Observable<ActividadEconomica[]> {
         return this.httpClient.get<ActividadEconomica[]>(this.url + 'combo/acteconomica');
     }
 

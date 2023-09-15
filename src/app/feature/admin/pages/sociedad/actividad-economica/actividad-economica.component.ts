@@ -1,25 +1,25 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal,} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal,} from '@angular/core';
 import {filter, Observable, Subject} from 'rxjs';
-import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {debounceTime, switchMap, tap} from 'rxjs/operators';
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificacionService} from "../../../../../shared/services/notificacion.service";
 import {ToolsService} from "../../../services/tools.service";
 import {PopupActividadEconomicaComponent} from "./popup/popup.component";
-import {ActividadEconomicaService} from "../services/actividad-economica.service";
+import {ActividadEconomicaService} from "../services";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-categoria',
   templateUrl: './actividad-economica.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActividadEconomicaComponent implements OnInit, OnDestroy {
+export class ActividadEconomicaComponent implements OnInit {
 
   private actividadEconomicaService: ActividadEconomicaService<any> = inject(ActividadEconomicaService);
   private modalService: Dialog = inject(Dialog);
   private notificacionService: NotificacionService = inject(NotificacionService);
 
 
-  destroy$: Subject<void> = new Subject<void>();
   refreshTable$: Subject<void> = new Subject<void>();
 
   lsRows = signal<any[]>([]);
@@ -30,13 +30,8 @@ export class ActividadEconomicaComponent implements OnInit, OnDestroy {
       .pipe(
         debounceTime(500),
         switchMap(() => this.getItems()),
-        takeUntil(this.destroy$)
+        takeUntilDestroyed()
       ).subscribe();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
   }
 
   onToolbarPreparing(e: any) {
