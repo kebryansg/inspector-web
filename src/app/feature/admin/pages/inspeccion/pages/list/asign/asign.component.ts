@@ -1,8 +1,8 @@
 import {Component, inject} from '@angular/core';
 import {Observable} from 'rxjs';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ModalTemplate} from "@modal/modal-template";
-import {CatalogoService} from "../../../../services/catalogo.service";
+import {ModalTemplate} from "../../../../../../../common/modal/modal-template";
+import {CatalogoService} from "../../../../../services/catalogo.service";
 import {DxSelectBoxModule} from "devextreme-angular";
 import {AsyncPipe} from "@angular/common";
 

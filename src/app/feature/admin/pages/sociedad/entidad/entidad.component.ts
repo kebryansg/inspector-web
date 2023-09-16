@@ -51,7 +51,7 @@ export class EntidadComponent implements OnInit, OnDestroy {
             return ({...a, [b]: loadOptions[b]});
           }, {});
 
-        return this.entidadService.getAll(params)
+        return this.entidadService.getPaginate(params)
           .toPromise();
       }
     });

@@ -1,3 +1,5 @@
+import {Entidad} from "./entidad.interface";
+
 export interface Empresa {
   ID: number;
   IDEntidad: number;
@@ -24,20 +26,7 @@ export interface Empresa {
   IDTarifaCategoria: number;
   IDTipoEmpresa: number;
   idSector: IDSector;
-  idEntidad: IDEntidad;
-}
-
-export interface IDEntidad {
-  ID: number;
-  Nombres: string;
-  Apellidos: string;
-  Identificacion: string;
-  Direccion: string;
-  Telefono: string;
-  Celular: string;
-  Tipo: string;
-  Email: string;
-  Estado: string;
+  idEntidad: Entidad;
 }
 
 export interface IDSector {

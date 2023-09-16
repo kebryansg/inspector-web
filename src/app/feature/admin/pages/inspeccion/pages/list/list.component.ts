@@ -8,13 +8,13 @@ import {debounceTime, map, takeUntil} from 'rxjs/operators';
 import DataSource from 'devextreme/data/data_source';
 import {DxDataGridComponent} from 'devextreme-angular';
 import {environment} from '@environments/environment';
-import {InspeccionService} from '../services/inspeccion.service';
-import {Inspection} from '../interfaces/inspection.interface';
-import {CatalogoService} from "../../../services/catalogo.service";
-import {headersParams} from "@utils/data-grid.util";
-import {isNotEmpty} from "@utils/empty.util";
+import {InspeccionService} from '../../services/inspeccion.service';
+import {Inspection} from '../../interfaces/inspection.interface';
+import {CatalogoService} from "../../../../services/catalogo.service";
+import {headersParams} from "../../../../../../shared/utils/data-grid.util";
+import {isNotEmpty} from "../../../../../../shared/utils/empty.util";
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificacionService} from "../../../../../../shared/services/notificacion.service";
 
 declare var configuracion: any;
 

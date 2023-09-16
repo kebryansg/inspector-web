@@ -13,7 +13,7 @@ export class EntidadService<T> {
   private endpointUrl: string = environment.ApiUrl + 'entidad';
   private http: HttpClient = inject(HttpClient);
 
-  getAll(params: any): Observable<any> {
+  getPaginate(params: any): Observable<any> {
     return this.http.get<any>(this.endpointUrl, {params})
       .pipe(
         map(result => ({
@@ -24,6 +24,17 @@ export class EntidadService<T> {
           })
         )
       )
+  }
+
+  getAll(): Observable<T[]> {
+    return this.http.get<any>(this.endpointUrl)
+      .pipe(
+        map<any, T[]>(response => response?.data)
+      );
+  }
+
+  getById(idRow: keyBase): Observable<T> {
+    return this.http.get<T>(this.endpointUrl + '/' + idRow);
   }
 
   create(row: T): Observable<any> {

@@ -10,55 +10,54 @@
                 [searchPanel]="{visible:true}"
                 [headerFilter]="{visible:true}"
                 [filterRow]="{visible:true, applyFilter: 'auto'}">
-    <dxo-remote-operations
-      [groupPaging]="true">
-    </dxo-remote-operations>
+
+    <dxo-remote-operations [groupPaging]="true"/>
 
     <dxo-paging [pageSize]="10"></dxo-paging>
     <dxo-pager [showPageSizeSelector]="true"
                [allowedPageSizes]="[10, 20, 30]"
                [showInfo]="true"
-    ></dxo-pager>
+    />
 
     <!--#region Columns -->
 
     <dxi-column caption="Opciones"
-                [width]="200"
+                [width]="250"
                 [allowFiltering]="false"
                 [allowExporting]="false"
                 [fixed]="true"
                 [allowSorting]="false"
                 cellTemplate="cellOptionsTemplate"
-    ></dxi-column>
+    />
     <dxi-column dataField="Id"
                 caption="Código Solicitud"
                 alignment="center"
                 [allowHeaderFiltering]="false"
-    ></dxi-column>
+    />
     <dxi-column dataField="FechaRegistro"
                 caption="Fecha Registro"
                 dataType="date"
                 format="yyyy, MMMM dd"
                 [allowHeaderFiltering]="false"
-    ></dxi-column>
+    />
     <dxi-column dataField="FechaInspeccion"
                 caption="Fecha Inspección"
                 dataType="date"
                 format="yyyy, MMMM dd"
                 [allowHeaderFiltering]="false"
-    ></dxi-column>
+    />
     <dxi-column dataField="RUC"
                 [allowHeaderFiltering]="false"
                 caption="RUC"
-    ></dxi-column>
+    />
     <dxi-column dataField="RazonSocial"
                 [allowHeaderFiltering]="false"
                 caption="Razón Social"
-    ></dxi-column>
+    />
     <dxi-column dataField="NombreComercial"
                 [allowHeaderFiltering]="false"
                 caption="Nombre Comercial"
-    ></dxi-column>
+    />
     <dxi-column dataField="Estado"
                 caption="Estado">
       <dxo-lookup [dataSource]="lsStatus$ | async"

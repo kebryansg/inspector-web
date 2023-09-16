@@ -1,0 +1,190 @@
+<app-card [cardTitle]="'Nueva Inspección'">
+  <!-- Información de la Entidad solicitante -->
+  <section class="row">
+    <div class="col-md-12">
+      <div class="dx-field">
+        <div class="dx-field-label">
+          Seleccionar Entidad:
+        </div>
+        <div class="dx-field-value">
+          <dx-drop-down-box [(value)]="gridBoxValue"
+                            [opened]="isOpenedDropDownBox()"
+                            (openedChange)="isOpenedDropDownBox.set($event)"
+                            valueExpr="ID"
+                            [deferRendering]="false"
+                            [displayExpr]="displayExprEntidad"
+                            [showClearButton]="true"
+                            [dataSource]="gridDataStore"
+                            (onValueChanged)="entidadChange($event)">
+            <div *dxTemplate="let data of 'content'">
+              <dx-data-grid [dataSource]="gridDataStore"
+                            [columns]="['Identificacion', 'Nombres', 'Apellidos']"
+                            [selection]="{ mode: 'single' }"
+                            [hoverStateEnabled]="true"
+                            [paging]="{ enabled: true, pageSize: 10 }"
+                            [filterRow]="{ visible: true }"
+                            [scrolling]="{ mode: 'infinite' }"
+                            [(selectedRowKeys)]="gridBoxValue"
+                            height="100%"
+              ></dx-data-grid>
+            </div>
+          </dx-drop-down-box>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <ng-container *ngIf="(entidad$ | async) as entidad; else emptyEntidad">
+
+    <div class="row mt-2">
+      <div class="col-md-12">
+        <dx-form [formData]="entidad"
+                 style="background-color: rgba(191, 191, 191, 0.15); padding: 16px;"
+                 [readOnly]="true"
+                 [showColonAfterLabel]="true"
+                 [labelLocation]="'top'"
+                 [minColWidth]="150"
+                 [colCount]="2">
+          <dxi-item dataField="Apellidos"></dxi-item>
+          <dxi-item dataField="Nombres"></dxi-item>
+          <dxi-item dataField="Identificacion"></dxi-item>
+          <dxi-item dataField="Email"></dxi-item>
+          <dxi-item dataField="Telefono"></dxi-item>
+          <dxi-item dataField="Celular"></dxi-item>
+          <dxi-item dataField="Direccion"
+                    editorType="dxTextArea"
+                    [editorOptions]="{ height: 90 }"
+                    [colSpan]="2"
+          ></dxi-item>
+        </dx-form>
+      </div>
+    </div>
+
+    <hr>
+
+  </ng-container>
+  <ng-template #emptyEntidad>
+    <div class="row ">
+      <div class="col d-flex justify-content-end mt-2 mb-2">
+        <div class="alert alert-danger" role="alert">
+          No hay entidad seleccionada.
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+  <!--#region Table Empresa -->
+
+  <ng-container *ngIf="entidad.valid">
+    <section class="row mt-3">
+      <div class="col-md-12">
+        <h5 class="font-weight-bold">
+          Listado de Empresas
+        </h5>
+        <dx-data-grid [dataSource]="lsEmpresa$ | async"
+                      [showBorders]="true"
+                      [rowAlternationEnabled]="true"
+                      [hoverStateEnabled]="true"
+                      [columnAutoWidth]="true"
+                      keyExpr="ID"
+                      (selectedRowKeysChange)="empresa.setValue($event)"
+                      [searchPanel]="{visible:true}"
+                      [headerFilter]="{visible:true}">
+
+          <!--#region Config DataGrid -->
+          <dxo-selection mode="single"/>
+          <dxo-paging [pageSize]="5"/>
+          <dxo-pager [showPageSizeSelector]="true"
+                     [allowedPageSizes]="[5, 10]"
+                     [showInfo]="true"
+          />
+          <!--#endregion-->
+
+          <dxi-column dataField="RUC"
+                      [allowHeaderFiltering]="false"
+          />
+          <dxi-column dataField="RazonSocial"
+                      caption="Razón Social"
+                      [allowHeaderFiltering]="false"
+          />
+          <dxi-column dataField="NombreComercial"
+                      [allowHeaderFiltering]="false"
+          />
+          <dxi-column dataField="idActEconomica.Descripcion"
+                      caption="Actividad Económica"
+          />
+          <dxi-column dataField="idSector.Descripcion"
+                      caption="Sector"
+          />
+          <dxi-column dataField="idTipoEmpresa.Descripcion"
+                      caption="Tipo Empresa"
+          />
+        </dx-data-grid>
+      </div>
+    </section>
+  </ng-container>
+
+  <!--#endregion -->
+
+  <hr>
+  <section class="mt-3">
+    <form [formGroup]="form"
+          (ngSubmit)="save()"
+          (keydown.enter)="$event.preventDefault()">
+
+      <!-- Colaborador - Fecha Tentativa -->
+      <div class="row">
+
+        <div class="col-md-4">
+
+          <div class="form-group form-default row">
+            <label class="col-sm-12 col-form-label">
+              Colaborador
+            </label>
+            <div class="col-sm-12">
+              <dx-select-box [dataSource]="lsColaborador$ | async"
+                             valueExpr="ID" displayExpr="Colaborador"
+                             formControlName="IDColaborador"
+              ></dx-select-box>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-4">
+          <div class="form-group form-default row">
+            <label class="col-sm-12 col-form-label">
+              Fecha Inspección (Tentativa)
+            </label>
+            <div class="col-sm-12">
+              <dx-date-box formControlName="FechaTentativa"
+                           displayFormat="yyyy-MM-dd"
+                           type="date"
+              ></dx-date-box>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-12 d-flex justify-content-end gap-2">
+          <button type="reset" class="btn btn-outline-danger "
+                  [routerLink]="['../list']">
+            Cancelar
+          </button>
+          <button type="submit"
+                  class="btn btn-primary">
+            <i class="feather icon-save"></i>
+            Agregar
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </section>
+
+</app-card>

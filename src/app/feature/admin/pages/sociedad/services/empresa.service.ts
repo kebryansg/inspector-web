@@ -4,11 +4,12 @@ import {Observable} from "rxjs";
 import {environment} from "@environments/environment";
 import {keyBase} from "../../../interfaces/base-catalog.interface";
 import {map} from "rxjs/operators";
+import {Empresa} from "../interfaces";
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmpresaService<T> {
+export class EmpresaService<T extends Empresa> {
 
   private endpointUrl: string = environment.ApiUrl + 'empresa';
   private http: HttpClient = inject(HttpClient);
@@ -26,8 +27,12 @@ export class EmpresaService<T> {
       )
   }
 
-  getById(idRow: keyBase): Observable<T>{
+  getById(idRow: keyBase): Observable<T> {
     return this.http.get<T>(`${this.endpointUrl}/${idRow}`)
+  }
+
+  getItemsByEntidad(idEntidad: number): Observable<T[]> {
+    return this.http.get<T[]>(environment.ApiUrl + `entidad/${idEntidad}/empresa`);
   }
 
   create(row: T): Observable<any> {

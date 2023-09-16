@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {ListComponent} from './list/list.component';
+import {ListComponent} from './pages/list/list.component';
+import {NewInspeccionComponent} from "./pages/new/new.component";
 //import {NewInspeccionComponent} from './new/new.component';
 //import {ViewInspeccionComponent} from './list/view/view.component';
 //import {WebInspeccionComponent} from './web/web.component';
@@ -16,6 +17,14 @@ const routes: Routes = [
       status: true
     },
   },
+  {
+    path: 'new',
+    component: NewInspeccionComponent,
+    title: 'Registrar Inspección',
+    data: {
+      status: true
+    }
+  },
   /*
     {
     path: 'mi-inspeccion',
@@ -25,14 +34,7 @@ const routes: Routes = [
       status: true
     },
   },
-  {
-    path: 'new',
-    component: NewInspeccionComponent,
-    data: {
-      title: 'Registrar Inspección',
-      status: true
-    }
-  },
+
   {
     path: 'view/:id',
     component: ViewInspeccionComponent,

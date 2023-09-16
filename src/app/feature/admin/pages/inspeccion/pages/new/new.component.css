@@ -1,0 +1,19 @@
+.pull-right button{
+  margin-right: 2px;
+}
+
+div.scrollmenu {
+  overflow: auto;
+  white-space: nowrap;
+}
+
+#seccion_search{
+  display: flex;
+  flex-flow: row;
+  width: 50%;
+  align-items: center;
+  justify-content: flex-end;
+}
+#seccion_search input{
+  width: 200px;
+}
