@@ -1,0 +1,56 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{titleModal}}
+  </h4>
+  <button type="button" class="close" aria-label="Close"
+          (click)="activeModal.close()">
+    <i class="feather icon-close"></i>
+  </button>
+</div>
+<form [formGroup]="itemForm" (ngSubmit)="submit()">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Descripción</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="Descripcion"/>
+          </div>
+        </div>
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Observación</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="Observacion"/>
+          </div>
+        </div>
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Estado</label>
+          <div class="col-sm-12">
+            <dx-select-box [dataSource]="status$ | async"
+                           displayExpr="label"
+                           valueExpr="value"
+                           formControlName="Estado"
+                           [searchEnabled]="true"
+                           [showClearButton]="true"
+            ></dx-select-box>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="modal-footer p-1">
+    <button type="reset"
+            class="btn btn-outline-danger mr-2"
+            (click)="activeModal.close()">
+      Cancelar
+    </button>
+    <button type="submit"
+            class="btn btn-primary"
+            [disabled]="itemForm.invalid"
+            [ngClass]="{'btn-disabled': itemForm.invalid}">
+      <i class="feather icon-save"></i>
+      Guardar
+    </button>
+  </div>
+</form>

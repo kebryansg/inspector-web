@@ -1,0 +1,78 @@
+<app-card [cardTitle]="'Config. de Usuarios'">
+  <form *ngIf="form"
+        [formGroup]="form"
+        (ngSubmit)="submit()">
+
+    <div class="row">
+      <div class="col-md-12 d-flex justify-content-end gap-2">
+
+        <button type="reset" class="btn btn-danger" (click)="cancel()">
+          <i class="feather icon-retry"></i>
+          Cancelar
+        </button>
+        <button type="submit" class="btn btn-primary"
+                [disabled]="form.invalid">
+          <i class="feather icon-save"></i>
+          Guardar
+        </button>
+
+      </div>
+    </div>
+
+    <br>
+
+    <div class="row">
+      <div class="col-md-6">
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Nombre de Usuario</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="name"/>
+          </div>
+        </div>
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Colaborador</label>
+          <div class="col-sm-12">
+            <dx-select-box [dataSource]="lsColaboradors()"
+                           displayExpr="Nombres"
+                           valueExpr="ID"
+                           formControlName="IDColaborador"
+            ></dx-select-box>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-md-6">
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Email del Usuario</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="email" [readOnly]="true"/>
+          </div>
+        </div>
+
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Roles del Sistema</label>
+          <div class="col-sm-12">
+            <dx-select-box [dataSource]="lsRol$ | async"
+                           displayExpr="Descripcion"
+                           valueExpr="ID"
+                           formControlName="IDRol"
+            ></dx-select-box>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="mt-2 mb- 2">
+
+    <div class="row">
+      <div class="col-md-12">
+        <span>Por defecto la contraseña será la <strong>CÉDULA</strong> del colaborador</span>
+      </div>
+    </div>
+  </form>
+</app-card>

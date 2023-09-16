@@ -1,0 +1,27 @@
+<app-card [cardTitle]="'Config Roles - Permiso'">
+
+  <div class="row">
+    <div class="col-md-12">
+      <button class="btn-primary btn-sm">
+        <i class="feather icon-save"></i>
+        Guardar
+      </button>
+    </div>
+  </div>
+
+  <dx-data-grid [dataSource]="lsSubModulos$ | async"
+                keyExpr="ID"
+                [rowAlternationEnabled]="true"
+                [showBorders]="true"
+                [selectedRowKeys]="selected">
+
+    <dxo-selection [selectAllMode]="'allPages'"
+                   [showCheckBoxesMode]="'onClick'"
+                   mode="multiple"
+    ></dxo-selection>
+    <dxi-column dataField="name"
+                caption="Módulos"
+    ></dxi-column>
+  </dx-data-grid>
+
+</app-card>

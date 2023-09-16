@@ -1,0 +1,60 @@
+<app-card [cardTitle]="'Usuarios'">
+  <dx-data-grid [dataSource]="lsRows()"
+                [remoteOperations]="false"
+                [columnAutoWidth]="true"
+                [columnMinWidth]="80"
+                [hoverStateEnabled]="true"
+                [rowAlternationEnabled]="true"
+                (onInitialized)="refreshTable$.next()"
+                (onToolbarPreparing)="onToolbarPreparing($event)"
+                [showBorders]="true">
+
+    <dxo-search-panel [visible]="true"
+                      [highlightCaseSensitive]="true"
+    ></dxo-search-panel>
+
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true"
+               [allowedPageSizes]="[10, 20, 30]"
+               [showInfo]="true"
+    ></dxo-pager>
+
+    <dxi-column caption="Opciones"
+                [width]="120"
+                [allowFiltering]="false"
+                [allowExporting]="false"
+                [fixed]="true"
+                [allowSorting]="false"
+                cellTemplate="cellOptionsTemplate"
+    ></dxi-column>
+    <dxi-column dataField="rol.Descripcion"
+                cssClass="text-uppercase"
+                caption="Rol"
+    ></dxi-column>
+    <dxi-column dataField="name"
+                cssClass="text-uppercase"
+                caption="Nombre de Usuario"
+    ></dxi-column>
+    <dxi-column dataField="email"
+                caption="Email"
+    ></dxi-column>
+    <dxi-column dataField="Estado"
+                alignment="center">
+      <dxo-lookup [dataSource]="lsEstados$ | async"
+                  valueExpr="value"
+                  displayExpr="label"
+      ></dxo-lookup>
+    </dxi-column>
+
+    <div *dxTemplate="let data of 'cellOptionsTemplate'" class="btn-group-icons">
+      <dx-button icon="edit"
+                 [routerLink]="['./new/', data.data.id]"
+      />
+      <dx-button icon="trash"
+                 [disabled]="data.data?.Estado !== 'ACT'"
+                 (onClick)="delete(data.data)"
+      />
+    </div>
+  </dx-data-grid>
+
+</app-card>

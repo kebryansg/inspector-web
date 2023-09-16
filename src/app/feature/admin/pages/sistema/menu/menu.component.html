@@ -1,0 +1,119 @@
+<div class="row justify-content-center">
+  <div class="col-md-6 col-sm-12">
+    <div class="card">
+      <div class="card-header bg-warning text-center font-weight-bold f-14">
+        Configuración Opción - Menu
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="dx-field dx-field-top-label">
+              <div class="dx-field-label">
+                Rol
+              </div>
+              <dx-select-box class="dx-field-value text-uppercase"
+                             [searchEnabled]="true"
+                             [showClearButton]="true"
+                             [dataSource]="lsRoles$ | async"
+                             displayExpr="Descripcion"
+                             valueExpr="ID"
+                             [(value)]="itemRol"
+                             (valueChange)="getSelectRol()"
+              ></dx-select-box>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card-footer text-right">
+        <button class="btn btn-outline-primary"
+                type="button"
+                [disabled]="!itemRol"
+                [ngClass]="{'btn-disabled': !itemRol}"
+                (click)="save()">
+<!--          <icofont ico="icofont-spreadsheet"></icofont>-->
+          Asignar Módulos
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-card [cardTitle]="'Módulos'">
+
+  <div class="row mt-2">
+    <div class="col-md-12">
+      <dx-tree-list #dxTreeData
+                    keyExpr="ID"
+                    parentIdExpr="IDPadre"
+                    [columnAutoWidth]="true"
+                    [columnHidingEnabled]="true"
+                    [columnMinWidth]="50"
+                    [columnResizingMode]="'widget'"
+                    [dataSource]="Modulos"
+                    [highlightChanges]="true"
+                    [hoverStateEnabled]="true"
+                    [rootValue]="null"
+                    [showRowLines]="true"
+                    [showBorders]="true"
+                    [wordWrapEnabled]="true"
+                    [columnFixing]="{enabled:true}"
+                    [headerFilter]="{visible:true}"
+                    [filterRow]="{visible:true}"
+                    (onToolbarPreparing)="onToolbarPreparing($event)"
+                    (onInitialized)="lsModulos$.next()">
+        <dxo-column-chooser mode="select"
+                            [allowSearch]="true"
+                            [enabled]="true"
+        ></dxo-column-chooser>
+
+        <dxo-paging [enabled]="true"
+                    [pageSize]="10"
+        ></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true"
+                   [allowedPageSizes]="[10,20,30,50]"
+                   [showInfo]="true"
+        ></dxo-pager>
+        <dxo-search-panel [visible]="true"
+                          [width]="300"
+        ></dxo-search-panel>
+        <dxo-selection mode="multiple"
+                       [recursive]="true"
+        ></dxo-selection>
+        <dxo-sorting mode="multiple"></dxo-sorting>
+
+        <dxi-column caption="Módulo"
+                    dataField="name"
+        ></dxi-column>
+        <dxi-column caption="ID"
+                    dataField="ID"
+        ></dxi-column>
+        <dxi-column caption="state"
+                    dataField="state"
+        ></dxi-column>
+        <dxi-column caption="icono"
+                    dataField="icon"
+                    alignment="center"
+                    [cellTemplate]="'iconCell'"
+                    [minWidth]="50"
+        ></dxi-column>
+        <dxi-column caption="Tipo"
+                    dataField="type"
+                    alignment="center"
+                    [width]="80"
+        ></dxi-column>
+        <dxi-column caption="Estado"
+                    dataField="Estado"
+                    alignment="center"
+        ></dxi-column>
+
+        <!-- iconCell -->
+        <div *dxTemplate="let data of 'iconCell'">
+          <i class="text-warning {{ data.value }}"></i>
+        </div>
+        <!-- iconCell -->
+      </dx-tree-list>
+    </div>
+  </div>
+
+
+</app-card>

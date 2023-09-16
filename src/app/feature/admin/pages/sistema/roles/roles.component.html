@@ -1,0 +1,63 @@
+<app-card [cardTitle]="'Roles - Permiso'">
+  <dx-data-grid [dataSource]="lsRows()"
+                [remoteOperations]="false"
+                [columnAutoWidth]="true"
+                [columnMinWidth]="80"
+                [hoverStateEnabled]="true"
+                [rowAlternationEnabled]="true"
+                (onInitialized)="refreshTable$.next()"
+                (onToolbarPreparing)="onToolbarPreparing($event)"
+                [showBorders]="true">
+
+    <dxo-search-panel [visible]="true"></dxo-search-panel>
+
+    <dxo-export [enabled]="true"
+                [fileName]="'Roles'"
+                [allowExportSelectedData]="false"
+    ></dxo-export>
+
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true"
+               [allowedPageSizes]="[10, 20, 30]"
+               [showInfo]="true">
+    </dxo-pager>
+
+    <dxi-column caption="Opciones"
+                [width]="120"
+                [allowFiltering]="false"
+                [allowExporting]="false"
+                [fixed]="true"
+                [allowSorting]="false"
+                cellTemplate="cellOptionsTemplate"
+    ></dxi-column>
+    <dxi-column dataField="Descripcion"
+                caption="Descripción"
+    ></dxi-column>
+    <dxi-column dataField="Observacion"
+                caption="Observación"
+    ></dxi-column>
+    <dxi-column dataField="Estado"
+                [width]="150"
+                alignment="center">
+      <dxo-lookup [dataSource]="lsEstados$ | async"
+                  valueExpr="value"
+                  displayExpr="label"
+      ></dxo-lookup>
+    </dxi-column>
+
+
+    <div *dxTemplate="let data of 'cellOptionsTemplate'">
+      <div class="btn-group-icons">
+
+        <dx-button icon="edit"
+                   (onClick)="edit(data.data)"
+        ></dx-button>
+        <dx-button icon="trash"
+                   [disabled]="data.data?.Estado !== 'ACT'"
+                   (onClick)="delete(data.data)"
+        ></dx-button>
+
+      </div>
+    </div>
+  </dx-data-grid>
+</app-card>
