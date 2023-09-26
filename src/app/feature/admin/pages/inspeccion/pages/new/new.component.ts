@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {iif, lastValueFrom, Observable, of, shareReplay} from 'rxjs';
-import {switchMap, tap} from 'rxjs/operators';
+import {fromEvent, iif, lastValueFrom, Observable, of, shareReplay} from 'rxjs';
+import {switchMap, takeUntil, tap} from 'rxjs/operators';
 import CustomStore from 'devextreme/data/custom_store';
 import {InspeccionService} from "../../services/inspeccion.service";
 import {CatalogoService} from "../../../../services/catalogo.service";
@@ -51,6 +51,7 @@ export class NewInspeccionComponent implements OnInit {
     this.gridDataStore = this.makeAsyncDataSource();
     this.registerEvents();
   }
+
 
   registerEvents() {
     this.entidad$ = this.entidad.valueChanges

@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Input, OnDestroy, OnInit, signal} from '@angular/core';
 import {filter, Subject} from 'rxjs';
 import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {PopupCantonComponent} from './popup/popup.component';
