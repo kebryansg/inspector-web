@@ -43,7 +43,7 @@
 
     <div *dxTemplate="let data of 'cellOptionsTemplate'">
       <div class="btn-group-icons">
-        <ng-container *ngIf="data.data?.Estado !== 'INA'; else activarRegistro">
+        <ng-container *ngIf="data.data?.Estado !== 'INA'; else activeRegister">
           <dx-button icon="edit"
                      (onClick)="edit(data.data.ID)"
           ></dx-button>
@@ -52,7 +52,7 @@
                      (onClick)="delete(data.data)"
           ></dx-button>
         </ng-container>
-        <ng-template #activarRegistro>
+        <ng-template #activeRegister>
           <dx-button icon="check"
                      (onClick)="reactivar(data.data)"
           ></dx-button>

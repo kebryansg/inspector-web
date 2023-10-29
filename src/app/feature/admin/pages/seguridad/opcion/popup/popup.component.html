@@ -1,0 +1,111 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{titleModal}}
+  </h4>
+  <button type="button" class="close" aria-label="Close"
+          (click)="activeModal.close()">
+    <i class="feather icon-x-circle"></i>
+  </button>
+</div>
+<form [formGroup]="itemForm"
+      action="javascript:"
+      (ngSubmit)="submit()">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label font-weight-bold">
+            Nombre Módulo
+          </label>
+          <div class="col-sm-12">
+
+            <dx-text-box formControlName="name"/>
+
+          </div>
+        </div>
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label font-weight-bold">
+            Icono Módulo
+          </label>
+          <div class="col-sm-12">
+            <dx-select-box formControlName="icon"
+                           [dataSource]="icons_feather"
+                           [showClearButton]="true"
+                           [searchEnabled]="true">
+              <div *dxTemplate="let data of 'dropDownButton'">
+                <i *ngIf="itemForm.controls['icon'].value"
+                   class="text-primary custom-icon feather {{ itemForm.controls['icon'].value }}"></i>
+                <div class="dx-dropdowneditor-icon"
+                     *ngIf="!itemForm.controls['icon'].value"
+                ></div>
+              </div>
+
+              <div *dxTemplate="let data of 'item'" class="custom-item">
+                <i class="text-primary feather {{ data }}"></i>
+                <div class="product-name">{{ data }}</div>
+              </div>
+            </dx-select-box>
+            <div class="messages text-danger"
+                 *ngIf="icon.touched && icon.invalid">
+              Icono es Requerido
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label font-weight-bold">
+            Ruta Módulo
+          </label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="state"/>
+          </div>
+        </div>
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label font-weight-bold">
+            Módulo Padre
+          </label>
+          <div class="col-sm-12">
+            <dx-drop-down-box displayExpr="name"
+                              valueExpr="ID"
+                              formControlName="parentId"
+                              [dataSource]="lsModulos$ | async"
+                              [showClearButton]="true"
+                              [(value)]="oTreeValue">
+              <div *dxTemplate="let data of 'content'">
+                <dx-tree-view dataStructure="plain"
+                              displayExpr="name"
+                              keyExpr="ID"
+                              parentIdExpr="IDPadre"
+                              selectionMode="single"
+                              [dataSource]="lsModulos$ | async"
+                              [searchEnabled]="true"
+                              [searchMode]="'contains'"
+                              [selectByClick]="true"
+                              (onContentReady)="$event.component.selectItem(oTreeValue)"
+                              (onItemSelectionChanged)="treeView_itemSelectionChanged($event)"
+                ></dx-tree-view>
+              </div>
+            </dx-drop-down-box>
+            <div class="messages text-danger"
+                 *ngIf="parentId.touched && parentId.invalid">
+              Valor Requerido
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-danger"
+            (click)="activeModal.close()">
+      Cancelar
+    </button>
+    <button class="btn btn-primary"
+            [disabled]="itemForm.invalid">
+      <!-- <icofont ico="icofont-save"></icofont>-->
+      Guardar
+    </button>
+  </div>
+</form>

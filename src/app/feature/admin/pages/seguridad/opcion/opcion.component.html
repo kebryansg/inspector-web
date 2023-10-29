@@ -1,0 +1,99 @@
+<app-card [cardTitle]="'Configuración Menu - Opción'">
+  <div class="row mt-2">
+    <div class="col-md-12">
+      <dx-tree-list #dxTreeData
+                    class="dev-custom-table header-bold"
+                    keyExpr="ID"
+                    parentIdExpr="IDPadre"
+                    [columnAutoWidth]="true"
+                    [columnHidingEnabled]="true"
+                    [columnMinWidth]="50"
+                    [columnResizingMode]="'widget'"
+                    [dataSource]="listModules()"
+                    [highlightChanges]="true"
+                    [hoverStateEnabled]="true"
+                    [rootValue]="null"
+                    [showRowLines]="true"
+                    [showBorders]="true"
+                    [wordWrapEnabled]="true"
+                    [columnFixing]="{enabled:true}"
+                    (onToolbarPreparing)="onToolbarPreparing($event)">
+        <!--#region Config. DxDataGrid -->
+        <dxo-column-chooser mode="select"
+                            [allowSearch]="true"
+                            [enabled]="true"
+        />
+
+        <dxo-paging [enabled]="true"
+                    [pageSize]="10"
+        />
+        <dxo-pager [showPageSizeSelector]="true"
+                   [allowedPageSizes]="[10,20,30,50]"
+                   [showInfo]="true"
+        />
+        <dxo-search-panel [visible]="true"
+                          [width]="300"
+        />
+
+        <dxo-sorting mode="multiple"/>
+        <!--#endregion -->
+
+        <dxi-column caption="Opciones"
+                    [width]="150"
+                    [allowFiltering]="false"
+                    [allowExporting]="false"
+                    [fixed]="true"
+                    [allowSorting]="false"
+                    cellTemplate="cellOptionsTemplate"
+        ></dxi-column>
+
+        <dxi-column caption="Código"
+                    dataField="ID"
+                    [width]="120"
+        ></dxi-column>
+        <dxi-column caption="Icono"
+                    dataField="icon"
+                    alignment="center"
+                    [cellTemplate]="'iconCell'"
+                    [width]="120"
+        ></dxi-column>
+        <dxi-column caption="Módulo"
+                    dataField="name"
+        ></dxi-column>
+        <dxi-column caption="Ruta"
+                    dataField="state"
+        ></dxi-column>
+
+        <!--#region cellOptionsTemplate -->
+        <div *dxTemplate="let data of 'cellOptionsTemplate'">
+
+          <div class="btn-group-icons">
+            <ng-container *ngIf="data.data.Estado === 'ACT'; else elseActive">
+              <dx-button icon="edit"
+                         (onClick)="editRow(data.data)"
+              ></dx-button>
+              <dx-button icon="trash"
+                         (onClick)="deleteRow(data.data)"
+              ></dx-button>
+            </ng-container>
+            <ng-template #elseActive>
+              <dx-button icon="revert"
+                         (onClick)="reactiveRow(data.data)"
+              ></dx-button>
+            </ng-template>
+          </div>
+        </div>
+        <!--#endregion -->
+
+        <!-- iconCell -->
+        <div *dxTemplate="let data of 'iconCell'">
+          <i class="text-danger {{ data.value }}"></i>
+        </div>
+        <!-- iconCell -->
+
+      </dx-tree-list>
+    </div>
+  </div>
+
+
+</app-card>

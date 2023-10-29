@@ -1,0 +1,127 @@
+<form [formGroup]="itemForm" (ngSubmit)="save()">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-sm-12">
+      <div class="card">
+        <div class="card-header bg-warning text-center font-weight-bold f-14">
+          Configuración Aplicación - Rol
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="dx-field dx-field-top-label">
+                <div class="dx-field-label">
+                  Rol
+                </div>
+                <dx-select-box class="dx-field-value"
+                               [dataSource]="lsRoles$ | async"
+                               displayExpr="Descripcion"
+                               valueExpr="ID"
+                               formControlName="IdRol"
+                               [showClearButton]="true"
+                ></dx-select-box>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-right">
+          <button class="btn btn-outline-primary"
+                  [disabled]="itemForm.invalid"
+                  type="submit">
+            Guardar Opción(es)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+
+<app-card [cardTitle]="'Configuración Menú - Rol'">
+
+  <!--
+  <div class="row">
+    <div class="col-md-6">
+      <span class="h5 mb-1">
+        Aplicación Rol
+      </span>
+      <dx-select-box [dataSource]="lsRoles$ | async"
+                     displayExpr="Descripcion"
+                     valueExpr="ID"
+                     [(ngModel)]="slRol"
+                     (valueChange)="changeRol()"
+                     [showClearButton]="true"
+      ></dx-select-box>
+    </div>
+  </div>
+  -->
+  <div class="row">
+    <div class="col-md-12">
+      <dx-tree-list #dxTreeData
+                    keyExpr="ID"
+                    parentIdExpr="IDPadre"
+                    [columnAutoWidth]="true"
+                    [columnHidingEnabled]="true"
+                    [columnMinWidth]="50"
+                    [columnResizingMode]="'widget'"
+                    [dataSource]="Modulos"
+                    [highlightChanges]="true"
+                    [hoverStateEnabled]="true"
+                    [rootValue]="null"
+                    [showRowLines]="true"
+                    [showBorders]="true"
+                    [wordWrapEnabled]="true"
+                    [columnFixing]="{enabled:true}"
+                    [headerFilter]="{visible:true}"
+                    [filterRow]="{visible:true}"
+                    (onToolbarPreparing)="onToolbarPreparing($event)"
+                    (onInitialized)="lsModulos$.next()">
+
+        <!--#region Config. DxDataGrid -->
+        <dxo-selection mode="multiple"
+                       [recursive]="true"
+        ></dxo-selection>
+        <dxo-sorting mode="multiple"></dxo-sorting>
+
+        <dxo-column-chooser mode="select"
+                            [allowSearch]="true"
+                            [enabled]="true"
+        ></dxo-column-chooser>
+
+        <dxo-paging [enabled]="true"
+                    [pageSize]="10"
+        ></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true"
+                   [allowedPageSizes]="[10,20,30,50]"
+                   [showInfo]="true"
+        ></dxo-pager>
+        <dxo-search-panel [visible]="true"
+                          [width]="300"
+        ></dxo-search-panel>
+        <!--#endregion -->
+
+        <dxi-column caption="Código"
+                    dataField="ID"
+                    [width]="120"
+        ></dxi-column>
+        <dxi-column caption="Icono"
+                    dataField="icon"
+                    alignment="center"
+                    [cellTemplate]="'iconCell'"
+                    [width]="120"
+        ></dxi-column>
+        <dxi-column caption="Módulo"
+                    dataField="name"
+        ></dxi-column>
+        <dxi-column caption="Ruta"
+                    dataField="state"
+        ></dxi-column>
+        <!-- iconCell -->
+        <div *dxTemplate="let data of 'iconCell'">
+          <i class="text-danger {{ data.value }}"></i>
+        </div>
+        <!-- iconCell -->
+      </dx-tree-list>
+    </div>
+  </div>
+
+
+</app-card>
