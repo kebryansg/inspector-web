@@ -1,4 +1,4 @@
-<form [formGroup]="itemForm" (ngSubmit)="save()">
+<form [formGroup]="itemForm" (ngSubmit)="saveModuleInRol()" class="mb-3">
   <div class="row justify-content-center">
     <div class="col-md-6 col-sm-12">
       <div class="card">
@@ -23,13 +23,18 @@
             </div>
           </div>
         </div>
-        <div class="card-footer text-right">
-          <button class="btn btn-outline-primary"
-                  [disabled]="itemForm.invalid"
-                  type="submit">
-            Guardar Opción(es)
-          </button>
-        </div>
+        <section class="card-footer">
+          <div class="d-flex align-items-center justify-content-between">
+            <label>
+            Cantidad seleccionada: {{ selectedModulesRol().length }}
+            </label>
+            <button class="btn btn-outline-primary"
+                    [disabled]="itemForm.invalid"
+                    type="submit">
+              Guardar Opción(es)
+            </button>
+          </div>
+        </section>
       </div>
     </div>
   </div>
@@ -37,22 +42,7 @@
 
 <app-card [cardTitle]="'Configuración Menú - Rol'">
 
-  <!--
-  <div class="row">
-    <div class="col-md-6">
-      <span class="h5 mb-1">
-        Aplicación Rol
-      </span>
-      <dx-select-box [dataSource]="lsRoles$ | async"
-                     displayExpr="Descripcion"
-                     valueExpr="ID"
-                     [(ngModel)]="slRol"
-                     (valueChange)="changeRol()"
-                     [showClearButton]="true"
-      ></dx-select-box>
-    </div>
-  </div>
-  -->
+
   <div class="row">
     <div class="col-md-12">
       <dx-tree-list #dxTreeData
@@ -62,7 +52,7 @@
                     [columnHidingEnabled]="true"
                     [columnMinWidth]="50"
                     [columnResizingMode]="'widget'"
-                    [dataSource]="Modulos"
+                    [dataSource]="listModules()"
                     [highlightChanges]="true"
                     [hoverStateEnabled]="true"
                     [rootValue]="null"
@@ -72,8 +62,7 @@
                     [columnFixing]="{enabled:true}"
                     [headerFilter]="{visible:true}"
                     [filterRow]="{visible:true}"
-                    (onToolbarPreparing)="onToolbarPreparing($event)"
-                    (onInitialized)="lsModulos$.next()">
+                    (onToolbarPreparing)="onToolbarPreparing($event)">
 
         <!--#region Config. DxDataGrid -->
         <dxo-selection mode="multiple"

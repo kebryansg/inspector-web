@@ -80,4 +80,8 @@ export class CatalogoService {
     obtenerInspector(): Observable<any[]> {
         return this.httpClient.get<any[]>(this.url + 'combo/inspector');
     }
+
+    getRole(): Observable<any[]> {
+        return this.httpClient.get<any[]>(this.url + 'combo/rol');
+    }
 }

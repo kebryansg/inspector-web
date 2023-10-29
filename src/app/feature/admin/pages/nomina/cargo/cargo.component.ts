@@ -85,7 +85,7 @@ export class CargoComponent implements OnInit, OnDestroy {
           return isEdit ? this.cargoService.update(row.ID, data) : this.cargoService.create(data)
         })
       )
-      .subscribe((data: any) => {
+      .subscribe(() => {
         this.refreshTable$.next();
       });
   }
@@ -100,7 +100,7 @@ export class CargoComponent implements OnInit, OnDestroy {
         return;
       }
       this.cargoService.delete(row.ID)
-        .subscribe(data => {
+        .subscribe(() => {
           this.refreshTable$.next();
         });
     });
