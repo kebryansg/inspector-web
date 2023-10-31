@@ -34,6 +34,10 @@ export const ADMIN_ROUTES: Routes = [
       {
         path: 'seguridad',
         loadChildren: () => import('./pages/seguridad/security.module').then(m => m.SecurityModule)
+      },
+      {
+        path: 'institucion',
+        loadChildren: () => import('./pages/institucion/institucion.module').then(m => m.InstitucionModule)
       }
     ]
   }

@@ -1,0 +1,69 @@
+<app-card [cardTitle]="'Compañia'">
+  <dx-data-grid
+    [dataSource]="lsRows()"
+    [remoteOperations]="false"
+    [columnAutoWidth]="true"
+    [columnMinWidth]="80"
+    [hoverStateEnabled]="true"
+    [rowAlternationEnabled]="true"
+    (onInitialized)="refreshTable$.next()"
+    (onToolbarPreparing)="onToolbarPreparing($event)"
+    [showBorders]="true">
+
+    <dxo-search-panel [visible]="true"/>
+    <dxo-filter-row [visible]="true"/>
+
+    <dxo-grouping [autoExpandAll]="true"/>
+
+    <dxo-export [enabled]="true" [fileName]="'Compañia'"
+                [allowExportSelectedData]="false"
+    />
+
+    <dxo-paging [pageSize]="10"/>
+    <dxo-pager
+      [showPageSizeSelector]="true"
+      [allowedPageSizes]="[10, 20, 30]"
+      [showInfo]="true"
+    />
+
+    <dxi-column caption="Opciones"
+                [width]="120"
+                [allowFiltering]="false"
+                [allowExporting]="false"
+                [fixed]="true"
+                [allowSorting]="false"
+                cellTemplate="cellOptionsTemplate"
+    />
+    <dxi-column dataField="Nombre"
+                caption="Nombre"
+    ></dxi-column>
+    <dxi-column dataField="Direccion"
+                caption="Dirección"
+    ></dxi-column>
+    <dxi-column dataField="Telefono"
+                caption="Teléfono"
+    ></dxi-column>
+    <dxi-column dataField="Institucion.Nombre"
+                caption="Institución"
+    ></dxi-column>
+    <dxi-column dataField="Estado" alignment="center">
+      <dxo-lookup [dataSource]="lsEstados$ | async"
+                  valueExpr="value"
+                  displayExpr="label"
+      ></dxo-lookup>
+    </dxi-column>
+
+
+    <div *dxTemplate="let data of 'cellOptionsTemplate'">
+      <div class="btn-group-icons">
+        <dx-button icon="edit"
+                   (onClick)="edit(data.data)"
+        ></dx-button>
+        <dx-button icon="trash"
+                   [disabled]="data.data?.Estado !== 'ACT'"
+                   (onClick)="delete(data.data)"
+        ></dx-button>
+      </div>
+    </div>
+  </dx-data-grid>
+</app-card>

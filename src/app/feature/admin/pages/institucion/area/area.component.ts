@@ -1,21 +1,22 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy,} from '@angular/core';
-import {PopupCargoComponent} from './popup/popup.component';
 import {filter, Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap} from 'rxjs/operators';
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {AreaService} from "../services/area.service";
+import {CatalogoService} from "../../../services/catalogo.service";
 import {ToolsService} from "../../../services/tools.service";
-import {CargoService} from "../services/cargo.service";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {PopupAreaComponent} from "./popup/popup.component";
 
 @Component({
-  selector: 'app-cargo',
-  templateUrl: './cargo.component.html',
+  selector: 'app-area',
+  templateUrl: './area.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CargoComponent implements OnDestroy {
+export class AreaComponent implements OnDestroy {
 
-  private cargoService: CargoService = inject(CargoService);
+  private areaService: AreaService = inject(AreaService);
   private modalService: Dialog = inject(Dialog);
   private notificacionService: NotificacionService = inject(NotificacionService);
 
@@ -26,10 +27,12 @@ export class CargoComponent implements OnDestroy {
     this.refreshTable$
       .pipe(
         debounceTime(500),
-        switchMap(() => this.cargoService.getAll()),
+        switchMap(() => this.areaService.getAll()),
       ), {initialValue: []}
   );
   lsEstados$: Observable<any[]> = inject(ToolsService).status$;
+  lsDepartamento$: Observable<any> = inject(CatalogoService).obtenerDepartamento();
+
 
   ngOnDestroy() {
     this.refreshTable$.unsubscribe();
@@ -42,6 +45,7 @@ export class CargoComponent implements OnDestroy {
         widget: 'dxButton',
         options: {
           icon: 'refresh',
+          hint: 'Recargar datos de la tabla',
           text: 'Recargar datos de la tabla',
           onClick: () => this.refreshTable$.next()
         }
@@ -57,22 +61,20 @@ export class CargoComponent implements OnDestroy {
       });
   }
 
-
   edit(row?: any) {
-
     const isEdit = !!row;
-    const modalRef = this.modalService.open(PopupCargoComponent, {
+    const modalRef = this.modalService.open(PopupAreaComponent, {
       data: {
         data: row ?? {},
-        titleModal: isEdit ? 'Editar Cargo' : 'Nuevo Cargo'
+        titleModal: isEdit ? 'Editar Area' : 'Nuevo Area'
       }
     });
 
     modalRef.closed
       .pipe(
-        filter(data => !!data),
+        filter(Boolean),
         switchMap<any, any>(data => {
-          return isEdit ? this.cargoService.update(row.ID, data) : this.cargoService.create(data)
+          return isEdit ? this.areaService.update(row.ID, data) : this.areaService.create(data)
         })
       )
       .subscribe(() => {
@@ -89,7 +91,7 @@ export class CargoComponent implements OnDestroy {
       if (!response) {
         return;
       }
-      this.cargoService.delete(row.ID)
+      this.areaService.delete(row.ID)
         .subscribe(() => {
           this.refreshTable$.next();
         });

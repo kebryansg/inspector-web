@@ -1,21 +1,21 @@
-<app-card [cardTitle]="'Cargo'">
-
-  <dx-data-grid [dataSource]="lsRows()"
-                [remoteOperations]="false"
-                [columnAutoWidth]="true"
-                [columnMinWidth]="80"
-                [hoverStateEnabled]="true"
-                [rowAlternationEnabled]="true"
-                (onInitialized)="refreshTable$.next()"
-                (onToolbarPreparing)="onToolbarPreparing($event)"
-                [showBorders]="true">
+<app-card [cardTitle]="'Departamento'">
+  <dx-data-grid
+    [dataSource]="lsRows()"
+    [remoteOperations]="false"
+    [columnAutoWidth]="true"
+    [columnMinWidth]="80"
+    [hoverStateEnabled]="true"
+    [rowAlternationEnabled]="true"
+    (onInitialized)="refreshTable$.next()"
+    (onToolbarPreparing)="onToolbarPreparing($event)"
+    [showBorders]="true">
 
     <dxo-search-panel [visible]="true"/>
     <dxo-filter-row [visible]="true"/>
     <dxo-grouping [autoExpandAll]="true"/>
 
     <dxo-export [enabled]="true"
-                [fileName]="'Cargo(s)'"
+                [fileName]="'Departamento(s)'"
                 [allowExportSelectedData]="false"
     />
 
@@ -30,7 +30,9 @@
                 [allowExporting]="false" [fixed]="true"
                 [allowSorting]="false" cellTemplate="cellOptionsTemplate">
     </dxi-column>
-    <dxi-column dataField="Descripcion" caption="Descripción"></dxi-column>
+    <dxi-column dataField="Descripcion"
+                caption="Descripción"
+    ></dxi-column>
     <dxi-column dataField="Estado" alignment="center">
       <dxo-lookup [dataSource]="lsEstados$ | async"
                   valueExpr="value"
@@ -51,5 +53,4 @@
       </div>
     </div>
   </dx-data-grid>
-
 </app-card>

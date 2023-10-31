@@ -1,21 +1,21 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy,} from '@angular/core';
-import {PopupCargoComponent} from './popup/popup.component';
+import {PopupCompaniaComponent} from './popup/popup.component';
 import {filter, Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap} from 'rxjs/operators';
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificacionService} from "../../../../../shared/services/notificacion.service";
-import {ToolsService} from "../../../services/tools.service";
-import {CargoService} from "../services/cargo.service";
+import {CompaniaService} from "../services/compania.service";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {ToolsService} from "../../../services/tools.service";
 
 @Component({
-  selector: 'app-cargo',
-  templateUrl: './cargo.component.html',
+  selector: 'app-compania',
+  templateUrl: './compania.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CargoComponent implements OnDestroy {
+export class CompaniaComponent implements OnDestroy {
 
-  private cargoService: CargoService = inject(CargoService);
+  private companiaService: CompaniaService = inject(CompaniaService);
   private modalService: Dialog = inject(Dialog);
   private notificacionService: NotificacionService = inject(NotificacionService);
 
@@ -26,7 +26,7 @@ export class CargoComponent implements OnDestroy {
     this.refreshTable$
       .pipe(
         debounceTime(500),
-        switchMap(() => this.cargoService.getAll()),
+        switchMap(() => this.companiaService.getAll()),
       ), {initialValue: []}
   );
   lsEstados$: Observable<any[]> = inject(ToolsService).status$;
@@ -42,6 +42,7 @@ export class CargoComponent implements OnDestroy {
         widget: 'dxButton',
         options: {
           icon: 'refresh',
+          hint: 'Recargar datos de la tabla',
           text: 'Recargar datos de la tabla',
           onClick: () => this.refreshTable$.next()
         }
@@ -57,14 +58,12 @@ export class CargoComponent implements OnDestroy {
       });
   }
 
-
   edit(row?: any) {
-
     const isEdit = !!row;
-    const modalRef = this.modalService.open(PopupCargoComponent, {
+    const modalRef = this.modalService.open(PopupCompaniaComponent, {
       data: {
         data: row ?? {},
-        titleModal: isEdit ? 'Editar Cargo' : 'Nuevo Cargo'
+        titleModal: isEdit ? 'Editar Compañia' : 'Nuevo Compañia'
       }
     });
 
@@ -72,7 +71,7 @@ export class CargoComponent implements OnDestroy {
       .pipe(
         filter(data => !!data),
         switchMap<any, any>(data => {
-          return isEdit ? this.cargoService.update(row.ID, data) : this.cargoService.create(data)
+          return isEdit ? this.companiaService.update(row.ID, data) : this.companiaService.create(data)
         })
       )
       .subscribe(() => {
@@ -89,11 +88,12 @@ export class CargoComponent implements OnDestroy {
       if (!response) {
         return;
       }
-      this.cargoService.delete(row.ID)
+      this.companiaService.delete(row.ID)
         .subscribe(() => {
           this.refreshTable$.next();
         });
     });
+
   }
 
 }

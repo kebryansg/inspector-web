@@ -1,21 +1,21 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy,} from '@angular/core';
-import {PopupCargoComponent} from './popup/popup.component';
-import {filter, Observable, Subject} from 'rxjs';
-import {debounceTime, switchMap} from 'rxjs/operators';
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificacionService} from "../../../../../shared/services/notificacion.service";
-import {ToolsService} from "../../../services/tools.service";
-import {CargoService} from "../services/cargo.service";
+import {filter, Observable, Subject} from "rxjs";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {debounceTime, switchMap} from "rxjs/operators";
+import {ToolsService} from "../../../services/tools.service";
+import {DepartamentoService} from "../services/departamento.service";
+import {PopupDepartamentoComponent} from "./popup/popup.component";
 
 @Component({
-  selector: 'app-cargo',
-  templateUrl: './cargo.component.html',
+  selector: 'app-departamento',
+  templateUrl: './departamento.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CargoComponent implements OnDestroy {
+export class DepartamentoComponent implements OnDestroy {
 
-  private cargoService: CargoService = inject(CargoService);
+  private departamentoService: DepartamentoService = inject(DepartamentoService);
   private modalService: Dialog = inject(Dialog);
   private notificacionService: NotificacionService = inject(NotificacionService);
 
@@ -26,7 +26,7 @@ export class CargoComponent implements OnDestroy {
     this.refreshTable$
       .pipe(
         debounceTime(500),
-        switchMap(() => this.cargoService.getAll()),
+        switchMap(() => this.departamentoService.getAll()),
       ), {initialValue: []}
   );
   lsEstados$: Observable<any[]> = inject(ToolsService).status$;
@@ -61,10 +61,10 @@ export class CargoComponent implements OnDestroy {
   edit(row?: any) {
 
     const isEdit = !!row;
-    const modalRef = this.modalService.open(PopupCargoComponent, {
+    const modalRef = this.modalService.open(PopupDepartamentoComponent, {
       data: {
         data: row ?? {},
-        titleModal: isEdit ? 'Editar Cargo' : 'Nuevo Cargo'
+        titleModal: isEdit ? 'Editar Departamento' : 'Nuevo Departamento'
       }
     });
 
@@ -72,7 +72,7 @@ export class CargoComponent implements OnDestroy {
       .pipe(
         filter(data => !!data),
         switchMap<any, any>(data => {
-          return isEdit ? this.cargoService.update(row.ID, data) : this.cargoService.create(data)
+          return isEdit ? this.departamentoService.update(row.ID, data) : this.departamentoService.create(data)
         })
       )
       .subscribe(() => {
@@ -89,11 +89,10 @@ export class CargoComponent implements OnDestroy {
       if (!response) {
         return;
       }
-      this.cargoService.delete(row.ID)
+      this.departamentoService.delete(row.ID)
         .subscribe(() => {
           this.refreshTable$.next();
         });
     });
   }
-
 }
