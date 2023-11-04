@@ -38,6 +38,10 @@ export const ADMIN_ROUTES: Routes = [
       {
         path: 'institucion',
         loadChildren: () => import('./pages/institucion/institucion.module').then(m => m.InstitucionModule)
+      },
+      {
+        path: 'formulario',
+        loadChildren: () => import('./pages/formulario/formulario.module').then(m => m.FormularioModule)
       }
     ]
   }
