@@ -1,32 +1,27 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {ModalTemplate} from "@modal/modal-template";
-import {ToolsService} from "../../../../services/tools.service";
-import {CatalogoService} from "../../../../services/catalogo.service";
+import {ModalTemplate} from "../../../../../../../common/modal/modal-template";
+import {Observable} from "rxjs";
+import {ToolsService} from "../../../../../services/tools.service";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
-import {AsyncPipe, NgClass} from "@angular/common";
+import {AsyncPipe} from "@angular/common";
 
 @Component({
   standalone: true,
   templateUrl: './popup.component.html',
   imports: [
     ReactiveFormsModule,
-    DxSelectBoxModule,
     DxTextBoxModule,
     AsyncPipe,
-    NgClass,
+    DxSelectBoxModule
   ],
   styles: []
 })
-export class PopupAreaComponent extends ModalTemplate implements OnInit {
-
+export class PopupSeccionComponent extends ModalTemplate implements OnInit {
   private readonly fb: FormBuilder = inject(FormBuilder);
-  private readonly catalogoService: CatalogoService = inject(CatalogoService);
-  form!: FormGroup;
-  lsDepartamento$: Observable<any> = this.catalogoService.obtenerDepartamento();
-  status$: Observable<any[]> = inject(ToolsService).status$;
 
+  form!: FormGroup;
+  status$: Observable<any[]> = inject(ToolsService).status$;
 
   ngOnInit() {
     this.buildForm();
@@ -39,8 +34,9 @@ export class PopupAreaComponent extends ModalTemplate implements OnInit {
     this.form = this.fb.group({
       ID: [0],
       Descripcion: ['', Validators.required],
-      IDDepartamento: ['', Validators.required],
-      Estado: ['ACT', Validators.required]
+      Observacion: ['', Validators.required],
+      Estado: ['ACT', Validators.required],
+      componentes: [[]]
     });
   }
 
@@ -48,8 +44,9 @@ export class PopupAreaComponent extends ModalTemplate implements OnInit {
     this.form.patchValue({
       ID: data.ID,
       Descripcion: data.Descripcion,
-      IDDepartamento: data.IDDepartamento,
+      Observacion: data.Observacion,
       Estado: data.Estado,
+      componentes: data.componentes,
     });
   }
 
@@ -59,4 +56,5 @@ export class PopupAreaComponent extends ModalTemplate implements OnInit {
       return;
     this.activeModal.close(this.form.getRawValue());
   }
+
 }
