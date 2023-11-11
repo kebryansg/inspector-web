@@ -1,0 +1,96 @@
+<form [formGroup]="itemForm"
+      (ngSubmit)="saveModuleInRol()" class="mb-3">
+  <div class="row justify-content-center">
+    <div class="col-md-6 col-sm-12">
+      <div class="card">
+        <div class="card-header bg-warning text-center font-weight-bold f-14">
+          Inspectores
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="dx-field dx-field-top-label">
+                <div class="dx-field-label">
+                  Colaborador
+                </div>
+                <dx-select-box class="dx-field-value"
+                               [dataSource]="lsInspectors$ | async"
+                               displayExpr="Colaborador"
+                               valueExpr="ID"
+                               formControlName="IdRol"
+                               [showClearButton]="true"
+                ></dx-select-box>
+              </div>
+            </div>
+          </div>
+        </div>
+        <section class="card-footer">
+          <div class="d-flex align-items-center justify-content-between">
+            <label>
+              Cantidad seleccionada: {{ selectedInspection().length }}
+            </label>
+            <button class="btn btn-outline-primary"
+                    [disabled]="itemForm.invalid"
+                    type="submit">
+              Asignar
+            </button>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</form>
+
+<app-card [cardTitle]="'Listado de inspecciones - Pendientes'">
+
+  <div class="row">
+    <div class="col-md-12">
+      <dx-data-grid [dataSource]="lsItemsPending$ | async"
+                    [rowAlternationEnabled]="true"
+                    keyExpr="Id"
+                    [selectedRowKeys]="selectedInspection()"
+                    (selectedRowKeysChange)="selectedInspection.set($event)"
+                    [columnAutoWidth]="true"
+                    [showBorders]="true">
+
+        <dxo-selection
+          [selectAllMode]="'allPages'"
+          [showCheckBoxesMode]="'onClick'"
+          mode="multiple"
+        ></dxo-selection>
+
+        <dxi-column dataField="Id"
+                    caption="Código Solicitud"
+                    alignment="center"
+                    [allowHeaderFiltering]="false"
+        />
+        <dxi-column dataField="FechaRegistro"
+                    caption="Fecha Registro"
+                    dataType="date"
+                    format="yyyy, MMMM dd"
+                    [allowHeaderFiltering]="false"
+        />
+        <dxi-column dataField="FechaInspeccion"
+                    caption="Fecha Inspección"
+                    dataType="date"
+                    format="yyyy, MMMM dd"
+                    [allowHeaderFiltering]="false"
+        />
+        <dxi-column dataField="RUC"
+                    [allowHeaderFiltering]="false"
+                    caption="RUC"
+        />
+        <dxi-column dataField="RazonSocial"
+                    [allowHeaderFiltering]="false"
+                    caption="Razón Social"
+        />
+        <dxi-column dataField="NombreComercial"
+                    [allowHeaderFiltering]="false"
+                    caption="Nombre Comercial"
+        />
+      </dx-data-grid>
+    </div>
+  </div>
+
+
+</app-card>

@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {ListComponent} from './pages/list/list.component';
 import {NewInspeccionComponent} from "./pages/new/new.component";
+import {AsignInspectorComponent} from "./pages/asign-inspector/asign-inspector.component";
 //import {NewInspeccionComponent} from './new/new.component';
 //import {ViewInspeccionComponent} from './list/view/view.component';
 //import {WebInspeccionComponent} from './web/web.component';
@@ -16,6 +17,10 @@ const routes: Routes = [
       title: 'Listado de Inspección',
       status: true
     },
+  }, {
+    path: 'asign-inspector',
+    loadComponent: () => import('./pages/asign-inspector/asign-inspector.component').then(m => m.AsignInspectorComponent),
+    title: 'Asignación de Inspectores',
   },
   {
     path: 'new',

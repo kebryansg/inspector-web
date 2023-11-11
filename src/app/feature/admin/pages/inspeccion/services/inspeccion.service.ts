@@ -19,6 +19,10 @@ export class InspeccionService {
   constructor(private http: HttpClient) {
   }
 
+  getItemsPending() {
+    return this.http.get<any>(this.urlBase + 'inspeccion/pending')
+  }
+
   create(data: any) {
     return this.http.post<any>(this.urlBase + 'inspeccion', data)
       .pipe(

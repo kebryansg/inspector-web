@@ -1,55 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {map, shareReplay} from 'rxjs';
-import {NavigationItem as NavItem, NavigationStore} from "./navigation.interface";
+import {NavigationStore} from "./navigation.interface";
 import {MenuService} from "../services/menu.service";
-
-
-const NavigationItems: NavItem[] = [
-  {
-    id: 'sample-page',
-    title: 'Sample Page',
-    type: 'item',
-    url: '/sample-page',
-    classes: 'nav-item',
-    icon: 'feather icon-sidebar'
-  },
-  {
-    id: 'menu-level',
-    title: 'Menu Levels',
-    type: 'collapse',
-    icon: 'feather icon-menu',
-    children: [
-      {
-        id: 'menu-level-2.1',
-        title: 'Menu Level 2.1',
-        type: 'item',
-        url: 'javascript:',
-        external: true
-      },
-      {
-        id: 'menu-level-2.2',
-        title: 'Menu Level 2.2',
-        type: 'collapse',
-        children: [
-          {
-            id: 'menu-level-2.2.1',
-            title: 'Menu Level 2.2.1',
-            type: 'item',
-            url: 'javascript:',
-            external: true
-          },
-          {
-            id: 'menu-level-2.2.2',
-            title: 'Menu Level 2.2.2',
-            type: 'item',
-            url: 'javascript:',
-            external: true
-          }
-        ]
-      }
-    ]
-  }
-];
 
 @Injectable({
   providedIn: 'root'
@@ -96,10 +48,6 @@ export class NavigationItem {
       .toPromise();
   }*/
 
-  public get() {
-    return NavigationItems;
-  }
-
   mapMenu(items: any[]): any[] {
     return unflat(items, {parentId: 'parentId', id: 'id', childrenKey: 'children'});
   }
@@ -111,17 +59,19 @@ interface IOptionsFlat {
   childrenKey?: string;
 }
 
-export const mapData = (items: NavigationStore[]) => items.map(item => ({
-  id: item.ID,
-  url: '/' + item.state,
-  title: item.name,
-  type: item.type == 'sub' ? 'collapse' : 'item',
-  parentId: item.IDPadre,
-  root: !!(item.IDPadre),
-  icon: item.icon,
-  vigente: true,
-  classes: 'nav-item',
-}));
+export const mapData = (items: NavigationStore[]) => items.map(item => {
+  return {
+    id: item.ID,
+    url: '/' + item.state,
+    title: item.name,
+    type: item.type == 'sub' ? 'collapse' : 'item',
+    parentId: item.IDPadre,
+    root: !!(item.IDPadre),
+    icon: item.icon,
+    vigente: true,
+    classes: 'nav-item',
+  }
+});
 
 const showNodes = (root: any, state: any, fn: any) => {
   if (root['children']) {

@@ -10,7 +10,7 @@ import {NewUsuarioComponent} from './usuario/new/new.component';
 import {MenuComponent} from './menu/menu.component';
 import {SistemaCatalogService} from './services/sistema-catalog.service';
 import {DxButtonModule, DxDataGridModule, DxSelectBoxModule, DxTextBoxModule, DxTreeListModule} from "devextreme-angular";
-import {CardComponent} from "../../../../shared/components/card/card.component";
+import {CardComponent} from "@standalone-shared/card/card.component";
 
 @NgModule({
   imports: [
