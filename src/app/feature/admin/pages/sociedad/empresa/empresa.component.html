@@ -9,9 +9,7 @@
                 [loadPanel]="{enabled:true}"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [showBorders]="true">
-    <dxo-remote-operations
-      [groupPaging]="true"
-    ></dxo-remote-operations>
+    <dxo-remote-operations [paging]="true"/>
 
     <dxo-paging [pageSize]="10"></dxo-paging>
     <dxo-pager
@@ -28,34 +26,31 @@
                 [allowSorting]="false"
                 cellTemplate="cellOptionsTemplate">
     </dxi-column>
-    <dxi-column dataField="RUC"
-    ></dxi-column>
-    <dxi-column dataField="NombreComercial"
-    ></dxi-column>
-    <dxi-column dataField="RazonSocial"
-    ></dxi-column>
+    <dxi-column dataField="RUC"/>
+    <dxi-column dataField="NombreComercial" />
+    <dxi-column dataField="RazonSocial" />
     <dxi-column dataField="idActEconomica.Descripcion"
-                caption="Actividad Económica">
-    </dxi-column>
+                caption="Actividad Económica"
+    />
     <dxi-column dataField="idTipoEmpresa.Nombre"
-                caption="Tipo Empresa">
-    </dxi-column>
+                caption="Tipo Empresa"
+    />
 
     <div *dxTemplate="let data of 'cellOptionsTemplate'">
       <div class="btn-group-icons">
         <ng-container *ngIf="data.data?.Estado !== 'INA'; else activeRegister">
           <dx-button icon="edit"
                      (onClick)="edit(data.data.ID)"
-          ></dx-button>
+          />
 
           <dx-button icon="trash"
                      (onClick)="delete(data.data)"
-          ></dx-button>
+          />
         </ng-container>
         <ng-template #activeRegister>
           <dx-button icon="check"
                      (onClick)="reactivar(data.data)"
-          ></dx-button>
+          />
         </ng-template>
       </div>
       <!--<div class="btn-group-icons" *ngIf="data.data?.Estado == 'INA'">

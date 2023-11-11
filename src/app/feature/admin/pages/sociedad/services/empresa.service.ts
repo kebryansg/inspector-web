@@ -1,6 +1,6 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {Observable} from "rxjs";
+import {lastValueFrom, Observable} from "rxjs";
 import {environment} from "@environments/environment";
 import {keyBase} from "../../../interfaces/base-catalog.interface";
 import {map} from "rxjs/operators";
@@ -14,17 +14,19 @@ export class EmpresaService<T extends Empresa> {
   private endpointUrl: string = environment.apiUrl + 'empresa';
   private http: HttpClient = inject(HttpClient);
 
-  getAll(params: any): Observable<any> {
-    return this.http.get<any>(this.endpointUrl, {params})
-      .pipe(
-        map(result => ({
-            data: result.data,
-            totalCount: result.total,
-            summary: result.summary,
-            groupCount: result.groupCount
-          })
+  getAll(params: any): Promise<any> {
+    return lastValueFrom(
+      this.http.get<any>(this.endpointUrl, {params})
+        .pipe(
+          map(result => ({
+              data: result.data,
+              totalCount: result.total,
+              summary: result.summary,
+              groupCount: result.groupCount
+            })
+          )
         )
-      )
+    )
   }
 
   getById(idRow: keyBase): Observable<T> {

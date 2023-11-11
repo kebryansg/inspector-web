@@ -1,14 +1,13 @@
 import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {DxDataGridComponent} from 'devextreme-angular';
 import DataSource from 'devextreme/data/data_source';
-import {debounceTime} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 import {NotificacionService} from "../../../../../shared/services/notificacion.service";
 import {CatalogoService} from "../../../services/catalogo.service";
-import {EmpresaService} from "../services/empresa.service";
+import {EmpresaService} from "../services";
 
 @Component({
   selector: 'app-empresa',
@@ -31,7 +30,6 @@ export class EmpresaComponent implements OnInit {
 
 
   ngOnInit() {
-
     this.gridDataSource = new DataSource({
       key: 'ID',
       load: (loadOptions: any) => {
@@ -39,9 +37,6 @@ export class EmpresaComponent implements OnInit {
           .reduce((a, b) => ({...a, [b]: loadOptions[b]}), {});
 
         return this.empresaService.getAll(params)
-          .pipe(
-            debounceTime(500),
-          ).toPromise();
       }
     });
   }
