@@ -9,7 +9,7 @@ import {keyBase} from "../../interfaces/base-catalog.interface";
 })
 export class SectorService<T> {
 
-  private endpointUrl: string = environment.ApiUrl + 'sector';
+  private endpointUrl: string = environment.apiUrl + 'sector';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<T[]> {

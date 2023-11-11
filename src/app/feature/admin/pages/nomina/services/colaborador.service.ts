@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 })
 export class ColaboradorService {
 
-  private endpointUrl: string = environment.ApiUrl + 'colaborador';
+  private endpointUrl: string = environment.apiUrl + 'colaborador';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<any[]> {

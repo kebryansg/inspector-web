@@ -9,7 +9,7 @@ import {keyBase} from "../../../interfaces/base-catalog.interface";
 })
 export class TipoEmpresaService<T> {
 
-  private endpointUrl: string = environment.ApiUrl + 'TipoEmpresa';
+  private endpointUrl: string = environment.apiUrl + 'TipoEmpresa';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<T[]> {

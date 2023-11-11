@@ -9,7 +9,7 @@ import {keyBase} from "../../../interfaces/base-catalog.interface";
 })
 export class UserCrudService<T> {
 
-  private endpointUrl: string = environment.ApiUrl + 'usuario';
+  private endpointUrl: string = environment.apiUrl + 'usuario';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<T[]> {

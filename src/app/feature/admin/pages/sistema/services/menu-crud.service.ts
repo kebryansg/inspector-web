@@ -9,7 +9,7 @@ import {keyBase} from "../../../interfaces/base-catalog.interface";
 })
 export class MenuCrudService {
 
-  private endpointUrl: string = environment.ApiUrl;
+  private endpointUrl: string = environment.apiUrl;
   private http: HttpClient = inject(HttpClient);
 
   getModulos(): Observable<any[]> {

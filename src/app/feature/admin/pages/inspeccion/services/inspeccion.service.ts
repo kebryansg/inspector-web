@@ -11,7 +11,7 @@ import {STATUS_INSPECTION} from "../const/status-inspection.const";
 })
 export class InspeccionService {
 
-  private urlBase: string = environment.ApiUrl;
+  private urlBase: string = environment.apiUrl;
 
   status$: Observable<any[]> = of([...STATUS_INSPECTION])
     .pipe(shareReplay());

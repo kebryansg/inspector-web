@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 })
 export class CargoService {
 
-  private endpointUrl: string = environment.ApiUrl + 'cargo';
+  private endpointUrl: string = environment.apiUrl + 'cargo';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<any[]> {

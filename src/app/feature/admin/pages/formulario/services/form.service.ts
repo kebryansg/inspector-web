@@ -7,7 +7,7 @@ import {HttpClient} from "@angular/common/http";
   providedIn: 'root'
 })
 export class FormService {
-  private endpointUrl: string = environment.ApiUrl + "formulario";
+  private endpointUrl: string = environment.apiUrl + "formulario";
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<any[]> {

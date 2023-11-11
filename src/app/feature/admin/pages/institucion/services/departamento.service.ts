@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 })
 export class DepartamentoService {
 
-  private endpointUrl: string = environment.ApiUrl + 'departamento';
+  private endpointUrl: string = environment.apiUrl + 'departamento';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<any[]> {

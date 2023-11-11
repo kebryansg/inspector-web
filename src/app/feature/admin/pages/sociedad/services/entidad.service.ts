@@ -10,7 +10,7 @@ import {map} from "rxjs/operators";
 })
 export class EntidadService<T> {
 
-  private endpointUrl: string = environment.ApiUrl + 'entidad';
+  private endpointUrl: string = environment.apiUrl + 'entidad';
   private http: HttpClient = inject(HttpClient);
 
   getPaginate(params: any): Observable<any> {

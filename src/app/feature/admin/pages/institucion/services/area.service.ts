@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 })
 export class AreaService {
 
-  private endpointUrl: string = environment.ApiUrl + 'area';
+  private endpointUrl: string = environment.apiUrl + 'area';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<any[]> {

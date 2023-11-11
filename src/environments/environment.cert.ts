@@ -1,7 +1,9 @@
-export const environment = {
+import {EnvironmentInt} from "../app/interfaces/environment.interface";
+
+export const environment: EnvironmentInt = {
   production: false,
-  ApiUrl: 'https://inspector-backend.herokuapp.com/',
-  ambiente: 'DESARROLLO',
+  apiUrl: 'https://inspector-backend.herokuapp.com/',
+  ambiente: 'DEVELOPMENT',
   googleMapsKey: 'AIzaSyBCMLN-ZbmFDw7Rf_OLsCDrYzI4n-jcaX0',
-  ApiUrlAnexos: 'http://192.168.10.28/',
+  apiUrlAnexos: 'http://192.168.10.28/',
 };

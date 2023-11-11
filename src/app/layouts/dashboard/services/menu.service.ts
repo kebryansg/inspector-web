@@ -9,7 +9,7 @@ import {environment} from "@environments/environment";
 })
 export class MenuService {
 
-  menu$: Observable<NavigationStore[]> = inject(HttpClient).get<NavigationStore[]>(environment.ApiUrl + 'menu')
+  menu$: Observable<NavigationStore[]> = inject(HttpClient).get<NavigationStore[]>(environment.apiUrl + 'menu')
     .pipe(
       shareReplay(1)
     )

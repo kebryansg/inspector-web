@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 })
 export class InstitutionService {
 
-  private endpointUrl: string = environment.ApiUrl + 'institucion';
+  private endpointUrl: string = environment.apiUrl + 'institucion';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<any> {

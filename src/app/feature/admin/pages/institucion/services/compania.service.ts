@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 })
 export class CompaniaService {
 
-  private endpointUrl: string = environment.ApiUrl + 'compania';
+  private endpointUrl: string = environment.apiUrl + 'compania';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<any[]> {

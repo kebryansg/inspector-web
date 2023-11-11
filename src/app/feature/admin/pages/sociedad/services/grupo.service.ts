@@ -9,7 +9,7 @@ import {keyBase} from "../../../interfaces/base-catalog.interface";
 })
 export class GrupoService<T> {
 
-  private endpointUrl: string = environment.ApiUrl + 'grupo';
+  private endpointUrl: string = environment.apiUrl + 'grupo';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<T[]> {

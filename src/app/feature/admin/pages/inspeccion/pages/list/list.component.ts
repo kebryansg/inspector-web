@@ -55,7 +55,7 @@ export class ListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     //this.lsEstadosTime = this.tools.getTimeOptions();
     // this.urlHost = configuracion.url;
-    this.urlHost = environment.ApiUrlAnexos;
+    this.urlHost = environment.apiUrlAnexos;
 
     this.gridDataSource = new DataSource({
       key: 'Id',

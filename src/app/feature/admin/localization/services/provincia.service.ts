@@ -9,7 +9,7 @@ import {keyBase} from "../../interfaces/base-catalog.interface";
 })
 export class ProvinciaService<T> {
 
-  private endpointUrl: string = environment.ApiUrl + 'provincia';
+  private endpointUrl: string = environment.apiUrl + 'provincia';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<T[]> {

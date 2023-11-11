@@ -13,7 +13,7 @@ export class LoginService {
   httpClient = inject(HttpClient);
 
   login({username, password}: any) {
-    return this.httpClient.post<LoginResponse>(environment.ApiUrl + 'oauth/token', {username, password})
+    return this.httpClient.post<LoginResponse>(environment.apiUrl + 'oauth/token', {username, password})
       .pipe(
         tap((data: LoginResponse) => {
           if (data.access_token) {

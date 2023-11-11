@@ -2,18 +2,15 @@ import {HttpHandlerFn, HttpHeaders, HttpInterceptorFn, HttpRequest} from '@angul
 import {KeyLocalStorage} from "../../auth/enums/key-storage.enum";
 
 
-export const TokenInterceptor : HttpInterceptorFn = (request: HttpRequest<unknown>, next: HttpHandlerFn)=>{
-    const token = localStorage.getItem(KeyLocalStorage.Token);
-    const typeToken = localStorage.getItem(KeyLocalStorage.Token);
+export const TokenInterceptor: HttpInterceptorFn = (request: HttpRequest<unknown>, next: HttpHandlerFn) => {
+  const token = localStorage.getItem(KeyLocalStorage.Token);
+  const typeToken = localStorage.getItem(KeyLocalStorage.TokenType);
 
-    const cloneRequest = request.clone({
-        headers: new HttpHeaders({
-            "Authorization": `${typeToken} ${token}`
-        })
-    });
+  const cloneRequest = request.clone({
+    headers: new HttpHeaders({
+      "Authorization": `${typeToken} ${token}`
+    })
+  });
 
-    return next(cloneRequest);
+  return next(cloneRequest);
 }
-
-
-// make interceptors refresh token

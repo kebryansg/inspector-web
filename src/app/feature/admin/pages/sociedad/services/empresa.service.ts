@@ -11,7 +11,7 @@ import {Empresa} from "../interfaces";
 })
 export class EmpresaService<T extends Empresa> {
 
-  private endpointUrl: string = environment.ApiUrl + 'empresa';
+  private endpointUrl: string = environment.apiUrl + 'empresa';
   private http: HttpClient = inject(HttpClient);
 
   getAll(params: any): Observable<any> {
@@ -32,7 +32,7 @@ export class EmpresaService<T extends Empresa> {
   }
 
   getItemsByEntidad(idEntidad: number): Observable<T[]> {
-    return this.http.get<T[]>(environment.ApiUrl + `entidad/${idEntidad}/empresa`);
+    return this.http.get<T[]>(environment.apiUrl + `entidad/${idEntidad}/empresa`);
   }
 
   create(row: T): Observable<any> {

@@ -9,7 +9,7 @@ import {keyBase} from "../../../interfaces/base-catalog.interface";
 })
 export class RolService<T> {
 
-  private endpointUrl: string = environment.ApiUrl + 'rol';
+  private endpointUrl: string = environment.apiUrl + 'rol';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<T[]> {

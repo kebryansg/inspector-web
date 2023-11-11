@@ -8,7 +8,7 @@ import {Colaborador} from '../interfaces/colaborador.interface';
 export class SistemaCatalogService {
 
 
-  private endpointUrl: string = environment.ApiUrl + 'combo';
+  private endpointUrl: string = environment.apiUrl + 'combo';
   private http: HttpClient = inject(HttpClient);
 
   getRoleSystem(): Observable<any[]> {

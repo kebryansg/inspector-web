@@ -9,7 +9,7 @@ import {keyBase} from "../../interfaces/base-catalog.interface";
 })
 export class CantonService<T> {
 
-  private endpointUrl: string = environment.ApiUrl + 'canton';
+  private endpointUrl: string = environment.apiUrl + 'canton';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<T[]> {

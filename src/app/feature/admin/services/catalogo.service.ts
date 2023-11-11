@@ -10,7 +10,7 @@ import {Canton, Parroquia, Provincia, Sector} from "../localization/interfaces/b
 })
 export class CatalogoService {
 
-  private url: string = environment.ApiUrl;
+  private url: string = environment.apiUrl;
 
   constructor(private httpClient: HttpClient) {
   }

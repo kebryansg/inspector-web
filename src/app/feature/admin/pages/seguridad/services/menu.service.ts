@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 })
 export class MenuService {
 
-  private endpointUrl: string = environment.ApiUrl + 'menu';
+  private endpointUrl: string = environment.apiUrl + 'menu';
   private http: HttpClient = inject(HttpClient);
 
   getAll(): Observable<any[]> {

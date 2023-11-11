@@ -8,7 +8,7 @@ import {Observable} from "rxjs";
 })
 export class ModuloApiService {
 
-  private endpointUrl: string = environment.ApiUrl + 'modulo';
+  private endpointUrl: string = environment.apiUrl + 'modulo';
   private http: HttpClient = inject(HttpClient);
 
   create(row: any): Observable<any> {
