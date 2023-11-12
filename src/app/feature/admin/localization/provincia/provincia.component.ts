@@ -1,45 +1,38 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {PopupProvinciaComponent} from './popup/popup.component';
 import {filter, Observable, Subject} from 'rxjs';
-import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {debounceTime, switchMap} from 'rxjs/operators';
 import {ToolsService} from "../../services/tools.service";
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificacionService} from "../../../../shared/services/notificacion.service";
 import {ProvinciaService} from "../services/provincia.service";
 import {Provincia} from "../interfaces/base.interface";
+import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-provincia',
   templateUrl: './provincia.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ProvinciaComponent implements OnInit, OnDestroy {
+export class ProvinciaComponent {
 
   private provinciaService: ProvinciaService<Provincia> = inject(ProvinciaService);
   private modalService: Dialog = inject(Dialog);
   private notificacionService: NotificacionService = inject(NotificacionService);
 
 
-  destroy$: Subject<void> = new Subject<void>();
   refreshTable$: Subject<void> = new Subject<void>();
 
-  lsRows = signal<Provincia[]>([]);
-  lsEstados$: Observable<any[]> = inject(ToolsService).status$;
-
-
-  ngOnInit() {
-    this.refreshTable$
+  //lsRows = signal<Provincia[]>([]);
+  lsRows = toSignal(
+    this.refreshTable$.asObservable()
       .pipe(
         debounceTime(500),
-        switchMap(() => this.getItems()),
-        takeUntil(this.destroy$)
-      ).subscribe();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
+        switchMap(() => this.provinciaService.getAll())
+      ),
+    {initialValue: []}
+  );
+  lsEstados$: Observable<any[]> = inject(ToolsService).status$;
 
   onToolbarPreparing(e: any) {
     e.toolbarOptions.items.unshift(
@@ -63,12 +56,6 @@ export class ProvinciaComponent implements OnInit, OnDestroy {
       });
   }
 
-  getItems() {
-    return this.provinciaService.getAll()
-      .pipe(
-        tap(response => this.lsRows.set(response))
-      );
-  }
 
   edit(row?: Provincia) {
     const isEdit = !!row;
@@ -101,7 +88,7 @@ export class ProvinciaComponent implements OnInit, OnDestroy {
         return;
       }
       this.provinciaService.delete(row.ID)
-        .subscribe(async data => {
+        .subscribe(() => {
           this.refreshTable$.next();
         });
     });

@@ -9,28 +9,30 @@
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [showBorders]="true">
 
-    <dxo-search-panel [visible]="true"
-    ></dxo-search-panel>
-    <dxo-filter-row [visible]=true
-    ></dxo-filter-row>
+    <dxo-search-panel [visible]="true"/>
+    <dxo-filter-row [visible]="true" />
 
-    <dxo-grouping [autoExpandAll]="true"
-    ></dxo-grouping>
+    <dxo-grouping [autoExpandAll]="true"/>
 
-    <dxo-export [enabled]="true" [fileName]="'Provincia'"
-                [allowExportSelectedData]="false"></dxo-export>
+    <dxo-export [enabled]="true"
+                [fileName]="'Provincia'"
+                [allowExportSelectedData]="false"
+    />
 
-    <dxo-paging [pageSize]="10"></dxo-paging>
-    <dxo-pager
-      [showPageSizeSelector]="true"
-      [allowedPageSizes]="[10, 20, 30]"
-      [showInfo]="true">
-    </dxo-pager>
+    <dxo-paging [pageSize]="10"/>
+    <dxo-pager [showPageSizeSelector]="true"
+               [allowedPageSizes]="[10, 20, 30]"
+               [showInfo]="true"
+    />
 
-    <dxi-column caption="Opciones" [width]="120" [allowFiltering]="false"
-                [allowExporting]="false" [fixed]="true"
-                [allowSorting]="false" cellTemplate="cellOptionsTemplate">
-    </dxi-column>
+    <dxi-column caption="Opciones"
+                [width]="120"
+                [allowFiltering]="false"
+                [allowExporting]="false"
+                [fixed]="true"
+                [allowSorting]="false"
+                cellTemplate="cellOptionsTemplate"
+    />
     <dxi-column dataField="Descripcion"
                 caption="Nombre Provincia"
     ></dxi-column>
