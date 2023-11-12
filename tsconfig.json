@@ -29,6 +29,9 @@
       ],
       "@environments/*": [
         "src/environments/*"
+      ],
+      "@service-shared/*": [
+        "src/app/shared/services/*"
       ]
     }
   },

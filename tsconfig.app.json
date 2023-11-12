@@ -16,6 +16,9 @@
       ],
       "@standalone-shared/*": [
         "src/app/shared/components/*"
+      ],
+      "@service-shared/*": [
+        "src/app/shared/services/*"
       ]
     }
   },
