@@ -62,6 +62,12 @@ export class InspeccionService {
     return this.http.put(this.urlBase + `inspeccion/${idInspect}/inspector/${idInspector}`, null);
   }
 
+  assigmentInspectorByIds(idInspector: number, idsInspection: number[]) {
+    return this.http.put(this.urlBase + `inspeccion/inspector/${idInspector}`, {
+      idsInspection
+    });
+  }
+
   downloadForm(idInspect: number) {
     return this.http.get(this.urlBase + `pdf_download/${idInspect}`, {
       headers: {

@@ -1,18 +1,14 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
-import {AsyncPipe, CommonModule} from '@angular/common';
+import {AsyncPipe} from '@angular/common';
 import {CardComponent} from "@standalone-shared/card/card.component";
-import {DxDataGridModule, DxSelectBoxModule, DxTemplateModule, DxTreeListModule} from "devextreme-angular";
-import {
-  DxiColumnModule,
-  DxoColumnChooserModule,
-  DxoPagerModule,
-  DxoPagingModule,
-  DxoSearchPanelModule,
-  DxoSelectionModule, DxoSortingModule
-} from "devextreme-angular/ui/nested";
+import {DxButtonModule, DxDataGridModule, DxSelectBoxModule} from "devextreme-angular";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CatalogoService} from "../../../../services/catalogo.service";
 import {InspeccionService} from "../../services/inspeccion.service";
+import {NotificacionService} from "../../../../../../shared/services/notificacion.service";
+import {BehaviorSubject, switchMap} from "rxjs";
+import {toSignal} from "@angular/core/rxjs-interop";
+import {debounceTime} from "rxjs/operators";
 
 @Component({
   selector: 'app-asign-inspector',
@@ -23,7 +19,8 @@ import {InspeccionService} from "../../services/inspeccion.service";
     DxSelectBoxModule,
     FormsModule,
     ReactiveFormsModule,
-    DxDataGridModule
+    DxDataGridModule,
+    DxButtonModule,
   ],
   templateUrl: './asign-inspector.component.html',
   styleUrls: ['./asign-inspector.component.scss'],
@@ -31,15 +28,46 @@ import {InspeccionService} from "../../services/inspeccion.service";
 })
 export class AsignInspectorComponent {
   private readonly fb: FormBuilder = inject(FormBuilder);
+  private readonly notificacionService: NotificacionService = inject(NotificacionService);
   private readonly inspeccionService: InspeccionService = inject(InspeccionService);
 
+  refreshTable$ = new BehaviorSubject<void>(null as unknown as void);
   lsInspectors$ = inject(CatalogoService).obtenerInspector()
-  lsItemsPending$ = this.inspeccionService.getItemsPending();
+  lsItemsPending = toSignal(
+    this.refreshTable$.asObservable()
+      .pipe(
+        debounceTime(500),
+        switchMap(() => this.inspeccionService.getItemsPending())
+      )
+  );
   selectedInspection = signal<number[]>([]);
   itemForm: FormGroup = this.fb.group({
     IdRol: [null, Validators.required],
   });
 
   saveModuleInRol() {
+
+    if (this.selectedInspection().length == 0)
+      return;
+
+    this.notificacionService.showSwalConfirm({
+      title: 'Desea asignar el inspector a la inspección?',
+      confirmButtonText: 'Si, asignar',
+    }).then((result) => {
+      if (!result) return;
+
+      this.inspeccionService.assigmentInspectorByIds(this.itemForm.getRawValue().IdRol, this.selectedInspection())
+        .subscribe(
+          () => {
+            this.selectedInspection.set([]);
+            this.refreshTable$.next();
+            this.notificacionService.showSwalNotif({
+              title: 'Asignación exitosa',
+              icon: 'success',
+            })
+          }
+        )
+    });
+
   }
 }
