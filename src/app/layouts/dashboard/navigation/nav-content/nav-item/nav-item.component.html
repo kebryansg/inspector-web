@@ -5,9 +5,11 @@
        [routerLink]="[item.url]"
        (click)="closeOtherMenu($event)">
       <ng-container *ngTemplateOutlet="itemIcon"></ng-container>
-      <span class="pcoded-mtext" *ngIf="item.icon; else directTitle">{{ item.title }}</span>
+      <span class="pcoded-mtext" *ngIf="item.icon; else directTitle">
+        {{ item.title }}
+      </span>
       <ng-template #directTitle>
-        {{item.title}}
+         {{item.title}}
       </ng-template>
       <ng-container *ngTemplateOutlet="itemBadge"></ng-container>
     </a>

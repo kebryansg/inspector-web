@@ -28,7 +28,6 @@
   </div>
   <ul class="nav pcoded-inner-navbar" (clickOutside)="fireOutClick()">
     <ng-container *ngFor="let item of navigation$ | async">
-<!--      <app-nav-group *ngIf="item.type=='group'" [item]="item"></app-nav-group>-->
       <app-nav-collapse *ngIf="item.type=='collapse'" [item]="item"></app-nav-collapse>
       <app-nav-item *ngIf="item.type=='item'" [item]="item"></app-nav-item>
     </ng-container>

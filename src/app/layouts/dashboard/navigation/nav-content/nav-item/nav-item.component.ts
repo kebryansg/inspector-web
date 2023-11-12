@@ -1,6 +1,6 @@
 import {Component, inject, Input, OnInit} from '@angular/core';
 import {NavigationItem} from '../../navigation.interface';
-import {DOCUMENT, Location, NgClass, NgIf, NgTemplateOutlet} from '@angular/common';
+import {DOCUMENT, NgClass, NgIf, NgTemplateOutlet} from '@angular/common';
 import {layoutConfig} from "../../../layout.config";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 
@@ -24,7 +24,7 @@ export class NavItemComponent implements OnInit {
 
   document = inject(DOCUMENT)
 
-  constructor(private location: Location) {
+  constructor() {
     this.nextConfig = layoutConfig;
     this.themeLayout = this.nextConfig['layout'];
   }
