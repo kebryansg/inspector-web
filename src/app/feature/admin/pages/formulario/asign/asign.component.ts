@@ -5,7 +5,7 @@ import {Component, OnInit} from '@angular/core';
   templateUrl: './asign.component.html',
   styleUrls: []
 })
-export class AsignFormularioComponent implements OnInit {
+export class AssignFormComponent implements OnInit {
 
   slCategoria: number = -1;
   slActEconomica: number = -1;

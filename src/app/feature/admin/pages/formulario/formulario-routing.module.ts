@@ -2,7 +2,8 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {ListaFormularioComponent} from './lista-formulario/lista-formulario.component';
 import {ConfigFormularioComponent} from './lista-formulario/config/config.component';
-import {AsignFormularioComponent} from './asign/asign.component';
+import {AssignFormComponent} from './asign/asign.component';
+import {formIdResolver} from "./resolvers/form-id.resolver";
 
 const routes: Routes = [
   {
@@ -15,7 +16,7 @@ const routes: Routes = [
       },
       {
         path: 'asign',
-        component: AsignFormularioComponent,
+        component: AssignFormComponent,
         title: 'Formulario - Categoría',
       },
       //{
@@ -27,6 +28,9 @@ const routes: Routes = [
         path: 'config/:id',
         component: ConfigFormularioComponent,
         title: 'Configurar Formulario',
+        resolve: {
+          formData: formIdResolver
+        }
       },
     ]
   }

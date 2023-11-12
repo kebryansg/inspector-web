@@ -5,7 +5,7 @@ import {FormularioRoutingModule} from './formulario-routing.module';
 import {FormsModule} from '@angular/forms';
 import {ListaFormularioComponent} from './lista-formulario/lista-formulario.component';
 import {ConfigFormularioComponent} from './lista-formulario/config/config.component';
-import {AsignFormularioComponent} from './asign/asign.component';
+import {AssignFormComponent} from './asign/asign.component';
 import {CardComponent} from "../../../../shared/components/card/card.component";
 import {DxButtonModule, DxDataGridModule, DxFormModule, DxNumberBoxModule, DxSwitchModule} from "devextreme-angular";
 
@@ -25,7 +25,7 @@ import {DxButtonModule, DxDataGridModule, DxFormModule, DxNumberBoxModule, DxSwi
   declarations: [
     ListaFormularioComponent,
     ConfigFormularioComponent,
-    AsignFormularioComponent,
+    AssignFormComponent,
   ],
 })
 export class FormularioModule {
