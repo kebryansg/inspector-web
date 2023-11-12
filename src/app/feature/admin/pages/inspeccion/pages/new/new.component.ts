@@ -7,7 +7,7 @@ import CustomStore from 'devextreme/data/custom_store';
 import {InspeccionService} from "../../services/inspeccion.service";
 import {CatalogoService} from "../../../../services/catalogo.service";
 import {EmpresaService, EntidadService} from "../../../sociedad/services";
-import {NotificacionService} from "../../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {Empresa, Entidad} from "../../../sociedad/interfaces";
 
 @Component({
@@ -19,7 +19,7 @@ import {Empresa, Entidad} from "../../../sociedad/interfaces";
 export class NewInspeccionComponent implements OnInit {
 
   private inspeccionService: InspeccionService = inject(InspeccionService);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);
   private empresaService: EmpresaService<Empresa> = inject(EmpresaService);
   private entidadService: EntidadService<Entidad> = inject(EntidadService);

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, OnDestroy,} from '@angular/core';
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {filter, Observable, Subject} from "rxjs";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {debounceTime, switchMap} from "rxjs/operators";
@@ -17,7 +17,7 @@ export class DepartamentoComponent implements OnDestroy {
 
   private departamentoService: DepartamentoService = inject(DepartamentoService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
 
   refreshTable$: Subject<void> = new Subject<void>();

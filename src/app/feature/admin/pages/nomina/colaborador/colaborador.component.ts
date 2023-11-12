@@ -4,7 +4,7 @@ import {filter, Observable, Subject} from 'rxjs';
 import {debounceTime, map, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {CatalogoService} from "../../../services/catalogo.service";
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
 import {ColaboradorService} from "../services/colaborador.service";
 
@@ -18,7 +18,7 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
   private colaboradorService: ColaboradorService = inject(ColaboradorService);
   private catalogoService: CatalogoService = inject(CatalogoService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
 
   destroy$: Subject<void> = new Subject<void>();

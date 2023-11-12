@@ -4,7 +4,7 @@ import {tap} from 'rxjs/internal/operators/tap';
 import {Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap, takeUntil} from 'rxjs/operators';
 import {UserCrudService} from "../services/user-crud.service";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
 
 @Component({
@@ -15,7 +15,7 @@ import {ToolsService} from "../../../services/tools.service";
 export class UsuarioComponent implements OnInit, OnDestroy {
 
   private userCrudService: UserCrudService<any> = inject(UserCrudService);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 

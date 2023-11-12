@@ -4,7 +4,7 @@ import {filter, Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap} from 'rxjs/operators';
 import {ToolsService} from "../../services/tools.service";
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {ProvinciaService} from "../services/provincia.service";
 import {Provincia} from "../interfaces/base.interface";
 import {toSignal} from "@angular/core/rxjs-interop";
@@ -18,7 +18,7 @@ export class ProvinciaComponent {
 
   private provinciaService: ProvinciaService<Provincia> = inject(ProvinciaService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
 
   refreshTable$: Subject<void> = new Subject<void>();

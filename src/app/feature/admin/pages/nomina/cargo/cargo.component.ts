@@ -3,7 +3,7 @@ import {PopupCargoComponent} from './popup/popup.component';
 import {filter, Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap} from 'rxjs/operators';
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
 import {CargoService} from "../services/cargo.service";
 import {toSignal} from "@angular/core/rxjs-interop";
@@ -17,7 +17,7 @@ export class CargoComponent implements OnDestroy {
 
   private cargoService: CargoService = inject(CargoService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
 
   refreshTable$: Subject<void> = new Subject<void>();

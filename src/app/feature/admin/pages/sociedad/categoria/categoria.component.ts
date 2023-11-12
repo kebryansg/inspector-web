@@ -3,7 +3,7 @@ import {filter, Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {PopupCategoriaComponent} from './popup/popup.component';
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
 import {CategoriaService} from "../services/categoria.service";
 
@@ -15,7 +15,7 @@ import {CategoriaService} from "../services/categoria.service";
 export class CategoriaComponent implements OnInit, OnDestroy {
   private categoriaService: CategoriaService<any> = inject(CategoriaService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
 
   destroy$: Subject<void> = new Subject<void>();

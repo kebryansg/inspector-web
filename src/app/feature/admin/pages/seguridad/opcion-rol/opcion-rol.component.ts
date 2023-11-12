@@ -3,7 +3,7 @@ import {debounceTime, filter, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {DxTreeListComponent} from 'devextreme-angular';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {MenuService} from "../services/menu.service";
 import {CatalogoService} from "../../../services/catalogo.service";
 import {toSignal} from "@angular/core/rxjs-interop";
@@ -20,7 +20,7 @@ export class OpcionRolComponent implements OnInit, OnDestroy {
   private readonly fb: FormBuilder = inject(FormBuilder);
   private readonly catalogoService: CatalogoService = inject(CatalogoService);
   private readonly menuService: MenuService = inject(MenuService);
-  private readonly notificacionService: NotificacionService = inject(NotificacionService);
+  private readonly notificacionService: NotificationService = inject(NotificationService);
 
 
   destroy$: Subject<void> = new Subject<void>();

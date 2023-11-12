@@ -8,7 +8,7 @@ import {ToolsService} from "../../../services/tools.service";
 import {typeEntitySignal} from "../../const/type-entidad.const";
 import {Dialog} from "@angular/cdk/dialog";
 import {EntidadService} from "../services";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 
@@ -21,7 +21,7 @@ export class EntidadComponent implements OnInit, OnDestroy {
 
   private entidadService: EntidadService<any> = inject(EntidadService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
 
   destroy$: Subject<void> = new Subject<void>();

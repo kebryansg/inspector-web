@@ -6,13 +6,6 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxButtonModule, DxDataGridModule, DxDateBoxModule, DxDropDownBoxModule, DxFormModule, DxSelectBoxModule} from "devextreme-angular";
 import {NewInspeccionComponent} from './pages/new/new.component';
-//import {ViewInspeccionComponent} from './list/view/view.component';
-//import {WebInspeccionComponent} from './web/web.component';
-//import {MiInspeccionComponent} from './mi-inspeccion/mi-inspeccion.component';
-// import {AngularFirestoreModule} from '@angular/fire/firestore';
-// import {AngularFireAuthModule} from '@angular/fire/auth';
-// import {AngularFireStorageModule} from '@angular/fire/storage';
-// import {AngularFireDatabase} from '@angular/fire/database';
 
 
 @NgModule({

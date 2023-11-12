@@ -4,7 +4,7 @@ import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {PopupCantonComponent} from './popup/popup.component';
 import {ToolsService} from "../../services/tools.service";
 import {CantonService} from "../services/canton.service";
-import {NotificacionService} from "../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {Dialog} from "@angular/cdk/dialog";
 import {Canton} from "../interfaces/base.interface";
 
@@ -17,7 +17,7 @@ export class CantonComponent implements OnInit, OnDestroy {
 
   private cantonService: CantonService<Canton> = inject(CantonService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
   destroy$: Subject<void> = new Subject<void>();
   refreshTable$: Subject<void> = new Subject<void>();

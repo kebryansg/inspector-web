@@ -3,7 +3,7 @@ import {Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ActivatedRoute, Router} from '@angular/router';
 import {GrupoService} from "../services";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
 
 @Component({
@@ -13,7 +13,7 @@ import {ToolsService} from "../../../services/tools.service";
 export class GrupoComponent implements OnInit, OnDestroy {
 
     private grupoService: GrupoService<any> = inject(GrupoService);
-    private notificacionService: NotificacionService = inject(NotificacionService);
+    private notificacionService: NotificationService = inject(NotificationService);
 
     private router: Router = inject(Router);
     private activatedRoute: ActivatedRoute = inject(ActivatedRoute);

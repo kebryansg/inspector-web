@@ -5,7 +5,7 @@ import {DxButtonModule, DxDataGridModule, DxSelectBoxModule} from "devextreme-an
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CatalogoService} from "../../../../services/catalogo.service";
 import {InspeccionService} from "../../services/inspeccion.service";
-import {NotificacionService} from "../../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {BehaviorSubject, switchMap} from "rxjs";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {debounceTime} from "rxjs/operators";
@@ -28,7 +28,7 @@ import {debounceTime} from "rxjs/operators";
 })
 export class AsignInspectorComponent {
   private readonly fb: FormBuilder = inject(FormBuilder);
-  private readonly notificacionService: NotificacionService = inject(NotificacionService);
+  private readonly notificacionService: NotificationService = inject(NotificationService);
   private readonly inspeccionService: InspeccionService = inject(InspeccionService);
 
   refreshTable$ = new BehaviorSubject<void>(null as unknown as void);

@@ -4,7 +4,7 @@ import {filter, Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ToolsService} from "../../../services/tools.service";
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {TipoEmpresaService} from "../services/tipo-empresa.service";
 
 @Component({
@@ -16,7 +16,7 @@ export class TipoEmpresaComponent implements OnInit, OnDestroy {
 
   private tipoEmpresaService: TipoEmpresaService<any> = inject(TipoEmpresaService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
 
   destroy$: Subject<void> = new Subject<void>();

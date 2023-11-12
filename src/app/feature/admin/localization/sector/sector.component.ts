@@ -3,7 +3,7 @@ import {PopupSectorComponent} from './popup/popup.component';
 import {filter, Subject} from 'rxjs';
 import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../services/tools.service";
 import {SectorService} from "../services/sector.service";
 import {Sector} from "../interfaces/base.interface";
@@ -17,7 +17,7 @@ export class SectorComponent implements OnInit, OnDestroy {
 
   private sectorService: SectorService<Sector> = inject(SectorService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
   destroy$: Subject<void> = new Subject<void>();
   refreshTable$: Subject<void> = new Subject<void>();

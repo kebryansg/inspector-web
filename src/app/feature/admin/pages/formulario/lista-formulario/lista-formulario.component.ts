@@ -5,7 +5,7 @@ import {debounceTime, switchMap} from 'rxjs/operators';
 import {ToolsService} from "../../../services/tools.service";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {FormService} from "../services/form.service";
 
 @Component({
@@ -16,7 +16,7 @@ import {FormService} from "../services/form.service";
 export class ListaFormularioComponent implements OnDestroy {
   private formService: FormService = inject(FormService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
   refreshTable$: Subject<void> = new Subject<void>();
 

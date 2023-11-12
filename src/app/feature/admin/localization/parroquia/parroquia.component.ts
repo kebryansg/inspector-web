@@ -3,7 +3,7 @@ import {PopupParroquiaComponent} from './popup/popup.component';
 import {filter, Subject} from 'rxjs';
 import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../services/tools.service";
 import {ParroquiaService} from "../services/parroquia.service";
 import {Parroquia} from "../interfaces/base.interface";
@@ -17,7 +17,7 @@ export class ParroquiaComponent implements OnInit, OnDestroy {
 
   private parroquiaService: ParroquiaService<Parroquia> = inject(ParroquiaService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
 
   destroy$: Subject<void> = new Subject<void>();

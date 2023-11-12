@@ -14,7 +14,7 @@ import {CatalogoService} from "../../../../services/catalogo.service";
 import {headersParams} from "../../../../../../shared/utils/data-grid.util";
 import {isNotEmpty} from "../../../../../../shared/utils/empty.util";
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 
 declare var configuracion: any;
 
@@ -27,7 +27,7 @@ export class ListComponent implements OnInit, OnDestroy {
 
   private inspeccionService: InspeccionService = inject(InspeccionService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 

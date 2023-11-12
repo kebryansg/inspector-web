@@ -5,7 +5,7 @@ import {BehaviorSubject, filter, Subject} from 'rxjs';
 import {OpcionPopupComponent} from './popup/popup.component';
 import {MenuService} from "../services/menu.service";
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {ModuloApiService} from "../services/modulo-api.service";
 import {toSignal} from "@angular/core/rxjs-interop";
 
@@ -20,7 +20,7 @@ export class OpcionComponent implements OnInit {
   private readonly moduloApiService: ModuloApiService = inject(ModuloApiService);
   private readonly menuService: MenuService = inject(MenuService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
 
   destroy$: Subject<void> = new Subject<void>();

@@ -3,7 +3,7 @@ import {PopupCompaniaComponent} from './popup/popup.component';
 import {filter, Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap} from 'rxjs/operators';
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {CompaniaService} from "../services/compania.service";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {ToolsService} from "../../../services/tools.service";
@@ -17,7 +17,7 @@ export class CompaniaComponent implements OnDestroy {
 
   private companiaService: CompaniaService = inject(CompaniaService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
 
   refreshTable$: Subject<void> = new Subject<void>();

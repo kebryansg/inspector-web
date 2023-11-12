@@ -5,7 +5,7 @@ import {map} from 'rxjs/operators';
 import {SistemaCatalogService} from '../../services/sistema-catalog.service';
 import {filter, Observable} from 'rxjs';
 import {Colaborador} from '../../interfaces/colaborador.interface';
-import {NotificacionService} from "../../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {UserCrudService} from "../../services/user-crud.service";
 import {toSignal} from "@angular/core/rxjs-interop";
 
@@ -21,7 +21,7 @@ export class NewUsuarioComponent implements OnInit {
   private route: ActivatedRoute = inject(ActivatedRoute);
   private userCrudService: UserCrudService<any> = inject(UserCrudService);
   private catalogService: SistemaCatalogService = inject(SistemaCatalogService);
-  public notificacionService: NotificacionService = inject(NotificacionService);
+  public notificacionService: NotificationService = inject(NotificationService);
 
 
   form!: FormGroup;

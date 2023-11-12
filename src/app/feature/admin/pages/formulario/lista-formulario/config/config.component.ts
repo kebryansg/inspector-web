@@ -6,7 +6,7 @@ import {switchMap, takeUntil, tap} from 'rxjs/operators';
 import {filter, map, Subject} from 'rxjs';
 import {FormService} from "../../services/form.service";
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "@service-shared/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {FormDataResolver} from "../../interfaces/form-data-resolver.interface";
 
@@ -21,7 +21,7 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
   private router: Router = inject(Router);
   private formService: FormService = inject(FormService);
   private modalService: Dialog = inject(Dialog);
-  private notificationService: NotificacionService = inject(NotificacionService);
+  private notificationService: NotificationService = inject(NotificationService);
 
   destroy$: Subject<void> = new Subject<void>();
 

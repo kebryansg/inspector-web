@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {forkJoin, of, Subject} from 'rxjs';
 import {switchMap, takeUntil} from 'rxjs/operators';
-import {NotificacionService} from "../../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {CatalogoService} from "../../../../services/catalogo.service";
 import {ToolsService} from "../../../../services/tools.service";
 import {Empresa} from "../../interfaces/empresa.interface";
@@ -63,7 +63,7 @@ const longTabs = [
 export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private fb: FormBuilder = inject(FormBuilder);
-    private notificacionService: NotificacionService = inject(NotificacionService);
+    private notificacionService: NotificationService = inject(NotificationService);
     private catalogoService: CatalogoService = inject(CatalogoService);
     private router: Router = inject(Router);
     private activatedRoute: ActivatedRoute = inject(ActivatedRoute);

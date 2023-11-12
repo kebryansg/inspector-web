@@ -4,7 +4,7 @@ import Swal, {SweetAlertOptions} from 'sweetalert2';
 @Injectable({
   providedIn: 'root',
 })
-export class NotificacionService {
+export class NotificationService {
 
   //#region Swal Notificacion
   showSwalNotif(x: { title: string, icon?: 'success' | 'error' }): void {

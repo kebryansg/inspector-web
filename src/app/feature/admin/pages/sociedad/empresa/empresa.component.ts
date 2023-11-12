@@ -5,7 +5,7 @@ import {Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {CatalogoService} from "../../../services/catalogo.service";
 import {EmpresaService} from "../services";
 
@@ -18,7 +18,7 @@ export class EmpresaComponent implements OnInit {
 
   private empresaService: EmpresaService<any> = inject(EmpresaService);
   private catalogoService: CatalogoService = inject(CatalogoService);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 

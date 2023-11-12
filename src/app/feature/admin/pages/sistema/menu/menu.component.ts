@@ -2,7 +2,7 @@ import {Component, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {DxTreeListComponent} from 'devextreme-angular';
 import {Observable, Subject} from 'rxjs';
 import {debounceTime, finalize, map, switchMap, takeUntil, tap} from 'rxjs/operators';
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {RolService} from "../services/rol.service";
 import {MenuCrudService} from "../services/menu-crud.service";
 
@@ -13,7 +13,7 @@ import {MenuCrudService} from "../services/menu-crud.service";
 export class MenuComponent implements OnInit, OnDestroy {
   @ViewChild('dxTreeData') treeList!: DxTreeListComponent;
 
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
   private rolService: RolService<any> = inject(RolService);
   private menuService: MenuCrudService = inject(MenuCrudService);
 

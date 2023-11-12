@@ -3,7 +3,7 @@ import {NgClass} from '@angular/common';
 import {Router, RouterModule} from "@angular/router";
 import {layoutConfig} from "../../layout.config";
 import {DxDropDownButtonModule} from "devextreme-angular";
-import {NotificacionService} from "../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {LoginService} from "../../../../service/login.service";
 
 @Component({
@@ -16,7 +16,7 @@ import {LoginService} from "../../../../service/login.service";
 })
 export class NavbarComponent {
   private readonly router: Router = inject(Router);
-  private readonly notificacionService: NotificacionService = inject(NotificacionService);
+  private readonly notificacionService: NotificationService = inject(NotificationService);
   private readonly loginService: LoginService = inject(LoginService);
 
   public nextConfig: any;

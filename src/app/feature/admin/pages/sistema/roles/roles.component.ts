@@ -3,7 +3,7 @@ import {tap} from 'rxjs/internal/operators/tap';
 import {filter, Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap, takeUntil} from 'rxjs/operators';
 import {PopupRolComponent} from './popup/popup.component';
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
 import {RolService} from "../services/rol.service";
 import {Dialog} from "@angular/cdk/dialog";
@@ -15,7 +15,7 @@ import {Dialog} from "@angular/cdk/dialog";
 })
 export class RolesComponent implements OnInit, OnDestroy {
 
-  private notificacionService: NotificacionService = inject(NotificacionService)
+  private notificacionService: NotificationService = inject(NotificationService)
   private rolService: RolService<any> = inject(RolService)
   private modalService: Dialog = inject(Dialog)
 

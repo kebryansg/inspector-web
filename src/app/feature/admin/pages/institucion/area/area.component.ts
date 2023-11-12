@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject, OnDestroy,} from '@angular/c
 import {filter, Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap} from 'rxjs/operators';
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {AreaService} from "../services/area.service";
 import {CatalogoService} from "../../../services/catalogo.service";
 import {ToolsService} from "../../../services/tools.service";
@@ -18,7 +18,7 @@ export class AreaComponent implements OnDestroy {
 
   private areaService: AreaService = inject(AreaService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
 
   refreshTable$: Subject<void> = new Subject<void>();

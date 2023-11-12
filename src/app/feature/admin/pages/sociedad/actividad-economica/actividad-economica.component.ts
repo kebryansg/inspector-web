@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject, OnInit, signal,} from '@angu
 import {filter, Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap, tap} from 'rxjs/operators';
 import {Dialog} from "@angular/cdk/dialog";
-import {NotificacionService} from "../../../../../shared/services/notificacion.service";
+import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
 import {PopupActividadEconomicaComponent} from "./popup/popup.component";
 import {ActividadEconomicaService} from "../services";
@@ -17,7 +17,7 @@ export class ActividadEconomicaComponent implements OnInit {
 
   private actividadEconomicaService: ActividadEconomicaService<any> = inject(ActividadEconomicaService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificacionService = inject(NotificacionService);
+  private notificacionService: NotificationService = inject(NotificationService);
 
 
   refreshTable$: Subject<void> = new Subject<void>();
