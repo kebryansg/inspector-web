@@ -2,8 +2,8 @@ import {AfterViewInit, Component, inject} from '@angular/core';
 import {DxFormModule} from "devextreme-angular";
 import {NgIf, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
-import {debounceTime, map, Subject, switchMap, tap} from "rxjs";
-import {LoginService} from "../service/login.service";
+import {debounceTime, map, Subject, switchMap} from "rxjs";
+import {LoginService} from "../../../service/login.service";
 import {Router} from "@angular/router";
 
 @Component({
@@ -40,15 +40,14 @@ export class LoginComponent implements AfterViewInit {
       .pipe(
         debounceTime(500),
         map(() => this.loginData),
-        tap(console.log),
         switchMap(({Email, Password}) =>
           this.loginService.login({
             username: Email,
             password: Password
           })
         ),
-      ).subscribe(response => {
-      this.router.navigate(['/admin'])
+      ).subscribe(() => {
+      this.router.navigate([''])
     })
   }
 

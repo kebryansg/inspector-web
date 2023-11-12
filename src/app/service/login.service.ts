@@ -1,9 +1,9 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {tap} from "rxjs";
-import {KeyLocalStorage} from "../enums/key-storage.enum";
-import {environment} from "../../../../environments/environment";
-import {LoginResponse} from "../interfaces/login.interface";
+import {KeyLocalStorage} from "../feature/auth/enums/key-storage.enum";
+import {environment} from "@environments/environment";
+import {LoginResponse} from "../feature/auth/interfaces/login.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -29,6 +29,15 @@ export class LoginService {
           }
         })
       )
+  }
+
+  logout() {
+    localStorage.removeItem(KeyLocalStorage.Token);
+    localStorage.removeItem(KeyLocalStorage.TokenType);
+  }
+
+  existLogin() : boolean {
+    return !!localStorage.getItem(KeyLocalStorage.Token);
   }
 
   setToken(typeToken: string, token: string) {
