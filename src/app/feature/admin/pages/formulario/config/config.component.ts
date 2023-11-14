@@ -1,14 +1,14 @@
 import {Component, inject, OnDestroy, OnInit,} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PopupSeccionComponent} from '../../catalogo/seccion/popup/popup.component';
-import {PopupComponenteComponent} from '../../catalogo/componente/popup/popup.component';
+import {PopupSeccionComponent} from '../catalogo/seccion/popup/popup.component';
+import {PopupComponenteComponent} from '../catalogo/componente/popup/popup.component';
 import {switchMap, takeUntil, tap} from 'rxjs/operators';
 import {filter, map, Subject} from 'rxjs';
-import {FormService} from "../../services/form.service";
+import {FormService} from "../services/form.service";
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
 import {toSignal} from "@angular/core/rxjs-interop";
-import {FormDataResolver} from "../../interfaces/form-data-resolver.interface";
+import {FormDataResolver} from "../interfaces/form-data-resolver.interface";
 
 @Component({
   selector: 'app-config',

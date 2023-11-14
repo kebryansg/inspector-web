@@ -1,90 +1,87 @@
-<div class="auth-wrapper">
-  <div class="auth-content">
-    <div class="card">
-      <div class="row align-items-center">
+<section class="container-page">
+  <header>
+    <img ngSrc="assets/images/logo/TECHLINK_LOGOTIPO_v2_256.png"
+         alt="Logo" height="50" width="155">
+  </header>
+  <main>
+    <form class="form-login" (ngSubmit)="$submitLogin.next()"
+          action="javascript:">
+
+      <div class="row mb-3" *ngIf="!production">
         <div class="col-md-12">
-          <div class="card-body p-2">
-
-            <form (ngSubmit)="$submitLogin.next()"
-                  action="javascript:">
-
-              <div class="row mb-3" *ngIf="!production">
-                <div class="col-md-12">
-                  <div class="text-center font-weight-bold f-14 text-googleplus border w-100 p-2">
+          <div class="text-center font-weight-bold f-14 text-googleplus border w-100 p-2">
                     <span class="badge-ambiente">
                       AMBIENTE {{ambiente}}
                     </span>
-                  </div>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-12">
-                  <dx-form [(formData)]="loginData"
-                           labelLocation="top"
-                           [width]="'100%'"
-                           [showColonAfterLabel]="true"
-                           [showValidationSummary]="true"
-                           validationGroup="customerData">
-                    <dxi-item itemType="group" caption="Iniciar Sesión">
-                      <dxi-item dataField="Email">
-                        <dxi-validation-rule type="required"
-                                             message="Email es requerido">
-                        </dxi-validation-rule>
-                        <dxi-validation-rule type="email"
-                                             message="Email es incorrecto."
-                        ></dxi-validation-rule>
-                        <!--
-                        <dxi-validation-rule type="async"
-                                             message="Email no existe."
-                                             [validationCallback]="asyncValidation"
-                        ></dxi-validation-rule>
-                        -->
-                      </dxi-item>
-                      <dxi-item dataField="Password"
-                                [label]="{text:'Contraseña'}"
-                                [editorOptions]="{ mode: 'password' }">
-                        <dxi-validation-rule type="required"
-                                             message="Contraseña es requerida"
-                        ></dxi-validation-rule>
-                      </dxi-item>
-                      <dxi-item itemType="button"
-                                horizontalAlignment="right"
-                                [buttonOptions]="buttonOptions"
-                      ></dxi-item>
-                    </dxi-item>
-                  </dx-form>
-                </div>
-              </div>
-              <hr style="margin: 0 0 7px;"/>
-              <div class="row">
-                <div class="col-md-12 text-right">
-                  <span class="font-weight-bold text-danger">
-                    Navegadores Preferencia
-                  </span>
-                </div>
-                <div class="col-md-12 d-flex flex-row flex-nowrap justify-content-between">
-                  <span class="font-weight-bold text-danger">
-                    {{message}}
-                  </span>
-                  <div>
-                    <img ngSrc="assets/images/navegador/ms-edge-new.png"
-                         width="50"
-                         height="50"
-                         alt="Edge Navegador">
-                    <img ngSrc="assets/images/navegador/google-chrome.png"
-                         width="50"
-                         height="50"
-                         alt="Edge Navegador">
-                  </div>
-                </div>
-              </div>
-
-            </form>
-
           </div>
         </div>
       </div>
-    </div>
-  </div>
-</div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <dx-form [(formData)]="loginData"
+                   labelLocation="top"
+                   [width]="'100%'"
+                   [showColonAfterLabel]="true"
+                   [showValidationSummary]="true"
+                   validationGroup="customerData">
+            <dxi-item itemType="group" caption="Iniciar Sesión">
+              <dxi-item dataField="Email">
+                <dxi-validation-rule type="required"
+                                     message="Email es requerido">
+                </dxi-validation-rule>
+                <dxi-validation-rule type="email"
+                                     message="Email es incorrecto."
+                ></dxi-validation-rule>
+                <!--
+                <dxi-validation-rule type="async"
+                                     message="Email no existe."
+                                     [validationCallback]="asyncValidation"
+                ></dxi-validation-rule>
+                -->
+              </dxi-item>
+              <dxi-item dataField="Password"
+                        [label]="{text:'Contraseña'}"
+                        [editorOptions]="{ mode: 'password' }">
+                <dxi-validation-rule type="required"
+                                     message="Contraseña es requerida"
+                ></dxi-validation-rule>
+              </dxi-item>
+              <dxi-item itemType="button"
+                        horizontalAlignment="right"
+                        [buttonOptions]="buttonOptions"
+              ></dxi-item>
+            </dxi-item>
+          </dx-form>
+        </div>
+      </div>
+      <hr style="margin: 0 0 7px;"/>
+      <div class="row">
+        <div class="col-md-12 text-right">
+                  <span class="font-weight-bold text-danger">
+                    Navegadores Preferencia
+                  </span>
+        </div>
+        <div class="col-md-12 d-flex flex-row flex-nowrap justify-content-between">
+                  <span class="font-weight-bold text-danger">
+                    {{message}}
+                  </span>
+          <div>
+            <img ngSrc="assets/images/navegador/ms-edge-new.png"
+                 width="50"
+                 height="50"
+                 alt="Edge Navegador">
+            <img ngSrc="assets/images/navegador/google-chrome.png"
+                 width="50"
+                 height="50"
+                 alt="Edge Navegador">
+          </div>
+        </div>
+      </div>
+
+    </form>
+  </main>
+  <footer>
+    ©{{date | date: 'yyyy' }} Techlink Corp. | Techlink es una corporación registrada. Todos los derechos reservados.
+  </footer>
+</section>

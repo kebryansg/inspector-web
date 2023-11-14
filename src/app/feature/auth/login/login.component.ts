@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, inject} from '@angular/core';
 import {DxFormModule} from "devextreme-angular";
-import {NgIf, NgOptimizedImage} from "@angular/common";
+import {DatePipe, NgIf, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {debounceTime, map, Subject, switchMap} from "rxjs";
 import {LoginService} from "../../../service/login.service";
@@ -13,7 +13,8 @@ import {Router} from "@angular/router";
     FormsModule,
     NgIf,
     DxFormModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    DatePipe
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
@@ -23,6 +24,8 @@ export class LoginComponent implements AfterViewInit {
   private loginService = inject(LoginService)
   router = inject(Router)
 
+
+  date: Date = new Date();
   loginData: any;
   message: string = '';
   production: boolean = false;
@@ -46,9 +49,10 @@ export class LoginComponent implements AfterViewInit {
             password: Password
           })
         ),
-      ).subscribe(() => {
-      this.router.navigate([''])
-    })
+      )
+      .subscribe(() => {
+        this.router.navigate([''])
+      })
   }
 
 }
