@@ -3,7 +3,7 @@ import {DxFormModule} from "devextreme-angular";
 import {DatePipe, NgIf, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {debounceTime, map, Subject, switchMap} from "rxjs";
-import {LoginService} from "../../../service/login.service";
+import {LoginService} from "../../../services/login.service";
 import {Router} from "@angular/router";
 
 @Component({

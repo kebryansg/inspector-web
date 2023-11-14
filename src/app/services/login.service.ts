@@ -18,14 +18,6 @@ export class LoginService {
         tap((data: LoginResponse) => {
           if (data.access_token) {
             this.setToken(data.tokenType, data.access_token);
-
-            /*await showSwalMessage({
-              title: 'Inicio de Sesión exitoso',
-              text: `Bienvenido, `,
-              onAfterClose: () => this.router.navigate(['']),
-              timer: 3000
-            });*/
-
           }
         })
       )

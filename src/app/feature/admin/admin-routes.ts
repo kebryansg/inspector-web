@@ -1,5 +1,5 @@
 import {Routes} from "@angular/router";
-import {DashboardComponent} from "../../layouts/dashboard/dashboard.component";
+import {DashboardLiteComponent} from "../../layouts/dashboard-lite/pages/index.component";
 
 export const ADMIN_ROUTES: Routes = [
   {
@@ -9,7 +9,7 @@ export const ADMIN_ROUTES: Routes = [
   },
   {
     path: '',
-    component: DashboardComponent,
+    component: DashboardLiteComponent,
     children: [
       {
         path: 'localization',

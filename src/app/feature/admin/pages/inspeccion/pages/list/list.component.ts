@@ -1,7 +1,7 @@
 import {Component, inject, OnDestroy, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {AsignColaboradorComponent} from './asign/asign.component';
-//import {CrudService} from '@services/crud.service';
-//import {ExportService} from '@services/export.service';
+//import {CrudService} from '@services/crud.services';
+//import {ExportService} from '@services/export.services';
 import {filter, lastValueFrom, Observable, Subject} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, map, takeUntil} from 'rxjs/operators';

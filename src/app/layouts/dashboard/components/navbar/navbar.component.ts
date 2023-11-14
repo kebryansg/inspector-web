@@ -4,7 +4,7 @@ import {Router, RouterModule} from "@angular/router";
 import {layoutConfig} from "../../layout.config";
 import {DxDropDownButtonModule} from "devextreme-angular";
 import {NotificationService} from "@service-shared/notification.service";
-import {LoginService} from "../../../../service/login.service";
+import {LoginService} from "../../../../services/login.service";
 
 @Component({
   selector: 'app-navbar',
