@@ -1,13 +1,23 @@
+// Colores
+$color-background: #263238;
+$color-text: #f3f3f3;
+$color-text-hover: #000;
+$color-accent: #fff;
+$color-accent-hover: $color-text-hover;
+$color-shadow: #8690a3;
+$color-scrollbar: #556268;
+$color-sublevel: #898989;
+
 .sidenav {
   font-family: 'Roboto', sans-serif;
-  background: #263238;
+  background: $color-background;
   transition: all .5s ease;
   position: fixed;
   z-index: 1;
   top: 0;
   width: 5rem;
   height: 100vh;
-  box-shadow: 0.063rem 0 1.25rem 0 #8690a3;
+  box-shadow: 0.063rem 0 1.25rem 0 $color-shadow;
 
   .logo-container {
     display: flex;
@@ -16,7 +26,7 @@
     width: 100%;
 
     .logo {
-      background: #fff;
+      background: $color-accent;
       text-align: center;
       width: 3rem;
       min-width: 3rem;
@@ -32,7 +42,7 @@
       margin-left: 1.5rem;
       font-size: 24px;
       font-weight: 700;
-      color: #fff;
+      color: $color-accent;
     }
 
     .btn-close {
@@ -45,7 +55,7 @@
       border: none;
 
       .fa-times {
-        color: #fff;
+        color: $color-accent;
         font-size: 24px;
       }
     }
@@ -73,7 +83,7 @@
       display: flex;
       align-items: center;
       height: 3rem;
-      color: #f3f3f3;
+      color: $color-text;
       text-decoration: none;
       border-radius: 0.625rem;
       transition: all .3s ease;
@@ -92,28 +102,28 @@
     }
 
     .sidenav-nav-link:hover {
-      background-color: #fff;
-      color: #000;
+      background-color: $color-accent;
+      color: $color-text-hover;
 
       .menu-collapse-icon {
-        color: #000;
+        color: $color-text-hover;
       }
     }
   }
 }
 
 .active {
-  background-color: #fff;
+  background-color: $color-accent;
 
   .menu-collapse-icon,
   .sidenav-link-icon,
   .sidenav-link-text {
-    color: #000;
+    color: $color-text-hover;
   }
 }
 
 .active-sublevel {
-  color: #f3f3f3 !important;
+  color: $color-text !important;
   // opacity: 1 !important;
 }
 
@@ -123,7 +133,7 @@
   min-width: 2rem;
   margin: auto 0.5rem auto auto;
   text-align: center;
-  color: #f3f3f3;
+  color: $color-text;
 }
 
 .sublevel-nav {
@@ -135,7 +145,7 @@
       display: flex;
       align-items: center;
       height: 3rem;
-      color: #898989;
+      color: $color-sublevel;
       text-decoration: none;
       border-radius: 0.625rem;
       transition: all .3s ease;
@@ -154,7 +164,7 @@
     }
 
     .sublevel-nav-link:hover {
-      color: #f3f3f3;
+      color: $color-text;
     }
   }
 }
@@ -191,12 +201,12 @@
 }
 
 .scrollwrap::-webkit-scrollbar-thumb {
-  background-color: #556268;
+  background-color: $color-scrollbar;
   border-radius: 20px;
 }
 
 // works on firefox
 .scrollwrap {
   scrollbar-width: thin;
-  scrollbar-color: #556268 transparent;
+  scrollbar-color: $color-scrollbar transparent;
 }
