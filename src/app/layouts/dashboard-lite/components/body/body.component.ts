@@ -1,4 +1,4 @@
-import {Component, inject, Input} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {RouterOutlet} from "@angular/router";
 import {NgClass} from "@angular/common";
 import {SideNavService} from "../../services/side-nav.service";
@@ -16,14 +16,14 @@ import {SideNavService} from "../../services/side-nav.service";
 export class BodyComponent {
   private readonly sideNavService: SideNavService = inject(SideNavService);
 
-  collapsed = this.sideNavService.collapsed;
-  @Input() screenWidth = 0;
+  collapsed = this.sideNavService.collapsed$;
+  innerWidth = this.sideNavService.innerWidth$;
 
   getBodyClass(): string {
     let styleClass = '';
-    if (this.collapsed() && this.screenWidth > 768) {
+    if (this.collapsed() && this.innerWidth() > 768) {
       styleClass = 'body-trimmed';
-    } else if (this.collapsed() && this.screenWidth <= 768 && this.screenWidth > 0) {
+    } else if (this.collapsed() && this.innerWidth() <= 768 && this.innerWidth() > 0) {
       styleClass = 'body-md-screen'
     }
     return styleClass;
