@@ -34,41 +34,35 @@ interface SideNavToggle {
   ]
 })
 export class SidenavComponent implements OnInit {
-
+  public router: Router = inject(Router);
   private readonly menuService: MenuService = inject(MenuService);
   private readonly sideNavService: SideNavService = inject(SideNavService);
   @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
 
 
-  collapsed = this.sideNavService.collapsed;
-  screenWidth = 0;
+  collapsed = this.sideNavService.collapsed$;
+  screenWidth = this.sideNavService.innerWidth$;
   navData = toSignal<any[], any[]>(this.menuService.getMenu$, {initialValue: []});
   multiple: boolean = false;
 
   @HostListener('window:resize', ['$event'])
   onResize(event: any) {
-    this.screenWidth = window.innerWidth;
-    if (this.screenWidth <= 768) {
-      this.collapsed.set(false);
-      this.onToggleSideNav.emit({collapsed: this.collapsed(), screenWidth: this.screenWidth});
+    this.sideNavService.onSetInnerWindow(window.innerWidth);
+    if (this.screenWidth() <= 768) {
+      this.sideNavService.onCollapse(false);
     }
   }
 
-  constructor(public router: Router) {
-  }
-
   ngOnInit(): void {
-    this.screenWidth = window.innerWidth;
+    this.sideNavService.onSetInnerWindow(window.innerWidth);
   }
 
   toggleCollapse(): void {
-    this.collapsed.set(!this.collapsed());
-    this.onToggleSideNav.emit({collapsed: this.collapsed(), screenWidth: this.screenWidth});
+    this.sideNavService.toggleCollapsed();
   }
 
   closeSidenav(): void {
-    this.collapsed.set(false);
-    this.onToggleSideNav.emit({collapsed: this.collapsed(), screenWidth: this.screenWidth});
+    this.sideNavService.onCollapse(false);
   }
 
   handleClick(item: INavbarData): void {
