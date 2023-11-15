@@ -1,0 +1,13 @@
+.list-components {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+  background-color: #f4f7fa;
+}
+
+.btn-group-icons-custom {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 8px;
+}

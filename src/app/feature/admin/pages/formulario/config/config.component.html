@@ -39,8 +39,8 @@
       <h5 class="font-weight-bold">
         Sección
       </h5>
-      <button class="btn btn-sm btn-primary" (click)="newSeccion()">
-        <!-- <icofont ico="icofont-plus"></icofont> -->
+      <button class="btn btn-sm btn-primary" (click)="newSection()">
+        <i class="far fa-plus"></i>
         Agregar Sección
       </button>
     </div>
@@ -49,149 +49,18 @@
 
 <div class="row">
   <div class="col-lg-6 col-md-12 col-sm-12"
-       *ngFor="let seccion of lsSeccion(); let idx = index ">
+       *ngFor="let section of lsSeccion(); let idx = index ">
 
-    <div class="card my-2">
-      <div class="card-header d-flex flex-row flex-nowrap justify-content-between align-items-center">
-        <h5>{{ seccion.Descripcion | titlecase }}</h5>
+    <app-item-section [section]="section"
+                      [idx]="idx">
 
-        <div class="btn-group-icons-custom">
+      <app-item-component *ngFor="let component of section.componentes; let idxComp = index"
+                          [component]="component"
+                          [typeComponent]="component.IDTipoComp"
+      />
 
-          <dx-button icon="plus"
-                     (onClick)="addComponente(idx)"
-          />
-          <dx-button icon="edit"
-                     (onClick)="newSeccion(idx)"
-          />
-          <dx-button icon="trash"
-                     (onClick)="deleteSeccion(idx)"
-          />
+    </app-item-section>
 
-          <!--
-          <icofont ico="icofont-plus m-r-15 f-20 text-primary cursor-pointer"
-                   ngbTooltip="Agregar Componente"
-                   (click)="addComponente(idx)"></icofont>
-          <icofont ico="icofont-edit m-r-15 f-20 text-primary cursor-pointer"
-                   ngbTooltip="Editar Sección"
-                   (click)="newSeccion(idx)"></icofont>
-
-          <icofont ico="icofont-trash f-20 text-danger cursor-pointer"
-                   *ngIf="seccion.Estado == 'ACT'"
-                   ngbTooltip="Eliminar Sección"
-                   (click)="deleteSeccion(idx)"></icofont>
-          <icofont ico="icofont-refresh f-20 text-info cursor-pointer"
-                   *ngIf="seccion.Estado != 'ACT'"
-                   ngbTooltip="Activar Sección"
-                   (click)="activeSeccion(idx)"></icofont>
-          -->
-        </div>
-      </div>
-
-      <div class="card-block">
-
-        <ul class="basic-list">
-          <li class="row" *ngFor="let component of seccion.componentes; let idxComp = index">
-            <div class="col-md-12 header-component">
-              <span>
-                {{ component.Descripcion }} -
-                [{{ component.idTipoComp.Descripcion || component.TipoComp }}]
-              </span>
-
-              <section class="header-component__actions">
-
-                <dx-button icon="trash"
-                           *ngIf="component.Estado === 'ACT'"
-                           (onClick)="deleteComponent(idx, idxComp)"
-                />
-                <dx-button icon="refresh"
-                           *ngIf="component.Estado !== 'ACT'"
-                           (onClick)="activeComponent(idx, idxComp)"
-                />
-                <dx-button icon="edit"
-                           (onClick)="addComponente(idx, idxComp)"
-                />
-                <dx-switch [(ngModel)]="component.Obligatorio"
-                           [switchedOffText]="'No'"
-                           [switchedOnText]="'Si'"
-                           hint="Obligatorio"
-                           class="m-l-15"
-                />
-                <!--
-                <icofont ico="icofont-trash m-l-15 f-20 text-danger cursor-pointer"
-                         *ngIf="component.Estado == 'ACT'"
-                         ngbTooltip="Eliminar Componente"
-                         (click)="deleteComponent(idx,idxComp)"
-                ></icofont>
-                <icofont *ngIf="component.Estado != 'ACT'"
-                         ico="icofont-refresh m-l-15 f-20 text-info cursor-pointer"
-                         ngbTooltip="Activar Componente"
-                         (click)="activeComponent(idx,idxComp)"
-                ></icofont>
-                <icofont ico="icofont-edit-alt m-l-15 f-20 text-primary cursor-pointer"
-                         ngbTooltip="Editar Componente"
-                         (click)="addComponente( idx, idxComp)"
-                ></icofont>
-                -->
-
-              </section>
-
-            </div>
-
-            <div class="col-md-12" *ngIf="component.IDTipoComp == 1 || component.IDTipoComp == 6"
-                 style="margin-top: 15px;">
-              <!--
-              <tag-input [ngClass]="'tag-select'" theme='bootstrap' [placeholder]="'+'"
-                         [secondaryPlaceholder]="'Añadir items'"
-                         [(ngModel)]="component.Atributo"
-                         [identifyBy]="'display'"
-                         [addOnBlur]="true"
-                         [clearOnBlur]="true"
-              ></tag-input>
-              -->
-            </div>
-
-            <div class="col-md-12" *ngIf="component.IDTipoComp == 2">
-
-              <div class="d-flex flex-row justify-content-between align-items-center mt-2">
-                <label class="font-italic text-primary">Especificar Mínimo:</label>
-                <!--
-                <dx-number-box [(value)]="component.Atributo[0]"
-                               [showSpinButtons]="true"
-                               [showClearButton]="true"
-                               [width]="'150px'"
-                ></dx-number-box>
-                -->
-              </div>
-
-              <div class="d-flex flex-row justify-content-between align-items-center mt-2">
-                <label class="font-italic text-primary">Especificar Máximo:</label>
-                <!--
-                <dx-number-box [(value)]="component.Atributo[1]"
-                               [showSpinButtons]="true"
-                               [showClearButton]="true"
-                               [width]="'150px'"
-                ></dx-number-box>
-                -->
-              </div>
-
-              <!--
-              <div class="ag-slider">
-                <nouislider [min]="1" [max]="10"
-                            [step]="1"
-                            [(ngModel)]="component.Atributo"
-                            [tooltips]="[ true, true ]"
-                            style="margin-top: 5em;"
-                ></nouislider>
-              </div>
-              -->
-              <!--              <span class="sub-title">Min - Max: <code> {{ component.Atributo | json }} </code></span>-->
-
-            </div>
-          </li>
-        </ul>
-
-      </div>
-    </div>
   </div>
 
 </div>

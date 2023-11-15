@@ -8,6 +8,8 @@ import {ConfigFormularioComponent} from './config/config.component';
 import {AssignFormComponent} from './asign/asign.component';
 import {CardComponent} from "../../../../shared/components/card/card.component";
 import {DxButtonModule, DxDataGridModule, DxFormModule, DxNumberBoxModule, DxSwitchModule} from "devextreme-angular";
+import {ItemSectionComponent} from "./config/components/item-section/item-section.component";
+import {ItemComponentComponent} from "./config/components/item-component/item-component.component";
 
 
 @NgModule({
@@ -21,6 +23,8 @@ import {DxButtonModule, DxDataGridModule, DxFormModule, DxNumberBoxModule, DxSwi
     DxFormModule,
     DxSwitchModule,
     DxNumberBoxModule,
+    ItemSectionComponent,
+    ItemComponentComponent,
   ],
   declarations: [
     ListaFormularioComponent,

@@ -1,0 +1,123 @@
+<div class="container-component">
+  <section class="header-component">
+    <span class="header-component__title">
+      {{ component.Descripcion }}
+    </span>
+    <span class="header-component__sub-title">
+      {{ component.idTipoComp.Descripcion || component.TipoComp }}
+    </span>
+  </section>
+
+  <section class="container-component__actions">
+
+    <dx-button icon="trash"
+               *ngIf="component.Estado === 'ACT'"
+               (onClick)="deleteComponent()"
+               hint="Eliminar"
+    />
+    <dx-button icon="refresh"
+               *ngIf="component.Estado !== 'ACT'"
+               (onClick)="activeComponent()"
+               hint="Activar"
+    />
+    <dx-button icon="edit"
+               (onClick)="editComponent()"
+               hint="Editar"
+    />
+
+    <dx-switch (onValueChanged)="onObligatorioChange($event)"
+               [switchedOffText]="'No'"
+               [switchedOnText]="'Si'"
+               hint="Obligatorio"
+               class="m-l-15"
+    />
+
+  </section>
+
+</div>
+
+<ng-container [ngSwitch]="typeComponent">
+
+  <ng-template [ngSwitchCase]="1">
+    <section class="config-component">
+      <span>Añadir items</span>
+      <dx-tag-box
+        [items]="attrComponent"
+        [acceptCustomValue]="true"
+        placeholder="+"
+        (onCustomItemCreating)="onCustomItemCreating($event)"
+        [inputAttr]="{ 'aria-label': 'Attr' }"
+      />
+    </section>
+  </ng-template>
+
+  <ng-container *ngSwitchCase="2"
+                [ngTemplateOutlet]="defaultItem">
+  </ng-container>
+
+</ng-container>
+
+<ng-template #defaultItem>
+
+  <section class="config-component">
+
+    <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+      <label class="font-italic text-primary">
+        Especificar Mínimo:
+      </label>
+      <!--
+      <dx-number-box [(value)]="component.Atributo[0]"
+                     [showSpinButtons]="true"
+                     [showClearButton]="true"
+                     [width]="'150px'"
+      ></dx-number-box>
+      -->
+    </div>
+    <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+      <label class="font-italic text-primary">
+        Especificar Máximo:
+      </label>
+      <!--
+      <dx-number-box [(value)]="component.Atributo[1]"
+                     [showSpinButtons]="true"
+                     [showClearButton]="true"
+                     [width]="'150px'"
+      ></dx-number-box>
+      -->
+    </div>
+  </section>
+
+</ng-template>
+<!--
+<div class="col-md-12" *ngIf="component.IDTipoComp == 2">
+
+  <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+    <label class="font-italic text-primary">Especificar Mínimo:</label>
+    <dx-number-box [(value)]="component.Atributo[0]"
+                   [showSpinButtons]="true"
+                   [showClearButton]="true"
+                   [width]="'150px'"
+    ></dx-number-box>
+  </div>
+
+  <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+    <label class="font-italic text-primary">Especificar Máximo:</label>
+    <dx-number-box [(value)]="component.Atributo[1]"
+                   [showSpinButtons]="true"
+                   [showClearButton]="true"
+                   [width]="'150px'"
+    ></dx-number-box>
+  </div>
+
+  <div class="ag-slider">
+    <nouislider [min]="1" [max]="10"
+                [step]="1"
+                [(ngModel)]="component.Atributo"
+                [tooltips]="[ true, true ]"
+                style="margin-top: 5em;"
+    ></nouislider>
+  </div>
+  <span class="sub-title">Min - Max: <code> {{ component.Atributo | json }} </code></span>
+
+</div>
+-->

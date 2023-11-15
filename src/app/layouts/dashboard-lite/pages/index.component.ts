@@ -4,11 +4,10 @@ import {SidenavComponent} from "../components/sidenav/sidenav.component";
 import {BodyComponent} from "../components/body/body.component";
 import {HeaderComponent} from "../components/header/header.component";
 import {SideNavService} from "../services/side-nav.service";
-
-interface SideNavToggle {
-  screenWidth: number;
-  collapsed: boolean;
-}
+import {UserAction, UserItemAction} from "../interfaces/user-item.interface";
+import {LoginService} from "../../../services/login.service";
+import {NotificationService} from "@service-shared/notification.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-index',
@@ -20,9 +19,36 @@ interface SideNavToggle {
 })
 export class DashboardLiteComponent implements OnInit {
   private readonly sideNavService: SideNavService = inject(SideNavService);
+  private readonly loginService: LoginService = inject(LoginService);
+  private readonly notificacionService: NotificationService = inject(NotificationService);
+  private readonly router: Router = inject(Router);
 
 
   ngOnInit() {
     this.sideNavService.onSetInnerWindow(window.innerWidth);
+  }
+
+  actionItemMenu($event: UserItemAction) {
+    switch ($event.action) {
+      case UserAction.logout:
+        this.logout()
+        break;
+      default:
+        console.log(`No hay accion definida para el item seleccionado [${$event.action}]`);
+        break;
+    }
+  }
+
+  logout() {
+    this.notificacionService.showSwalConfirm({
+      title: 'Desea cerrar sesión?',
+      confirmButtonText: 'Si, cerrar mi sesión',
+    }).then(response => {
+        if (!response) return;
+
+        this.loginService.logout();
+        this.router.navigate(['/auth', 'login'])
+      }
+    );
   }
 }

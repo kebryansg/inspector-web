@@ -1,0 +1,31 @@
+<div class="card my-2">
+  <div class="card-header d-flex flex-row flex-nowrap justify-content-between align-items-center">
+    <h5>{{ section.Descripcion | titlecase }}</h5>
+
+    <div class="btn-group-icons-custom">
+
+      <dx-button icon="far fa-plus"
+                 (onClick)="addComponente(indexSection)"
+                 hint="Agregar componente"
+      />
+      <dx-button icon="far fa-pencil"
+                 (onClick)="editSection(indexSection)"
+                 hint="Editar sección"
+      />
+      <dx-button icon="trash"
+                 (onClick)="deleteSeccion(indexSection)"
+                 hint="Eliminar sección"
+      />
+      <!--
+      <dx-button icon="far fa-refresh"
+                 *ngIf="section.Estado != 'ACT'"
+                 (onClick)="activeComponent(indexSection)"
+      />
+      -->
+    </div>
+  </div>
+
+  <section class="list-components">
+    <ng-content></ng-content>
+  </section>
+</div>

@@ -1,4 +1,6 @@
-export const notificacions = [
+import {UserAction, UserItemAction} from "../../interfaces/user-item.interface";
+
+export const notifications = [
   {
     icon: 'far fa-cloud-download',
     subject: 'Download Completed',
@@ -14,9 +16,9 @@ export const notificacions = [
   },
 ]
 
-export const userItemsMenu = [
-  {icon: 'far fa-user', label: 'Perfil', action:'profile'},
-  {icon: 'far fa-cog ', label: 'Configuracion', action: 'settings'},
-  {icon: 'far fa-unlock-alt ', label: 'Bloquear pantalla', action: 'lock-screen'},
-  {icon: 'far fa-power-off ', label: 'Cerrar sesión', action: 'logout'},
+export const userItemsMenu: UserItemAction[] = [
+  {icon: 'far fa-user', label: 'Perfil', action: UserAction.profile},
+  {icon: 'far fa-cog ', label: 'Configuracion', action: UserAction.settings},
+  {icon: 'far fa-unlock-alt ', label: 'Bloquear pantalla', action: UserAction.lockScreen},
+  {icon: 'far fa-power-off ', label: 'Cerrar sesión', action: UserAction.logout},
 ]

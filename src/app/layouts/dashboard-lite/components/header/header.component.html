@@ -88,7 +88,7 @@
       </li>
 
       <li class="notification-message-container"
-          *ngFor="let notification of notificacions"
+          *ngFor="let notification of notifications"
           cdkMenuItem>
         <i [class]="notification.icon"></i>
         <div>
@@ -107,7 +107,10 @@
 <ng-template #userOverlay>
   <div class="overlay overlay-user overlay-fall" cdkMenu>
     <ul>
-      <li *ngFor="let item of userItemsMenu" cdkMenuItem>
+      <li *ngFor="let item of userItemsMenu"
+          cdkMenuItem
+          (cdkMenuItemTriggered)="itemEvent(item)"
+      >
         <a>
           <i class="icon" [class]="item.icon"></i>
           <span>{{item.label}}</span>
