@@ -32,6 +32,9 @@
       ],
       "@service-shared/*": [
         "src/app/shared/services/*"
+      ],
+      "@utils-app/*": [
+        "src/app/utils/*"
       ]
     }
   },
