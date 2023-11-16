@@ -4,7 +4,7 @@ interface IOptionsFlat {
   childrenKey?: string;
 }
 
-export const unflat = (data: any, options?: IOptionsFlat): any => {
+export const unFlat = (data: any, options?: IOptionsFlat): any => {
   const {id, parentId, childrenKey} = {
     id: options?.id || 'id',
     parentId: options?.parentId || 'parentId',
