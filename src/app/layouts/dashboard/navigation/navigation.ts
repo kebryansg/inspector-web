@@ -2,7 +2,7 @@ import {inject, Injectable} from '@angular/core';
 import {map, shareReplay} from 'rxjs';
 import {NavigationStore} from "./navigation.interface";
 import {MenuService} from "../../../services/menu.service";
-import {unflat} from "../../../utils/array-fn.util";
+import {unFlat} from "../../../utils/array-fn.util";
 
 @Injectable({
   providedIn: 'root'
@@ -50,7 +50,7 @@ export class NavigationItem {
   }*/
 
   mapMenu(items: any[]): any[] {
-    return unflat(items, {parentId: 'parentId', id: 'id', childrenKey: 'children'});
+    return unFlat(items, {parentId: 'parentId', id: 'id', childrenKey: 'children'});
   }
 }
 

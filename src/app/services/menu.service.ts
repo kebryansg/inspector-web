@@ -4,7 +4,7 @@ import {NavigationStore} from "../layouts/dashboard/navigation/navigation.interf
 import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
 import {mapData} from "../layouts/dashboard/navigation/navigation";
-import {unflat} from "../utils/array-fn.util";
+import {unFlat} from "../utils/array-fn.util";
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class MenuService {
     )
 
   mapMenu(items: any[]): any[] {
-    return unflat(items, {parentId: 'parentId', id: 'id', childrenKey: 'items'});
+    return unFlat(items, {parentId: 'parentId', id: 'id', childrenKey: 'items'});
   }
 
   mapData = (items: NavigationStore[]) => items.map(item => {
