@@ -4,33 +4,41 @@
       {{ component.Descripcion }}
     </span>
     <span class="header-component__sub-title">
-      {{ component.idTipoComp.Descripcion || component.TipoComp }}
+      {{ component.idTipoComp?.Descripcion || component.TipoComp }}
+    </span>
+    <span class="badge"
+          [class.badge--active]="component.Estado == 'ACT'"
+          [class.badge--inactive]="component.Estado == 'INA'">
+        {{ component.Estado }}
     </span>
   </section>
 
   <section class="container-component__actions">
 
-    <dx-button icon="trash"
-               *ngIf="component.Estado === 'ACT'"
-               (onClick)="deleteComponent()"
-               hint="Eliminar"
-    />
-    <dx-button icon="refresh"
-               *ngIf="component.Estado !== 'ACT'"
-               (onClick)="activeComponent()"
-               hint="Activar"
-    />
-    <dx-button icon="edit"
-               (onClick)="editComponent()"
-               hint="Editar"
-    />
+    <ng-container *ngIf="component.Estado === 'ACT'; else inactiveOptionsItem">
+      <dx-switch (onValueChanged)="onObligatorioChange($event)"
+                 [value]="isObligatorio"
+                 [switchedOffText]="'No'"
+                 [switchedOnText]="'Si'"
+                 hint="Obligatorio"
+                 class="m-l-15"
+      />
+      <dx-button icon="edit"
+                 (onClick)="editComponent()"
+                 hint="Editar"
+      />
+      <dx-button icon="trash"
+                 (onClick)="deleteComponent()"
+                 hint="Eliminar"
+      />
 
-    <dx-switch (onValueChanged)="onObligatorioChange($event)"
-               [switchedOffText]="'No'"
-               [switchedOnText]="'Si'"
-               hint="Obligatorio"
-               class="m-l-15"
-    />
+    </ng-container>
+    <ng-template #inactiveOptionsItem>
+      <dx-button icon="far fa-sync-alt"
+                 (onClick)="activeComponent()"
+                 hint="Activar"
+      />
+    </ng-template>
 
   </section>
 
@@ -40,14 +48,7 @@
 
   <ng-template [ngSwitchCase]="1">
     <section class="config-component">
-      <span>Añadir items</span>
-      <dx-tag-box
-        [items]="attrComponent"
-        [acceptCustomValue]="true"
-        placeholder="+"
-        (onCustomItemCreating)="onCustomItemCreating($event)"
-        [inputAttr]="{ 'aria-label': 'Attr' }"
-      />
+      <span>Items</span>
     </section>
   </ng-template>
 

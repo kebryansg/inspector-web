@@ -20,26 +20,25 @@
           <div class="col-sm-12">
             <dx-text-box
               formControlName="Descripcion"
-              [isValid]="!desciptionInvalid"
+              [isValid]="!descriptionInvalid"
             ></dx-text-box>
           </div>
         </div>
       </div>
       <div class="col-md-6">
         <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label font-weight-bold"
-          >Tipo Componente</label
-          >
+          <label class="col-sm-12 col-form-label font-weight-bold">
+            Tipo Componente
+          </label>
           <div class="col-sm-12">
-            <dx-select-box
-              [dataSource]="lsTipo()"
-              displayExpr="Descripcion"
-              valueExpr="ID"
-              formControlName="IDTipoComp"
-              [isValid]="!typeComponentInvalid"
-              [searchEnabled]="true"
-              [showClearButton]="true"
-            ></dx-select-box>
+            <dx-select-box [dataSource]="lsTipo()"
+                           displayExpr="Descripcion"
+                           valueExpr="ID"
+                           formControlName="IDTipoComp"
+                           [isValid]="!typeComponentInvalid"
+                           [searchEnabled]="true"
+                           [showClearButton]="true"
+            />
           </div>
         </div>
       </div>
@@ -49,19 +48,37 @@
           >Estado</label
           >
           <div class="col-sm-12">
-            <dx-select-box
-              [dataSource]="status$ | async"
-              displayExpr="label"
-              valueExpr="value"
-              formControlName="Estado"
-              [isValid]="!statusInvalid"
-              [searchEnabled]="true"
-              [showClearButton]="true"
-            ></dx-select-box>
+            <dx-select-box [dataSource]="status$ | async"
+                           displayExpr="label"
+                           valueExpr="value"
+                           formControlName="Estado"
+                           [isValid]="!statusInvalid"
+            />
           </div>
         </div>
       </div>
     </div>
+
+    <ng-container *ngIf="typeComponent.value === 1">
+      <div class="row">
+        <div class="col-12">
+
+          <div class="form-group form-default row">
+            <label class="col-sm-12 col-form-label font-weight-bold">
+              Añadir items
+            </label>
+            <div class="col-sm-12">
+              <dx-tag-box
+                [(value)]="lsAttr"
+                [acceptCustomValue]="true"
+                placeholder="+"
+                [inputAttr]="{ 'aria-label': 'Attr' }"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
   </div>
 
   <div class="modal-footer">

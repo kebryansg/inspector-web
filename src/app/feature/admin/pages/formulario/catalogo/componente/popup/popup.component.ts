@@ -1,10 +1,10 @@
-import {Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators,} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {ModalTemplate} from "../../../../../../../common/modal/modal-template";
+import {ModalTemplate} from "@modal/modal-template";
 import {CatalogoService} from "../../../../../services/catalogo.service";
-import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
-import {AsyncPipe} from "@angular/common";
+import {DxSelectBoxModule, DxTagBoxModule, DxTextBoxModule} from "devextreme-angular";
+import {AsyncPipe, NgIf} from "@angular/common";
 import {ToolsService} from "../../../../../services/tools.service";
 import {toSignal} from "@angular/core/rxjs-interop";
 
@@ -15,23 +15,28 @@ import {toSignal} from "@angular/core/rxjs-interop";
     ReactiveFormsModule,
     DxTextBoxModule,
     DxSelectBoxModule,
-    AsyncPipe
-  ]
+    AsyncPipe,
+    DxTagBoxModule,
+    NgIf
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PopupComponenteComponent extends ModalTemplate implements OnInit {
+export class PopupItemComponentComponent extends ModalTemplate implements OnInit {
 
   private readonly fb: FormBuilder = inject(FormBuilder);
-  private readonly catalogoService: CatalogoService = inject(CatalogoService);
+  private readonly catalogService: CatalogoService = inject(CatalogoService);
 
   form!: FormGroup;
   status$: Observable<any[]> = inject(ToolsService).status$;
   dataInputModal = signal<any>({})
   lsTipo = toSignal<any[], any[]>(
-    this.catalogoService.getTypeComponent(),
+    this.catalogService.getTypeComponent(),
     {
       initialValue: []
     }
   );
+
+  lsAttr: any[] = [];
 
   ngOnInit() {
     this.buildForm();
@@ -51,6 +56,10 @@ export class PopupComponenteComponent extends ModalTemplate implements OnInit {
 
   editData(data: any) {
     this.dataInputModal.set(data);
+    console.log(data)
+    if (data.Atributo && data.Atributo.length > 0)
+      this.lsAttr = [...data.Atributo]
+
     this.form.patchValue({
       ID: data.ID,
       Descripcion: data.Descripcion,
@@ -59,6 +68,7 @@ export class PopupComponenteComponent extends ModalTemplate implements OnInit {
     });
   }
 
+
   submit() {
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -66,14 +76,26 @@ export class PopupComponenteComponent extends ModalTemplate implements OnInit {
     }
 
     let data = this.form.getRawValue();
-    const tipo = this.lsTipo().find((item) => data.IDTipoComp == item.ID);
+    const typeComponent = this.findTypeComponent(data.IDTipoComp);
 
     this.activeModal.close({
       ...data,
-      Atributo: this.dataInputModal().Atributo || tipo.Valor,
-      Obligatorio: this.dataInputModal().Obligatorio || true,
-      TipoComp: tipo.Descripcion,
+      Atributo: this.getAttr(typeComponent.ID),
+      Obligatorio: this.dataInputModal().Obligatorio ?? true,
+      TipoComp: typeComponent.Descripcion,
     });
+  }
+
+  findTypeComponent(idTypeComponent: number) {
+    return this.lsTipo()
+      .find((item) => idTypeComponent == item.ID)
+  }
+
+  getAttr(idTypeComponent: number) {
+    const typeComponent = this.findTypeComponent(idTypeComponent);
+    if (this.lsAttr.length > 0)
+      return this.lsAttr;
+    return typeComponent.Valor
   }
 
   //#region Getters
@@ -89,7 +111,7 @@ export class PopupComponenteComponent extends ModalTemplate implements OnInit {
     return this.form.get('Estado') as FormControl;
   }
 
-  get desciptionInvalid() {
+  get descriptionInvalid() {
     return (
       this.description.invalid &&
       (this.description.touched || this.description.dirty)

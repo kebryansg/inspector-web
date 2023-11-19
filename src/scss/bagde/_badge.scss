@@ -1,0 +1,27 @@
+.badge {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+  padding: 0.15rem 0.25rem;
+  border-radius: 0.25rem;
+
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 500;
+  line-height: 1.5;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: middle;
+  user-select: none;
+  width: 80px;
+
+  &--active {
+    background-color: #1973cb;
+  }
+
+  &--inactive {
+    background-color: #de3a09;
+  }
+}

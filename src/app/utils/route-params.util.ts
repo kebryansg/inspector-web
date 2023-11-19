@@ -1,7 +1,7 @@
-import {inject} from "@angular/core";
+import {inject, Signal} from "@angular/core";
 import {ActivatedRoute} from "@angular/router";
 import {toSignal} from "@angular/core/rxjs-interop";
-import {startWith} from "rxjs";
+import {Observable, startWith} from "rxjs";
 
 export const injectQueryParams = () => {
   const route = inject(ActivatedRoute);
@@ -19,6 +19,16 @@ export const injectParams = () => {
     route.params.pipe(
       startWith(route.snapshot.params || {})
     ),
+    {requireSync: true}
+  )
+}
+
+export const injectData = <T>(): Signal<T> => {
+  const route = inject(ActivatedRoute);
+  return toSignal<T>(
+    route.data.pipe(
+      startWith(route.snapshot.data || {})
+    ) as Observable<T>,
     {requireSync: true}
   )
 }

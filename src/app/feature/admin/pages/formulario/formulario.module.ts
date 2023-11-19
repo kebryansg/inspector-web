@@ -10,6 +10,7 @@ import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxButtonModule, DxDataGridModule, DxFormModule, DxNumberBoxModule, DxSwitchModule} from "devextreme-angular";
 import {ItemSectionComponent} from "./config/components/item-section/item-section.component";
 import {ItemComponentComponent} from "./config/components/item-component/item-component.component";
+import {DetailsFormComponent} from "./config/components/details-form/details-form.component";
 
 
 @NgModule({
@@ -25,6 +26,7 @@ import {ItemComponentComponent} from "./config/components/item-component/item-co
     DxNumberBoxModule,
     ItemSectionComponent,
     ItemComponentComponent,
+    DetailsFormComponent,
   ],
   declarations: [
     ListaFormularioComponent,

@@ -1,0 +1,18 @@
+<dx-form [formData]="dataForm"
+         colCount="2"
+         [readOnly]="true">
+  <dxi-item dataField="Descripcion"
+            [label]="{text:'Nombre'}"
+  ></dxi-item>
+  <dxi-item dataField="Observacion"
+            [label]="{text:'Observación'}"
+  ></dxi-item>
+  <dxi-item dataField="created_at"
+            [label]="{text:'Fecha de Creación'}"
+            editorType="dxDateBox"
+            [editorOptions]="{displayFormat:'MMMM dd, yyyy'}"
+  ></dxi-item>
+  <dxi-item dataField="Estado"
+            [label]="{text:'Estado'}"
+  ></dxi-item>
+</dx-form>
