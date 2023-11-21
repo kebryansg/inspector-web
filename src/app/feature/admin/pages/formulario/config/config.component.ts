@@ -40,8 +40,7 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
   }
 
-  newSection(row: number = -1) {
-
+  newSection() {
     const modalRef = this.modalService.open(PopupSeccionComponent, {
       data: {
         data: null,
@@ -56,16 +55,6 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
       .subscribe((data: any) => {
         this.configFormService.addSection(data);
       });
-  }
-
-  deleteComponent(idxSeccion: number, idxComponent: number) {
-
-    if (this.lsSection()[idxSeccion].componentes[idxComponent].ID == 0) {
-      this.lsSection()[idxSeccion]
-        .componentes.splice(idxComponent, 1);
-    } else {
-      this.lsSection()[idxSeccion].componentes[idxComponent].Estado = 'INA';
-    }
   }
 
 

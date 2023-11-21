@@ -1,7 +1,5 @@
-import {Component, inject, OnDestroy, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {AsignColaboradorComponent} from './asign/asign.component';
-//import {CrudService} from '@services/crud.services';
-//import {ExportService} from '@services/export.services';
 import {filter, lastValueFrom, Observable, Subject} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, map, takeUntil} from 'rxjs/operators';
@@ -11,16 +9,23 @@ import {environment} from '@environments/environment';
 import {InspeccionService} from '../../services/inspeccion.service';
 import {Inspection} from '../../interfaces/inspection.interface';
 import {CatalogoService} from "../../../../services/catalogo.service";
-import {headersParams} from "../../../../../../shared/utils/data-grid.util";
-import {isNotEmpty} from "../../../../../../shared/utils/empty.util";
+import {headersParams} from "@utils/data-grid.util";
+import {isNotEmpty} from "@utils/empty.util";
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
 
-declare var configuracion: any;
+type itemAction = {
+  name: string;
+  id: action;
+  icon: string;
+}
+type action = 'download' | 'send_result' | 'view_result' | 'delete' | 'assign_inspector' | 'print_request' | 'send_request' | 'make_web';
+
 
 @Component({
   selector: 'app-list',
   templateUrl: './list.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent implements OnInit, OnDestroy {
 
@@ -34,12 +39,18 @@ export class ListComponent implements OnInit, OnDestroy {
 
   gridDataSource: any;
 
+  optionsItems: itemAction[] = [
+    {name: 'Descargar resultados', id: 'download', icon: 'download',},
+    {name: 'Reenviar resultados', id: 'send_result', icon: 'exportpdf'},
+    {name: 'Revisar resultados', id: 'view_result', icon: 'eyeopen'},
+    {name: 'Eliminar', id: 'delete', icon: 'trash'},
+    {name: 'Asignar Colaborador', id: 'assign_inspector', icon: 'group'},
+    {name: 'Reimprimir solicitud', id: 'print_request', icon: 'print'},
+    {name: 'Enviar solicitud', id: 'send_request', icon: 'email'},
+    {name: 'Realizar en web', id: 'make_web', icon: 'box'},
+  ];
+
   urlHost!: string;
-  show: boolean = false;
-
-  /* Listado */
-  lsEstadosTime!: any[];
-
 
   destroy$: Subject<void> = new Subject<void>();
 
@@ -52,9 +63,40 @@ export class ListComponent implements OnInit, OnDestroy {
 
   //private exportService: ExportService = inject(ExportService);
 
+  onItemClick($event: any, dataRow: any) {
+    const {itemData} = $event;
+    console.log(itemData);
+    console.log(dataRow);
+
+    switch (itemData.id) {
+      case 'download':
+        this.downloadFormulario(dataRow);
+        break;
+      case 'send_result':
+        this.sendMailFormulario(dataRow);
+        break;
+      case 'view_result':
+        this.viewSolicitud(dataRow);
+        break;
+      case 'delete':
+        this.delete(dataRow);
+        break;
+      case 'assign_inspector':
+        this.assign_colaborador(dataRow);
+        break;
+      case 'make_web':
+        this.router.navigate(['..', 'inspweb', dataRow.Id], {
+          relativeTo: this.activatedRoute
+        });
+        break;
+      default:
+        console.log(`No se encontro la acción seleccionada ${itemData.id}`)
+        break;
+    }
+
+  }
+
   ngOnInit() {
-    //this.lsEstadosTime = this.tools.getTimeOptions();
-    // this.urlHost = configuracion.url;
     this.urlHost = environment.apiUrlAnexos;
 
     this.gridDataSource = new DataSource({
@@ -63,16 +105,18 @@ export class ListComponent implements OnInit, OnDestroy {
         let params: any = headersParams.filter(i => isNotEmpty(loadOptions[i]))
           .reduce((a, b) => ({...a, [b]: loadOptions[b]}), {});
 
-        return lastValueFrom(this.inspeccionService.getItemsPaginate(params)
-          .pipe(
-            debounceTime(500),
-            map(result => ({
-              data: result.data,
-              totalCount: result.totalCount,
-              summary: result.summary || 0,
-              groupCount: result.groupCount || 0,
-            }))
-          ));
+        return lastValueFrom(
+          this.inspeccionService.getItemsPaginate(params)
+            .pipe(
+              debounceTime(500),
+              map(result => ({
+                data: result.data,
+                totalCount: result.totalCount,
+                summary: result.summary || 0,
+                groupCount: result.groupCount || 0,
+              }))
+            )
+        );
       }
     });
   }
@@ -110,7 +154,7 @@ export class ListComponent implements OnInit, OnDestroy {
     return row.Estado == 'APR' || row.Estado == 'REP';
   }
 
-  asign_colaborador(row: Inspection) {
+  assign_colaborador(row: Inspection) {
     const modalRef = this.modalService.open<number>(AsignColaboradorComponent, {
       data: {
         titleModal: 'Asignar Colaborador',

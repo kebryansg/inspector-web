@@ -13,7 +13,7 @@
 
     <dxo-remote-operations [groupPaging]="true"/>
 
-    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-paging [pageSize]="10"/>
     <dxo-pager [showPageSizeSelector]="true"
                [allowedPageSizes]="[10, 20, 30]"
                [showInfo]="true"
@@ -21,8 +21,8 @@
 
     <!--#region Columns -->
 
-    <dxi-column caption="Opciones"
-                [width]="250"
+    <dxi-column caption="..."
+                [width]="50"
                 [allowFiltering]="false"
                 [allowExporting]="false"
                 [fixed]="true"
@@ -75,57 +75,76 @@
     <!--#endregion -->
 
     <div *dxTemplate="let data of 'cellOptionsTemplate'">
+
+
       <div class="btn-group-icons">
 
+        <dx-drop-down-button
+          [dropDownOptions]="{ width: 210 }"
+          [stylingMode]="'text'"
+          [showArrowIcon]="false"
+          icon="overflow"
+          [items]="optionsItems"
+          displayExpr="name"
+          keyExpr="id"
+          (onItemClick)="onItemClick($event, data.data)"
+        />
+
+        <!--
         <ng-container *ngIf="data.data.Estado == 'APR' || data.data.Estado == 'REP'">
-          <!-- Descargar Resultados -->
           <dx-button icon="icofont icofont-download m-r-15 f-20 text-success cursor-pointer"
+                     hint="Descargar Resultados"
                      (click)="downloadFormulario(data.data)"
           />
 
-          <!-- Reenviar Resultados -->
           <dx-button icon="exportpdf"
-                     ngbTooltip="Reenviar Resultados"
+                     hint="Reenviar Resultados"
                      (click)="sendMailFormulario(data.data)"
           />
         </ng-container>
 
-        <!-- Revisar Resultados -->
         <dx-button icon="eyeopen"
+                   hint="Revisar Resultados"
                    [routerLink]="['../view', data.data?.Id]"
         />
+        -->
 
+        <!--
         <ng-container *ngIf="data.data?.Estado == 'PEN'">
 
-          <!-- Reasignar colaborador -->
           <dx-button icon="group"
                      (onClick)="asign_colaborador(data.data)"
                      *ngIf="!data.data?.InspWeb"
-          />
-          <!-- Eliminar Inspeccion -->
-          <dx-button icon="trash"
-                     (onClick)="delete(data.data)"
+                     hint="Reasignar colaborador"
           />
 
-          <!-- Asignar Colaborador  -->
+          <dx-button icon="trash"
+                     (onClick)="delete(data.data)"
+                     hint="Eliminar Inspección"
+          />
+
           <dx-button icon="group"
                      *ngIf="!data.data?.IdColaborador && !data.data?.InspWeb"
                      (click)="asign_colaborador(data.data)"
+                     hint="Asignar Colaborador"
           />
 
-          <!-- Reimprimir solicitud -->
           <dx-button icon="print"
                      (click)="viewSolicitud(data.data)"
                      *ngIf="!(data.data?.IDRef)"
+                     hint="Reimprimir solicitud"
           />
 
-
         </ng-container>
+        -->
 
-        <!-- Enviar solicitud -->
+
+        <!--
         <dx-button icon="email"
                    (click)="sendMailSolicitud(data.data)"
+                   hint="Enviar solicitud"
         />
+        -->
         <!--        <a class="icofont icofont-printer m-r-15 f-20 text-success cursor-pointer"-->
         <!--           ngbTooltip="Reimprimir solicitud"-->
         <!--           *ngIf="data.data?.Estado == 'PEN' && !(data.data?.IDRef)"-->
@@ -134,11 +153,13 @@
         <!--        ></a>-->
 
 
-        <!-- Realizar en Web -->
+        <!--
         <dx-button icon="box"
                    *ngIf="data.data?.InspWeb"
+                   hint="Realizar en Web"
                    [routerLink]="['../inspweb/', data.data.Id]"
         />
+        -->
 
       </div>
     </div>

@@ -26,15 +26,15 @@
 
     <dxi-column caption="Opciones" [width]="180" [allowFiltering]="false"
                 [allowExporting]="false" [fixed]="true"
-                [allowSorting]="false" cellTemplate="cellOptionsTemplate">
-    </dxi-column>
-    <dxi-column dataField="Descripcion" caption="Descripción"></dxi-column>
-    <dxi-column dataField="Observacion" caption="Observación"></dxi-column>
+                [allowSorting]="false" cellTemplate="cellOptionsTemplate"
+    />
+    <dxi-column dataField="Descripcion" caption="Descripción"/>
+    <dxi-column dataField="Observacion" caption="Observación"/>
     <dxi-column dataField="Estado" alignment="center">
       <dxo-lookup [dataSource]="lsEstados$ | async"
                   valueExpr="value"
                   displayExpr="label"
-      ></dxo-lookup>
+      />
     </dxi-column>
     <dxi-column dataField="created_at" caption="Fecha Creación"
                 dataType="datetime"
@@ -51,41 +51,27 @@
 
         <dx-button icon="edit"
                    (onClick)="edit(data.data)"
+                   hint="Editar"
         />
 
-        <!-- Configurar Formulario  -->
         <dx-button icon="preferences"
                    *ngIf="data.data.updated_at != data.data.firebase_at"
                    [routerLink]="['../config', data.data.ID]"
+                   hint="Configurar formulario"
         />
 
         <ng-container *ngIf="data.data?.Estado == 'ACT'">
-          <!-- Sincronizar -->
           <dx-button icon="upload"
                      *ngIf="data.data.updated_at != data.data.firebase_at"
                      (onClick)="synchronize(data.data)"
+                     hint="Sincronizar"
           />
           <dx-button icon="trash"
                      (onClick)="delete(data.data)"
+                     hint="Eliminar"
           ></dx-button>
-
         </ng-container>
 
-        <!--
-        <icofont ico="cursor-pointer icofont-upload-alt m-r-15 f-20 text-warning"
-                 ngbTooltip="Sincronizar"
-                 *ngIf="data.data.Estado == 'ACT' && data.data.updated_at != data.data.firebase_at"
-                 (click)="synchronize(data.data)"
-        ></icofont>
-        <icofont ico="cursor-pointer icofont-settings m-r-15 f-20 text-primary"
-                 ngbTooltip="Configurar Formulario"
-                 [routerLink]="['../config', data.data.ID]"
-        ></icofont>
-        <icofont ico="cursor-pointer icofont-trash m-r-15 f-20 text-danger"
-                 *ngIf="data.data?.Estado == 'ACT'"
-                 ngbTooltip="Eliminar" (click)="delete(data.data)"
-        ></icofont>
-        -->
       </div>
     </div>
   </dx-data-grid>
