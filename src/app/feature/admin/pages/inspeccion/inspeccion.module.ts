@@ -4,29 +4,38 @@ import {InspeccionRoutingModule} from './inspeccion-routing.module';
 import {ListComponent} from './pages/list/list.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {CardComponent} from "@standalone-shared/card/card.component";
-import {DxButtonModule, DxDataGridModule, DxDateBoxModule, DxDropDownBoxModule, DxFormModule, DxSelectBoxModule} from "devextreme-angular";
+import {
+	DxButtonModule,
+	DxDataGridModule,
+	DxDateBoxModule,
+	DxDropDownBoxModule,
+	DxDropDownButtonModule,
+	DxFormModule,
+	DxSelectBoxModule
+} from "devextreme-angular";
 import {NewInspeccionComponent} from './pages/new/new.component';
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    InspeccionRoutingModule,
-    // AngularFirestoreModule,
-    // AngularFireAuthModule,
-    // AngularFireStorageModule,
+	imports: [
+		CommonModule,
+		FormsModule,
+		ReactiveFormsModule,
+		InspeccionRoutingModule,
+		// AngularFirestoreModule,
+		// AngularFireAuthModule,
+		// AngularFireStorageModule,
 
-    DxDataGridModule,
-    CardComponent,
-    DxButtonModule,
-    DxDropDownBoxModule,
-    DxFormModule,
-    DxSelectBoxModule,
-    DxDateBoxModule,
+		DxDataGridModule,
+		CardComponent,
+		DxButtonModule,
+		DxDropDownBoxModule,
+		DxFormModule,
+		DxSelectBoxModule,
+		DxDateBoxModule,
+		DxDropDownButtonModule,
 
-  ],
+	],
   declarations: [
     ListComponent,
     NewInspeccionComponent,
