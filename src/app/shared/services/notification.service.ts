@@ -40,7 +40,7 @@ export class NotificationService {
         confirmButtonText: 'Si, Guardar Información',
         cancelButtonText: 'Cancelar',
         ...options
-      }).then(response => {
+      } as any).then(response => {
         if (response.value) {
           resolve(true);
         }
@@ -60,7 +60,7 @@ export class NotificationService {
       cancelButtonColor: '#d33',
       confirmButtonText: 'Ok',
       ...options
-    });
+    } as any);
   }
 
   //#endregion
