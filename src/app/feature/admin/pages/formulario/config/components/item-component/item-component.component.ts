@@ -28,6 +28,7 @@ export class ItemComponentComponent {
   private configFormService: ConfigFormService = inject(ConfigFormService);
 
   @Input() typeComponent: number = 1;
+  @Input() typeDescriptionComponent: string = '';
   @Input({required: true, alias: 'idx'}) rowIndexComponent: number = 0;
   @Input({required: true, alias: 'idxSection'}) rowIndexSection!: number;
   @Input({required: true}) component!: IComponente;

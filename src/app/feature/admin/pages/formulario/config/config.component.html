@@ -41,6 +41,7 @@
 
       <app-item-component *ngFor="let component of section.componentes; let idxComponent = index"
                           [idx]="idxComponent"
+                          [typeDescriptionComponent]="component.idTipoComp.Descripcion"
                           [idxSection]="idxSection"
                           [component]="component"
                           [typeComponent]="component.IDTipoComp"

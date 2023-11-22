@@ -4,7 +4,7 @@
       {{ component.Descripcion }}
     </span>
     <span class="header-component__sub-title">
-      {{ component.idTipoComp?.Descripcion || component.TipoComp }}
+      {{ typeDescriptionComponent }}
     </span>
     <span class="badge"
           [class.badge--active]="component.Estado == 'ACT'"
