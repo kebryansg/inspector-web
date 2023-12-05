@@ -25,6 +25,7 @@ export const ADMIN_ROUTES: Routes = [
       },
       {
         path: 'inspeccion',
+        title: 'Inspección',
         loadChildren: () => import('./pages/inspeccion/inspeccion.module').then(m => m.InspeccionModule)
       },
       {

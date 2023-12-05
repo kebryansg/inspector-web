@@ -34,6 +34,15 @@
         ></dxi-column>
         <dxi-column dataField="Nombre"></dxi-column>
         <dxi-column dataField="Descripcion" caption="Descripción"></dxi-column>
+        <dxi-column dataField="IDTipoPermiso"
+                    caption="Tipo Permiso"
+                    alignment="center">
+            <dxo-lookup [dataSource]="lsTipoPermiso$ | async"
+                        valueExpr="ID"
+                        displayExpr="Nombre"
+            ></dxo-lookup>
+        </dxi-column>
+
         <dxi-column dataField="Estado" alignment="center">
             <dxo-lookup [dataSource]="lsEstados$ | async"
                         valueExpr="value"

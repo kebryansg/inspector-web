@@ -13,11 +13,9 @@ const routes: Routes = [
   {
     path: 'list',
     component: ListComponent,
-    data: {
-      title: 'Listado de Inspección',
-      status: true
-    },
-  }, {
+    title: 'Listado de Inspección',
+  },
+  {
     path: 'asign-inspector',
     loadComponent: () => import('./pages/asign-inspector/asign-inspector.component').then(m => m.AsignInspectorComponent),
     title: 'Asignación de Inspectores',
@@ -26,9 +24,6 @@ const routes: Routes = [
     path: 'new',
     component: NewInspeccionComponent,
     title: 'Registrar Inspección',
-    data: {
-      status: true
-    }
   },
   /*
     {

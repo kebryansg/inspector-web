@@ -42,6 +42,19 @@
                   </div>
 
                   <div class="form-group form-default row">
+                    <label class="col-sm-12 col-form-label">
+                      Tipo Permiso
+                    </label>
+                    <div class="col-sm-12">
+                      <dx-select-box [dataSource]="lsTipoPermiso$ | async"
+                                     formControlName="IDTipoPermiso"
+                                     displayExpr="Nombre"
+                                     valueExpr="ID"
+                      />
+                    </div>
+                  </div>
+
+                  <div class="form-group form-default row">
                     <label class="col-sm-12 col-form-label">Estado</label>
                     <div class="col-sm-12">
                       <dx-select-box [dataSource]="status$ | async"

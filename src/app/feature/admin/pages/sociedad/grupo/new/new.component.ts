@@ -9,6 +9,7 @@ import {Dialog} from "@angular/cdk/dialog";
 import {PopupCategoriaComponent} from "../../categoria/popup/popup.component";
 import {PopupGrupoActividadComponent} from "../popup-actividad/popup.component";
 import {tap} from "rxjs/operators";
+import {TipoPermisoService} from "../../services/tipo-permiso.service";
 
 const longTabs = [
   {
@@ -47,6 +48,7 @@ export class NewGrupoComponent implements AfterContentInit {
   private router: Router = inject(Router);
   private route: ActivatedRoute = inject(ActivatedRoute);
   private categoriaService: CategoriaService<any> = inject(CategoriaService);
+  private tipoPermisoService: TipoPermisoService = inject(TipoPermisoService);
 
   form!: FormGroup;
   longTabs: any[] = longTabs;
@@ -57,6 +59,9 @@ export class NewGrupoComponent implements AfterContentInit {
     .pipe(
       shareReplay()
     );
+
+  lsTipoPermiso$ = this.tipoPermisoService.getAll();
+
   lsActividad = signal<any[]>([]);
 
   selected = signal<string[]>([]);
@@ -85,7 +90,8 @@ export class NewGrupoComponent implements AfterContentInit {
     this.form = this.fb.group({
       ID: [0],
       Nombre: ['', Validators.required],
-      Descripcion: [''],
+      Descripcion: [null],
+      IDTipoPermiso: [null],
       Estado: ['ACT'],
     });
   }
@@ -96,6 +102,7 @@ export class NewGrupoComponent implements AfterContentInit {
       ID: datos.ID,
       Nombre: datos.Nombre,
       Descripcion: datos.Descripcion,
+      IDTipoPermiso: datos.IDTipoPermiso,
       Estado: datos.Estado,
     });
 

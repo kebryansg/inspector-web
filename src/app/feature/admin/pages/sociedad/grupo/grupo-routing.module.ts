@@ -8,7 +8,8 @@ const routes: Routes = [
   {
     path: '',
     component: GrupoComponent,
-    data: {title: 'Grupo Económico', status: true}
+    title: 'Grupo Económico',
+    data: { status: true}
   },
   {
     path: 'new',

@@ -26,7 +26,7 @@ export class InspeccionService {
   create(data: any) {
     return this.http.post<any>(this.urlBase + 'inspeccion', data)
       .pipe(
-        concatMap(data => this.generateFile(data.ID))
+        //concatMap(data => this.generateFile(data.ID))
       );
   }
 
