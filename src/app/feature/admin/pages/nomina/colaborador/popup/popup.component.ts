@@ -24,15 +24,20 @@ export class PopupColaboradorComponent extends ModalTemplate implements OnInit, 
   private fb: FormBuilder = inject(FormBuilder);
   private catalogoService: CatalogoService = inject(CatalogoService);
 
-  form!: FormGroup;
+  form: FormGroup = this.buildForm();
   status$: Observable<any[]> = inject(ToolsService).status$;
   lsCargo$: Observable<any[]> = this.catalogoService.obtenerCargo();
   lsCompania$: Observable<any[]> = this.catalogoService.obtenerCompania();
   lsDepartamento$: Observable<any[]> = this.catalogoService.obtenerDepartamento();
-  lsAreas$!: Observable<any[]>;
+  lsAreas$: Observable<any[]> = this.departamentoControl.valueChanges
+    .pipe(
+      switchMap(idDepartamento => {
+        this.areaControl.setValue('');
+        return idDepartamento ? this.catalogoService.obtenerArea(idDepartamento) : of([])
+      })
+    );
 
   ngOnInit() {
-    this.buildForm();
     const {titleModal} = this.dataModal;
     this.titleModal = titleModal;
   }
@@ -43,7 +48,7 @@ export class PopupColaboradorComponent extends ModalTemplate implements OnInit, 
   }
 
   buildForm() {
-    this.form = this.fb.group({
+    return this.fb.group({
       ID: [0],
       NombrePrimero: [null, Validators.required],
       NombreSegundo: [null, Validators.required],
@@ -57,30 +62,22 @@ export class PopupColaboradorComponent extends ModalTemplate implements OnInit, 
       IDArea: [null, Validators.required],
       Estado: ['ACT', Validators.required],
     });
-    this.registerEvents();
   }
 
   editData(data: any) {
+    console.log(data)
     this.form.patchValue({
       ...data
     })
   }
 
-  registerEvents() {
-    this.lsAreas$ = this.departamentoControl.valueChanges
-      .pipe(
-        switchMap(idDepartamento => {
-          this.areaControl.setValue('');
-          return idDepartamento ? this.catalogoService.obtenerArea(idDepartamento) : of([])
-        })
-      );
-  }
-
   submit() {
     this.form.markAsTouched();
-    if (this.form.invalid)
-      return;
-    this.activeModal.close(this.form.getRawValue());
+    if (this.form.invalid) return;
+
+    const dataForm = this.form.getRawValue()
+    delete dataForm['ID']
+    this.activeModal.close(dataForm);
   }
 
   get areaControl() {

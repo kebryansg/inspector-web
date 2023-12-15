@@ -34,11 +34,16 @@
         <div class="form-group form-default row">
           <label class="col-sm-12 col-form-label">Colaborador</label>
           <div class="col-sm-12">
-            <dx-select-box [dataSource]="lsColaboradors()"
-                           displayExpr="Nombres"
-                           valueExpr="ID"
-                           formControlName="IDColaborador"
-            ></dx-select-box>
+            @if (!isEdit) {
+              <dx-select-box [dataSource]="lsColaboradors()"
+                             displayExpr="Nombres"
+                             valueExpr="ID"
+                             formControlName="IDColaborador"
+              ></dx-select-box>
+
+            } @else {
+              <dx-text-box [value]="nameColaborador()" [readOnly]="true" />
+            }
           </div>
         </div>
 

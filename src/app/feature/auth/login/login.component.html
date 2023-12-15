@@ -4,15 +4,15 @@
          alt="Logo" height="50" width="155">
   </header>
   <main>
-    <form class="form-login" (ngSubmit)="$submitLogin.next()"
+    <form id="form-login" class="form-login" (ngSubmit)="submitLogin.next()"
           action="javascript:">
 
-      <div class="row mb-3" *ngIf="!production">
+      <div class="row mb-3">
         <div class="col-md-12">
           <div class="text-center font-weight-bold f-14 text-googleplus border w-100 p-2">
-                    <span class="badge-ambiente">
-                      AMBIENTE {{ambiente}}
-                    </span>
+            <span class="badge-ambiente">
+              AMBIENTE {{ ambiente }}
+            </span>
           </div>
         </div>
       </div>
@@ -33,12 +33,6 @@
                 <dxi-validation-rule type="email"
                                      message="Email es incorrecto."
                 ></dxi-validation-rule>
-                <!--
-                <dxi-validation-rule type="async"
-                                     message="Email no existe."
-                                     [validationCallback]="asyncValidation"
-                ></dxi-validation-rule>
-                -->
               </dxi-item>
               <dxi-item dataField="Password"
                         [label]="{text:'Contraseña'}"
@@ -58,15 +52,15 @@
       <hr style="margin: 0 0 7px;"/>
       <div class="row">
         <div class="col-md-12 text-right">
-                  <span class="font-weight-bold text-danger">
-                    Navegadores Preferencia
-                  </span>
+          <span class="font-weight-bold text-danger">
+            Navegadores Preferencia
+          </span>
         </div>
         <div class="col-md-12 d-flex flex-row flex-nowrap justify-content-between">
-                  <span class="font-weight-bold text-danger">
-                    {{message}}
-                  </span>
-          <div>
+          <span class="font-weight-bold text-danger">
+            {{ message }}
+          </span>
+          <section>
             <img ngSrc="assets/images/navegador/ms-edge-new.png"
                  width="50"
                  height="50"
@@ -75,13 +69,25 @@
                  width="50"
                  height="50"
                  alt="Edge Navegador">
-          </div>
+          </section>
         </div>
       </div>
 
     </form>
+
+    <dx-load-panel
+      #loadPanel
+      shadingColor="rgba(0,0,0,0.4)"
+      [position]="{ of: '#form-login' }"
+      [visible]="loadingVisible()"
+      [showIndicator]="true"
+      [showPane]="true"
+      [shading]="true"
+      [hideOnOutsideClick]="false"
+    />
+
   </main>
   <footer>
-    ©{{date | date: 'yyyy' }} Techlink Corp. | Techlink es una corporación registrada. Todos los derechos reservados.
+    ©{{ date | date: 'yyyy' }} Techlink Corp. | Techlink es una corporación registrada. Todos los derechos reservados.
   </footer>
 </section>

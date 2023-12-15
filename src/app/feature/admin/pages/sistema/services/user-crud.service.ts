@@ -21,11 +21,11 @@ export class UserCrudService<T> {
   }
 
   create(row: T): Observable<any> {
-    return this.http.post(this.endpointUrl, row)
+    return this.http.post(`${this.endpointUrl}/colaborador`, row)
   }
 
   update(idRow: keyBase, row: T): Observable<any> {
-    return this.http.put(`${this.endpointUrl}/${idRow}`, row)
+    return this.http.put(`${this.endpointUrl}/colaborador/${idRow}`, row)
   }
 
   resetPassAdmin(idRow: keyBase): Observable<any> {

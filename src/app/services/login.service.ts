@@ -1,9 +1,10 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {tap} from "rxjs";
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
+import {catchError, Observable, of, tap} from "rxjs";
 import {KeyLocalStorage} from "../feature/auth/enums/key-storage.enum";
 import {environment} from "@environments/environment";
-import {LoginResponse} from "../feature/auth/interfaces/login.interface";
+import {LoginResponse, LoginToken} from "../feature/auth/interfaces/login.interface";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -12,14 +13,30 @@ export class LoginService {
 
   httpClient = inject(HttpClient);
 
-  login({username, password}: any) {
-    return this.httpClient.post<LoginResponse>(environment.apiUrl + 'oauth/token', {username, password})
+  login({username, password}: any): Observable<LoginResponse> {
+    return this.httpClient.post<LoginToken>(environment.apiUrl + 'oauth/token', {username, password})
       .pipe(
-        tap((data: LoginResponse) => {
-          if (data.access_token) {
-            this.setToken(data.tokenType, data.access_token);
+        map<LoginToken, LoginResponse>((data) => {
+          return {
+            status: true,
+            data
           }
-        })
+        }),
+        tap((result: LoginResponse) => {
+          if (!result.status) return
+          if (result.data.access_token) {
+            this.setToken(result.data.tokenType, result.data.access_token);
+          }
+        }),
+        catchError((err: HttpErrorResponse) => {
+          return of<LoginResponse>({
+            status: false,
+            error: {
+              code: err.status,
+              message: err.error.message
+            }
+          })
+        }),
       )
   }
 
@@ -28,7 +45,7 @@ export class LoginService {
     localStorage.removeItem(KeyLocalStorage.TokenType);
   }
 
-  existLogin() : boolean {
+  existLogin(): boolean {
     return !!localStorage.getItem(KeyLocalStorage.Token);
   }
 

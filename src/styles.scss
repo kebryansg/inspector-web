@@ -72,3 +72,13 @@ body {
   gap: 30px;
 }
 
+.text {
+  &-danger {
+    color: #dc3545;
+  }
+
+  &-info {
+    color: #17a2b8;
+  }
+}
+

@@ -89,7 +89,7 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
 
     modalRef.closed
       .pipe(
-        filter(data => !!data),
+        filter(Boolean),
         switchMap<any, any>(data => {
           return isEdit ? this.colaboradorService.update(row.ID, data) : this.colaboradorService.create(data)
         })

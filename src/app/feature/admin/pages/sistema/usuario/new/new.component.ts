@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {map} from 'rxjs/operators';
@@ -25,13 +25,13 @@ export class NewUsuarioComponent implements OnInit {
 
 
   form!: FormGroup;
-  lsColaboradors = toSignal<Colaborador[], Colaborador[]>(this.catalogService.getColaboradorNotUser(), {
-    initialValue: []
-  }) //Observable<Colaborador[]>;
-  // lsColaboradors: Colaborador[];
+  lsColaboradors = toSignal<Colaborador[], Colaborador[]>(
+    this.catalogService.getColaboradorNotUser(),
+    {initialValue: []}
+  )
   lsRol$: Observable<any[]> = this.catalogService.getRoleSystem();
-
-  //colaborador: Colaborador;
+  isEdit: boolean = false;
+  nameColaborador = signal('')
 
   ngOnInit() {
     this.buildForm();
@@ -46,7 +46,7 @@ export class NewUsuarioComponent implements OnInit {
       id: [0],
       name: ['', Validators.required],
       email: ['', Validators.required],
-      IDColaborador: [0, Validators.required],
+      IDColaborador: [null, Validators.required],
       IDRol: ['', Validators.required],
     });
     this.registerEvents();
@@ -64,6 +64,8 @@ export class NewUsuarioComponent implements OnInit {
   }
 
   loadUsuario(datos: any) {
+    console.log(datos);
+    this.isEdit = true;
     this.form.patchValue({
       id: datos.id,
       name: datos.name,
@@ -72,10 +74,10 @@ export class NewUsuarioComponent implements OnInit {
       IDRol: Number.parseInt(datos.IDRol),
     }, {emitEvent: false});
 
-    if (datos.IDColaborador) {
+    if (datos.colaborador) {
       this.colaboradorControl.disable();
-      // let data: any = this.crudService.SeleccionarAsync('colaborador/' + datos.IDColaborador);
-      // this.colaborador = data.ApellidoPaterno + ' ' + data.ApellidoMaterno + ' ' + data.NombrePrimero;
+      const {NombrePrimero, NombreSegundo, ApellidoMaterno, ApellidoPaterno} = datos.colaborador;
+      this.nameColaborador.set(`${NombrePrimero} ${NombreSegundo} ${ApellidoPaterno} ${ApellidoMaterno}`)
     }
   }
 
@@ -89,7 +91,6 @@ export class NewUsuarioComponent implements OnInit {
 
   submit() {
     let data = this.form.getRawValue();
-    const isEdit = data.id !== 0;
 
     /*this.crudService.PostOrPut(
       data.id == 0 ? 'POST' : 'PUT',
@@ -97,16 +98,17 @@ export class NewUsuarioComponent implements OnInit {
       data
     )*/
 
-
     (
-      isEdit ?
+      this.isEdit ?
         this.userCrudService.update(data.id, data) :
         this.userCrudService.create(data)
     ).subscribe({
       next: () =>
         this.notificacionService.showSwalMessage({
           title: 'Registro Exitoso',
-          // onAfterClose: () => this.cancel()
+          didClose: () => {
+            this.cancel()
+          }
         }),
       error: () =>
         this.notificacionService.showSwalMessage({

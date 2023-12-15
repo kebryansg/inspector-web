@@ -4,6 +4,11 @@ import {EmptyComponent} from "../../layouts/empty/empty.component";
 export const AUTH_ROUTES: Routes = [
   {
     path: '',
+    redirectTo: 'login',
+    pathMatch: 'full'
+  },
+  {
+    path: '',
     component: EmptyComponent,
     children: [
       {

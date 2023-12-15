@@ -1,10 +1,11 @@
 import {inject, Injectable} from '@angular/core';
-import {map, Observable, shareReplay} from "rxjs";
+import {catchError, EMPTY, map, Observable, shareReplay} from "rxjs";
 import {NavigationStore} from "../layouts/dashboard/navigation/navigation.interface";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
 import {mapData} from "../layouts/dashboard/navigation/navigation";
 import {unFlat} from "../utils/array-fn.util";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,7 @@ import {unFlat} from "../utils/array-fn.util";
 export class MenuService {
 
   private readonly httpClient = inject(HttpClient)
+  private readonly router = inject(Router)
 
   menu$: Observable<NavigationStore[]> = this.httpClient
     .get<NavigationStore[]>(environment.apiUrl + 'menu')
@@ -23,7 +25,11 @@ export class MenuService {
     .pipe(
       map(items => this.mapData(items)),
       map(this.mapMenu),
-      shareReplay(1)
+      shareReplay(1),
+      catchError( error => {
+        this.router.navigateByUrl('/auth')
+        return EMPTY;
+      }),
     )
 
   mapMenu(items: any[]): any[] {
