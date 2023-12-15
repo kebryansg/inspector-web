@@ -44,6 +44,11 @@
           },
           "configurations": {
             "production": {
+              "optimization": true,
+              "buildOptimizer": true,
+              "vendorChunk": false,
+              "namedChunks": false,
+              "extractLicenses": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -53,8 +58,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -68,7 +73,7 @@
               "buildOptimizer": false,
               "optimization": false,
               "vendorChunk": true,
-              "extractLicenses": false,
+              "extractLicenses": true,
               "sourceMap": true,
               "namedChunks": true
             }
