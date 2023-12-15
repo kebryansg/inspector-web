@@ -5,6 +5,7 @@ import {RolesComponent} from './roles/roles.component';
 import {NewRolComponent} from './roles/new/new.component';
 import {NewUsuarioComponent} from './usuario/new/new.component';
 import {MenuComponent} from './menu/menu.component';
+import {userCrudResolver} from "./resolvers/user-crud.resolver";
 
 const routes: Routes = [
   {
@@ -26,8 +27,9 @@ const routes: Routes = [
           {
             path: 'new/:id',
             component: NewUsuarioComponent,
-            data: {
-              title: 'Config. Usuario', status: true
+            title: 'Config. Usuario',
+            resolve: {
+              userEdit: userCrudResolver
             },
           }
         ]

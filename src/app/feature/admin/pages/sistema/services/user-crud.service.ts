@@ -16,6 +16,10 @@ export class UserCrudService<T> {
     return this.http.get<T[]>(this.endpointUrl)
   }
 
+  getById(idRow: string): Observable<T> {
+    return this.http.get<T>(`${this.endpointUrl}/${idRow}`)
+  }
+
   create(row: T): Observable<any> {
     return this.http.post(this.endpointUrl, row)
   }

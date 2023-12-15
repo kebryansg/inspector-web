@@ -30,20 +30,16 @@ export class NewUsuarioComponent implements OnInit {
   }) //Observable<Colaborador[]>;
   // lsColaboradors: Colaborador[];
   lsRol$: Observable<any[]> = this.catalogService.getRoleSystem();
+
   //colaborador: Colaborador;
 
   ngOnInit() {
     this.buildForm();
+
+    const {userEdit} = this.route.snapshot.data
+    if (userEdit)
+      this.loadUsuario(userEdit);
   }
-
-
-  /*  this.route.params
-  .pipe(
-      pluck('id'),
-    filter(id => id),
-    switchMap((id) => this.crudService.SeleccionarAsync(`usuario/` + id))
-  )
-  .subscribe(async (datos: any) => this.loadUsuario(datos));*/
 
   buildForm() {
     this.form = this.fb.group({
@@ -72,7 +68,7 @@ export class NewUsuarioComponent implements OnInit {
       id: datos.id,
       name: datos.name,
       email: datos.email,
-      IDColaborador: datos.IDColaborador,
+      IDColaborador: datos.colaborador.ID,
       IDRol: Number.parseInt(datos.IDRol),
     }, {emitEvent: false});
 
