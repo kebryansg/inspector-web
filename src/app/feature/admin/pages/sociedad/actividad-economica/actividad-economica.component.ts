@@ -1,12 +1,12 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal,} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject,} from '@angular/core';
 import {filter, Observable, Subject} from 'rxjs';
-import {debounceTime, switchMap, tap} from 'rxjs/operators';
+import {debounceTime, switchMap} from 'rxjs/operators';
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
 import {PopupActividadEconomicaComponent} from "./popup/popup.component";
 import {ActividadEconomicaService} from "../services";
-import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
+import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-categoria',
@@ -17,7 +17,7 @@ export class ActividadEconomicaComponent {
 
   private actividadEconomicaService: ActividadEconomicaService<any> = inject(ActividadEconomicaService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificationService = inject(NotificationService);
+  private notificationService: NotificationService = inject(NotificationService);
 
 
   refreshTable$: Subject<void> = new Subject<void>();
@@ -40,7 +40,7 @@ export class ActividadEconomicaComponent {
         widget: 'dxButton',
         options: {
           icon: 'refresh',
-          text: 'Recargar datos de la tabla',
+          hint: 'Recargar datos de la tabla',
           onClick: () => this.refreshTable$.next()
         }
       },
@@ -73,12 +73,16 @@ export class ActividadEconomicaComponent {
         })
       )
       .subscribe(_ => {
+        this.notificationService.showSwalNotif({
+          title: 'Operación exitosa',
+          icon: 'success'
+        });
         this.refreshTable$.next();
       });
   }
 
   delete(row: any) {
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro?',
       text: 'Esta seguro de inactivar el registro.',
       confirmButtonText: 'Si, inactivar.'
@@ -88,6 +92,10 @@ export class ActividadEconomicaComponent {
       }
       this.actividadEconomicaService.delete(row.ID)
         .subscribe(_ => {
+          this.notificationService.showSwalNotif({
+            title: 'Operación exitosa',
+            icon: 'success'
+          });
           this.refreshTable$.next();
         });
     });

@@ -1,42 +1,35 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal,} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject,} from '@angular/core';
 import {filter, Observable, Subject} from 'rxjs';
-import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {debounceTime, switchMap} from 'rxjs/operators';
 import {PopupCategoriaComponent} from './popup/popup.component';
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
 import {CategoriaService} from "../services/categoria.service";
+import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-categoria',
   templateUrl: './categoria.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CategoriaComponent implements OnInit, OnDestroy {
-  private categoriaService: CategoriaService<any> = inject(CategoriaService);
+export class CategoriaComponent {
+  private categoryService: CategoriaService<any> = inject(CategoriaService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificationService = inject(NotificationService);
+  private notificationService: NotificationService = inject(NotificationService);
 
 
-  destroy$: Subject<void> = new Subject<void>();
   refreshTable$: Subject<void> = new Subject<void>();
 
-  lsRows = signal<any[]>([]);
-  lsEstados$: Observable<any[]> = inject(ToolsService).status$;
-
-  ngOnInit() {
-    this.refreshTable$
+  lsRows = toSignal(
+    this.refreshTable$.asObservable()
       .pipe(
         debounceTime(500),
-        switchMap(() => this.getItems()),
-        takeUntil(this.destroy$)
-      ).subscribe();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
+        switchMap(() => this.categoryService.getAll())
+      ),
+    {initialValue: []}
+  );
+  lsEstados$: Observable<any[]> = inject(ToolsService).status$;
 
   onToolbarPreparing(e: any) {
     e.toolbarOptions.items.unshift(
@@ -60,13 +53,6 @@ export class CategoriaComponent implements OnInit, OnDestroy {
       });
   }
 
-  getItems() {
-    return this.categoriaService.getAll()
-      .pipe(
-        tap(response => this.lsRows.set(response))
-      );
-  }
-
   edit(row?: any) {
 
     const isEdit = !!row;
@@ -79,18 +65,22 @@ export class CategoriaComponent implements OnInit, OnDestroy {
 
     modalRef.closed
       .pipe(
-        filter(data => !!data),
+        filter(Boolean),
         switchMap<any, any>(data => {
-          return isEdit ? this.categoriaService.update(row.ID, data) : this.categoriaService.create(data)
+          return isEdit ? this.categoryService.update(row.ID, data) : this.categoryService.create(data)
         })
       )
       .subscribe(_ => {
+        this.notificationService.showSwalNotif({
+          title: 'Operación exitosa',
+          icon: 'success'
+        });
         this.refreshTable$.next();
       });
   }
 
   delete(row: any) {
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro?',
       text: 'Esta seguro de inactivar el registro.',
       confirmButtonText: 'Si, inactivar.'
@@ -98,8 +88,12 @@ export class CategoriaComponent implements OnInit, OnDestroy {
       if (!response) {
         return;
       }
-      this.categoriaService.delete(row.ID)
+      this.categoryService.delete(row.ID)
         .subscribe(_ => {
+          this.notificationService.showSwalNotif({
+            title: 'Operación exitosa',
+            icon: 'success'
+          });
           this.refreshTable$.next();
         });
     });
