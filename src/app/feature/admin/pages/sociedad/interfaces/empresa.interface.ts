@@ -8,6 +8,7 @@ export interface Empresa {
   RUC: string;
   RazonSocial: string;
   NombreComercial: string;
+  TipoPermiso: string;
   TipoContribuyente: null;
   ObligContabilidad: null;
   ContEspecial: null;
