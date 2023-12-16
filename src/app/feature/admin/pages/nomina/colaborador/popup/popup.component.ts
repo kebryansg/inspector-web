@@ -65,7 +65,6 @@ export class PopupColaboradorComponent extends ModalTemplate implements OnInit, 
   }
 
   editData(data: any) {
-    console.log(data)
     this.form.patchValue({
       ...data
     })

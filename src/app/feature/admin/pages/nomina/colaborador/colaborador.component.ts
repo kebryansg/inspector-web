@@ -1,48 +1,41 @@
-import {Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {PopupColaboradorComponent} from './popup/popup.component';
 import {filter, Observable, Subject} from 'rxjs';
-import {debounceTime, map, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {debounceTime, map, switchMap} from 'rxjs/operators';
 import {CatalogoService} from "../../../services/catalogo.service";
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
 import {ColaboradorService} from "../services/colaborador.service";
+import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-colaborador',
   templateUrl: './colaborador.component.html',
   styleUrls: []
 })
-export class ColaboradorComponent implements OnInit, OnDestroy {
+export class ColaboradorComponent {
 
   private colaboradorService: ColaboradorService = inject(ColaboradorService);
   private catalogoService: CatalogoService = inject(CatalogoService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificationService = inject(NotificationService);
+  private notificationService: NotificationService = inject(NotificationService);
 
 
-  destroy$: Subject<void> = new Subject<void>();
   refreshTable$: Subject<void> = new Subject<void>();
 
-  lsRows = signal<any[]>([]);
+  lsRows = toSignal<any[], any[]>(
+    this.refreshTable$.asObservable()
+      .pipe(
+        debounceTime(500),
+        switchMap(() => this.getItems())
+      ),
+    {initialValue: []}
+  );
   lsEstados$: Observable<any[]> = inject(ToolsService).status$;
   lsCargo$: Observable<any> = this.catalogoService.obtenerCargo();
   lsCompania$: Observable<any> = this.catalogoService.obtenerCompania();
 
-
-  ngOnInit() {
-    this.refreshTable$
-      .pipe(
-        debounceTime(500),
-        switchMap(() => this.getItems()),
-        takeUntil(this.destroy$)
-      ).subscribe();
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
 
   onToolbarPreparing(e: any) {
     e.toolbarOptions.items.unshift(
@@ -69,11 +62,13 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
   getItems() {
     return this.colaboradorService.getAll()
       .pipe(
-        map(ls => ls.map(row => ({
-          ...row,
-          Nombres: `${row.ApellidoPaterno} ${row.ApellidoMaterno} ${row.NombrePrimero}`
-        }))),
-        tap(ls => this.lsRows.set(ls))
+        map(ls =>
+          ls.map(row => ({
+              ...row,
+              Nombres: `${row.ApellidoPaterno} ${row.ApellidoMaterno} ${row.NombrePrimero}`
+            })
+          )
+        ),
       );
   }
 
@@ -95,20 +90,23 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((data: any) => {
+        this.notificationService.showSwalNotif({
+          title: 'Operación exitosa',
+          icon: 'success'
+        })
         this.refreshTable$.next();
       });
   }
 
   synchronize(row: any) {
     this.colaboradorService.sync(row.ID)
-      .pipe(takeUntil(this.destroy$))
       .subscribe(_ => {
         this.refreshTable$.next();
       });
   }
 
   delete(row: any) {
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro?',
       text: 'Esta seguro de inactivar el registro.',
       confirmButtonText: 'Si, inactivar.'
@@ -117,8 +115,11 @@ export class ColaboradorComponent implements OnInit, OnDestroy {
         return;
       }
       this.colaboradorService.delete(row.ID)
-        .pipe(takeUntil(this.destroy$))
         .subscribe(data => {
+          this.notificationService.showSwalNotif({
+            title: 'Operación exitosa',
+            icon: 'success'
+          })
           this.refreshTable$.next();
         });
     });

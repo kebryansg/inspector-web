@@ -17,7 +17,7 @@ export class CargoComponent implements OnDestroy {
 
   private cargoService: CargoService = inject(CargoService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificationService = inject(NotificationService);
+  private notificationService: NotificationService = inject(NotificationService);
 
 
   refreshTable$: Subject<void> = new Subject<void>();
@@ -76,12 +76,16 @@ export class CargoComponent implements OnDestroy {
         })
       )
       .subscribe(() => {
+        this.notificationService.showSwalNotif({
+          title: 'Operación exitosa',
+          icon: 'success'
+        })
         this.refreshTable$.next();
       });
   }
 
   delete(row: any) {
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro?',
       text: 'Esta seguro de inactivar el registro.',
       confirmButtonText: 'Si, inactivar.'
@@ -91,6 +95,10 @@ export class CargoComponent implements OnDestroy {
       }
       this.cargoService.delete(row.ID)
         .subscribe(() => {
+          this.notificationService.showSwalNotif({
+            title: 'Operación exitosa',
+            icon: 'success'
+          })
           this.refreshTable$.next();
         });
     });
