@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
+import {DxCheckBoxModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {AsyncPipe, NgClass} from "@angular/common";
 import {Observable} from "rxjs";
 import {ToolsService} from "../../../../services/tools.service";
@@ -13,7 +13,8 @@ import {ModalTemplate} from "@modal/modal-template";
     NgClass,
     ReactiveFormsModule,
     DxSelectBoxModule,
-    DxTextBoxModule
+    DxTextBoxModule,
+    DxCheckBoxModule
   ],
   templateUrl: './popup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -29,6 +30,8 @@ export class PopupActividadEconomicaComponent extends ModalTemplate implements O
     this.form = this.fb.group({
       ID: [0],
       Descripcion: [null, Validators.required],
+      TarifaLibre: [false],
+      Cuantitativo: [false],
       Estado: ['ACT', Validators.required]
     });
   }
