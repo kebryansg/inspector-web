@@ -17,7 +17,7 @@ export class DepartamentoComponent implements OnDestroy {
 
   private departamentoService: DepartamentoService = inject(DepartamentoService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificationService = inject(NotificationService);
+  private notificationService: NotificationService = inject(NotificationService);
 
 
   refreshTable$: Subject<void> = new Subject<void>();
@@ -76,12 +76,16 @@ export class DepartamentoComponent implements OnDestroy {
         })
       )
       .subscribe(() => {
+        this.notificationService.showSwalNotif({
+          title: 'Operación exitosa',
+          icon: 'success'
+        })
         this.refreshTable$.next();
       });
   }
 
   delete(row: any) {
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro?',
       text: 'Esta seguro de inactivar el registro.',
       confirmButtonText: 'Si, inactivar.'
@@ -91,6 +95,10 @@ export class DepartamentoComponent implements OnDestroy {
       }
       this.departamentoService.delete(row.ID)
         .subscribe(() => {
+          this.notificationService.showSwalNotif({
+            title: 'Operación exitosa',
+            icon: 'success'
+          })
           this.refreshTable$.next();
         });
     });

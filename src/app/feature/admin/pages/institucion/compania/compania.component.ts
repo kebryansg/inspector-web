@@ -17,8 +17,7 @@ export class CompaniaComponent implements OnDestroy {
 
   private companiaService: CompaniaService = inject(CompaniaService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificationService = inject(NotificationService);
-
+  private notificationService: NotificationService = inject(NotificationService);
 
   refreshTable$: Subject<void> = new Subject<void>();
 
@@ -43,7 +42,6 @@ export class CompaniaComponent implements OnDestroy {
         options: {
           icon: 'refresh',
           hint: 'Recargar datos de la tabla',
-          text: 'Recargar datos de la tabla',
           onClick: () => this.refreshTable$.next()
         }
       },
@@ -75,12 +73,16 @@ export class CompaniaComponent implements OnDestroy {
         })
       )
       .subscribe(() => {
+        this.notificationService.showSwalNotif({
+          title: 'Operación exitosa',
+          icon: 'success'
+        })
         this.refreshTable$.next();
       });
   }
 
   delete(row: any) {
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro?',
       text: 'Esta seguro de inactivar el registro.',
       confirmButtonText: 'Si, inactivar.'
@@ -90,6 +92,10 @@ export class CompaniaComponent implements OnDestroy {
       }
       this.companiaService.delete(row.ID)
         .subscribe(() => {
+          this.notificationService.showSwalNotif({
+            title: 'Operación exitosa',
+            icon: 'success'
+          })
           this.refreshTable$.next();
         });
     });
