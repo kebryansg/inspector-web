@@ -18,12 +18,11 @@ export class ProvinciaComponent {
 
   private provinciaService: ProvinciaService<Provincia> = inject(ProvinciaService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificationService = inject(NotificationService);
+  private notificationService: NotificationService = inject(NotificationService);
 
 
   refreshTable$: Subject<void> = new Subject<void>();
 
-  //lsRows = signal<Provincia[]>([]);
   lsRows = toSignal(
     this.refreshTable$.asObservable()
       .pipe(
@@ -74,12 +73,16 @@ export class ProvinciaComponent {
         })
       )
       .subscribe(() => {
+        this.notificationService.showSwalNotif({
+          title: 'Operación exitosa',
+          icon: 'success'
+        })
         this.refreshTable$.next();
       })
   }
 
   delete(row: Provincia) {
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro?',
       text: 'Esta seguro de inactivar el registro.',
       confirmButtonText: 'Si, inactivar.'
@@ -89,6 +92,12 @@ export class ProvinciaComponent {
       }
       this.provinciaService.delete(row.ID)
         .subscribe(() => {
+
+          this.notificationService.showSwalNotif({
+            title: 'Operación exitosa',
+            icon: 'success'
+          })
+
           this.refreshTable$.next();
         });
     });

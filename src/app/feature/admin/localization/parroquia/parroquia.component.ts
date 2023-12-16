@@ -1,44 +1,36 @@
-import {Component, inject, OnDestroy, OnInit, signal,} from '@angular/core';
+import {Component, inject,} from '@angular/core';
 import {PopupParroquiaComponent} from './popup/popup.component';
 import {filter, Subject} from 'rxjs';
-import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {debounceTime, switchMap} from 'rxjs/operators';
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../services/tools.service";
 import {ParroquiaService} from "../services/parroquia.service";
 import {Parroquia} from "../interfaces/base.interface";
+import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-parroquia',
   templateUrl: './parroquia.component.html',
   styleUrls: []
 })
-export class ParroquiaComponent implements OnInit, OnDestroy {
+export class ParroquiaComponent {
 
   private parroquiaService: ParroquiaService<Parroquia> = inject(ParroquiaService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificationService = inject(NotificationService);
+  private notificationService: NotificationService = inject(NotificationService);
 
-
-  destroy$: Subject<void> = new Subject<void>();
   refreshTable$: Subject<void> = new Subject<void>();
 
-  lsRows = signal<Parroquia[]>([]);
-  lsEstados$ = inject(ToolsService).status$;
-
-  ngOnInit() {
-    this.refreshTable$
+  lsRows = toSignal<Parroquia[], Parroquia[]>(
+    this.refreshTable$.asObservable()
       .pipe(
         debounceTime(500),
-        switchMap(() => this.getItems()),
-        takeUntil(this.destroy$)
-      ).subscribe();
-  }
+        switchMap(() => this.parroquiaService.getAll())
+      ),
+    {initialValue: []});
+  lsEstados$ = inject(ToolsService).status$;
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
 
   onToolbarPreparing(e: any) {
     e.toolbarOptions.items.unshift(
@@ -48,7 +40,7 @@ export class ParroquiaComponent implements OnInit, OnDestroy {
         locateInMenu: 'auto',
         options: {
           icon: 'refresh',
-          text: 'Recargar datos de la tabla',
+          hint: 'Recargar datos de la tabla',
           onClick: () => this.refreshTable$.next()
         }
       },
@@ -58,17 +50,11 @@ export class ParroquiaComponent implements OnInit, OnDestroy {
         locateInMenu: 'auto',
         options: {
           icon: 'add',
+          hint: 'Agregar Registro',
           text: 'Agregar Registro',
           onClick: () => this.edit()
         }
       });
-  }
-
-  getItems() {
-    return this.parroquiaService.getAll()
-      .pipe(
-        tap(response => this.lsRows.set(response))
-      );
   }
 
   edit(row?: any) {
@@ -89,12 +75,16 @@ export class ParroquiaComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(_ => {
+        this.notificationService.showSwalNotif({
+          title: 'Operación exitosa',
+          icon: 'success'
+        })
         this.refreshTable$.next();
       });
   }
 
   delete(row: any) {
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro?',
       text: 'Esta seguro de inactivar el registro.',
       confirmButtonText: 'Si, inactivar.'
@@ -104,6 +94,10 @@ export class ParroquiaComponent implements OnInit, OnDestroy {
       }
       this.parroquiaService.delete(row.ID)
         .subscribe(() => {
+          this.notificationService.showSwalNotif({
+            title: 'Operación exitosa',
+            icon: 'success'
+          })
           this.refreshTable$.next();
         });
     });

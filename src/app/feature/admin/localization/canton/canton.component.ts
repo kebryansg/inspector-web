@@ -1,43 +1,37 @@
-import {ChangeDetectionStrategy, Component, inject, Input, OnDestroy, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {filter, Subject} from 'rxjs';
-import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {debounceTime, switchMap} from 'rxjs/operators';
 import {PopupCantonComponent} from './popup/popup.component';
 import {ToolsService} from "../../services/tools.service";
 import {CantonService} from "../services/canton.service";
 import {NotificationService} from "@service-shared/notification.service";
 import {Dialog} from "@angular/cdk/dialog";
 import {Canton} from "../interfaces/base.interface";
+import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-canton',
   templateUrl: './canton.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CantonComponent implements OnInit, OnDestroy {
+export class CantonComponent {
 
   private cantonService: CantonService<Canton> = inject(CantonService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificationService = inject(NotificationService);
+  private notificationService: NotificationService = inject(NotificationService);
 
-  destroy$: Subject<void> = new Subject<void>();
   refreshTable$: Subject<void> = new Subject<void>();
 
-  lsRows = signal<Canton[]>([]);
-  lsEstados$ = inject(ToolsService).status$;
-
-  ngOnInit() {
-    this.refreshTable$
+  lsRows = toSignal(
+    this.refreshTable$.asObservable()
       .pipe(
         debounceTime(500),
-        switchMap(() => this.getItems()),
-        takeUntil(this.destroy$)
-      ).subscribe();
-  }
+        switchMap(() => this.cantonService.getAll())
+      ),
+    {initialValue: []}
+  );
+  lsEstados$ = inject(ToolsService).status$;
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
 
   onToolbarPreparing(e: any) {
     e.toolbarOptions.items.unshift(
@@ -61,13 +55,6 @@ export class CantonComponent implements OnInit, OnDestroy {
       });
   }
 
-  getItems() {
-    return this.cantonService.getAll()
-      .pipe(
-        tap(response => this.lsRows.set(response))
-      );
-  }
-
   edit(row?: any) {
     const isEdit = !!row;
     const modalRef = this.modalService.open(PopupCantonComponent, {
@@ -86,37 +73,17 @@ export class CantonComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe(() => {
+        this.notificationService.showSwalNotif({
+          title: 'Operación exitosa',
+          icon: 'success'
+        })
         this.refreshTable$.next();
       })
-    /*modalRef.componentInstance.titleModal = row ? 'Editar Cantón' : 'Nuevo Cantón';
-    modalRef.componentInstance.data = row || {};
-
-    modalRef.result
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
-        }
-
-        const obs$ = row ? this.cantonService.update(data.ID, row) : this.cantonService.create(data);
-
-        // this.crudService.InsertarOrActualizar(
-        //   row ? 'PUT' : 'POST',
-        //   row ? `canton/${data.ID}` : 'canton',
-        //   data
-        // )
-        obs$.subscribe(() => {
-          // this.notificacionService.addToasty({
-          //   title: 'Datos guardados correctamente.',
-          //   type: 'success'
-          // });
-          this.refreshTable$.next();
-        });
-      });*/
   }
 
   delete(row: any) {
 
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro?',
       text: 'Esta seguro de inactivar el registro.',
       confirmButtonText: 'Si, inactivar.'
@@ -126,10 +93,10 @@ export class CantonComponent implements OnInit, OnDestroy {
       }
       this.cantonService.delete(row.ID)
         .subscribe(() => {
-          // this.notificacionService.addToasty({
-          //   title: 'Registro Inactivo',
-          //   type: 'success'
-          // });
+          this.notificationService.showSwalNotif({
+            title: 'Registro Inactivo',
+            icon: 'success'
+          });
           this.refreshTable$.next();
         });
     });

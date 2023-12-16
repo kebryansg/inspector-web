@@ -1,43 +1,37 @@
-import {Component, inject, OnDestroy, OnInit, signal,} from '@angular/core';
+import {Component, inject,} from '@angular/core';
 import {PopupSectorComponent} from './popup/popup.component';
 import {filter, Subject} from 'rxjs';
-import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
+import {debounceTime, switchMap} from 'rxjs/operators';
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../services/tools.service";
 import {SectorService} from "../services/sector.service";
 import {Sector} from "../interfaces/base.interface";
+import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-sector',
   templateUrl: './sector.component.html',
   styleUrls: []
 })
-export class SectorComponent implements OnInit, OnDestroy {
+export class SectorComponent {
 
   private sectorService: SectorService<Sector> = inject(SectorService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificationService = inject(NotificationService);
+  private notificationService: NotificationService = inject(NotificationService);
 
-  destroy$: Subject<void> = new Subject<void>();
   refreshTable$: Subject<void> = new Subject<void>();
 
-  lsRows = signal<Sector[]>([]);
-  lsEstados$ = inject(ToolsService).status$;
-
-  ngOnInit() {
-    this.refreshTable$
+  lsRows = toSignal(
+    this.refreshTable$.asObservable()
       .pipe(
         debounceTime(500),
-        switchMap(() => this.getItems()),
-        takeUntil(this.destroy$)
-      ).subscribe();
-  }
+        switchMap(() => this.sectorService.getAll())
+      ),
+    {initialValue: []}
+  );
+  lsEstados$ = inject(ToolsService).status$;
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
 
   onToolbarPreparing(e: any) {
     e.toolbarOptions.items.unshift(
@@ -46,7 +40,7 @@ export class SectorComponent implements OnInit, OnDestroy {
         widget: 'dxButton',
         options: {
           icon: 'refresh',
-          text: 'Recargar datos de la tabla',
+          hint: 'Recargar datos de la tabla',
           onClick: () => this.refreshTable$.next()
         }
       },
@@ -55,17 +49,11 @@ export class SectorComponent implements OnInit, OnDestroy {
         widget: 'dxButton',
         options: {
           icon: 'add',
+          hint: 'Agregar Registro',
           text: 'Agregar Registro',
           onClick: () => this.edit()
         }
       });
-  }
-
-  getItems() {
-    return this.sectorService.getAll()
-      .pipe(
-        tap(response => this.lsRows.set(response))
-      );
   }
 
   edit(row?: any) {
@@ -86,12 +74,16 @@ export class SectorComponent implements OnInit, OnDestroy {
         })
       )
       .subscribe((data: any) => {
+        this.notificationService.showSwalNotif({
+          title: 'Operación exitosa',
+          icon: 'success'
+        })
         this.refreshTable$.next();
       });
   }
 
   delete(row: any) {
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro?',
       text: 'Esta seguro de inactivar el registro.',
       confirmButtonText: 'Si, inactivar.'
@@ -101,6 +93,10 @@ export class SectorComponent implements OnInit, OnDestroy {
       }
       this.sectorService.delete(row.ID)
         .subscribe(data => {
+          this.notificationService.showSwalNotif({
+            title: 'Operación exitosa',
+            icon: 'success'
+          })
           this.refreshTable$.next();
         });
     });
