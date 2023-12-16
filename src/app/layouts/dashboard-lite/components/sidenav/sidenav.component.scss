@@ -60,6 +60,18 @@ $color-sublevel: #898989;
       }
     }
   }
+
+  .user-container {
+    display: flex;
+    align-items: center;
+    padding: 0.938rem 0.938rem 0 0.938rem;
+    width: 100%;
+
+    p {
+      color: #ffffff;
+    }
+  }
+
 }
 
 .sidenav-collapsed {

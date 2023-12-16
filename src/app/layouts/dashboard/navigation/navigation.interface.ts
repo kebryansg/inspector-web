@@ -34,3 +34,15 @@ export interface NavigationItem {
   };
   children?: Navigation[];
 }
+
+export interface ItemNavigation {
+  id: string;
+  url: string;
+  label: string;
+  type: string;
+  parentId: string | undefined;
+  root: boolean;
+  icon: string;
+  vigente: boolean;
+  classes: string;
+}

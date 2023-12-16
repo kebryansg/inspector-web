@@ -12,3 +12,10 @@ export type LoginResponse = | {
   status: false,
   error: any
 }
+
+export interface Profile {
+  Nombres: string;
+  AbrNombres: string;
+  Email: string;
+  Cargo: string;
+}

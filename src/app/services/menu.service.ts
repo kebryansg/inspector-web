@@ -1,9 +1,8 @@
 import {inject, Injectable} from '@angular/core';
-import {catchError, EMPTY, map, Observable, shareReplay} from "rxjs";
-import {NavigationStore} from "../layouts/dashboard/navigation/navigation.interface";
+import {catchError, EMPTY, map} from "rxjs";
+import {ItemNavigation, NavigationStore} from "../layouts/dashboard/navigation/navigation.interface";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
-import {mapData} from "../layouts/dashboard/navigation/navigation";
 import {unFlat} from "../utils/array-fn.util";
 import {Router} from "@angular/router";
 
@@ -15,29 +14,24 @@ export class MenuService {
   private readonly httpClient = inject(HttpClient)
   private readonly router = inject(Router)
 
-  menu$: Observable<NavigationStore[]> = this.httpClient
-    .get<NavigationStore[]>(environment.apiUrl + 'menu')
-    .pipe(
-      shareReplay(1)
-    )
+  menu$ = this.httpClient.get<NavigationStore[]>(environment.apiUrl + 'menu')
 
   getMenu$ = this.menu$
     .pipe(
       map(items => this.mapData(items)),
       map(this.mapMenu),
-      shareReplay(1),
-      catchError( error => {
+      catchError(error => {
         this.router.navigateByUrl('/auth')
         return EMPTY;
       }),
     )
 
-  mapMenu(items: any[]): any[] {
+  mapMenu(items: ItemNavigation[]): any[] {
     return unFlat(items, {parentId: 'parentId', id: 'id', childrenKey: 'items'});
   }
 
-  mapData = (items: NavigationStore[]) => items.map(item => {
-    return {
+  mapData = (items: NavigationStore[]): ItemNavigation[] => items.map(item => {
+    return <ItemNavigation>{
       id: item.ID,
       url: '/' + item.state,
       label: item.name,

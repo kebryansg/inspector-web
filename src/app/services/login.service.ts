@@ -1,9 +1,9 @@
-import {inject, Injectable} from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, Observable, of, tap} from "rxjs";
 import {KeyLocalStorage} from "../feature/auth/enums/key-storage.enum";
 import {environment} from "@environments/environment";
-import {LoginResponse, LoginToken} from "../feature/auth/interfaces/login.interface";
+import {LoginResponse, LoginToken, Profile} from "../feature/auth/interfaces/login.interface";
 import {map} from "rxjs/operators";
 
 @Injectable({
@@ -38,6 +38,10 @@ export class LoginService {
           })
         }),
       )
+  }
+
+  userLogged() {
+    return this.httpClient.get<Profile>(environment.apiUrl + 'profile');
   }
 
   logout() {
