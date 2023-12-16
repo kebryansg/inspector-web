@@ -33,12 +33,14 @@
                 [allowSorting]="false"
                 cellTemplate="cellOptionsTemplate"
     ></dxi-column>
-    <dxi-column dataField="Descripcion" caption="Descripción"></dxi-column>
+    <dxi-column dataField="Descripcion"
+                caption="Descripción"
+    />
     <dxi-column dataField="Estado" alignment="center">
       <dxo-lookup [dataSource]="lsEstados$ | async"
                   valueExpr="value"
                   displayExpr="label"
-      ></dxo-lookup>
+      />
     </dxi-column>
 
 
@@ -46,11 +48,11 @@
       <div class="btn-group-icons">
         <dx-button icon="edit"
                    (onClick)="edit(data.data)"
-        ></dx-button>
+        />
         <dx-button icon="trash"
                    [disabled]="data.data?.Estado !== 'ACT'"
                    (onClick)="delete(data.data)"
-        ></dx-button>
+        />
       </div>
     </div>
   </dx-data-grid>

@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">
-    {{titleModal}}
+    {{ titleModal }}
   </h4>
   <button type="button" class="close" aria-label="Close"
           (click)="activeModal.close()">
@@ -37,9 +37,7 @@
                            displayExpr="label"
                            valueExpr="value"
                            formControlName="Estado"
-                           [searchEnabled]="true"
-                           [showClearButton]="true"
-            ></dx-select-box>
+            />
           </div>
         </div>
 

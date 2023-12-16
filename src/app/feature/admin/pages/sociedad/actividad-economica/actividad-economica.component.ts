@@ -6,14 +6,14 @@ import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
 import {PopupActividadEconomicaComponent} from "./popup/popup.component";
 import {ActividadEconomicaService} from "../services";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-categoria',
   templateUrl: './actividad-economica.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ActividadEconomicaComponent implements OnInit {
+export class ActividadEconomicaComponent {
 
   private actividadEconomicaService: ActividadEconomicaService<any> = inject(ActividadEconomicaService);
   private modalService: Dialog = inject(Dialog);
@@ -22,17 +22,16 @@ export class ActividadEconomicaComponent implements OnInit {
 
   refreshTable$: Subject<void> = new Subject<void>();
 
-  lsRows = signal<any[]>([]);
-  lsEstados$: Observable<any[]> = inject(ToolsService).status$;
-
-  ngOnInit() {
+  lsRows = toSignal<any[], any[]>(
     this.refreshTable$
       .pipe(
         debounceTime(500),
-        switchMap(() => this.getItems()),
-        takeUntilDestroyed()
-      ).subscribe();
-  }
+        switchMap(() => this.actividadEconomicaService.getAll()),
+      ),
+    {
+      initialValue: []
+    });
+  lsEstados$: Observable<any[]> = inject(ToolsService).status$;
 
   onToolbarPreparing(e: any) {
     e.toolbarOptions.items.unshift(
@@ -54,13 +53,6 @@ export class ActividadEconomicaComponent implements OnInit {
           onClick: () => this.edit()
         }
       });
-  }
-
-  getItems() {
-    return this.actividadEconomicaService.getAll()
-      .pipe(
-        tap(response => this.lsRows.set(response))
-      );
   }
 
   edit(row?: any) {

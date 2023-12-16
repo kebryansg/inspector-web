@@ -1,71 +1,77 @@
-<ng-container *ngIf="datos$ | async as datos">
+@if (dataInstitution()) {
   <app-card [cardTitle]="'Información Básica'">
     <div class="row">
       <div class="col-md-12">
         <div class="pull-right">
           <button type="button"
                   class="btn btn-sm btn-primary"
-                  [ngClass]="{'btn-primary': editProfile, 'btn-danger': !editProfile}"
+                  [class.btn-primary]="editProfile"
+                  [class.btn-danger]="!editProfile"
                   (click)="toggleEditProfile()">
-            <!-- <icofont [ico]="editProfile? 'icofont-edit':'icofont-reply'"></icofont>-->
-            {{editProfile ? 'Editar Información' : 'Cancelar Edición'}}
+            {{ editProfile ? 'Editar Información' : 'Cancelar Edición' }}
           </button>
         </div>
       </div>
     </div>
     <div class="row mt-3">
       <div class="col-md-12">
-        <dx-form [formData]="datos"
-                 [readOnly]="editProfile"
-                 [showColonAfterLabel]="true"
-                 [labelLocation]="'top'"
-                 [showValidationSummary]="true"
-                 [colCount]="2">
-          <dxi-item dataField="Nombre"
-                    [label]="{text:'Nombre Institución'}">
-            <dxi-validation-rule
-              type="required"
-              message="Nombre es requerido"
-            ></dxi-validation-rule>
-          </dxi-item>
-          <dxi-item dataField="Ruc"
-                    [label]="{text:'RUC'}">
-            <dxi-validation-rule
-              type="required"
-              message="RUC es requerido"
-            ></dxi-validation-rule>
-          </dxi-item>
-          <dxi-item dataField="Telefono"
-                    [label]="{text:'Teléfono'}">
-            <dxi-validation-rule
-              type="required"
-              message="Teléfono es requerido"
-            ></dxi-validation-rule>
-          </dxi-item>
-          <dxi-item dataField="Email">
-            <dxi-validation-rule
-              type="required"
-              message="Email es requerido"
-            ></dxi-validation-rule>
-            <dxi-validation-rule
-              type="email"
-              message="Email es invalido"
-            ></dxi-validation-rule>
-          </dxi-item>
-          <dxi-item dataField="Direccion"
-                    [label]="{text:'Dirección'}"
-                    editorType="dxTextArea"
-                    [editorOptions]="{ height: 90 }"
-                    [colSpan]="2"
-          ></dxi-item>
-          <dxi-item
-            itemType="button"
-            horizontalAlignment="right"
-            [visible]="!editProfile"
-            [buttonOptions]="buttonOptions">
-          </dxi-item>
-        </dx-form>
+
+        <form (ngSubmit)="submit(formData.formData)">
+          <dx-form #formData
+                   [formData]="dataInstitution()"
+                   [readOnly]="editProfile"
+                   [showColonAfterLabel]="true"
+                   [labelLocation]="'top'"
+                   [showValidationSummary]="true"
+                   [colCount]="2">
+            <dxi-item dataField="Nombre"
+                      [label]="{text:'Nombre Institución'}">
+              <dxi-validation-rule
+                type="required"
+                message="Nombre es requerido"
+              />
+            </dxi-item>
+            <dxi-item dataField="Ruc"
+                      [label]="{text:'RUC'}">
+              <dxi-validation-rule
+                type="required"
+                message="RUC es requerido"
+              />
+            </dxi-item>
+            <dxi-item dataField="Telefono"
+                      [label]="{text:'Teléfono'}">
+              <dxi-validation-rule
+                type="required"
+                message="Teléfono es requerido"
+              />
+            </dxi-item>
+            <dxi-item dataField="Email">
+              <dxi-validation-rule
+                type="required"
+                message="Email es requerido"
+              />
+              <dxi-validation-rule
+                type="email"
+                message="Email es invalido"
+              />
+            </dxi-item>
+            <dxi-item dataField="Direccion"
+                      [label]="{text:'Dirección'}"
+                      editorType="dxTextArea"
+                      [editorOptions]="{ height: 90 }"
+                      [colSpan]="2"
+            />
+            <dxi-item
+              itemType="button"
+              horizontalAlignment="right"
+              [visible]="!editProfile"
+              [buttonOptions]="buttonOptions"
+            />
+          </dx-form>
+        </form>
       </div>
     </div>
   </app-card>
-</ng-container>
+} @else {
+  No hay datos
+}

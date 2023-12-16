@@ -2,14 +2,14 @@ import {AfterContentInit, ChangeDetectionStrategy, Component, inject, signal} fr
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {animate, style, transition, trigger} from '@angular/animations';
-import {filter, Observable, shareReplay, switchMap} from 'rxjs';
+import {filter, lastValueFrom, Observable, shareReplay, switchMap} from 'rxjs';
 import {ToolsService} from "../../../../services/tools.service";
-import {CategoriaService} from "../../services";
+import {CategoriaService, GrupoService} from "../../services";
 import {Dialog} from "@angular/cdk/dialog";
 import {PopupCategoriaComponent} from "../../categoria/popup/popup.component";
 import {PopupGrupoActividadComponent} from "../popup-actividad/popup.component";
-import {tap} from "rxjs/operators";
 import {TipoPermisoService} from "../../services/tipo-permiso.service";
+import {NotificationService} from "@service-shared/notification.service";
 
 const longTabs = [
   {
@@ -47,6 +47,8 @@ export class NewGrupoComponent implements AfterContentInit {
   private dialogService: Dialog = inject(Dialog);
   private router: Router = inject(Router);
   private route: ActivatedRoute = inject(ActivatedRoute);
+  private notificationService: NotificationService = inject(NotificationService);
+  private groupService: GrupoService<any> = inject(GrupoService);
   private categoriaService: CategoriaService<any> = inject(CategoriaService);
   private tipoPermisoService: TipoPermisoService = inject(TipoPermisoService);
 
@@ -64,7 +66,7 @@ export class NewGrupoComponent implements AfterContentInit {
 
   lsActividad = signal<any[]>([]);
 
-  selected = signal<string[]>([]);
+  selectedCategory = signal<string[]>([]);
 
   selectTab = signal<string>('home');
 
@@ -79,7 +81,7 @@ export class NewGrupoComponent implements AfterContentInit {
   ngAfterContentInit() {
     const {grupo} = this.route.snapshot.data
     if (grupo)
-      this.loadGrupo(grupo)
+      this.loadGroup(grupo)
   }
 
   onContentReady(e: any) {
@@ -96,7 +98,7 @@ export class NewGrupoComponent implements AfterContentInit {
     });
   }
 
-  loadGrupo(datos: any) {
+  loadGroup(datos: any) {
     this.edit = true;
     this.form.patchValue({
       ID: datos.ID,
@@ -107,7 +109,7 @@ export class NewGrupoComponent implements AfterContentInit {
     });
 
     if (datos.categorias) {
-      this.selected.set(datos.categorias.map((item: any) => item.ID));
+      this.selectedCategory.set(datos.categorias.map((item: any) => item.ID));
     }
     if (datos.acttarifarios) {
       this.lsActividad.set([...datos.acttarifarios]);
@@ -123,19 +125,29 @@ export class NewGrupoComponent implements AfterContentInit {
 
     const dataForm = {
       ...this.form.getRawValue(),
-      actividades: this.lsActividad(),
-      categoria: this.selected().map(row => ({IDCategoria: row})),
+      actividades: [...this.lsActividad()],
+      categoria: this.selectedCategory().map(row => ({IDCategoria: row})),
     };
 
-    console.log(dataForm)
+    const obsOperation$ = this.edit ? this.groupService.update(dataForm.ID, dataForm) :
+      this.groupService.create(dataForm)
 
-    /*
-          let data = this.form.getRawValue();
-          data.actividades = this.lsActividad$;
-          data.categoria = this.selected.map(row => ({IDCategoria: row.ID}));
-          let exec = (data.ID == 0) ? this.crudService.Insertar(data, 'grupo') : this.crudService.Actualizar(data, 'grupo/' + data.ID);
-          exec.subscribe(response => this.cancel());
-  */
+    lastValueFrom(obsOperation$)
+      .then(() => {
+        this.notificationService.showSwalMessage({
+          text: 'Operación exitosa',
+          didClose: () => {
+            this.cancel()
+          }
+        })
+      })
+      .catch((err) => {
+        this.notificationService.showSwalMessage({
+          title: 'Operacion fallida',
+          text: 'No se pudo completar la operación',
+          icon: 'error',
+        })
+      });
   }
 
   cancel() {
@@ -143,50 +155,56 @@ export class NewGrupoComponent implements AfterContentInit {
     this.router.navigate([ruta], {relativeTo: this.route});
   }
 
-  openModalGrupoActividad(row: any = {ID: 0}, idx = -1) {
+  openModalActivityGroup(row: any = {ID: 0}, rowIndex = -1) {
+    console.log(row)
+    console.log(rowIndex)
+    const editItem = (rowIndex !== -1)
     const modalRef = this.dialogService.open(PopupGrupoActividadComponent, {
       data: {
-        titleModal: (idx == -1) ? 'Actividad - Nuevo' : 'Actividad - Editar',
+        titleModal: !editItem ? 'Actividad - Nuevo' : 'Actividad - Editar',
         data: row
       }
     });
 
     modalRef.closed
       .pipe(
-        filter(response => !!response),
+        filter(Boolean),
       )
       .subscribe((data) => {
-        // TODO Programacion Pendiente
-
-        console.log(data)
+        if (editItem) {
+          this.lsActividad.update((ls) => {
+            ls[rowIndex] = data;
+            return [...ls];
+          })
+        } else this.lsActividad.update((ls) => [...ls, data])
       });
   }
 
-  onCategoriaToolbarPreparing(e: any) {
+  onCategoryToolbarPreparing(e: any) {
     e.toolbarOptions.items.unshift(
       {
         location: 'after',
         widget: 'dxButton',
         options: {
           icon: 'add',
-          onClick: () => this.openModalCategoria()
+          onClick: () => this.openModalCategory()
         }
       });
   }
 
-  onActividadToolbarPreparing(e: any) {
+  onActivityToolbarPreparing(e: any) {
     e.toolbarOptions.items.unshift(
       {
         location: 'after',
         widget: 'dxButton',
         options: {
           icon: 'add',
-          onClick: () => this.openModalGrupoActividad()
+          onClick: () => this.openModalActivityGroup()
         }
       });
   }
 
-  openModalCategoria() {
+  openModalCategory() {
     const modalRef = this.dialogService.open(PopupCategoriaComponent, {
       data: {
         titleModal: 'Nueva Categoría',
@@ -202,9 +220,20 @@ export class NewGrupoComponent implements AfterContentInit {
       .subscribe();
   }
 
-  deleteActividadGrupo(row: any) {
-    // TODO Programacion Pendiente
-    //row.Estado = 'INA';
+  deleteActivityGroup(row: any, rowIndex: number) {
+    const newItem = row.ID === 0;
+
+    if (newItem) {
+      this.lsActividad.update((ls) => {
+        ls.splice(rowIndex, 1);
+        return [...ls];
+      })
+    } else {
+      this.lsActividad.update((ls) => {
+        ls[rowIndex].Estado = 'INA';
+        return [...ls];
+      })
+    }
   }
 
 }

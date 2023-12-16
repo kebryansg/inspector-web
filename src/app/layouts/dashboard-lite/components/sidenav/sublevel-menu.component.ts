@@ -2,7 +2,7 @@ import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Component, Input, OnInit} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {fadeInOut, INavbarData} from './helper';
-import {NgClass, NgFor, NgIf} from "@angular/common";
+import {NgClass, NgFor, NgIf, TitleCasePipe} from "@angular/common";
 
 @Component({
   selector: 'app-sublevel-menu',
@@ -11,50 +11,52 @@ import {NgClass, NgFor, NgIf} from "@angular/common";
     NgIf,
     NgFor,
     NgClass,
-    RouterLink, RouterLinkActive
+    RouterLink, RouterLinkActive, TitleCasePipe
   ],
   template: `
-    <ul *ngIf="collapsed && data.items && data.items.length > 0"
-        [@submenu]="expanded
+      <ul *ngIf="collapsed && data.items && data.items.length > 0"
+          [@submenu]="expanded
       ? {value: 'visible',
           params: {transitionParams: '400ms cubic-bezier(0.86, 0, 0.07, 1)', height: '*'}}
       : {value: 'hidden',
           params: {transitionParams: '400ms cubic-bezier(0.86, 0, 0.07, 1)', height: '0'}}"
-        class="sublevel-nav"
-    >
-      <li *ngFor="let item of data.items" class="sublevel-nav-item">
-        <a class="sublevel-nav-link"
-           (click)="handleClick(item)"
-           *ngIf="item.items && item.items.length > 0"
-           [ngClass]="getActiveClass(item)"
-        >
-          <i class="sublevel-link-icon fa fa-circle"></i>
-          <span class="sublevel-link-text" @fadeInOut
-                *ngIf="collapsed">{{item.label}}</span>
-          <i *ngIf="item.items && collapsed" class="menu-collapse-icon"
-             [ngClass]="!item.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down'"
-          ></i>
-        </a>
-        <a class="sublevel-nav-link"
-           *ngIf="!item.items || (item.items && item.items.length === 0)"
-           [routerLink]="[item.url]"
-           routerLinkActive="active-sublevel"
-           [routerLinkActiveOptions]="{exact: true}"
-        >
-          <i class="sublevel-link-icon fa fa-circle"></i>
-          <span class="sublevel-link-text" @fadeInOut
-                *ngIf="collapsed">{{item.label}}</span>
-        </a>
-        <div *ngIf="item.items && item.items.length > 0">
-          <app-sublevel-menu
-            [data]="item"
-            [collapsed]="collapsed"
-            [multiple]="multiple"
-            [expanded]="item.expanded"
-          ></app-sublevel-menu>
-        </div>
-      </li>
-    </ul>
+          class="sublevel-nav"
+      >
+          <li *ngFor="let item of data.items" class="sublevel-nav-item">
+              <a class="sublevel-nav-link"
+                 (click)="handleClick(item)"
+                 *ngIf="item.items && item.items.length > 0"
+                 [ngClass]="getActiveClass(item)"
+              >
+                  <i class="sublevel-link-icon fa fa-circle"></i>
+                  <span class="sublevel-link-text" @fadeInOut
+                        *ngIf="collapsed">
+              {{ item.label | titlecase }}
+          </span>
+                  <i *ngIf="item.items && collapsed" class="menu-collapse-icon"
+                     [ngClass]="!item.expanded ? 'fal fa-angle-right' : 'fal fa-angle-down'"
+                  ></i>
+              </a>
+              <a class="sublevel-nav-link"
+                 *ngIf="!item.items || (item.items && item.items.length === 0)"
+                 [routerLink]="[item.url]"
+                 routerLinkActive="active-sublevel"
+                 [routerLinkActiveOptions]="{exact: true}"
+              >
+                  <i class="sublevel-link-icon fa fa-circle"></i>
+                  <span class="sublevel-link-text" @fadeInOut
+                        *ngIf="collapsed">{{ item.label | titlecase }}</span>
+              </a>
+              <div *ngIf="item.items && item.items.length > 0">
+                  <app-sublevel-menu
+                          [data]="item"
+                          [collapsed]="collapsed"
+                          [multiple]="multiple"
+                          [expanded]="item.expanded"
+                  ></app-sublevel-menu>
+              </div>
+          </li>
+      </ul>
   `,
   styleUrls: ['./sidenav.component.scss'],
   animations: [

@@ -2,7 +2,7 @@ import {animate, keyframes, style, transition, trigger} from '@angular/animation
 import {Component, EventEmitter, HostListener, inject, OnInit, Output} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {fadeInOut, INavbarData} from './helper';
-import {NgClass, NgFor, NgIf} from "@angular/common";
+import {NgClass, NgFor, NgIf, TitleCasePipe} from "@angular/common";
 import {SublevelMenuComponent} from "./sublevel-menu.component";
 import {MenuService} from "../../../../services/menu.service";
 import {toSignal} from "@angular/core/rxjs-interop";
@@ -18,7 +18,7 @@ interface SideNavToggle {
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [NgClass, RouterLink, RouterLinkActive, NgIf, NgFor, SublevelMenuComponent],
+  imports: [NgClass, RouterLink, RouterLinkActive, NgIf, NgFor, SublevelMenuComponent, TitleCasePipe],
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
   animations: [
