@@ -16,7 +16,7 @@ import {FormService} from "../services/form.service";
 export class ListaFormularioComponent implements OnDestroy {
   private formService: FormService = inject(FormService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificationService = inject(NotificationService);
+  private notificationService: NotificationService = inject(NotificationService);
 
   refreshTable$: Subject<void> = new Subject<void>();
 
@@ -42,7 +42,6 @@ export class ListaFormularioComponent implements OnDestroy {
         options: {
           icon: 'refresh',
           hint: 'Recargar datos de la tabla',
-          text: 'Recargar datos de la tabla',
           onClick: () => this.refreshTable$.next()
         }
       },
@@ -51,7 +50,7 @@ export class ListaFormularioComponent implements OnDestroy {
         widget: 'dxButton',
         options: {
           icon: 'add',
-          text: 'Agregar Formulario',
+          hint: 'Agregar Formulario',
           onClick: () => this.edit()
         }
       });
@@ -74,13 +73,17 @@ export class ListaFormularioComponent implements OnDestroy {
         })
       )
       .subscribe(() => {
+        this.notificationService.showSwalNotif({
+          title: 'Operación exitosa',
+          icon: 'success'
+        })
         this.refreshTable$.next();
       });
   }
 
   synchronize(row: any) {
 
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro de sincronizar?',
       text: 'Sincronizar información a la nube.',
       confirmButtonText: 'Si, sincronizar.'
@@ -91,7 +94,7 @@ export class ListaFormularioComponent implements OnDestroy {
       this.formService.asyncForm(row.ID)
         .subscribe((result: any) => {
           /*
-          this.notificacionService.addToasty({
+          this.notificationService.addToasty({
             type: result.status ? 'success' : 'warning',
             title: result.status ? 'Se sincronizo el Formulario.' : 'Problemas operación',
             msg: result.status ? '' : result.message
@@ -104,7 +107,7 @@ export class ListaFormularioComponent implements OnDestroy {
   }
 
   delete(row: any) {
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro de inactivar?',
       text: 'Desea inactivar el registro.',
       confirmButtonText: 'Si, inactivar.'
@@ -114,6 +117,10 @@ export class ListaFormularioComponent implements OnDestroy {
       }
       this.formService.delete(row.ID)
         .subscribe(data => {
+          this.notificationService.showSwalNotif({
+            title: 'Operación exitosa',
+            icon: 'success'
+          })
           this.refreshTable$.next();
         });
     });

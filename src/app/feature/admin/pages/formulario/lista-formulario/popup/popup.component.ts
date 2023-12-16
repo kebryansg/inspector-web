@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ModalTemplate} from "../../../../../../common/modal/modal-template";
+import {ModalTemplate} from "@modal/modal-template";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {Observable} from "rxjs";
 import {ToolsService} from "../../../../services/tools.service";
