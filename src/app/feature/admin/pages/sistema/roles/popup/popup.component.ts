@@ -1,6 +1,6 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {ModalTemplate} from "../../../../../../common/modal/modal-template";
+import {ModalTemplate} from "@modal/modal-template";
 import {AsyncPipe, NgClass} from "@angular/common";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {ToolsService} from "../../../../services/tools.service";

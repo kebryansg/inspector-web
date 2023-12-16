@@ -32,6 +32,10 @@ export class UserCrudService<T> {
     return this.http.put<any>(`${this.endpointUrl}/resetPassAdmin/${idRow}`, {})
   }
 
+  reactivateItem(idRow: keyBase): Observable<any> {
+    return this.http.put(`${this.endpointUrl}/reactivate/${idRow}`, {})
+  }
+
   delete(idRow: keyBase): Observable<any> {
     return this.http.delete(`${this.endpointUrl}/${idRow}`)
   }

@@ -1,44 +1,36 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {tap} from 'rxjs/internal/operators/tap';
 import {Observable, Subject} from 'rxjs';
-import {debounceTime, switchMap, takeUntil} from 'rxjs/operators';
+import {debounceTime, switchMap} from 'rxjs/operators';
 import {UserCrudService} from "../services/user-crud.service";
 import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
+import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-usuario',
   templateUrl: './usuario.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UsuarioComponent implements OnInit, OnDestroy {
+export class UsuarioComponent {
 
-  private userCrudService: UserCrudService<any> = inject(UserCrudService);
-  private notificacionService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private userCrudService: UserCrudService<any> = inject(UserCrudService);
+  private notificationService: NotificationService = inject(NotificationService);
 
-  destroy$: Subject<void> = new Subject<void>();
   refreshTable$: Subject<void> = new Subject<void>();
 
-  lsRows = signal<any[]>([]);
-  lsEstados$: Observable<any[]> = inject(ToolsService).status$;
-
-
-  ngOnInit() {
-    this.refreshTable$
+  lsRows = toSignal(
+    this.refreshTable$.asObservable()
       .pipe(
         debounceTime(500),
-        switchMap(() => this.getItems()),
-        takeUntil(this.destroy$)
-      ).subscribe();
-  }
+        switchMap(() => this.userCrudService.getAll())
+      ),
+    {initialValue: []}
+  );
+  lsEstados$: Observable<any[]> = inject(ToolsService).status$;
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
-  }
 
   onToolbarPreparing(e: any) {
     e.toolbarOptions.items.unshift(
@@ -64,15 +56,8 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       });
   }
 
-  getItems() {
-    return this.userCrudService.getAll()
-      .pipe(
-        tap(response => this.lsRows.set(response))
-      );
-  }
-
   resetPass(row: any) {
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro de resetear la contraseña?',
       text: 'La contraseña por defecto.',
     }).then(response => {
@@ -80,24 +65,23 @@ export class UsuarioComponent implements OnInit, OnDestroy {
         return;
       }
 
-      // this.userCrudService.Actualizar({}, 'usuario/resetPassAdmin/' + row.id)
       this.userCrudService.resetPassAdmin(row.id)
-        .subscribe(
-          // data => this.notificacionService.addToasty({
-          //   type: 'success',
-          //   title: 'Reseteo de contraseña exitosa',
-          // }),
-          // ({error}) => this.notificacionService.addToasty({
-          //   type: 'error',
-          //   title: 'Problemas',
-          //   msg: error.msg
-          // })
+        .subscribe({
+            next: _ => this.notificationService.showSwalNotif({
+              icon: 'success',
+              title: 'Reseteo de contraseña exitosa',
+            }),
+            error: ({error}) => this.notificationService.showSwalNotif({
+              icon: 'error',
+              title: 'Problemas',
+            })
+          }
         );
     });
   }
 
   delete(row: any) {
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro INACTIVAR este usuario?',
     }).then(response => {
       if (!response) {
@@ -105,6 +89,29 @@ export class UsuarioComponent implements OnInit, OnDestroy {
       }
       this.userCrudService.delete(row.id)
         .subscribe(data => {
+          this.notificationService.showSwalNotif({
+            title: 'Registro inactivo',
+            icon: 'success'
+          })
+          this.refreshTable$.next();
+        });
+    });
+
+  }
+
+  reactiveItem(row: any) {
+    this.notificationService.showSwalConfirm({
+      title: 'Esta seguro ACTIVAR este usuario?',
+    }).then(response => {
+      if (!response) {
+        return;
+      }
+      this.userCrudService.reactivateItem(row.id)
+        .subscribe(data => {
+          this.notificationService.showSwalNotif({
+            title: 'Registro activado',
+            icon: 'success'
+          })
           this.refreshTable$.next();
         });
     });

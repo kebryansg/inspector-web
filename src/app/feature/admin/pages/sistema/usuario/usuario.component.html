@@ -20,7 +20,7 @@
     ></dxo-pager>
 
     <dxi-column caption="Opciones"
-                [width]="120"
+                [width]="140"
                 [allowFiltering]="false"
                 [allowExporting]="false"
                 [fixed]="true"
@@ -47,13 +47,28 @@
     </dxi-column>
 
     <div *dxTemplate="let data of 'cellOptionsTemplate'" class="btn-group-icons">
-      <dx-button icon="edit"
-                 [routerLink]="['./new/', data.data.id]"
-      />
-      <dx-button icon="trash"
-                 [disabled]="data.data?.Estado !== 'ACT'"
-                 (onClick)="delete(data.data)"
-      />
+      @if (data.data?.Estado === 'ACT') {
+        <dx-button icon="edit"
+                   hint="Editar"
+                   [routerLink]="['./new/', data.data.id]"
+        />
+        <dx-button icon="key"
+                   hint="Resetear Contraseña"
+                   (onClick)="resetPass(data.data)"
+        />
+        <dx-button icon="trash"
+                   hint="Eliminar"
+                   (onClick)="delete(data.data)"
+        />
+      }
+      @if (data.data?.Estado === 'INA') {
+        <dx-button icon="refresh"
+                   hint="Reactivar"
+                   (onClick)="reactiveItem(data.data)"
+        />
+      }
+
+
     </div>
   </dx-data-grid>
 
