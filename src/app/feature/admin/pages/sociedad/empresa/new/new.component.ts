@@ -7,8 +7,8 @@ import {switchMap, takeUntil} from 'rxjs/operators';
 import {NotificationService} from "@service-shared/notification.service";
 import {CatalogoService} from "../../../../services/catalogo.service";
 import {ToolsService} from "../../../../services/tools.service";
-import {Empresa} from "../../interfaces/empresa.interface";
-import {ActividadTarifario, CategoriaGrupo, GrupoTarifario} from "../../interfaces/grupo-tarifario.interface";
+import {Empresa} from "../../interfaces";
+import {ActividadTarifario, CategoriaGrupo, GrupoTarifario} from "../../interfaces";
 import {toSignal} from "@angular/core/rxjs-interop";
 
 
