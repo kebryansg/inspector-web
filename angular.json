@@ -26,6 +26,16 @@
             "outputPath": "dist/inspector-web-frontend",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "allowedCommonJsDependencies": [
+              "devextreme",
+              "devextreme-angular",
+              "devexpress-gantt",
+              "devextreme-quill",
+              "'devexpress-diagram",
+              "sweetalert2",
+              "jszip"
+            ],
+
             "polyfills": [
               "zone.js"
             ],
