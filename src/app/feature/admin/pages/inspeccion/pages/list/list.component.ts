@@ -1,11 +1,11 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
 import {AsignColaboradorComponent} from './asign/asign.component';
-import {filter, lastValueFrom, Observable, Subject} from 'rxjs';
+import {filter, lastValueFrom, Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
-import {debounceTime, map, takeUntil} from 'rxjs/operators';
-import DataSource from 'devextreme/data/data_source';
+import {debounceTime, map} from 'rxjs/operators';
+// @ts-ignore
+import DataSource from "devextreme/data/data_source";
 import {DxDataGridComponent} from 'devextreme-angular';
-import {environment} from '@environments/environment';
 import {InspeccionService} from '../../services/inspeccion.service';
 import {Inspection} from '../../interfaces/inspection.interface';
 import {CatalogoService} from "../../../../services/catalogo.service";
@@ -13,6 +13,8 @@ import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
+import {FileSaverService} from 'ngx-filesaver';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 type itemAction = {
   name: string;
@@ -27,15 +29,15 @@ type action = 'download' | 'send_result' | 'view_result' | 'delete' | 'assign_in
   templateUrl: './list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ListComponent implements OnInit, OnDestroy {
+export class ListComponent implements OnInit {
 
-
+  private readonly destroy: DestroyRef = inject(DestroyRef);
   private inspeccionService: InspeccionService = inject(InspeccionService);
   private modalService: Dialog = inject(Dialog);
   private notificacionService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
-
+  private _fileSaverService: FileSaverService = inject(FileSaverService);
 
   gridDataSource: any;
 
@@ -50,9 +52,7 @@ export class ListComponent implements OnInit, OnDestroy {
     {name: 'Realizar en web', id: 'make_web', icon: 'box'},
   ];
 
-  urlHost!: string;
-
-  destroy$: Subject<void> = new Subject<void>();
+  //destroy$: Subject<void> = new Subject<void>();
 
   lsColaborador$: Observable<any> = inject(CatalogoService).obtenerInspector();
   lsStatus$ = this.inspeccionService.status$;
@@ -84,6 +84,9 @@ export class ListComponent implements OnInit, OnDestroy {
       case 'assign_inspector':
         this.assign_colaborador(dataRow);
         break;
+      case 'send_request':
+        this.sendMailRequest(dataRow);
+        break;
       case 'make_web':
         this.router.navigate(['..', 'inspweb', dataRow.Id], {
           relativeTo: this.activatedRoute
@@ -97,8 +100,6 @@ export class ListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.urlHost = environment.apiUrlAnexos;
-
     this.gridDataSource = new DataSource({
       key: 'Id',
       load: (loadOptions: any) => {
@@ -119,11 +120,6 @@ export class ListComponent implements OnInit, OnDestroy {
         );
       }
     });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.unsubscribe();
   }
 
   onToolbarPreparing(e: any) {
@@ -206,14 +202,22 @@ export class ListComponent implements OnInit, OnDestroy {
   downloadFormulario(row: any) {
     this.inspeccionService.downloadForm(row.Id)
       .pipe(
-        takeUntil(this.destroy$)
+        takeUntilDestroyed(this.destroy)
       ).subscribe(response => {
       // TODO Download File
       //this.exportService.saveAsExcelFile(response, `Inspeccion - ${row.RazonSocial}`);
+      this._fileSaverService.save((<any>response), `Inspeccion - ${row.RazonSocial}.pdf`);
     });
   }
 
   viewSolicitud(row: Inspection) {
+
+    this.inspeccionService.getFileRequest(row.Id)
+      .subscribe((res) => {
+        this._fileSaverService.save((<any>res), `solicitud - ${row.NombreComercial}.pdf`);
+      })
+
+    /*
     this.inspeccionService.viewWebSolicitud(row.Id)
       .subscribe((item) => {
         const link = document.createElement('a');
@@ -222,11 +226,12 @@ export class ListComponent implements OnInit, OnDestroy {
         link.click();
         link.remove();
       });
+    */
   }
 
   sendMailFormulario(row: Inspection) {
     this.inspeccionService.sendMailForm(row.Id)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroy))
       .subscribe(
         (response: any) => {
           this.notificacionService.showSwalMessage({
@@ -237,14 +242,14 @@ export class ListComponent implements OnInit, OnDestroy {
         });
   }
 
-  sendMailSolicitud(row: Inspection) {
+  sendMailRequest(row: Inspection) {
     this.inspeccionService.sendMailRequest(row.Id)
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroy))
       .subscribe(
         (response: any) => {
           const validMail = response.messageId;
           this.notificacionService.showSwalMessage({
-            title: !validMail ? 'Error en la operación.' : 'Los resultados fueron reenviados con exito.',
+            title: !validMail ? 'Error en la operación.' : 'La solicitud fue reenviada con éxito.',
             text: !validMail ? response.message : '',
             icon: !validMail ? 'warning' : 'success',
           });

@@ -26,7 +26,7 @@ export class InspeccionService {
   create(data: any) {
     return this.http.post<any>(this.urlBase + 'inspeccion', data)
       .pipe(
-        //concatMap(data => this.generateFile(data.ID))
+        concatMap(data => this.generateFile(data.ID))
       );
   }
 
@@ -58,6 +58,12 @@ export class InspeccionService {
     return this.http.get<any>(this.urlBase + `anexos/solicitud/${idInspection}`);
   }
 
+  getFileRequest(idInspection: number) {
+    return this.http.get(this.urlBase + `inspeccion/file/${idInspection}/solicitud_pdf`,{
+      responseType: 'blob' // This must be a Blob type
+    });
+  }
+
   assigmentInspector(idInspect: number, idInspector: number) {
     return this.http.put(this.urlBase + `inspeccion/${idInspect}/inspector/${idInspector}`, null);
   }
@@ -75,6 +81,5 @@ export class InspeccionService {
       }
     });
   }
-
 
 }
