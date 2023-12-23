@@ -35,9 +35,8 @@
 
   <app-card cardClass="mt-2" [hidHeader]="true">
 
-    <ng-container [ngSwitch]="selectTab()">
-
-      <ng-container *ngSwitchCase="'INFB'">
+    @switch (selectTab()) {
+      @case ('INFB') {
         <div class="row">
           <div class="col-md-6">
 
@@ -125,9 +124,8 @@
 
           </div>
         </div>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'ENT'">
+      }
+      @case ('ENT') {
         <div class="row">
 
           <div class="col-md-12">
@@ -135,19 +133,20 @@
               <label style="font-size: 1.45rem;">
                 Entidad
               </label>
-              <!--<icofont ico="icofont-search cursor-pointer ml-5"
-                       style="font-size: 1.45rem;"
-                       ngbTooltip="Buscar Entidad"
-                       placement="right"
-                       (click)="loadModalEntidad()"
-              ></icofont>-->
+
+              <dx-button class="mx-5"
+                         [text]="'Buscar Entidad'"
+                         [icon]="'search'"
+                         [type]="'success'"
+                         (click)="loadModalEntidad()"
+              />
             </div>
           </div>
         </div>
 
         <div class="row">
           <div class="col-md-12">
-            <dx-form [formData]="entidad"
+            <dx-form [formData]="entidad()"
                      [readOnly]="true"
                      colCount="2"
                      labelLocation="top">
@@ -170,58 +169,10 @@
                         [colSpan]="2"
               ></dxi-item>
             </dx-form>
-            <!--
-            <div class="general-info">
-              <div class="row">
-
-                <div class="col-lg-12 col-xl-6">
-                  <div class="table-responsive">
-                    <table class="table m-0 table-sm">
-                      <tbody>
-                      <tr>
-                        <th scope="row">Nombres</th>
-                        <td>{{ entidad?.Nombres }}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Apellidos</th>
-                        <td>{{ entidad?.Apellidos }}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Identificación</th>
-                        <td>{{ entidad?.Identificacion }}</td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div class="col-lg-12 col-xl-6">
-                  <div class="table-responsive">
-                    <table class="table table-sm">
-                      <tbody>
-                      <tr>
-                        <th scope="row">Dirección</th>
-                        <td>{{ entidad?.Direccion }}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Teléfono - Celular</th>
-                        <td>{{ entidad?.Telefono }} - {{ entidad?.Celular }}</td>
-                      </tr>
-                      <tr>
-                        <th scope="row">Email</th>
-                        <td>{{ entidad?.Email }}</td>
-                      </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            -->
           </div>
         </div>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'ACTE'">
+      }
+      @case ('ACTE') {
         <div class="row">
           <div class="col-md-6">
             <h3 class="sub-title text-c-blue font-weight-bold">
@@ -298,9 +249,8 @@
 
           </div>
         </div>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'UBC'">
+      }
+      @case ('UBC') {
         <div class="row">
           <div class="col-md-12">
             <div class="pull-right">
@@ -369,9 +319,8 @@
 
           </div>
         </div>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'MPS'">
+      }
+      @case ('MPS') {
         <div class="row">
           <div class="col-md-12">
 
@@ -397,9 +346,9 @@
 
           </div>
         </div>
-      </ng-container>
+      }
+    }
 
-    </ng-container>
 
   </app-card>
 

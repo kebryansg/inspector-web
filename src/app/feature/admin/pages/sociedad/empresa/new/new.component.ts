@@ -11,6 +11,9 @@ import {Empresa} from "../../interfaces";
 import {ActividadTarifario, CategoriaGrupo, GrupoTarifario} from "../../interfaces";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {TYPE_PERMISO} from "../const/type-permiso.const";
+import {Dialog} from "@angular/cdk/dialog";
+import {ModalEntidadComponent} from "../../components/modal-entidad/modal-entidad.component";
+import {EmpresaService} from "../../services";
 
 
 const longTabs = [
@@ -64,7 +67,9 @@ const longTabs = [
 export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private fb: FormBuilder = inject(FormBuilder);
+  private empresaService: EmpresaService<any> = inject(EmpresaService);
   private notificationService: NotificationService = inject(NotificationService);
+  private modalService: Dialog = inject(Dialog);
   private catalogoService: CatalogoService = inject(CatalogoService);
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
@@ -100,7 +105,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   lsParroquia: any[] = [];
   lsSector: any[] = [];
   datos: any;
-  entidad: any = {};
+  entidad = signal<any | null>(null);
   titleModal: string = '';
   edit = signal<boolean>(false);
 
@@ -209,7 +214,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       IDTarifaGrupo: datos.IDTarifaGrupo,
     });
     this.edit.set(true);
-    this.entidad = datos.idEntidad;
+    this.entidad.set(datos.idEntidad);
 
     if (datos.Latitud) {
       this.lsMarcardoresMaps = [{lat: datos.Latitud, lng: datos.Longitud}];
@@ -234,26 +239,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  get tarifaGrupoControl() {
-    return this.form.controls['IDTarifaGrupo'] as FormControl
-  }
-
-  get provinciaControl() {
-    return this.form.controls['IDProvincia'] as FormControl
-  }
-
-  get cantonControl() {
-    return this.form.controls['IDCanton'] as FormControl
-  }
-
-  get parroquiaControl() {
-    return this.form.controls['IDParroquia'] as FormControl
-  }
-
-  get sectorControl() {
-    return this.form.controls['IDSector'] as FormControl
-  }
-
   events() {
     this.tarifaGrupoControl.valueChanges
       .pipe(
@@ -273,7 +258,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
         this.lsCategoria.set([]);
         return;
       }
-
 
       this.lsActividad.set(grupo.acttarifarios);
       this.lsCategoria.set(grupo.categorias);
@@ -343,19 +327,30 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
       }
 
-      /*this.crudService.InsertarOrActualizar(
-        data.ID == 0 ? 'POST' : 'PUT',
-        data.ID == 0 ? 'empresa' : 'empresa/' + data.ID,
-        data
-      ).subscribe(response => {
+      const obs$ = data.ID == 0 ? this.empresaService.create(data)
+        : this.empresaService.update(data.ID, data);
+
+      // Show Loader
+      this.notificationService.showLoader({
+        title: 'Guardando cambios...'
+      })
+      obs$.subscribe({
+        next: (response: any) => {
+          this.notificationService.closeLoader()
           this.notificationService.showSwalMessage({
             title: 'Datos guardados correctamente',
             timer: 3000,
-            onAfterClose: () => this.cancel()
+            didClose: () => this.cancel()
+          });
+        },
+        error: err => {
+          this.notificationService.closeLoader()
+          this.notificationService.showSwalMessage({
+            title: 'Problemas con la operación',
+            icon: 'error'
           });
         }
-      );
-      */
+      });
 
     });
   }
@@ -369,6 +364,25 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   //#region Modals
+
+  loadModalEntidad() {
+    const modalRef = this.modalService.open(ModalEntidadComponent, {
+      //size: 'lg', centered: true
+      data: {
+        titleModal: 'Buscar Entidad'
+      }
+    });
+
+    modalRef.closed
+      .subscribe((data: any) => {
+        if (!data) {
+          return;
+        }
+        this.entidad.set(data);
+        this.form.controls['IDEntidad'].setValue(data.ID);
+      });
+  }
+
 
   /*
   modalActividadEconomica() {
@@ -471,32 +485,33 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  loadModalEntidad() {
-    const modalRef = this.modalService.open(ModalEntidadComponent, {size: 'lg', centered: true});
-    modalRef.componentInstance.titleModal = 'Buscar Entidad';
-    modalRef.componentInstance.data = {};
-
-    modalRef.result
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
-        }
-        this.entidad = data;
-        this.form.controls['IDEntidad'].setValue(data.ID);
-      });
-  }
-
   */
+
 
   //#endregion
 
-  asignCategoria() {
-    // this.titleModal = 'Asignar Categorias';
-    // const data = {IDGrupo: this.form.controls['IDTarifaGrupo'].value};
-    // this.parent.showModal('Asignar Categorias', data, AsignGrupoComponent)
-    //   .then((data: any) => {
-    //     this.lsCategoria = [...this.lsCategoria, ...data];
-    //   });
+  //#region Getters
+  get tarifaGrupoControl() {
+    return this.form.controls['IDTarifaGrupo'] as FormControl
   }
+
+  get provinciaControl() {
+    return this.form.controls['IDProvincia'] as FormControl
+  }
+
+  get cantonControl() {
+    return this.form.controls['IDCanton'] as FormControl
+  }
+
+  get parroquiaControl() {
+    return this.form.controls['IDParroquia'] as FormControl
+  }
+
+  get sectorControl() {
+    return this.form.controls['IDSector'] as FormControl
+  }
+
+  //#endregion
+
 
 }
