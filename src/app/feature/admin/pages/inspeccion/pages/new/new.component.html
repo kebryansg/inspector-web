@@ -34,12 +34,13 @@
     </div>
   </section>
 
-
-  <ng-container *ngIf="(entidad$ | async) as entidad; else emptyEntidad">
-
+  @if (itemEntidad()) {
     <div class="row mt-2">
       <div class="col-md-12">
-        <dx-form [formData]="entidad"
+        <h5 class="font-weight-bold">
+          Información de entidad
+        </h5>
+        <dx-form [formData]="itemEntidad()"
                  style="background-color: rgba(191, 191, 191, 0.15); padding: 16px;"
                  [readOnly]="true"
                  [showColonAfterLabel]="true"
@@ -49,22 +50,17 @@
           <dxi-item dataField="Apellidos"></dxi-item>
           <dxi-item dataField="Nombres"></dxi-item>
           <dxi-item dataField="Identificacion"></dxi-item>
-          <dxi-item dataField="Email"></dxi-item>
-          <dxi-item dataField="Telefono"></dxi-item>
-          <dxi-item dataField="Celular"></dxi-item>
           <dxi-item dataField="Direccion"
                     editorType="dxTextArea"
                     [editorOptions]="{ height: 90 }"
                     [colSpan]="2"
-          ></dxi-item>
+          />
         </dx-form>
       </div>
     </div>
 
-    <hr>
 
-  </ng-container>
-  <ng-template #emptyEntidad>
+  } @else {
     <div class="row ">
       <div class="col d-flex justify-content-end mt-2 mb-2">
         <div class="alert alert-danger" role="alert">
@@ -72,18 +68,19 @@
         </div>
       </div>
     </div>
-  </ng-template>
-
+  }
 
   <!--#region Table Empresa -->
 
-  <ng-container *ngIf="entidad.valid">
-    <section class="row mt-3">
+  @if (entidad.valid) {
+
+
+    <section class="my-4">
       <div class="col-md-12">
-        <h5 class="font-weight-bold">
+        <h4 class="font-weight-bold">
           Listado de Empresas
-        </h5>
-        <dx-data-grid [dataSource]="lsEmpresa$ | async"
+        </h4>
+        <dx-data-grid [dataSource]="lsEmpresas()"
                       [showBorders]="true"
                       [rowAlternationEnabled]="true"
                       [hoverStateEnabled]="true"
@@ -124,7 +121,40 @@
         </dx-data-grid>
       </div>
     </section>
-  </ng-container>
+    @if (selectedEmpresa()) {
+      <section class="my-2">
+        <h5 class="font-weight-bold">
+          Información de empresa
+        </h5>
+
+        <dx-form [formData]="selectedEmpresa()"
+                 style="background-color: rgba(191, 191, 191, 0.15); padding: 16px;"
+                 [readOnly]="true"
+                 [showColonAfterLabel]="true"
+                 [labelLocation]="'top'"
+                 [minColWidth]="150"
+                 [title]="'Información Empresa'"
+                 [colCount]="2">
+          <dxi-item dataField="RazonSocial"/>
+          <dxi-item dataField="NombreComercial"/>
+          <dxi-item dataField="Email"/>
+          <dxi-item dataField="idSector.Descripcion"
+                    [label]="{text:'Sector'}"/>
+          <dxi-item dataField="Direccion"
+                    editorType="dxTextArea"
+                    [editorOptions]="{ height: 90 }"
+                    [colSpan]="2"
+          />
+          <dxi-item dataField="Referencia"
+                    editorType="dxTextArea"
+                    [editorOptions]="{ height: 90 }"
+                    [colSpan]="2"
+          />
+        </dx-form>
+
+      </section>
+    }
+  }
 
   <!--#endregion -->
 
@@ -133,8 +163,6 @@
     <form [formGroup]="form"
           (ngSubmit)="save()"
           (keydown.enter)="$event.preventDefault()">
-
-      <!-- Colaborador - Fecha Tentativa -->
       <div class="row">
 
         <div class="col-md-4">
@@ -145,9 +173,10 @@
             </label>
             <div class="col-sm-12">
               <dx-select-box [dataSource]="lsColaborador$ | async"
-                             valueExpr="ID" displayExpr="Colaborador"
+                             valueExpr="ID"
+                             displayExpr="Colaborador"
                              formControlName="IDColaborador"
-              ></dx-select-box>
+              />
             </div>
           </div>
 
@@ -162,7 +191,7 @@
               <dx-date-box formControlName="FechaTentativa"
                            displayFormat="yyyy-MM-dd"
                            type="date"
-              ></dx-date-box>
+              />
             </div>
           </div>
 
@@ -172,7 +201,8 @@
 
       <div class="row">
         <div class="col-md-12 d-flex justify-content-end gap-2">
-          <button type="reset" class="btn btn-outline-danger "
+          <button type="reset"
+                  class="btn btn-outline-danger "
                   [routerLink]="['../list']">
             Cancelar
           </button>

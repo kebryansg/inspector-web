@@ -1,14 +1,15 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
-import {fromEvent, iif, lastValueFrom, Observable, of, shareReplay} from 'rxjs';
-import {switchMap, takeUntil, tap} from 'rxjs/operators';
+import {iif, lastValueFrom, of} from 'rxjs';
+import {switchMap, tap} from 'rxjs/operators';
 import CustomStore from 'devextreme/data/custom_store';
 import {InspeccionService} from "../../services/inspeccion.service";
 import {CatalogoService} from "../../../../services/catalogo.service";
 import {EmpresaService, EntidadService} from "../../../sociedad/services";
 import {NotificationService} from "@service-shared/notification.service";
 import {Empresa, Entidad} from "../../../sociedad/interfaces";
+import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-new',
@@ -18,62 +19,75 @@ import {Empresa, Entidad} from "../../../sociedad/interfaces";
 })
 export class NewInspeccionComponent implements OnInit {
 
-  private inspeccionService: InspeccionService = inject(InspeccionService);
-  private notificationService: NotificationService = inject(NotificationService);
-  private router: Router = inject(Router);
-  private empresaService: EmpresaService<Empresa> = inject(EmpresaService);
-  private entidadService: EntidadService<Entidad> = inject(EntidadService);
-
   private route: ActivatedRoute = inject(ActivatedRoute);
   private fb: FormBuilder = inject(FormBuilder);
+  private router: Router = inject(Router);
+  private inspectionService: InspeccionService = inject(InspeccionService);
+  private notificationService: NotificationService = inject(NotificationService);
+  private empresaService: EmpresaService<Empresa> = inject(EmpresaService);
+  private entidadService: EntidadService<Entidad> = inject(EntidadService);
 
   lsColaborador$ = inject(CatalogoService).obtenerInspector();
 
   isOpenedDropDownBox = signal<boolean>(false);
 
 
-  form: FormGroup = this.fb.group({
-    ID: [0],
-    IDEntidad: [null, Validators.required],
-    IDEmpresa: [null, Validators.required],
-    IDColaborador: [null],
-    FechaTentativa: [null]
-  });
+  form: FormGroup = this.buildForm();
 
-
-  entidad$!: Observable<Entidad | null>;
-  lsEmpresa$!: Observable<Empresa[]>;
-
-  gridDataStore: any;
-  gridBoxValue: any;
-
-  ngOnInit() {
-    this.gridDataStore = this.makeAsyncDataSource();
-    this.registerEvents();
-  }
-
-
-  registerEvents() {
-    this.entidad$ = this.entidad.valueChanges
+  itemEntidad = toSignal<Entidad | null>(
+    this.entidad.valueChanges
       .pipe(
         switchMap((id) =>
           iif(() => id === null,
             of(null),
             this.entidadService.getById(id)
           )
-        ),
-        shareReplay()
-      );
+        )
+      ),
+    {initialValue: null}
+  );
 
-    this.lsEmpresa$ = this.entidad$
+  lsEmpresas = toSignal<Empresa[], Empresa[]>(
+    this.entidad.valueChanges
       .pipe(
         tap(() => this.empresa.setValue(null)),
-        switchMap(entidad => {
-            if (entidad == null) return of([])
-            return this.empresaService.getItemsByEntidad(entidad.ID)
+        switchMap(idEntidad => {
+            if (idEntidad === null) return of([])
+            return this.empresaService.getItemsByEntidad(idEntidad)
           }
         )
-      );
+      ),
+    {initialValue: []}
+  )
+
+  selectedEmpresa = toSignal<Empresa | null>(
+    this.empresa.valueChanges
+      .pipe(
+        switchMap((id) =>
+          iif(() => id === null,
+            of(null),
+            this.empresaService.getById(id)
+          )
+        )
+      ),
+    {initialValue: null}
+  )
+
+  gridDataStore: any;
+  gridBoxValue: any;
+
+  ngOnInit() {
+    this.gridDataStore = this.makeAsyncDataSource();
+  }
+
+  buildForm() {
+    return this.fb.group({
+      ID: [0],
+      IDEntidad: [null, Validators.required],
+      IDEmpresa: [null, Validators.required],
+      IDColaborador: [null],
+      FechaTentativa: [null]
+    });
   }
 
   //#region Getters
@@ -122,7 +136,7 @@ export class NewInspeccionComponent implements OnInit {
     let data = this.form.getRawValue();
     data.IDEmpresa = data.IDEmpresa[0];
 
-    this.inspeccionService.create(data)
+    this.inspectionService.create(data)
       .subscribe({
         next: res => {
           this.notificationService.closeLoader()

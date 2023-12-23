@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '@environments/environment';
 import {Observable, of, timeout} from 'rxjs';
-import {concatMap, shareReplay} from 'rxjs/operators';
+import {shareReplay} from 'rxjs/operators';
 import {PaginateInspection} from '../interfaces/inspection.interface';
 import {STATUS_INSPECTION} from "../const/status-inspection.const";
 
@@ -26,7 +26,7 @@ export class InspeccionService {
   create(data: any) {
     return this.http.post<any>(this.urlBase + 'inspeccion', data)
       .pipe(
-        concatMap(data => this.generateFile(data.ID))
+        //concatMap(data => this.generateFile(data.ID))
       );
   }
 
@@ -59,7 +59,7 @@ export class InspeccionService {
   }
 
   getFileRequest(idInspection: number) {
-    return this.http.get(this.urlBase + `inspeccion/file/${idInspection}/solicitud_pdf`,{
+    return this.http.get(this.urlBase + `inspeccion/file/${idInspection}/solicitud_pdf`, {
       responseType: 'blob' // This must be a Blob type
     }).pipe(
       timeout(7000)
