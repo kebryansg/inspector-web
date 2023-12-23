@@ -19,7 +19,7 @@ import {Empresa, Entidad} from "../../../sociedad/interfaces";
 export class NewInspeccionComponent implements OnInit {
 
   private inspeccionService: InspeccionService = inject(InspeccionService);
-  private notificacionService: NotificationService = inject(NotificationService);
+  private notificationService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);
   private empresaService: EmpresaService<Empresa> = inject(EmpresaService);
   private entidadService: EntidadService<Entidad> = inject(EntidadService);
@@ -115,24 +115,33 @@ export class NewInspeccionComponent implements OnInit {
       return;
     }
 
+    this.notificationService.showLoader({
+      title: 'Ingresando nueva solicitud de inspección'
+    });
+
     let data = this.form.getRawValue();
     data.IDEmpresa = data.IDEmpresa[0];
 
     this.inspeccionService.create(data)
       .subscribe({
         next: res => {
-          this.notificacionService.showSwalMessage({
+          this.notificationService.closeLoader()
+          this.notificationService.showSwalMessage({
             title: 'Registro Correcto - Inspección',
-            icon: 'success'
+            icon: 'success',
+            didClose: () => {
+              this.router.navigate(['../list'], {relativeTo: this.route});
+            }
           });
-          this.router.navigate(['../list'], {relativeTo: this.route});
         },
-        error: error =>
-          this.notificacionService.showSwalMessage({
+        error: error => {
+          this.notificationService.closeLoader()
+          this.notificationService.showSwalMessage({
             title: 'Problemas',
             text: error.error.message,
             icon: 'error'
           })
+        }
       });
   }
 }

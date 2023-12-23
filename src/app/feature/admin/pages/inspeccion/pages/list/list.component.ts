@@ -21,7 +21,8 @@ type itemAction = {
   id: action;
   icon: string;
 }
-type action = 'download' | 'send_result' | 'view_result' | 'delete' | 'assign_inspector' | 'print_request' | 'send_request' | 'make_web';
+type action = 'download' | 'send_result' | 'view_result' | 'delete' | 'assign_inspector' |
+  'print_request' | 'send_request' |'view_request' | 'make_web';
 
 
 @Component({
@@ -34,7 +35,7 @@ export class ListComponent implements OnInit {
   private readonly destroy: DestroyRef = inject(DestroyRef);
   private inspeccionService: InspeccionService = inject(InspeccionService);
   private modalService: Dialog = inject(Dialog);
-  private notificacionService: NotificationService = inject(NotificationService);
+  private notificationService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private _fileSaverService: FileSaverService = inject(FileSaverService);
@@ -44,15 +45,14 @@ export class ListComponent implements OnInit {
   optionsItems: itemAction[] = [
     {name: 'Descargar resultados', id: 'download', icon: 'download',},
     {name: 'Reenviar resultados', id: 'send_result', icon: 'exportpdf'},
-    {name: 'Revisar resultados', id: 'view_result', icon: 'eyeopen'},
+    //{name: 'Revisar resultados', id: 'view_result', icon: 'eyeopen'},
     {name: 'Eliminar', id: 'delete', icon: 'trash'},
     {name: 'Asignar Colaborador', id: 'assign_inspector', icon: 'group'},
+    {name: 'Obtener solicitud', id: 'view_request', icon: 'eyeopen'},
     {name: 'Reimprimir solicitud', id: 'print_request', icon: 'print'},
     {name: 'Enviar solicitud', id: 'send_request', icon: 'email'},
     {name: 'Realizar en web', id: 'make_web', icon: 'box'},
   ];
-
-  //destroy$: Subject<void> = new Subject<void>();
 
   lsColaborador$: Observable<any> = inject(CatalogoService).obtenerInspector();
   lsStatus$ = this.inspeccionService.status$;
@@ -65,18 +65,12 @@ export class ListComponent implements OnInit {
 
   onItemClick($event: any, dataRow: any) {
     const {itemData} = $event;
-    console.log(itemData);
-    console.log(dataRow);
-
     switch (itemData.id) {
       case 'download':
         this.downloadFormulario(dataRow);
         break;
       case 'send_result':
         this.sendMailFormulario(dataRow);
-        break;
-      case 'view_result':
-        this.viewSolicitud(dataRow);
         break;
       case 'delete':
         this.delete(dataRow);
@@ -86,6 +80,12 @@ export class ListComponent implements OnInit {
         break;
       case 'send_request':
         this.sendMailRequest(dataRow);
+        break;
+      case 'view_request':
+        this.viewSolicitud(dataRow);
+        break;
+      case 'print_request':
+        this.printRequest(dataRow.Id);
         break;
       case 'make_web':
         this.router.navigate(['..', 'inspweb', dataRow.Id], {
@@ -130,7 +130,7 @@ export class ListComponent implements OnInit {
         locateInMenu: 'auto',
         options: {
           icon: 'refresh',
-          text: 'Refrescar Información',
+          hint: 'Refrescar Información',
           onClick: () =>
             this.dataGridComponent.instance.refresh()
         }
@@ -166,7 +166,7 @@ export class ListComponent implements OnInit {
 
         this.inspeccionService.assigmentInspector(row.Id, idInspector)
           .subscribe(res => {
-            this.notificacionService.showSwalMessage({
+            this.notificationService.showSwalMessage({
               title: 'Colaborador Asignado',
               icon: 'success',
               text: 'Se asigno un colaborador para esta inspección.'
@@ -177,7 +177,7 @@ export class ListComponent implements OnInit {
   }
 
   delete(row: Inspection) {
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Esta seguro?',
       text: 'Esta seguro de eliminar esta inspección.',
       confirmButtonText: 'Si, eliminar'
@@ -212,21 +212,25 @@ export class ListComponent implements OnInit {
 
   viewSolicitud(row: Inspection) {
 
-    this.inspeccionService.getFileRequest(row.Id)
-      .subscribe((res) => {
-        this._fileSaverService.save((<any>res), `solicitud - ${row.NombreComercial}.pdf`);
-      })
+    this.notificationService.showLoader({
+      title: 'Recuperando solicitud de inspección'
+    });
 
-    /*
-    this.inspeccionService.viewWebSolicitud(row.Id)
-      .subscribe((item) => {
-        const link = document.createElement('a');
-        link.href = this.urlHost + item.path;
-        link.target = '_blank';
-        link.click();
-        link.remove();
-      });
-    */
+    this.inspeccionService.getFileRequest(row.Id)
+      .subscribe({
+        next: (res) => {
+          this.notificationService.closeLoader();
+          this._fileSaverService.save((<any>res), `solicitud - ${row.NombreComercial}.pdf`);
+        },
+        error: (err) => {
+          this.notificationService.closeLoader();
+          this.notificationService.showSwalMessage({
+            title: 'Operación fallida.',
+            text: 'No se pudo descargar el archivo.',
+            icon: 'error',
+          })
+        }
+      })
   }
 
   sendMailFormulario(row: Inspection) {
@@ -234,7 +238,7 @@ export class ListComponent implements OnInit {
       .pipe(takeUntilDestroyed(this.destroy))
       .subscribe(
         (response: any) => {
-          this.notificacionService.showSwalMessage({
+          this.notificationService.showSwalMessage({
             title: response ? 'Error en la operación.' : 'Los resultados fueron reenviados con exito.',
             text: response ? response.message : '',
             icon: response ? 'warning' : 'success',
@@ -242,17 +246,34 @@ export class ListComponent implements OnInit {
         });
   }
 
+  printRequest(row: Inspection) {
+    this.inspeccionService.generateFile(row.Id)
+      .subscribe(() => {
+        this.notificationService.showSwalMessage({
+          title: 'La solicitud fue generada con éxito',
+          icon: 'success',
+        });
+      });
+  }
+
   sendMailRequest(row: Inspection) {
+    this.notificationService.showLoader({
+      title: 'Enviando solicitud de inspección.'
+    });
+
     this.inspeccionService.sendMailRequest(row.Id)
       .pipe(takeUntilDestroyed(this.destroy))
       .subscribe(
-        (response: any) => {
-          const validMail = response.messageId;
-          this.notificacionService.showSwalMessage({
-            title: !validMail ? 'Error en la operación.' : 'La solicitud fue reenviada con éxito.',
-            text: !validMail ? response.message : '',
-            icon: !validMail ? 'warning' : 'success',
-          });
+        {
+          next: (response: any) => {
+            this.notificationService.closeLoader()
+            const validMail = response.messageId;
+            this.notificationService.showSwalMessage({
+              title: !validMail ? 'Error en la operación.' : 'La solicitud fue reenviada con éxito.',
+              text: !validMail ? response.message : '',
+              icon: !validMail ? 'warning' : 'success',
+            });
+          }
         });
   }
 

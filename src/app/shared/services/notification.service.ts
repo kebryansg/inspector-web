@@ -63,5 +63,20 @@ export class NotificationService {
     } as any);
   }
 
+  showLoader(options?: { title?: string }) {
+    return Swal.fire({
+      title: options?.title ?? 'Cargando...',
+      allowEscapeKey: false,
+      allowOutsideClick: false,
+      didOpen: (popup: HTMLElement) => {
+        Swal.showLoading();
+      }
+    }).then();
+  }
+
+  closeLoader() {
+    Swal.close()
+  }
+
   //#endregion
 }

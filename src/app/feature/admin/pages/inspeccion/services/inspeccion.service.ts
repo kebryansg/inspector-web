@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '@environments/environment';
-import {Observable, of} from 'rxjs';
+import {Observable, of, timeout} from 'rxjs';
 import {concatMap, shareReplay} from 'rxjs/operators';
 import {PaginateInspection} from '../interfaces/inspection.interface';
 import {STATUS_INSPECTION} from "../const/status-inspection.const";
@@ -61,7 +61,9 @@ export class InspeccionService {
   getFileRequest(idInspection: number) {
     return this.http.get(this.urlBase + `inspeccion/file/${idInspection}/solicitud_pdf`,{
       responseType: 'blob' // This must be a Blob type
-    });
+    }).pipe(
+      timeout(7000)
+    );
   }
 
   assigmentInspector(idInspect: number, idInspector: number) {
