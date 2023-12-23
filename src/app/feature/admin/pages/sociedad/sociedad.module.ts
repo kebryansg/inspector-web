@@ -9,6 +9,7 @@ import {CardComponent} from "@standalone-shared/card/card.component";
 import {CategoriaComponent} from "./categoria/categoria.component";
 import {ActividadEconomicaComponent} from "./actividad-economica/actividad-economica.component";
 import {EntidadComponent} from "./entidad/entidad.component";
+import {ModalEntidadComponent} from "./components/modal-entidad/modal-entidad.component";
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import {EntidadComponent} from "./entidad/entidad.component";
     SociedadRoutingModule,
     DxDataGridModule,
     CardComponent,
-    DxButtonModule
+    DxButtonModule,
+    ModalEntidadComponent
   ],
   providers: [
     //SociedadCatalogService
