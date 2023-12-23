@@ -85,7 +85,7 @@ export class ListComponent implements OnInit {
         this.viewSolicitud(dataRow);
         break;
       case 'print_request':
-        this.printRequest(dataRow.Id);
+        this.printRequest(dataRow);
         break;
       case 'make_web':
         this.router.navigate(['..', 'inspweb', dataRow.Id], {
