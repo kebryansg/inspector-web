@@ -11,7 +11,7 @@
                 [headerFilter]="{visible:true}"
                 [filterRow]="{visible:true, applyFilter: 'auto'}">
 
-    <dxo-remote-operations [groupPaging]="true"/>
+    <dxo-remote-operations [paging]="true"/>
 
     <dxo-paging [pageSize]="10"/>
     <dxo-pager [showPageSizeSelector]="true"
@@ -30,7 +30,7 @@
                 cellTemplate="cellOptionsTemplate"
     />
     <dxi-column dataField="Id"
-                caption="Código Solicitud"
+                caption="Cód."
                 alignment="center"
                 [allowHeaderFiltering]="false"
     />
@@ -45,6 +45,10 @@
                 dataType="date"
                 format="yyyy, MMMM dd"
                 [allowHeaderFiltering]="false"
+    />
+    <dxi-column dataField="Sector"
+                [allowHeaderFiltering]="false"
+                caption="Sector"
     />
     <dxi-column dataField="RUC"
                 [allowHeaderFiltering]="false"

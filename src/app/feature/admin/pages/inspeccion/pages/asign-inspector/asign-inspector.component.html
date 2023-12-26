@@ -52,6 +52,8 @@
                     [selectedRowKeys]="selectedInspection()"
                     (selectedRowKeysChange)="selectedInspection.set($event)"
                     [columnAutoWidth]="true"
+                    [headerFilter]="{visible:true}"
+                    [columnChooser]="{enabled: true, mode:'select'}"
                     [showBorders]="true">
 
         <dxo-search-panel [visible]="true"/>
@@ -66,18 +68,21 @@
                        [showCheckBoxesMode]="'onClick'"
                        mode="multiple"
         />
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+        <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
 
         <dxo-toolbar>
-
           <dxi-item location="after">
             <div *dxTemplate>
               <dx-button icon="refresh"
-                         text="Recargar datos de la tabla"
+                         hint="Recargar datos de la tabla"
                          (onClick)="refreshTable$.next()"
               />
             </div>
           </dxi-item>
-          <dxi-item name="searchPanel" />
+          <dxi-item name="searchPanel"/>
+          <dxi-item name="columnChooserButton"/>
+          <dxi-item name="groupPanel"/>
         </dxo-toolbar>
 
         <!--#region Columns -->
@@ -91,6 +96,14 @@
                     dataType="date"
                     format="yyyy, MMMM dd"
                     [allowHeaderFiltering]="false"
+        />
+        <dxi-column dataField="Sector"
+                    [allowHeaderFiltering]="true"
+                    caption="Sector"
+        />
+        <dxi-column dataField="Inspector"
+                    [allowHeaderFiltering]="false"
+                    caption="Inspector"
         />
         <dxi-column dataField="RUC"
                     [allowHeaderFiltering]="false"
