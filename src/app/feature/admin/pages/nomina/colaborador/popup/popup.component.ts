@@ -7,6 +7,8 @@ import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {AsyncPipe} from "@angular/common";
 import {ToolsService} from "../../../../services/tools.service";
 import {isEmpty} from "@utils/empty.util";
+import {DxTextErrorControlDirective} from "@directives/text-box.directive";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
   standalone: true,
@@ -16,6 +18,8 @@ import {isEmpty} from "@utils/empty.util";
     AsyncPipe,
     DxTextBoxModule,
     DxSelectBoxModule,
+    DxTextErrorControlDirective,
+    DxSelectErrorControlDirective,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -71,7 +75,7 @@ export class PopupColaboradorComponent extends ModalTemplate implements OnInit, 
   }
 
   submit() {
-    this.form.markAsTouched();
+    this.form.markAllAsTouched();
     if (this.form.invalid) return;
 
     const dataForm = this.form.getRawValue()

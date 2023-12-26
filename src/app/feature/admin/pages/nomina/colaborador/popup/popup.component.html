@@ -67,7 +67,7 @@
                            displayExpr="Descripcion"
                            formControlName="IDDepartamento"
                            [searchEnabled]="true"
-            ></dx-select-box>
+            />
           </div>
         </div>
 
@@ -79,7 +79,7 @@
                            displayExpr="Descripcion"
                            formControlName="IDArea"
                            [searchEnabled]="true"
-            ></dx-select-box>
+            />
           </div>
         </div>
 
@@ -94,7 +94,7 @@
                            displayExpr="Nombre"
                            formControlName="IDCompania"
                            [searchEnabled]="true"
-            ></dx-select-box>
+            />
           </div>
         </div>
 
@@ -106,7 +106,7 @@
                            displayExpr="Descripcion"
                            formControlName="IDCargo"
                            [searchEnabled]="true"
-            ></dx-select-box>
+            />
           </div>
         </div>
 
@@ -119,7 +119,7 @@
                            displayExpr="label"
                            formControlName="Estado"
                            [searchEnabled]="true"
-            ></dx-select-box>
+            />
           </div>
         </div>
 
@@ -131,8 +131,8 @@
             (click)="activeModal.close()">
       Cancelar
     </button>
-    <button type="submit" class="btn btn-primary"
-            [disabled]="form.invalid">
+    <button type="submit"
+            class="btn btn-primary">
       Guardar
     </button>
   </div>

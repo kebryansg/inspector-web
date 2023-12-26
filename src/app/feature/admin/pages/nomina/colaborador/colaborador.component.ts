@@ -44,7 +44,7 @@ export class ColaboradorComponent {
         widget: 'dxButton',
         options: {
           icon: 'refresh',
-          text: 'Recargar datos de la tabla',
+          hint: 'Recargar datos de la tabla',
           onClick: () => this.refreshTable$.next()
         }
       },
@@ -53,7 +53,7 @@ export class ColaboradorComponent {
         widget: 'dxButton',
         options: {
           icon: 'add',
-          text: 'Agregar Registro',
+          hint: 'Agregar Registro',
           onClick: () => this.edit()
         }
       });
@@ -79,7 +79,8 @@ export class ColaboradorComponent {
       data: {
         data: row ?? {},
         titleModal: isEdit ? 'Editar Colaborador' : 'Nuevo Colaborador'
-      }
+      },
+      panelClass: 'modal-lg'
     });
 
     modalRef.closed
