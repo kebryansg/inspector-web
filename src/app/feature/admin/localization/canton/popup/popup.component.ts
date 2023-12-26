@@ -6,6 +6,8 @@ import {ToolsService} from "../../../services/tools.service";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {AsyncPipe, NgClass} from "@angular/common";
 import {ModalTemplate} from "@modal/modal-template";
+import {DxTextErrorControlDirective} from "@directives/text-box.directive";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
   standalone: true,
@@ -14,7 +16,9 @@ import {ModalTemplate} from "@modal/modal-template";
     DxSelectBoxModule,
     AsyncPipe,
     NgClass,
-    DxTextBoxModule
+    DxTextBoxModule,
+    DxTextErrorControlDirective,
+    DxSelectErrorControlDirective
   ],
   templateUrl: './popup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -54,7 +58,7 @@ export class PopupCantonComponent extends ModalTemplate implements OnInit {
   }
 
   submit() {
-    this.form.markAsTouched();
+    this.form.markAllAsTouched();
     if (this.form.invalid)
       return;
     this.activeModal.close(this.form.getRawValue());

@@ -8,6 +8,8 @@ import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {AsyncPipe, NgClass} from "@angular/common";
 import {tap} from "rxjs/operators";
 import {isEmpty} from "@utils/empty.util";
+import {DxTextErrorControlDirective} from "@directives/text-box.directive";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
   standalone: true,
@@ -17,7 +19,9 @@ import {isEmpty} from "@utils/empty.util";
     DxTextBoxModule,
     DxSelectBoxModule,
     NgClass,
-    AsyncPipe
+    AsyncPipe,
+    DxTextErrorControlDirective,
+    DxSelectErrorControlDirective
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -77,6 +81,7 @@ export class PopupParroquiaComponent extends ModalTemplate implements OnInit, Af
   }
 
   submit() {
+    this.form.markAllAsTouched()
     if (this.form.invalid)
       return;
     this.activeModal.close(this.form.getRawValue());

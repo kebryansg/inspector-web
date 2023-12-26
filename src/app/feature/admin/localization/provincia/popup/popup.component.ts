@@ -2,19 +2,22 @@ import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core'
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ModalTemplate} from "@modal/modal-template";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
-import {AsyncPipe, NgClass} from "@angular/common";
+import {AsyncPipe} from "@angular/common";
 import {Observable} from "rxjs";
 import {ToolsService} from "../../../services/tools.service";
+import {DxTextErrorControlDirective} from "@directives/text-box.directive";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 
 @Component({
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    DxSelectBoxModule,
-    NgClass,
     AsyncPipe,
-    DxTextBoxModule
+    DxSelectBoxModule,
+    DxTextBoxModule,
+    DxTextErrorControlDirective,
+    DxSelectErrorControlDirective,
   ],
   templateUrl: './popup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -49,7 +52,7 @@ export class PopupProvinciaComponent extends ModalTemplate implements OnInit {
   }
 
   submit() {
-    this.form.markAsTouched();
+    this.form.markAllAsTouched();
     if (this.form.invalid)
       return;
     this.activeModal.close(this.form.getRawValue());

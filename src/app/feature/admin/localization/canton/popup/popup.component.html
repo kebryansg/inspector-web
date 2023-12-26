@@ -1,66 +1,65 @@
 <div class="modal-header">
-    <h4 class="modal-title">
-        {{titleModal}}
-    </h4>
-    <button type="button" class="close"
-            aria-label="Close"
-            (click)="close()">
-        <i class="feather icon-x-circle"></i>
-    </button>
+  <h4 class="modal-title">
+    {{ titleModal }}
+  </h4>
+  <button type="button" class="close"
+          aria-label="Close"
+          (click)="close()">
+    <i class="feather icon-x-circle"></i>
+  </button>
 </div>
-<form [formGroup]="form" (submit)="submit()">
-    <div class="modal-body">
-        <div class="row">
-            <div class="col-md-6">
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="modal-body">
+    <div class="row">
+      <div class="col-md-6">
 
-                <div class="form-group form-default row">
-                    <label class="col-sm-12 col-form-label">Nombre Canton</label>
-                    <div class="col-sm-12">
-                        <dx-text-box formControlName="Descripcion"/>
-                    </div>
-                </div>
-
-                <div class="form-group form-default row">
-                    <label class="col-sm-12 col-form-label">Estado</label>
-                    <div class="col-sm-12">
-                        <dx-select-box [dataSource]="status$ | async"
-                                       displayExpr="label"
-                                       valueExpr="value"
-                                       formControlName="Estado"
-                                       [searchEnabled]="true"
-                        ></dx-select-box>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-6">
-
-                <div class="form-group form-default row">
-                    <label class="col-sm-12 col-form-label">Provincia</label>
-                    <div class="col-sm-12">
-                        <dx-select-box [dataSource]="lsProvincias$ | async"
-                                       displayExpr="Descripcion"
-                                       valueExpr="ID"
-                                       formControlName="IDProvincia"
-                                       [searchEnabled]="true"
-                        ></dx-select-box>
-                    </div>
-                </div>
-
-            </div>
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Nombre Canton</label>
+          <div class="col-sm-12">
+            <dx-text-box formControlName="Descripcion"/>
+          </div>
         </div>
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Estado</label>
+          <div class="col-sm-12">
+            <dx-select-box [dataSource]="status$ | async"
+                           displayExpr="label"
+                           valueExpr="value"
+                           formControlName="Estado"
+                           [searchEnabled]="true"
+            ></dx-select-box>
+          </div>
+        </div>
+
+      </div>
+      <div class="col-md-6">
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Provincia</label>
+          <div class="col-sm-12">
+            <dx-select-box [dataSource]="lsProvincias$ | async"
+                           displayExpr="Descripcion"
+                           valueExpr="ID"
+                           formControlName="IDProvincia"
+                           [searchEnabled]="true"
+            ></dx-select-box>
+          </div>
+        </div>
+
+      </div>
     </div>
-    <div class="modal-footer p-1 d-flex g-2 justify-content-end">
-        <button type="reset"
-                class="btn btn-danger"
-                (click)="close()">
-            Cancelar
-        </button>
-        <button type="submit"
-                class="btn btn-primary"
-                [ngClass]="{'btn-disabled': form.invalid}">
-            <!--      <icofont ico="icofont-save"></icofont>-->
-            Guardar
-        </button>
-    </div>
+  </div>
+  <div class="modal-footer p-1 d-flex g-2 justify-content-end">
+    <button type="reset"
+            class="btn btn-danger"
+            (click)="close()">
+      Cancelar
+    </button>
+    <button type="submit"
+            class="btn btn-primary">
+      <!--      <icofont ico="icofont-save"></icofont>-->
+      Guardar
+    </button>
+  </div>
 </form>

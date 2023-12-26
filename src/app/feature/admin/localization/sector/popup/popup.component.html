@@ -8,7 +8,7 @@
   </button>
 </div>
 
-<form [formGroup]="form" (submit)="submit()">
+<form [formGroup]="form" (ngSubmit)="submit()">
   <div class="modal-body">
     <div class="row">
       <div class="col-md-6">
@@ -28,7 +28,7 @@
                            valueExpr="value"
                            formControlName="Estado"
                            [searchEnabled]="true"
-            ></dx-select-box>
+            />
           </div>
         </div>
 
@@ -43,7 +43,7 @@
                            valueExpr="ID"
                            formControlName="IDProvincia"
                            [searchEnabled]="true"
-            ></dx-select-box>
+            />
           </div>
         </div>
 
@@ -55,7 +55,7 @@
                            valueExpr="ID"
                            formControlName="IDCanton"
                            [searchEnabled]="true"
-            ></dx-select-box>
+            />
           </div>
         </div>
 
@@ -67,7 +67,7 @@
                            valueExpr="ID"
                            formControlName="IDParroquia"
                            [searchEnabled]="true"
-            ></dx-select-box>
+            />
           </div>
         </div>
 
@@ -81,8 +81,7 @@
       Cancelar
     </button>
     <button type="submit"
-            class="btn btn-primary"
-            [ngClass]="{'btn-disabled': form.invalid}">
+            class="btn btn-primary">
       Guardar
     </button>
   </div>

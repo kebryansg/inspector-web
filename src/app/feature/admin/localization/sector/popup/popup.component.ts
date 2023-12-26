@@ -8,6 +8,8 @@ import {ModalTemplate} from "@modal/modal-template";
 import {ToolsService} from "../../../services/tools.service";
 import {tap} from "rxjs/operators";
 import {isEmpty} from "@utils/empty.util";
+import {DxTextErrorControlDirective} from "@directives/text-box.directive";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
   standalone: true,
@@ -16,7 +18,9 @@ import {isEmpty} from "@utils/empty.util";
     DxSelectBoxModule,
     AsyncPipe,
     NgClass,
-    DxTextBoxModule
+    DxTextBoxModule,
+    DxTextErrorControlDirective,
+    DxSelectErrorControlDirective
   ],
   templateUrl: './popup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -121,6 +125,7 @@ export class PopupSectorComponent extends ModalTemplate implements OnInit, After
   }
 
   submit() {
+    this.form.markAllAsTouched();
     if (this.form.invalid)
       return;
     this.activeModal.close(this.form.value);
