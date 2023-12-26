@@ -1,6 +1,5 @@
 import {DestroyRef, Directive, EventEmitter, inject, OnInit} from '@angular/core';
 import {AbstractControl, NgControl} from "@angular/forms";
-import {DxTextBoxComponent} from "devextreme-angular";
 import {merge} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
@@ -10,9 +9,9 @@ export class StatusErrorControlDirective implements OnInit {
   //private dxTextBox: DxTextBoxComponent = inject(DxTextBoxComponent, {host: true});
   private _dxComponent: any;
   private readonly ngControl: NgControl = inject(NgControl);
-  validationErrors: any
   destroyRef = inject(DestroyRef);
   touched: EventEmitter<void> = new EventEmitter<void>();
+  validationErrors: any = [{message: 'El campo es requerido'}]
 
   setDxComponent(component: any) {
     return this._dxComponent = component
@@ -34,7 +33,7 @@ export class StatusErrorControlDirective implements OnInit {
       // eslint-disable-next-line prefer-rest-params
       originalMethod.apply(this.control, arguments);
       //Extra code needed here.
-      this.touched.next();
+      this.touched.emit();
     }
 
     merge(
@@ -43,15 +42,10 @@ export class StatusErrorControlDirective implements OnInit {
       this.control!.statusChanges
     ).pipe(
       takeUntilDestroyed(this.destroyRef)
-    ).subscribe(() =>
-      //console.log(this.ngControl.status)
+    ).subscribe(() => {
       this.dxComponent._setOption('validationStatus', this.ngControl.valid ? 'valid' : 'invalid')
-    )
-
-
-    this.validationErrors = [
-      {message: 'El campo es requerido'}
-    ]
+      this.dxComponent._setOption('validationErrors', this.validationErrors)
+    })
   }
 
   get control(): AbstractControl {
