@@ -8,6 +8,9 @@
       "@environments/*": [
         "src/environments/*"
       ],
+      "@directives/*": [
+        "src/app/common/directives/*"
+      ],
       "@modal/*": [
         "src/app/common/modal/*"
       ],

@@ -27,6 +27,12 @@
       "jszip": [
         "node_modules/jszip/dist/jszip.min.js"
       ],
+      "@directives/*": [
+        "src/app/common/directives/*"
+      ],
+      "@modal/*": [
+        "src/app/common/modal/*"
+      ],
       "@environments/*": [
         "src/environments/*"
       ],
