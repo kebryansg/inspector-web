@@ -82,7 +82,8 @@ export class EntidadComponent implements OnInit, OnDestroy {
       data: {
         data: row ?? {},
         titleModal: isEdit ? 'Editar Entidad' : 'Nuevo Entidad'
-      }
+      },
+      panelClass: 'modal-lg'
     });
 
     modalRef.closed

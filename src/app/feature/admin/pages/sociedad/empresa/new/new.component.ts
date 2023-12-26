@@ -7,8 +7,7 @@ import {switchMap, takeUntil} from 'rxjs/operators';
 import {NotificationService} from "@service-shared/notification.service";
 import {CatalogoService} from "../../../../services/catalogo.service";
 import {ToolsService} from "../../../../services/tools.service";
-import {Empresa} from "../../interfaces";
-import {ActividadTarifario, CategoriaGrupo, GrupoTarifario} from "../../interfaces";
+import {ActividadTarifario, CategoriaGrupo, Empresa, GrupoTarifario} from "../../interfaces";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {TYPE_PERMISO} from "../const/type-permiso.const";
 import {Dialog} from "@angular/cdk/dialog";
@@ -317,6 +316,9 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   //#endregion
 
   submit() {
+    this.form.markAllAsTouched()
+    if (this.form.invalid) return;
+
     const data = this.form.getRawValue();
 
     this.notificationService.showSwalConfirm({
@@ -370,7 +372,8 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       //size: 'lg', centered: true
       data: {
         titleModal: 'Buscar Entidad'
-      }
+      },
+      panelClass: 'modal-lg'
     });
 
     modalRef.closed
@@ -509,6 +512,10 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   get sectorControl() {
     return this.form.controls['IDSector'] as FormControl
+  }
+
+  get rucControl() {
+    return this.form.controls['RUC'] as FormControl
   }
 
   //#endregion
