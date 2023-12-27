@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal,} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, OnInit, signal,} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {animate, style, transition, trigger} from '@angular/animations';
@@ -8,7 +8,7 @@ import {NotificationService} from "@service-shared/notification.service";
 import {CatalogoService} from "../../../../services/catalogo.service";
 import {ToolsService} from "../../../../services/tools.service";
 import {ActividadTarifario, CategoriaGrupo, Empresa, GrupoTarifario} from "../../interfaces";
-import {toSignal} from "@angular/core/rxjs-interop";
+import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
 import {TYPE_PERMISO} from "../const/type-permiso.const";
 import {Dialog} from "@angular/cdk/dialog";
 import {ModalEntidadComponent} from "../../components/modal-entidad/modal-entidad.component";
@@ -67,6 +67,7 @@ const longTabs = [
 
 export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  private destroyRef: DestroyRef = inject(DestroyRef);
   private fb: FormBuilder = inject(FormBuilder);
   private empresaService: EmpresaService<any> = inject(EmpresaService);
   private notificationService: NotificationService = inject(NotificationService);
@@ -110,7 +111,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   titleModal: string = '';
   edit = signal<boolean>(false);
 
-  private readonly httpClient= inject(HttpClient)
+  private readonly httpClient = inject(HttpClient)
   apiLoaded: Observable<boolean> = this.httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + environment.googleMapsKey, 'callback')
     .pipe(
       map(() => true),
@@ -118,13 +119,17 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       shareReplay(1),
     );
 
-  zoomMap= 17;
+  zoomMap = 17;
   centerMap: google.maps.LatLngLiteral = {lat: this.lat, lng: this.lng};
   markerOptions: google.maps.MarkerOptions = {draggable: false};
 
   addMarker(event: google.maps.MapMouseEvent) {
+    this.markerPositions.pop();
     this.markerPositions.push(event.latLng?.toJSON());
-    console.log(this.markerPositions)
+    this.form.patchValue({
+      Latitud: event.latLng?.lat(),
+      Longitud: event.latLng?.lng(),
+    });
   }
 
   onItemClick(e: any) {
@@ -148,26 +153,23 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   obtenerCatalogos() {
-    //this.refreshCombo$
-    //    .pipe(
-    //        debounceTime(500),
-    //        switchMap(option => this.caseCombo(option)),
-    //        takeUntil(this.destroy$)
-    //    ).subscribe();
-
     forkJoin([
       this.catalogoService.obtenerActividadEconomica(),
       this.catalogoService.obtenerTipoEmpresa(),
       this.catalogoService.obtenerProvincia()
-    ]).subscribe(
-      {
-        next: ([lsActivEconomica, lsTipoEmpresa, lsProvincias]: any) => {
-          this.lsActEconomica = lsActivEconomica;
-          this.lsTipoEmpresa = lsTipoEmpresa;
-          this.lsProvincias = lsProvincias;
-        },
-      }
-    );
+    ])
+      .pipe(
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe(
+        {
+          next: ([lsActivEconomica, lsTipoEmpresa, lsProvincias]: any) => {
+            this.lsActEconomica = lsActivEconomica;
+            this.lsTipoEmpresa = lsTipoEmpresa;
+            this.lsProvincias = lsProvincias;
+          },
+        }
+      );
   }
 
   cancel() {
@@ -271,7 +273,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
           this.catalogoService.obtenerTarifarioGrupo(IDTarifaGrupo) :
           of(null)
         ),
-        takeUntil(this.destroy$)
+        takeUntilDestroyed(this.destroyRef)
       ).subscribe((grupo: any) => {
 
       this.form.patchValue({
@@ -290,23 +292,24 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.provinciaControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$)
+        takeUntilDestroyed(this.destroyRef)
       ).subscribe(IDProvincia => this.loadCanton(IDProvincia));
 
     this.cantonControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$)
+        takeUntilDestroyed(this.destroyRef)
       ).subscribe(IDCanton => this.loadParroquia(IDCanton));
 
     this.parroquiaControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$)
+        takeUntilDestroyed(this.destroyRef)
       ).subscribe(IDParroquia => this.loadSector(IDParroquia));
 
   }
 
   //#region Localizacion
   loadCanton(IDProvincia: string) {
+    // TODO: Optimizar
     // Limpiar
     this.lsCanton.splice(0);
     this.cantonControl.setValue('');
@@ -318,6 +321,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadParroquia(IDCanton: string) {
+    // TODO: Optimizar
     // Limpiar
     this.lsParroquia.splice(0);
     this.parroquiaControl.setValue('');
@@ -329,6 +333,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   loadSector(IDParroquia: string) {
+    // TODO: Optimizar
     // Limpiar
     this.lsSector.splice(0);
     this.sectorControl.setValue('');
@@ -381,14 +386,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     });
-  }
-
-  selectMarcador({coords}: any) {
-    this.form.patchValue({
-      Latitud: coords.lat,
-      Longitud: coords.lng,
-    });
-    this.markerPositions = [coords];
   }
 
   //#region Modals
