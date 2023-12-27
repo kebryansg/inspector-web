@@ -326,6 +326,20 @@
         <div class="row">
           <div class="col-md-12">
 
+
+            @if (apiLoaded | async) {
+              <google-map [zoom]="zoomMap"
+                          [center]="centerMap"
+                          (mapClick)="addMarker($event)"
+                          [width]="'100%'">
+                @for (position of markerPositions; track position) {
+                  <map-marker [position]="position"
+                              [options]="markerOptions" />
+                }
+              </google-map>
+            } @else {
+              Cargando Mapa...
+            }
             <!--
             <agm-map (mapClick)="selectMarcador($event)"
                      [latitude]="lat"

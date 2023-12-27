@@ -2,8 +2,8 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, inject, OnDestroy, On
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {animate, style, transition, trigger} from '@angular/animations';
-import {forkJoin, of, Subject} from 'rxjs';
-import {switchMap, takeUntil} from 'rxjs/operators';
+import {catchError, forkJoin, Observable, of, Subject} from 'rxjs';
+import {map, shareReplay, switchMap, takeUntil} from 'rxjs/operators';
 import {NotificationService} from "@service-shared/notification.service";
 import {CatalogoService} from "../../../../services/catalogo.service";
 import {ToolsService} from "../../../../services/tools.service";
@@ -13,6 +13,8 @@ import {TYPE_PERMISO} from "../const/type-permiso.const";
 import {Dialog} from "@angular/cdk/dialog";
 import {ModalEntidadComponent} from "../../components/modal-entidad/modal-entidad.component";
 import {EmpresaService} from "../../services";
+import {HttpClient} from "@angular/common/http";
+import {environment} from "@environments/environment";
 
 
 const longTabs = [
@@ -84,7 +86,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   lat: number = -0.8948968;
   lng: number = -79.4903393;
 
-  lsMarcardoresMaps: any[] = [];
+  markerPositions: any[] = [];
 
   refreshCombo$: Subject<string> = new Subject<string>();
 
@@ -107,6 +109,23 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   entidad = signal<any | null>(null);
   titleModal: string = '';
   edit = signal<boolean>(false);
+
+  private readonly httpClient= inject(HttpClient)
+  apiLoaded: Observable<boolean> = this.httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + environment.googleMapsKey, 'callback')
+    .pipe(
+      map(() => true),
+      catchError(() => of(false)),
+      shareReplay(1),
+    );
+
+  zoomMap= 17;
+  centerMap: google.maps.LatLngLiteral = {lat: this.lat, lng: this.lng};
+  markerOptions: google.maps.MarkerOptions = {draggable: false};
+
+  addMarker(event: google.maps.MapMouseEvent) {
+    this.markerPositions.push(event.latLng?.toJSON());
+    console.log(this.markerPositions)
+  }
 
   onItemClick(e: any) {
     this.selectTab.set(this.longTabs[e.itemIndex].option);
@@ -216,7 +235,14 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.entidad.set(datos.idEntidad);
 
     if (datos.Latitud) {
-      this.lsMarcardoresMaps = [{lat: datos.Latitud, lng: datos.Longitud}];
+      this.centerMap = {
+        lat: Number(datos.Latitud),
+        lng: Number(datos.Longitud)
+      }
+      this.markerPositions.push(
+        {...this.centerMap}
+      );
+
     }
 
     if (datos.IDTarifaGrupo) {
@@ -362,7 +388,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       Latitud: coords.lat,
       Longitud: coords.lng,
     });
-    this.lsMarcardoresMaps = [coords];
+    this.markerPositions = [coords];
   }
 
   //#region Modals
