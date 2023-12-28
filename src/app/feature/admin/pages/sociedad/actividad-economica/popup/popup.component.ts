@@ -34,8 +34,6 @@ export class PopupActividadEconomicaComponent extends ModalTemplate implements O
     this.form = this.fb.group({
       ID: [0],
       Descripcion: [null, Validators.required],
-      TarifaLibre: [false],
-      Cuantitativo: [false],
       Estado: ['ACT', Validators.required]
     });
   }
