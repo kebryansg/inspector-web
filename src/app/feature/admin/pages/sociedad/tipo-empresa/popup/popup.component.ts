@@ -5,6 +5,8 @@ import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {AsyncPipe, NgClass} from "@angular/common";
 import {Observable} from "rxjs";
 import {ToolsService} from "../../../../services/tools.service";
+import {DxTextErrorControlDirective} from "@directives/text-box.directive";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
   standalone: true,
@@ -13,7 +15,9 @@ import {ToolsService} from "../../../../services/tools.service";
     NgClass,
     ReactiveFormsModule,
     DxSelectBoxModule,
-    DxTextBoxModule
+    DxTextBoxModule,
+    DxTextErrorControlDirective,
+    DxSelectErrorControlDirective
   ],
   templateUrl: './popup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -49,7 +53,7 @@ export class PopupTipoEmpresaComponent extends ModalTemplate implements OnInit {
   }
 
   submit() {
-    this.form.markAsTouched();
+    this.form.markAllAsTouched();
     if (this.form.invalid)
       return;
     this.activeModal.close(this.form.getRawValue());

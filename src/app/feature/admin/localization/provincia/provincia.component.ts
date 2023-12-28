@@ -40,7 +40,7 @@ export class ProvinciaComponent {
         widget: 'dxButton',
         options: {
           icon: 'refresh',
-          text: 'Recargar datos de la tabla',
+          hint: 'Recargar datos de la tabla',
           onClick: () => this.refreshTable$.next()
         }
       },

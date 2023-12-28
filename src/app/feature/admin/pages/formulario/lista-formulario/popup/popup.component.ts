@@ -51,7 +51,7 @@ export class PopupFormularioComponent extends ModalTemplate implements OnInit {
   }
 
   submit() {
-    this.form.markAsTouched();
+    this.form.markAllAsTouched();
     if (this.form.invalid)
       return;
     this.activeModal.close(this.form.getRawValue());

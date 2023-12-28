@@ -5,6 +5,8 @@ import {Observable} from "rxjs";
 import {ToolsService} from "../../../../services/tools.service";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {AsyncPipe, NgClass} from "@angular/common";
+import {DxTextErrorControlDirective} from "@directives/text-box.directive";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
   standalone: true,
@@ -14,6 +16,9 @@ import {AsyncPipe, NgClass} from "@angular/common";
     ReactiveFormsModule,
     DxTextBoxModule,
     DxSelectBoxModule,
+
+    DxTextErrorControlDirective,
+    DxSelectErrorControlDirective
   ],
   templateUrl: './popup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush

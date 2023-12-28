@@ -46,7 +46,6 @@ export class ModalEntidadComponent extends ModalTemplate implements OnInit {
         options: {
           icon: 'refresh',
           hint: 'Recargar datos de la tabla',
-          text: 'Recargar datos de la tabla',
           onClick: (_evt: any) => this.dataGrid.instance.refresh()
         }
       });

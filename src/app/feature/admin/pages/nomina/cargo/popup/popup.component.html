@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">
-    {{titleModal}}
+    {{ titleModal }}
   </h4>
   <button type="button" class="close" aria-label="Close"
           (click)="activeModal.close()">
@@ -41,8 +41,7 @@
       Cancelar
     </button>
     <button type="submit"
-            class="btn btn-primary"
-            [ngClass]="{'btn-disabled': form.invalid}">
+            class="btn btn-primary">
       Guardar
     </button>
   </div>

@@ -5,6 +5,8 @@ import {ModalTemplate} from "@modal/modal-template";
 import {IconService} from "../../../../services/icon.service";
 import {MenuService} from "../../services/menu.service";
 import {AsyncPipe, NgIf} from "@angular/common";
+import {DxTextErrorControlDirective} from "@directives/text-box.directive";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
   standalone: true,
@@ -15,7 +17,10 @@ import {AsyncPipe, NgIf} from "@angular/common";
     DxSelectBoxModule,
     DxDropDownBoxModule,
     DxTreeViewModule,
-    DxTextBoxModule
+    DxTextBoxModule,
+
+    DxTextErrorControlDirective,
+    DxSelectErrorControlDirective
   ],
   templateUrl: './popup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -54,30 +59,31 @@ export class OpcionPopupComponent extends ModalTemplate implements OnInit {
   private readonly menuService: MenuService = inject(MenuService);
 
   icons_feather = this.iconService.icons();
-  itemForm!: FormGroup;
+  itemForm: FormGroup = this.buildForm();
   lsModulos$ = this.menuService.getAll();
   oTreeValue: any;
 
   ngOnInit() {
-    this.buildForm();
     const {titleModal, data} = this.dataModal;
     this.titleModal = titleModal;
     data && this.editData(data);
+    this.events();
   }
 
   buildForm() {
-    this.itemForm = this.fb.group({
+    return this.fb.group({
       name: [null, Validators.required],
       id: [0, Validators.required],
       state: [null, Validators.required],
       parentId: [null],
       icon: [null, Validators.required],
     });
+  }
 
+  events() {
     this.itemForm.controls['parentId']
       .valueChanges
       .subscribe(parentId => this.oTreeValue = parentId);
-
   }
 
   editData(data: any) {
@@ -95,7 +101,7 @@ export class OpcionPopupComponent extends ModalTemplate implements OnInit {
   }
 
   submit() {
-    this.itemForm.markAsTouched();
+    this.itemForm.markAllAsTouched();
     if (this.itemForm.invalid)
       return;
     this.activeModal.close(this.itemForm.getRawValue());

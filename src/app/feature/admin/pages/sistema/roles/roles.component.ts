@@ -38,7 +38,7 @@ export class RolesComponent {
         widget: 'dxButton',
         locateInMenu: 'auto',
         options: {
-          text: 'Recargar datos de la tabla',
+          hint: 'Recargar datos de la tabla',
           icon: 'refresh',
           onClick: () => this.refreshTable$.next()
         }

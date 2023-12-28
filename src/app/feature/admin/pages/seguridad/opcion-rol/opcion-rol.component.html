@@ -18,7 +18,7 @@
                                valueExpr="ID"
                                formControlName="IdRol"
                                [showClearButton]="true"
-                ></dx-select-box>
+                />
               </div>
             </div>
           </div>
@@ -60,8 +60,8 @@
                     [showBorders]="true"
                     [wordWrapEnabled]="true"
                     [columnFixing]="{enabled:true}"
-                    [headerFilter]="{visible:true}"
-                    [filterRow]="{visible:true}"
+                    [headerFilter]="{visible:false}"
+                    [filterRow]="{visible:false}"
                     (onToolbarPreparing)="onToolbarPreparing($event)">
 
         <!--#region Config. DxDataGrid -->
@@ -89,18 +89,22 @@
 
         <dxi-column caption="Código"
                     dataField="ID"
+                    [allowSorting]="false"
                     [width]="120"
         ></dxi-column>
         <dxi-column caption="Icono"
                     dataField="icon"
                     alignment="center"
+                    [allowSorting]="false"
                     [cellTemplate]="'iconCell'"
                     [width]="120"
         ></dxi-column>
         <dxi-column caption="Módulo"
                     dataField="name"
+                    [allowSorting]="false"
         ></dxi-column>
         <dxi-column caption="Ruta"
+                    [allowSorting]="false"
                     dataField="state"
         ></dxi-column>
         <!-- iconCell -->

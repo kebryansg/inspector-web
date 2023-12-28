@@ -30,7 +30,6 @@
           <div class="col-sm-12">
             <dx-select-box formControlName="icon"
                            [dataSource]="icons_feather"
-                           [showClearButton]="true"
                            [searchEnabled]="true">
               <div *dxTemplate="let data of 'dropDownButton'">
                 <i *ngIf="itemForm.controls['icon'].value"
@@ -45,10 +44,6 @@
                 <div class="product-name">{{ data }}</div>
               </div>
             </dx-select-box>
-            <div class="messages text-danger"
-                 *ngIf="icon.touched && icon.invalid">
-              Icono es Requerido
-            </div>
           </div>
         </div>
       </div>
@@ -102,9 +97,7 @@
             (click)="activeModal.close()">
       Cancelar
     </button>
-    <button class="btn btn-primary"
-            [disabled]="itemForm.invalid">
-      <!-- <icofont ico="icofont-save"></icofont>-->
+    <button class="btn btn-primary">
       Guardar
     </button>
   </div>

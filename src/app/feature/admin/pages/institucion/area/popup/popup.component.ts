@@ -6,6 +6,8 @@ import {ToolsService} from "../../../../services/tools.service";
 import {CatalogoService} from "../../../../services/catalogo.service";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {AsyncPipe, NgClass} from "@angular/common";
+import {DxTextErrorControlDirective} from "@directives/text-box.directive";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
   standalone: true,
@@ -16,8 +18,9 @@ import {AsyncPipe, NgClass} from "@angular/common";
     DxTextBoxModule,
     AsyncPipe,
     NgClass,
-  ],
-  styles: []
+    DxTextErrorControlDirective,
+    DxSelectErrorControlDirective
+  ]
 })
 export class PopupAreaComponent extends ModalTemplate implements OnInit {
 
@@ -54,7 +57,7 @@ export class PopupAreaComponent extends ModalTemplate implements OnInit {
   }
 
   submit() {
-    this.form.markAsTouched();
+    this.form.markAllAsTouched();
     if (this.form.invalid)
       return;
     this.activeModal.close(this.form.getRawValue());

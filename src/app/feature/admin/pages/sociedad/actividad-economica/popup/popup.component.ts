@@ -5,6 +5,8 @@ import {AsyncPipe, NgClass} from "@angular/common";
 import {Observable} from "rxjs";
 import {ToolsService} from "../../../../services/tools.service";
 import {ModalTemplate} from "@modal/modal-template";
+import {DxTextErrorControlDirective} from "@directives/text-box.directive";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
   standalone: true,
@@ -14,7 +16,9 @@ import {ModalTemplate} from "@modal/modal-template";
     ReactiveFormsModule,
     DxSelectBoxModule,
     DxTextBoxModule,
-    DxCheckBoxModule
+    DxCheckBoxModule,
+    DxTextErrorControlDirective,
+    DxSelectErrorControlDirective
   ],
   templateUrl: './popup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -51,7 +55,7 @@ export class PopupActividadEconomicaComponent extends ModalTemplate implements O
   }
 
   submit() {
-    this.form.markAsTouched();
+    this.form.markAllAsTouched();
     if (this.form.invalid)
       return;
     this.activeModal.close(this.form.getRawValue());
