@@ -5,6 +5,9 @@
     "outDir": "./out-tsc/app",
     "types": [],
     "paths": {
+      "jszip": [
+        "node_modules/jszip/dist/jszip.min.js"
+      ],
       "@environments/*": [
         "src/environments/*"
       ],
