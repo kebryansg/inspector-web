@@ -1,6 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
-import {NgIf, TitleCasePipe} from '@angular/common';
+import {TitleCasePipe} from '@angular/common';
 import {DxButtonModule, DxSwitchModule} from "devextreme-angular";
+import {CdkAccordionModule} from '@angular/cdk/accordion';
 import {PopupItemComponentComponent} from "../../../catalogo/componente/popup/popup.component";
 import {filter} from "rxjs";
 import {PopupSeccionComponent} from "../../../catalogo/seccion/popup/popup.component";
@@ -13,11 +14,11 @@ import {ConfigFormService} from "../../services/config-form.service";
   selector: 'app-item-section',
   standalone: true,
   imports: [
-    NgIf,
     TitleCasePipe,
     DxButtonModule,
     ItemComponentComponent,
     DxSwitchModule,
+    CdkAccordionModule
   ],
   templateUrl: './item-section.component.html',
   styleUrls: ['./item-section.component.scss'],

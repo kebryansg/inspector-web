@@ -1,21 +1,35 @@
 <div class="container-component">
   <section class="header-component">
+
+    <p>Título</p>
     <span class="header-component__title">
       {{ component.Descripcion }}
     </span>
+    <p>Tipo Pregunta</p>
+
     <span class="header-component__sub-title">
       {{ typeDescriptionComponent }}
     </span>
+    <p>Estado</p>
+
+    <span class="header-component__status"
+          [class.text-info]="component.Estado == 'ACT'"
+          [class.text-danger]="component.Estado == 'INA'">
+      {{ component.Estado == 'ACT' ? 'Activo' : 'Inactivo' }}
+    </span>
+
+    <!--
     <span class="badge"
           [class.badge--active]="component.Estado == 'ACT'"
           [class.badge--inactive]="component.Estado == 'INA'">
         {{ component.Estado }}
     </span>
+    -->
   </section>
 
   <section class="container-component__actions">
 
-    <ng-container *ngIf="component.Estado === 'ACT'; else inactiveOptionsItem">
+    @if (component.Estado === 'ACT') {
       <dx-switch (onValueChanged)="onObligatorioChange($event)"
                  [value]="isObligatorio"
                  [switchedOffText]="'No'"
@@ -31,64 +45,41 @@
                  (onClick)="deleteComponent()"
                  hint="Eliminar"
       />
-
-    </ng-container>
-    <ng-template #inactiveOptionsItem>
+    } @else {
       <dx-button icon="far fa-sync-alt"
                  (onClick)="activeComponent()"
                  hint="Activar"
       />
-    </ng-template>
+    }
 
   </section>
 
 </div>
-
-<ng-container [ngSwitch]="typeComponent">
-
-  <ng-template [ngSwitchCase]="1">
+<!--
+@switch (typeComponent) {
+  @case (1) {
     <section class="config-component">
       <span>Items</span>
     </section>
-  </ng-template>
+  }
+  @case (2) {
+    <section class="config-component">
 
-  <ng-container *ngSwitchCase="2"
-                [ngTemplateOutlet]="defaultItem">
-  </ng-container>
+      <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+        <label class="font-italic text-primary">
+          Especificar Mínimo:
+        </label>
+      </div>
+      <div class="d-flex flex-row justify-content-between align-items-center mt-2">
+        <label class="font-italic text-primary">
+          Especificar Máximo:
+        </label>
+      </div>
+    </section>
+  }
+}
+-->
 
-</ng-container>
-
-<ng-template #defaultItem>
-
-  <section class="config-component">
-
-    <div class="d-flex flex-row justify-content-between align-items-center mt-2">
-      <label class="font-italic text-primary">
-        Especificar Mínimo:
-      </label>
-      <!--
-      <dx-number-box [(value)]="component.Atributo[0]"
-                     [showSpinButtons]="true"
-                     [showClearButton]="true"
-                     [width]="'150px'"
-      ></dx-number-box>
-      -->
-    </div>
-    <div class="d-flex flex-row justify-content-between align-items-center mt-2">
-      <label class="font-italic text-primary">
-        Especificar Máximo:
-      </label>
-      <!--
-      <dx-number-box [(value)]="component.Atributo[1]"
-                     [showSpinButtons]="true"
-                     [showClearButton]="true"
-                     [width]="'150px'"
-      ></dx-number-box>
-      -->
-    </div>
-  </section>
-
-</ng-template>
 <!--
 <div class="col-md-12" *ngIf="component.IDTipoComp == 2">
 

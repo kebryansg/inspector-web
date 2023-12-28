@@ -8,6 +8,7 @@
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-between;
+  align-items: flex-start;
   padding: 1rem;
 
   .header-component {
@@ -15,13 +16,23 @@
     flex-flow: column nowrap;
     gap: 8px;
 
+    p {
+      font-size: 16px;
+      font-weight: 600;
+    }
+
     &__title {
-      font-size: 20px;
+      font-size: 14px;
+      font-weight: 400;
     }
 
     &__sub-title {
       font-size: 14px;
       font-weight: 400;
+    }
+
+    &__status {
+      font-weight: 600;
     }
   }
 
@@ -30,7 +41,11 @@
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
-    gap: 5px;
+    gap: 8px;
+  }
+
+  &:hover {
+    border: 1px solid #f05b41;
   }
 
 }

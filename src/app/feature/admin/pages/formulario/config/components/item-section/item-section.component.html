@@ -1,41 +1,62 @@
-<div class="card my-2">
-  <div class="card-header d-flex flex-row flex-nowrap justify-content-between align-items-center">
-    <div class="d-flex gap-1">
-      {{ section.Descripcion | titlecase }}
+<cdk-accordion class="example-accordion">
+  <cdk-accordion-item
+    #accordionItem="cdkAccordionItem"
+    class="example-accordion-item"
+    role="button"
+    tabindex="0"
+    [attr.id]="'accordion-header-' + section.ID"
+    [attr.aria-expanded]="accordionItem.expanded"
+    [attr.aria-controls]="'accordion-body-' + section.ID">
 
-      <span class="badge"
-            [class.badge--active]="section.Estado == 'ACT'"
-            [class.badge--inactive]="section.Estado == 'INA'">
-        {{ section.Estado }}
+    <div class="card my-2">
+      <div class="card-header d-flex flex-row flex-nowrap justify-content-between align-items-center"
+           (click)="accordionItem.toggle()">
+        <div class="d-flex gap-1">
+
+          <h4>
+            {{ section.Descripcion | titlecase }}
+          </h4>
+
+          <span class="font-weight-600"
+                [class.text-info]="section.Estado == 'ACT'"
+                [class.text-danger]="section.Estado == 'INA'">
+        {{ section.Estado == 'ACT' ? 'Activo' : 'Inactivo' }}
       </span>
+        </div>
+
+        <div class="btn-group-icons-custom">
+
+          @if (section.Estado === 'ACT') {
+            <dx-button icon="far fa-plus"
+                       (onClick)="addComponent()"
+                       hint="Agregar componente"
+            />
+            <dx-button icon="far fa-pencil"
+                       (onClick)="editSection()"
+                       hint="Editar sección"
+            />
+            <dx-button icon="trash"
+                       (onClick)="deleteSection()"
+                       hint="Eliminar sección"
+            />
+          } @else {
+            <dx-button icon="far fa-sync-alt"
+                       (onClick)="activeComponent()"
+            />
+          }
+
+        </div>
+      </div>
+
+      <section class="list-components"
+               [style.display]="accordionItem.expanded ? '' : 'none'"
+               [attr.id]="'accordion-body-' + section.ID"
+               [attr.aria-labelledby]="'accordion-header-' + section.ID">
+        <ng-content></ng-content>
+      </section>
     </div>
 
-    <div class="btn-group-icons-custom">
+  </cdk-accordion-item>
+</cdk-accordion>
 
-      <ng-container *ngIf="section.Estado === 'ACT'; else inactiveOptionsSection">
-        <dx-button icon="far fa-plus"
-                   (onClick)="addComponent()"
-                   hint="Agregar componente"
-        />
-        <dx-button icon="far fa-pencil"
-                   (onClick)="editSection()"
-                   hint="Editar sección"
-        />
-        <dx-button icon="trash"
-                   (onClick)="deleteSection()"
-                   hint="Eliminar sección"
-        />
-      </ng-container>
-      <ng-template #inactiveOptionsSection>
-        <dx-button icon="far fa-sync-alt"
-                   (onClick)="activeComponent()"
-        />
-      </ng-template>
 
-    </div>
-  </div>
-
-  <section class="list-components">
-    <ng-content></ng-content>
-  </section>
-</div>

@@ -1,54 +1,60 @@
-<app-card [cardTitle]="'Formulario'"
-          [cardClass]="'mb-2'">
-  <app-details-form [dataForm]="dataForm()" />
-  <div class="row mt-2">
-    <div class="col-md-12 d-flex flex-row justify-content-end gap-2">
-      <button class="btn btn-danger"
-              (click)="cancel()">
-        Cancelar
-      </button>
-      <button class="btn btn-primary"
-              (click)="save()"
-              *ngIf="lsSection().length > 0">
-        Guardar
-      </button>
+<section class="container-form">
+
+  <app-card [cardTitle]="'Formulario'"
+            [cardClass]="'mb-2'">
+    <app-details-form [dataForm]="dataForm()"/>
+    <div class="row mt-2">
+      <div class="col-md-12 d-flex flex-row justify-content-end gap-2">
+        <button class="btn btn-danger"
+                (click)="cancel()">
+          Cancelar
+        </button>
+        <button class="btn btn-primary"
+                (click)="save()"
+                *ngIf="lsSection().length > 0">
+          Guardar
+        </button>
+      </div>
+
     </div>
+  </app-card>
 
-  </div>
-</app-card>
+  <app-card [hidHeader]="true"
+            [cardClass]="'mb-2'">
+    <div class="row">
+      <div class="col-md-12 flex d-flex align-items-center justify-content-between">
+        <h5 class="font-weight-bold">
+          Cantidad de Sección: {{ lsSection().length }}
+        </h5>
+        <button class="btn btn-sm btn-primary"
+                (click)="newSection()">
+          <i class="far fa-plus"></i>
+          Agregar Sección
+        </button>
+      </div>
+    </div>
+  </app-card>
 
-<app-card [hidHeader]="true"
-          [cardClass]="'mb-2'">
   <div class="row">
-    <div class="col-md-12 flex d-flex align-items-center justify-content-between">
-      <h5 class="font-weight-bold">
-        Sección
-      </h5>
-      <button class="btn btn-sm btn-primary" (click)="newSection()">
-        <i class="far fa-plus"></i>
-        Agregar Sección
-      </button>
-    </div>
-  </div>
-</app-card>
+    @for (section of lsSection(); track section.ID; let idxSection = $index) {
+      <div class="col-12">
 
-<div class="row">
-  <div class="col-lg-6 col-md-12 col-sm-12"
-       *ngFor="let section of lsSection(); let idxSection = index ">
+        <app-item-section [section]="section"
+                          [idx]="idxSection">
+          @for (component of section.componentes; track component.ID; let idxComponent = $index) {
+            <app-item-component [idx]="idxComponent"
+                                [typeDescriptionComponent]="component.idTipoComp.Descripcion"
+                                [idxSection]="idxSection"
+                                [component]="component"
+                                [typeComponent]="component.IDTipoComp"
+            />
+          }
+        </app-item-section>
 
-    <app-item-section [section]="section"
-                      [idx]="idxSection">
+      </div>
+    }
 
-      <app-item-component *ngFor="let component of section.componentes; let idxComponent = index"
-                          [idx]="idxComponent"
-                          [typeDescriptionComponent]="component.idTipoComp.Descripcion"
-                          [idxSection]="idxSection"
-                          [component]="component"
-                          [typeComponent]="component.IDTipoComp"
-      />
-
-    </app-item-section>
 
   </div>
 
-</div>
+</section>
