@@ -4,9 +4,11 @@ import {Observable} from 'rxjs';
 import {ModalTemplate} from "@modal/modal-template";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import {DxSelectBoxModule, DxTagBoxModule, DxTextBoxModule} from "devextreme-angular";
-import {AsyncPipe, NgIf} from "@angular/common";
+import {AsyncPipe} from "@angular/common";
 import {ToolsService} from "../../../../../services/tools.service";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {DxTextErrorControlDirective} from "@directives/text-box.directive";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
   standalone: true,
@@ -17,7 +19,8 @@ import {toSignal} from "@angular/core/rxjs-interop";
     DxSelectBoxModule,
     AsyncPipe,
     DxTagBoxModule,
-    NgIf
+    DxTextErrorControlDirective,
+    DxSelectErrorControlDirective
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -26,7 +29,7 @@ export class PopupItemComponentComponent extends ModalTemplate implements OnInit
   private readonly fb: FormBuilder = inject(FormBuilder);
   private readonly catalogService: CatalogoService = inject(CatalogoService);
 
-  form!: FormGroup;
+  form: FormGroup = this.buildForm();
   status$: Observable<any[]> = inject(ToolsService).status$;
   dataInputModal = signal<any>({})
   lsTipo = toSignal<any[], any[]>(
@@ -39,14 +42,13 @@ export class PopupItemComponentComponent extends ModalTemplate implements OnInit
   lsAttr: any[] = [];
 
   ngOnInit() {
-    this.buildForm();
     const {titleModal, data} = this.dataModal;
     this.titleModal = titleModal;
     data && this.editData(data);
   }
 
   buildForm() {
-    this.form = this.fb.group({
+    return this.fb.group({
       ID: [0],
       Descripcion: ['', Validators.required],
       IDTipoComp: ['', Validators.required],
@@ -56,7 +58,6 @@ export class PopupItemComponentComponent extends ModalTemplate implements OnInit
 
   editData(data: any) {
     this.dataInputModal.set(data);
-    console.log(data)
     if (data.Atributo && data.Atributo.length > 0)
       this.lsAttr = [...data.Atributo]
 
@@ -70,20 +71,23 @@ export class PopupItemComponentComponent extends ModalTemplate implements OnInit
 
 
   submit() {
+    this.form.markAllAsTouched();
     if (this.form.invalid) {
-      this.form.markAllAsTouched();
       return;
     }
 
     let data = this.form.getRawValue();
     const typeComponent = this.findTypeComponent(data.IDTipoComp);
-
-    this.activeModal.close({
+    const dataComponent = {
       ...data,
       Atributo: this.getAttr(typeComponent.ID),
       Obligatorio: this.dataInputModal().Obligatorio ?? true,
-      TipoComp: typeComponent.Descripcion,
-    });
+      idTipoComp: {
+        Descripcion: typeComponent.Descripcion
+      },
+    };
+
+    this.activeModal.close(dataComponent);
   }
 
   findTypeComponent(idTypeComponent: number) {
@@ -109,27 +113,6 @@ export class PopupItemComponentComponent extends ModalTemplate implements OnInit
 
   get status(): FormControl {
     return this.form.get('Estado') as FormControl;
-  }
-
-  get descriptionInvalid() {
-    return (
-      this.description.invalid &&
-      (this.description.touched || this.description.dirty)
-    );
-  }
-
-  get typeComponentInvalid() {
-    return (
-      this.typeComponent.invalid &&
-      (this.typeComponent.touched || this.typeComponent.dirty)
-    );
-  }
-
-  get statusInvalid() {
-    return (
-      this.status.invalid &&
-      (this.status.touched || this.status.dirty)
-    );
   }
 
   //#endregion

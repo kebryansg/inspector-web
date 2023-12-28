@@ -8,6 +8,7 @@ import {NotificationService} from "@service-shared/notification.service";
 import {FormDataResolver} from "../interfaces/form-data-resolver.interface";
 import {injectData} from "@utils-app/route-params.util";
 import {ConfigFormService} from "./services/config-form.service";
+import {IComponente} from "./interfaces/config.interfaces";
 
 @Component({
   selector: 'app-config',
@@ -90,7 +91,14 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
           // @ts-ignore
           delete component['ID'];
         }
-        return component;
+        return {
+          ...(component.ID == 0 ? null : {ID: component.ID}),
+          IDTipoComp: component.IDTipoComp,
+          Descripcion: component.Descripcion,
+          Estado: component.Estado,
+          Atributo: component.Atributo,
+          Obligatorio: component.Obligatorio,
+        } as IComponente;
       });
       return itemSeccion;
     });

@@ -9,7 +9,8 @@
     <i class="feather icon-x-circle"></i>
   </button>
 </div>
-<form [formGroup]="form" (submit)="submit()">
+<form [formGroup]="form"
+      (ngSubmit)="submit()">
   <div class="modal-body">
     <div class="row">
       <div class="col-md-12">
@@ -20,8 +21,7 @@
           <div class="col-sm-12">
             <dx-text-box
               formControlName="Descripcion"
-              [isValid]="!descriptionInvalid"
-            ></dx-text-box>
+            />
           </div>
         </div>
       </div>
@@ -35,9 +35,6 @@
                            displayExpr="Descripcion"
                            valueExpr="ID"
                            formControlName="IDTipoComp"
-                           [isValid]="!typeComponentInvalid"
-                           [searchEnabled]="true"
-                           [showClearButton]="true"
             />
           </div>
         </div>
@@ -52,14 +49,12 @@
                            displayExpr="label"
                            valueExpr="value"
                            formControlName="Estado"
-                           [isValid]="!statusInvalid"
             />
           </div>
         </div>
       </div>
     </div>
-
-    <ng-container *ngIf="typeComponent.value === 1">
+    @if (typeComponent.value === 1) {
       <div class="row">
         <div class="col-12">
 
@@ -78,7 +73,7 @@
           </div>
         </div>
       </div>
-    </ng-container>
+    }
   </div>
 
   <div class="modal-footer">
