@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/
 import {ModalTemplate} from "@modal/modal-template";
 import {Observable} from "rxjs";
 import {ToolsService} from "../../../../services/tools.service";
-import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
+import {DxCheckBoxModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {AsyncPipe, NgClass} from "@angular/common";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
@@ -18,7 +18,8 @@ import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
     DxSelectBoxModule,
 
     DxTextErrorControlDirective,
-    DxSelectErrorControlDirective
+    DxSelectErrorControlDirective,
+    DxCheckBoxModule
   ],
   templateUrl: './popup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -42,6 +43,8 @@ export class PopupGrupoActividadComponent extends ModalTemplate implements OnIni
       IDGrupo: [null],
       Nombre: ['', Validators.required],
       Descripcion: [''],
+      Tarifalibre: [false],
+      Cuantitativo: [false],
       Estado: ['ACT', Validators.required]
     });
   }

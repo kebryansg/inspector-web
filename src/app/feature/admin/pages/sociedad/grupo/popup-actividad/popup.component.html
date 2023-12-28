@@ -28,6 +28,8 @@
           </div>
         </div>
 
+
+
       </div>
       <div class="col-md-6">
 
@@ -38,6 +40,28 @@
                            displayExpr="label"
                            valueExpr="value"
                            formControlName="Estado"
+            />
+          </div>
+        </div>
+
+        <div class="form-group form-default row mt-2">
+          <label class="col-sm-8 col-form-label">
+            Tarifa Libre
+          </label>
+          <div class="col-sm-4 d-flex justify-content-center">
+            <dx-check-box
+              formControlName="Tarifalibre"
+              [elementAttr]="{ 'aria-label': 'Checked' }"
+            />
+          </div>
+        </div>
+
+        <div class="form-group form-default row mt-2">
+          <label class="col-sm-8 col-form-label">Cuantitativa</label>
+          <div class="col-sm-4 d-flex justify-content-center">
+            <dx-check-box
+              formControlName="Cuantitativo"
+              [elementAttr]="{ 'aria-label': 'Checked' }"
             />
           </div>
         </div>

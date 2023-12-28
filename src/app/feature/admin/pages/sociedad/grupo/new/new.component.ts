@@ -156,8 +156,6 @@ export class NewGrupoComponent implements AfterContentInit {
   }
 
   openModalActivityGroup(row: any = {ID: 0}, rowIndex = -1) {
-    console.log(row)
-    console.log(rowIndex)
     const editItem = (rowIndex !== -1)
     const modalRef = this.dialogService.open(PopupGrupoActividadComponent, {
       data: {
@@ -214,10 +212,9 @@ export class NewGrupoComponent implements AfterContentInit {
 
     modalRef.closed
       .pipe(
-        filter(response => !!response),
+        filter(Boolean),
         switchMap((data) => this.categoriaService.create(data))
-      )
-      .subscribe();
+      ).subscribe();
   }
 
   deleteActivityGroup(row: any, rowIndex: number) {

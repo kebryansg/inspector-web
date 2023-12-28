@@ -13,9 +13,9 @@
   </dx-tabs>
 
   <app-card cardClass="mt-2" [hidHeader]="true">
-    <ng-container [ngSwitch]="selectTab()">
 
-      <ng-container *ngSwitchCase="'home'">
+    @switch (selectTab()) {
+      @case ('home') {
         <div [@fadeInOutTranslate] class="m-20">
           <div class="row">
 
@@ -128,9 +128,8 @@
 
           </div>
         </div>
-      </ng-container>
-
-      <ng-container *ngSwitchCase="'act-grupo'">
+      }
+      @case ('act-grupo') {
         <div [@fadeInOutTranslate] class="m-20">
 
           <div class="row">
@@ -165,6 +164,14 @@
                 <dxi-column dataField="Descripcion"
                             caption="Descripción"
                 />
+                <dxi-column dataField="Tarifalibre"
+                            caption="Tarifa Libre"
+                            dataType="boolean"
+                />
+                <dxi-column dataField="Cuantitativo"
+                            dataType="boolean"
+                            caption="Cuantitativa"
+                />
                 <dxi-column dataField="Estado" alignment="center">
                   <dxo-lookup [dataSource]="status$ | async"
                               valueExpr="value"
@@ -192,7 +199,8 @@
           </div>
 
         </div>
-      </ng-container>
-    </ng-container>
+      }
+    }
+
   </app-card>
 </form>
