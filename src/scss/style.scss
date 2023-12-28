@@ -2,10 +2,20 @@
 @import "font/feather";
 @import "bagde/badge";
 
-//@import "layouts/menu-lite";
-//@import "layouts/menu-ng";
-
-
 .font-weight-bold {
   font-weight: bold;
+}
+
+.font-weight {
+  &-400 {
+    font-weight: 400;
+  }
+
+  &-500 {
+    font-weight: 500;
+  }
+
+  &-600 {
+    font-weight: 600;
+  }
 }
