@@ -15,6 +15,8 @@ import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
 import {FileSaverService} from 'ngx-filesaver';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {AnexoService} from "../../services/anexo.service";
+import {formatDate} from "devextreme/localization";
 
 type itemAction = {
   name: string;
@@ -22,7 +24,7 @@ type itemAction = {
   icon: string;
 }
 type action = 'download' | 'send_result' | 'view_result' | 'delete' | 'assign_inspector' |
-  'print_request' | 'send_request' |'view_request' | 'make_web';
+  'print_request' | 'send_request' | 'view_request' | 'make_web';
 
 
 @Component({
@@ -100,6 +102,8 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
+
+
     this.gridDataSource = new DataSource({
       key: 'Id',
       load: (loadOptions: any) => {
@@ -216,11 +220,13 @@ export class ListComponent implements OnInit {
       title: 'Recuperando solicitud de inspección'
     });
 
+    const nameFile = `solicitud ${row.Id}-${row.NombreComercial}-${formatDate(new Date(row.FechaRegistro), 'yyyyMMdd-hhmm')}.pdf`
+
     this.inspeccionService.getFileRequest(row.Id)
       .subscribe({
         next: (res) => {
           this.notificationService.closeLoader();
-          this._fileSaverService.save((<any>res), `solicitud - ${row.NombreComercial}.pdf`);
+          this._fileSaverService.save((<any>res), nameFile);
         },
         error: (err) => {
           this.notificationService.closeLoader();
@@ -247,12 +253,25 @@ export class ListComponent implements OnInit {
   }
 
   printRequest(row: Inspection) {
+    this.notificationService.showLoader({
+      title: 'Reimprimiendo solicitud de inspección.'
+    });
     this.inspeccionService.generateFile(row.Id)
-      .subscribe(() => {
-        this.notificationService.showSwalMessage({
-          title: 'La solicitud fue generada con éxito',
-          icon: 'success',
-        });
+      .subscribe({
+        next: () => {
+          this.notificationService.closeLoader();
+          this.notificationService.showSwalMessage({
+            title: 'La solicitud fue generada con éxito',
+            icon: 'success',
+          });
+        },
+        error: err => {
+          this.notificationService.closeLoader();
+          this.notificationService.showSwalMessage({
+            title: 'Problemas con la operación',
+            icon: 'error',
+          })
+        }
       });
   }
 
@@ -272,6 +291,14 @@ export class ListComponent implements OnInit {
               title: !validMail ? 'Error en la operación.' : 'La solicitud fue reenviada con éxito.',
               text: !validMail ? response.message : '',
               icon: !validMail ? 'warning' : 'success',
+            });
+          },
+          error: err => {
+            this.notificationService.closeLoader()
+            this.notificationService.showSwalMessage({
+              title: 'Error en la operación.',
+              text: 'Archivo no existe',
+              icon: 'error',
             });
           }
         });
