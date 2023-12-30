@@ -15,6 +15,7 @@ import {
 } from "devextreme-angular";
 import {NewInspeccionComponent} from './pages/new/new.component';
 import {FileSaverModule} from 'ngx-filesaver';
+import {StatusPipe} from "../../../../pipes/status-inspection.pipe";
 
 
 @NgModule({
@@ -23,6 +24,7 @@ import {FileSaverModule} from 'ngx-filesaver';
     FormsModule,
     ReactiveFormsModule,
     InspeccionRoutingModule,
+    StatusPipe,
     // AngularFirestoreModule,
     // AngularFireAuthModule,
     // AngularFireStorageModule,

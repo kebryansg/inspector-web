@@ -18,11 +18,15 @@ export class FormService {
     return this.http.get<any>(`${this.endpointUrl}/${idRow}`)
   }
 
+  getGrupoActividad(): Observable<any[]> {
+    return this.http.get<any[]>(environment.apiUrl + 'grupo/actividad')
+  }
+
   getConfigItemById(idRow: string): Observable<any> {
     return this.http.get<any>(`${this.endpointUrl}/${idRow}/seccion/config`)
   }
 
-  setConfigItemById(idRow: string, configForm:any): Observable<any> {
+  setConfigItemById(idRow: string, configForm: any): Observable<any> {
     return this.http.post<any>(`${this.endpointUrl}/${idRow}/seccion/config`, configForm)
   }
 

@@ -1,5 +1,5 @@
 import {Observable, of, shareReplay} from "rxjs";
-import {Injectable} from "@angular/core";
+import {Injectable, signal} from "@angular/core";
 
 
 export const STATUS = [
@@ -13,6 +13,7 @@ export const STATUS = [
 })
 export class ToolsService {
 
-  status$: Observable<{value:string, label:string}[]> = of([...STATUS]).pipe(shareReplay());
+  status$: Observable<{ value: string, label: string }[]> = of([...STATUS]).pipe(shareReplay());
+  status = signal(STATUS).asReadonly();
 
 }

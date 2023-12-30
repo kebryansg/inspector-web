@@ -44,8 +44,9 @@
                   displayExpr="label"
       />
     </dxi-column>
-    <dxi-column dataField="Estado" alignment="center">
-      <dxo-lookup [dataSource]="lsEstados$ | async"
+    <dxi-column dataField="Estado"
+                alignment="center">
+      <dxo-lookup [dataSource]="lsStatus()"
                   valueExpr="value"
                   displayExpr="label"
       />

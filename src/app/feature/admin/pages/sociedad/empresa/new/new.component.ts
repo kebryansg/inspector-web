@@ -3,7 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {animate, style, transition, trigger} from '@angular/animations';
 import {catchError, forkJoin, Observable, of, Subject} from 'rxjs';
-import {map, shareReplay, switchMap, takeUntil} from 'rxjs/operators';
+import {map, shareReplay, switchMap} from 'rxjs/operators';
 import {NotificationService} from "@service-shared/notification.service";
 import {CatalogoService} from "../../../../services/catalogo.service";
 import {ToolsService} from "../../../../services/tools.service";

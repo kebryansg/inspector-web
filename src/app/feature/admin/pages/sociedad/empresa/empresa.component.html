@@ -12,11 +12,10 @@
     <dxo-remote-operations [paging]="true"/>
 
     <dxo-paging [pageSize]="10"></dxo-paging>
-    <dxo-pager
-      [showPageSizeSelector]="true"
-      [allowedPageSizes]="[10, 20, 40, 60]"
-      [showInfo]="true">
-    </dxo-pager>
+    <dxo-pager [showPageSizeSelector]="true"
+               [allowedPageSizes]="[10, 20, 40, 60]"
+               [showInfo]="true"
+    />
 
     <dxi-column caption="Opciones"
                 [width]="120"
@@ -27,48 +26,41 @@
                 cellTemplate="cellOptionsTemplate">
     </dxi-column>
     <dxi-column dataField="RUC"/>
-    <dxi-column dataField="NombreComercial" />
-    <dxi-column dataField="RazonSocial" />
+    <dxi-column dataField="NombreComercial"/>
+    <dxi-column dataField="RazonSocial"/>
     <dxi-column dataField="idActEconomica.Descripcion"
                 caption="Actividad Económica"
     />
     <dxi-column dataField="idTipoEmpresa.Nombre"
                 caption="Tipo Empresa"
     />
+    <dxi-column dataField="Estado"
+                alignment="center">
+      <dxo-lookup [dataSource]="lsStatus()"
+                  valueExpr="value"
+                  displayExpr="label"
+      />
+    </dxi-column>
 
     <div *dxTemplate="let data of 'cellOptionsTemplate'">
       <div class="btn-group-icons">
-        <ng-container *ngIf="data.data?.Estado !== 'INA'; else activeRegister">
+        @if (data.data?.Estado === 'ACT') {
           <dx-button icon="edit"
+                     hint="Editar"
                      (onClick)="edit(data.data.ID)"
           />
 
           <dx-button icon="trash"
+                     hint="Eliminar"
                      (onClick)="delete(data.data)"
           />
-        </ng-container>
-        <ng-template #activeRegister>
+        } @else {
           <dx-button icon="check"
+                     hint="Reactivar"
                      (onClick)="reactivar(data.data)"
           />
-        </ng-template>
+        }
       </div>
-      <!--<div class="btn-group-icons" *ngIf="data.data?.Estado == 'INA'">
-        <icofont ico="icofont icofont-check m-r-15 f-20 text-success cursor-pointer"
-                 (click)="reactivar(data.data)"
-                 ngbTooltip="Reactivar"
-        ></icofont>
-      </div>
-      <div class="btn-group-icons" *ngIf="data.data?.Estado == 'ACT'">
-        <icofont ico="icofont icofont-edit m-r-15 f-20 text-primary cursor-pointer"
-                 [routerLink]="['./new/', data.data.ID]"
-                 ngbTooltip="Editar"
-        ></icofont>
-        <icofont ico="icofont icofont-trash m-r-15 f-20 text-danger cursor-pointer"
-                 (click)="delete(data.data)"
-                 ngbTooltip="Inactivar"
-        ></icofont>
-      </div>-->
     </div>
   </dx-data-grid>
 </app-card>

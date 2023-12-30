@@ -10,6 +10,7 @@ import {EmpresaService, EntidadService} from "../../../sociedad/services";
 import {NotificationService} from "@service-shared/notification.service";
 import {Empresa, Entidad} from "../../../sociedad/interfaces";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {ToolsService} from "../../../../services/tools.service";
 
 @Component({
   selector: 'app-new',
@@ -30,7 +31,7 @@ export class NewInspeccionComponent implements OnInit {
   lsColaborador$ = inject(CatalogoService).obtenerInspector();
 
   isOpenedDropDownBox = signal<boolean>(false);
-
+  lsStatus = inject(ToolsService).status;
 
   form: FormGroup = this.buildForm();
 

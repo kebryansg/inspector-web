@@ -8,6 +8,7 @@ import {isNotEmpty} from "@utils/empty.util";
 import {NotificationService} from "@service-shared/notification.service";
 import {CatalogoService} from "../../../services/catalogo.service";
 import {EmpresaService} from "../services";
+import {ToolsService} from "../../../services/tools.service";
 
 @Component({
   selector: 'app-empresa',
@@ -24,6 +25,7 @@ export class EmpresaComponent implements OnInit {
 
   @ViewChild(DxDataGridComponent) dataGrid!: DxDataGridComponent;
   gridDataSource: any;
+  lsStatus = inject(ToolsService).status;
 
   lsActiEconomica$: Observable<any> = this.catalogoService.obtenerActividadEconomica();
   lsTipoEmpresa$: Observable<any> = this.catalogoService.obtenerTipoEmpresa();

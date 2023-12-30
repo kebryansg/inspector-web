@@ -1,4 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, inject, OnInit, signal, ViewChild} from '@angular/core';
+import {toSignal} from "@angular/core/rxjs-interop";
+import {FormControl, Validators} from "@angular/forms";
+import {DxTreeListComponent} from "devextreme-angular";
+import {FormService} from "../services/form.service";
+import {FormularioGroupService} from "../services/formulario-group.service";
+import {NotificationService} from "@service-shared/notification.service";
 
 @Component({
   selector: 'app-asign',
@@ -7,60 +13,116 @@ import {Component, OnInit} from '@angular/core';
 })
 export class AssignFormComponent implements OnInit {
 
-  slCategoria: number = -1;
-  slActEconomica: number = -1;
-  slFormulario: number = -1;
-  slGrupo: number = -1;
+  private formService: FormService = inject(FormService);
+  private formGroupService: FormularioGroupService = inject(FormularioGroupService);
+  private readonly notificationService: NotificationService = inject(NotificationService);
 
-  lsActEconomica: any[] = [];
-  lsTipoEmpresa: any[] = [];
+  @ViewChild('dxTreeData') treeList!: DxTreeListComponent;
+  bTreeExpanded: boolean = false;
+  formControl = new FormControl<string>('', {
+    validators: Validators.required,
+    nonNullable: true
+  })
 
-  lsGrupo: any[] = [];
-  lsActividad: any[] = [];
-  lsCategoria: any[] = [];
+  listGrupoActividad = toSignal<any[], any[]>(
+    this.formService.getGrupoActividad(),
+    {initialValue: []}
+  )
 
-  lsFilterClasificacion: any[] = [];
+  lsFormulario = toSignal(this.formService.getAll(), {
+    initialValue: []
+  });
+  selectedItemsId = signal<number[]>([]);
 
-  lsFormulario: any[] = [];
-  selected: any[] = [];
+  //selected: any[] = [];
 
-  async ngOnInit() {
-
-    /*
-    let result = await Promise.all([
-      this.crudService.SeleccionarAsync('acteconomica_combo'),
-      this.crudService.SeleccionarAsync('tipoempresa_combo'),
-      this.crudService.SeleccionarAsync('formulario_combo'),
-      this.crudService.SeleccionarAsync('grupo_combo'),
-
-    ]);
-
-    this.lsActEconomica = result[0] as any[];
-    this.lsTipoEmpresa = result[1] as any[];
-    this.lsFormulario = result[2] as any[];
-    this.lsGrupo = result[3] as any[];
-    */
+  ngOnInit() {
 
   }
 
-  changeGrupo(event: any) {
-    this.lsActividad = [...this.lsGrupo.find(row => row.ID == event).acttarifarios];
-    this.lsCategoria = [...this.lsGrupo.find(row => row.ID == event).categorium];
+  onToolbarPreparing(e: any) {
+    e.toolbarOptions.items.unshift(
+      {
+        location: 'after',
+        widget: 'dxButton',
+        locateInMenu: 'auto',
+        options: {
+          hint: 'Recargar datos de la tabla',
+          icon: 'refresh',
+          onClick: () => {
+            //this.refreshTable.next()
+            console.log(this.listGrupoActividad())
+            //this.refreshTable$.next()
+          }
+        }
+      }, {
+        location: 'after',
+        widget: 'dxButton',
+        locateInMenu: 'auto',
+        options: {
+          hint: 'Limpiar selección',
+          icon: 'trash',
+          onClick: () => {
+            this.selectedItemsId.update(() => [])
+          }
+        }
+      },
+    );
   }
 
-  onSelect({selected}: any) {
-    this.selected.splice(0, this.selected.length);
-    this.selected.push(...selected);
+
+  onChangeStatusExpanded() {
+    this.bTreeExpanded = !this.bTreeExpanded;
+
+    if (this.bTreeExpanded) {
+      this.treeList.autoExpandAll = true;
+    } else {
+      this.treeList.autoExpandAll = false;
+      this.treeList.expandedRowKeys = [];
+    }
   }
+
+  getAllSelectedKeys = () => {
+    const lsItems: any[] = [];
+    const instanceTree = this.treeList.instance;
+    instanceTree.forEachNode((node: any) => {
+      if (instanceTree.isRowSelected(node.key)) {
+        lsItems.push(node.key);
+      }
+    });
+    return lsItems;
+  };
 
   save() {
-    let items = this.selected.map(item => item.ID);
     /*
-    this.crudService.Insertar(items, `clasificacion_ls_asign/${this.slFormulario}`)
-      .subscribe(res => {
-        this.selected = this.lsFilterClasificacion = [];
-        this.slActEconomica = this.slCategoria = this.slFormulario = null;
-      });
+    this.notificationService.showSwalConfirm({
+      title: 'Guardar Configuración',
+      confirmButtonText: 'Si, guardar.',
+    }).then(result => {
+      if (!result) {
+        return;
+      }
+
+      this.notificationService.showLoader({
+        title: 'Guardando Configuración',
+      })
+
+
+      this.formGroupService.save(this.formControl.value, this.getAllSelectedKeys())
+        .subscribe({
+          next: () => {
+            this.notificationService.closeLoader()
+            this.notificationService.showSwalMessage({
+              title: 'Configuración guardada',
+              icon: 'success'
+            })
+          },
+          error: () => {
+            this.notificationService.closeLoader()
+          }
+        })
+
+    });
     */
   }
 

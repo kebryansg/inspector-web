@@ -99,14 +99,20 @@
           />
           <!--#endregion-->
 
-          <dxi-column dataField="RUC"
+          <dxi-column dataField="Estado"
+                      alignment="center">
+            <dxo-lookup [dataSource]="lsStatus()"
+                        valueExpr="value"
+                        displayExpr="label"
+            />
+          </dxi-column><dxi-column dataField="RUC"
+                      [allowHeaderFiltering]="false"
+          />
+         <dxi-column dataField="NombreComercial"
                       [allowHeaderFiltering]="false"
           />
           <dxi-column dataField="RazonSocial"
                       caption="Razón Social"
-                      [allowHeaderFiltering]="false"
-          />
-          <dxi-column dataField="NombreComercial"
                       [allowHeaderFiltering]="false"
           />
           <dxi-column dataField="idActEconomica.Descripcion"
@@ -118,6 +124,7 @@
           <dxi-column dataField="idTipoEmpresa.Descripcion"
                       caption="Tipo Empresa"
           />
+
         </dx-data-grid>
       </div>
     </section>

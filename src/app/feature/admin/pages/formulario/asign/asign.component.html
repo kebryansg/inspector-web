@@ -1,163 +1,135 @@
-<div class="row">
-  <div class="col-sm-12">
-    <app-card [title]="'Asignar Formulario - Act. Económica'">
-
-      <div class="view-info">
-        <div class="row form-material">
-          <!-- ActEcono - TipoEmpresa -->
-          <div class="col-md-5">
-
-            <div class="form-group form-primary">
-              <select class="form-control form-control-primary">
-                <option *ngFor="let actEconomica of lsActEconomica" [value]="actEconomica.ID">
-                  {{ actEconomica.Descripcion }}
-                </option>
-              </select>
-              <span class="form-bar"></span>
-              <label class="float-label">Act. Económica</label>
-            </div>
-            <div class="form-group form-primary">
-              <select class="form-control form-control-primary">
-                <option *ngFor="let tipo of lsTipoEmpresa" [value]="tipo.ID">
-                  {{ tipo.Nombre }}
-                </option>
-              </select>
-              <span class="form-bar"></span>
-              <label class="float-label">Tipo Empresa</label>
-            </div>
-
-          </div>
-          <!-- Grupo - Actividad - Categoria -->
-          <div class="col-md-5">
-            <!--<h3 class="sub-title text-c-blue font-weight-bold">Tarifario</h3>-->
-            <div class="form-group form-primary">
-              <select class="form-control form-control-primary" [(ngModel)]="slGrupo"
-                      (ngModelChange)="changeGrupo($event)">
-                <option *ngFor="let item of lsGrupo" [value]="item.ID">{{ item.Nombre }}
-                </option>
-              </select>
-              <span class="form-bar"></span>
-              <label class="float-label">Grupo</label>
-            </div>
-
-            <div class="form-group form-primary">
-              <select class="form-control form-control-primary">
-                <option *ngFor="let item of lsActividad" [value]="item.ID">{{ item.Nombre }}
-                </option>
-              </select>
-              <span class="form-bar"></span>
-              <label class="float-label">Actividad</label>
-            </div>
-
-            <div class="form-group form-primary">
-              <select class="form-control form-control-primary">
-                <option *ngFor="let item of lsCategoria" [value]="item.ID">{{ item.Nombre }}
-                </option>
-              </select>
-              <span class="form-bar"></span>
-              <label class="float-label">Categoría</label>
-            </div>
-
-          </div>
-
-        </div>
-
-        <div class="row form-material">
-          <!-- Formulario -->
-          <div class="col-md-5 col-xs-12">
-            <div class="form-group form-primary">
-              <select class="form-control form-control-primary" [(ngModel)]="slFormulario">
-                <option *ngFor="let formulario of lsFormulario" [value]="formulario.ID">
-                  {{ formulario.Descripcion }}
-                </option>
-              </select>
-              <span class="form-bar"></span>
-              <label class="float-label">Formulario</label>
-            </div>
-          </div>
-
-          <div class="col-md-7 col-xs-12">
-            <div class="pull-right">
-              <button class="btn btn-sm btn-danger">
-                <i class="icofont icofont-reply"></i> Cancelar
-              </button>
-              <button class="btn btn-sm btn-primary" *ngIf="false" (click)="save()">
-                <i class="icofont icofont-save"></i> Asignar
-              </button>
-            </div>
-          </div>
-
-
-        </div>
-        <div class="clearfix"></div>
-
-        <div class="row">
-          <div class="col-lg-12">
-            <!--
-            <ngx-datatable
-              class="data-table dt-chk"
-              [rows]="lsFilterClasificacion"
-              [columnMode]="'force'"
-              [headerHeight]="50"
-              [footerHeight]="50"
-              [rowHeight]="'auto'"
-              [limit]="5"
-              [selected]="selected"
-              [selectionType]="'checkbox'"
-              (select)='onSelect($event)'>
-
-              <ngx-datatable-column [width]="50" [sortable]="false" [canAutoResize]="false" [draggable]="false"
-                                    [resizeable]="false">
-                <ng-template class="datatable-checkbox" ngx-datatable-header-template let-value="value"
-                             let-allRowsSelected="allRowsSelected" let-selectFn="selectFn">
-                  <div class="checkbox-fade fade-in-default datatable-header-cell-label">
-                    <label>
-                      <input type="checkbox" [checked]="allRowsSelected" (change)="selectFn(!allRowsSelected)"/>
-                      <span class="cr"><i class="cr-icon icofont icofont-ui-check txt-primary"></i></span>
-                    </label>
-                  </div>
-
-                </ng-template>
-                <ng-template class="datatable-checkbox" ngx-datatable-cell-template
-                             let-value="value"
-                             let-isSelected="isSelected"
-                             let-onCheckboxChangeFn="onCheckboxChangeFn">
-                  <div class="checkbox-fade fade-in-default datatable-header-cell-label">
-                    <label>
-                      <input type="checkbox" [checked]="isSelected" (change)="onCheckboxChangeFn($event)"/>
-                      <span class="cr"><i class="cr-icon icofont icofont-ui-check txt-primary"></i></span>
-                    </label>
-                  </div>
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column name="?">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row?.Clasificacion }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column name="?">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row?.Categoria }}
-                </ng-template>
-              </ngx-datatable-column>
-
-              <ngx-datatable-column name="Formulario">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  {{ row?.Formulario || 'NINGUNO' }}
-                </ng-template>
-              </ngx-datatable-column>
-
-            </ngx-datatable>
-
-            -->
-          </div>
-        </div>
-
-
+<div class="row justify-content-center mb-2">
+  <div class="col-md-6 col-sm-12">
+    <div class="card">
+      <div class="card-header bg-warning text-center font-weight-bold f-14">
+        Configuración Formulario - Grupo
       </div>
-    </app-card>
-
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="dx-field dx-field-top-label">
+              <div class="dx-field-label">
+                Formulario
+              </div>
+              <dx-select-box class="dx-field-value"
+                             [dataSource]="lsFormulario()"
+                             displayExpr="Descripcion"
+                             valueExpr="ID"
+                             [formControl]="formControl"
+                             [showClearButton]="true"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="card-footer">
+        <div class="d-flex align-items-center justify-content-between">
+          <label>
+            Cantidad seleccionada: {{ selectedItemsId().length }}
+          </label>
+          <button class="btn btn-outline-primary"
+                  [disabled]="formControl.invalid"
+                  (click)="save()">
+            Guardar Opción(es)
+          </button>
+        </div>
+      </section>
+    </div>
   </div>
 </div>
+
+<app-card [cardTitle]="'Configuración Grupo - Actividad'">
+
+  <div class="row">
+    <div class="col-md-12">
+
+      <!--
+      <dx-data-grid [dataSource]="listGrupoActividad()"
+                    [columnAutoWidth]="true"
+                    [columnHidingEnabled]="true"
+                    [showRowLines]="true"
+                    [showBorders]="true"
+                    keyExpr="IDActividad"
+                    [headerFilter]="{visible:true}"
+                    [selectedRowKeys]="selectedItemsId()"
+                    (selectedRowKeysChange)="selectedItemsId.set($event)"
+                    [columnMinWidth]="50"
+                    (onToolbarPreparing)="onToolbarPreparing($event)">
+
+        <dxo-search-panel [visible]="true"
+                          [width]="300"
+        />
+
+        <dxo-selection mode="multiple"
+                       [selectAllMode]="'allPages'"
+                       [showCheckBoxesMode]="'onClick'"
+        ></dxo-selection>
+
+        <dxo-group-panel [visible]="true"></dxo-group-panel>
+        <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
+
+        <dxi-column caption="Grupo"
+                    dataField="grupo"
+                    [groupIndex]="0"
+                    [showWhenGrouped]="false"
+                    [allowSorting]="false"
+        ></dxi-column>
+        <dxi-column caption="Actividad Tarifario"
+                    dataField="actividad"
+                    [allowHeaderFiltering]="false"
+                    [allowSorting]="false"
+        ></dxi-column>
+      </dx-data-grid>
+      -->
+
+      <dx-tree-list #dxTreeData
+                    keyExpr="ID"
+                    parentIdExpr="IDGrupo"
+                    hasItemsExpr="hasItems"
+                    [rootValue]="null"
+                    [columnAutoWidth]="true"
+                    [columnHidingEnabled]="true"
+                    [columnMinWidth]="50"
+                    [columnResizingMode]="'widget'"
+                    [dataSource]="listGrupoActividad()"
+                    [highlightChanges]="true"
+                    [hoverStateEnabled]="true"
+                    [showRowLines]="true"
+                    [showBorders]="true"
+                    [wordWrapEnabled]="true"
+                    [columnFixing]="{enabled:true}"
+                    [headerFilter]="{visible:false}"
+                    [filterRow]="{visible:false}"
+                    [selectedRowKeys]="selectedItemsId()"
+                    (onToolbarPreparing)="onToolbarPreparing($event)">
+
+        <dxo-selection mode="multiple"
+                       [recursive]="true"
+        />
+        <dxo-sorting mode="multiple"/>
+
+        <dxo-column-chooser mode="select"
+                            [allowSearch]="true"
+                            [enabled]="true"
+        />
+
+        <dxo-paging [enabled]="true"
+                    [pageSize]="10"
+        ></dxo-paging>
+        <dxo-pager [showPageSizeSelector]="true"
+                   [allowedPageSizes]="[10,20,30,50]"
+                   [showInfo]="true"
+        ></dxo-pager>
+        <dxo-search-panel [visible]="true"
+                          [width]="300"
+        ></dxo-search-panel>
+        <dxi-column caption="Actividad"
+                    dataField="ItemName"
+                    [allowSorting]="false"
+        ></dxi-column>
+      </dx-tree-list>
+    </div>
+  </div>
+
+
+</app-card>

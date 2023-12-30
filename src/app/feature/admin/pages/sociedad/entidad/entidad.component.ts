@@ -30,9 +30,8 @@ export class EntidadComponent implements OnInit, OnDestroy {
   @ViewChild(DxDataGridComponent, {static: true}) dataGrid!: DxDataGridComponent;
   gridDataSource: any;
 
-  lsEstados$: Observable<any[]> = inject(ToolsService).status$;
+  lsStatus = inject(ToolsService).status;
   lsTipoEntidad = typeEntitySignal;
-
 
   ngOnDestroy() {
     this.destroy$.next();

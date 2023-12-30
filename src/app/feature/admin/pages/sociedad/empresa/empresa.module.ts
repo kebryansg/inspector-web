@@ -11,6 +11,7 @@ import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 import {HttpClientJsonpModule, HttpClientModule} from "@angular/common/http";
+import {StatusPipe} from "../../../../../pipes/status-inspection.pipe";
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import {HttpClientJsonpModule, HttpClientModule} from "@angular/common/http";
 
     HttpClientModule,
     HttpClientJsonpModule,
-    GoogleMapsModule
+    GoogleMapsModule,
+    StatusPipe
   ]
 })
 export class EmpresaModule {

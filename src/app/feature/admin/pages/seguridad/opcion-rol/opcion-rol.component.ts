@@ -20,7 +20,7 @@ export class OpcionRolComponent implements OnInit, OnDestroy {
   private readonly fb: FormBuilder = inject(FormBuilder);
   private readonly catalogoService: CatalogoService = inject(CatalogoService);
   private readonly menuService: MenuService = inject(MenuService);
-  private readonly notificacionService: NotificationService = inject(NotificationService);
+  private readonly notificationService: NotificationService = inject(NotificationService);
 
 
   destroy$: Subject<void> = new Subject<void>();
@@ -124,14 +124,14 @@ export class OpcionRolComponent implements OnInit, OnDestroy {
           this.selectedModulesRol.set(rows);
           this.treeList.instance.selectRows(rows, false);
         },
-        complete: () => this.notificacionService.showSwalNotif({title: 'Cargada las opciones.', icon: 'success'})
+        complete: () => this.notificationService.showSwalNotif({title: 'Cargada las opciones.', icon: 'success'})
       });
   }
 
   saveModuleInRol() {
     const {IdRol} = this.itemForm.getRawValue();
 
-    this.notificacionService.showSwalConfirm({
+    this.notificationService.showSwalConfirm({
       title: 'Guardar Configuración',
       confirmButtonText: 'Si, guardar.',
     }).then(result => {
@@ -144,7 +144,7 @@ export class OpcionRolComponent implements OnInit, OnDestroy {
       }).subscribe({
         next: () => console.log(),
         complete: () => {
-          this.notificacionService.showSwalNotif({title: 'Asignación Exitosa', icon: 'success'});
+          this.notificationService.showSwalNotif({title: 'Asignación Exitosa', icon: 'success'});
         }
       });
     });
