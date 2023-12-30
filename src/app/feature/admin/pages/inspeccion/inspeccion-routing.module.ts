@@ -3,6 +3,7 @@ import {Routes, RouterModule} from '@angular/router';
 import {ListComponent} from './pages/list/list.component';
 import {NewInspeccionComponent} from "./pages/new/new.component";
 import {AsignInspectorComponent} from "./pages/asign-inspector/asign-inspector.component";
+import {CreateInspectionGroupComponent} from "./pages/create-inspection-group/create-inspection-group.component";
 //import {NewInspeccionComponent} from './new/new.component';
 //import {ViewInspeccionComponent} from './list/view/view.component';
 //import {WebInspeccionComponent} from './web/web.component';
@@ -24,6 +25,12 @@ const routes: Routes = [
     path: 'new',
     component: NewInspeccionComponent,
     title: 'Registrar Inspección',
+  },
+  {
+    path: 'create-inspection-group',
+    //component: CreateInspectionGroupComponent,
+    loadComponent: () => import('./pages/create-inspection-group/create-inspection-group.component').then(m => m.CreateInspectionGroupComponent),
+    title: 'Masiva - Creacion Inspección',
   },
   /*
     {

@@ -38,7 +38,7 @@ export class EmpresaComponent implements OnInit {
         let params: any = headersParams.filter(i => isNotEmpty(loadOptions[i]))
           .reduce((a, b) => ({...a, [b]: loadOptions[b]}), {});
 
-        return this.empresaService.getAll(params)
+        return this.empresaService.getFilters(params)
       }
     });
   }

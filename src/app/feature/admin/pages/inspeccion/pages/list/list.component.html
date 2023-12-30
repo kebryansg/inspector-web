@@ -1,5 +1,9 @@
+<section class="d-flex justify-content-end mb-3">
+    <button class="btn btn-outline-primary" (click)="redirectToMasive()">
+      Generar inspecciones masiva
+    </button>
+</section>
 <app-card cardTitle="Listado Inspección">
-
   <dx-data-grid #dataGridComponent
                 id="gridContainer"
                 [dataSource]="gridDataSource"
@@ -11,7 +15,8 @@
                 [headerFilter]="{visible:true}"
                 [filterRow]="{visible:true, applyFilter: 'auto'}">
 
-    <dxo-remote-operations [paging]="true"/>
+    <dxo-remote-operations [paging]="true"
+                           [filtering]="true" />
 
     <dxo-paging [pageSize]="10"/>
     <dxo-pager [showPageSizeSelector]="true"
@@ -64,7 +69,7 @@
     />
     <dxi-column dataField="Estado"
                 caption="Estado">
-      <dxo-lookup [dataSource]="lsStatus$ | async"
+      <dxo-lookup [dataSource]="lsStatus()"
                   displayExpr="label"
                   valueExpr="value"
       ></dxo-lookup>

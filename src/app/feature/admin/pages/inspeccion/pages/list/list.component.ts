@@ -57,7 +57,7 @@ export class ListComponent implements OnInit {
   ];
 
   lsColaborador$: Observable<any> = inject(CatalogoService).obtenerInspector();
-  lsStatus$ = this.inspeccionService.status$;
+  lsStatus = this.inspeccionService.status;
 
   @ViewChild('dataGridComponent', {static: true}) dataGridComponent!: DxDataGridComponent;
   @ViewChild('container', {read: ViewContainerRef}) entry!: ViewContainerRef;
@@ -99,6 +99,12 @@ export class ListComponent implements OnInit {
         break;
     }
 
+  }
+
+  redirectToMasive() {
+    this.router.navigate(['..', 'create-inspection-group'], {
+      relativeTo: this.activatedRoute
+    })
   }
 
   ngOnInit() {

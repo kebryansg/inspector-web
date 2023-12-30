@@ -9,7 +9,9 @@
                 [loadPanel]="{enabled:true}"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [showBorders]="true">
-    <dxo-remote-operations [paging]="true"/>
+    <dxo-remote-operations [paging]="true"
+                           [filtering]="true"
+    />
 
     <dxo-paging [pageSize]="10"></dxo-paging>
     <dxo-pager [showPageSizeSelector]="true"
@@ -28,12 +30,8 @@
     <dxi-column dataField="RUC"/>
     <dxi-column dataField="NombreComercial"/>
     <dxi-column dataField="RazonSocial"/>
-    <dxi-column dataField="idActEconomica.Descripcion"
-                caption="Actividad Económica"
-    />
-    <dxi-column dataField="idTipoEmpresa.Nombre"
-                caption="Tipo Empresa"
-    />
+    <dxi-column dataField="Grupo"/>
+    <dxi-column dataField="Actividad"/>
     <dxi-column dataField="Estado"
                 alignment="center">
       <dxo-lookup [dataSource]="lsStatus()"

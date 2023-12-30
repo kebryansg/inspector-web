@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '@environments/environment';
 import {Observable, of, timeout} from 'rxjs';
@@ -13,8 +13,7 @@ export class InspeccionService {
 
   private urlBase: string = environment.apiUrl;
 
-  status$: Observable<any[]> = of([...STATUS_INSPECTION])
-    .pipe(shareReplay());
+  status = signal([...STATUS_INSPECTION]).asReadonly()
 
   constructor(private http: HttpClient) {
   }

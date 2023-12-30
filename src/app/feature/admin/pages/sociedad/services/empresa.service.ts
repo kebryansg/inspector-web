@@ -29,6 +29,21 @@ export class EmpresaService<T extends Empresa> {
     )
   }
 
+  getFilters(params: any) {
+    return lastValueFrom(
+      this.http.post<any>(this.endpointUrl + "/filter", params)
+        .pipe(
+          map(result => ({
+              data: result.data,
+              totalCount: result.total,
+              summary: result.summary,
+              groupCount: result.groupCount
+            })
+          )
+        )
+    )
+  }
+
   getById(idRow: keyBase): Observable<T> {
     return this.http.get<T>(`${this.endpointUrl}/${idRow}`)
   }

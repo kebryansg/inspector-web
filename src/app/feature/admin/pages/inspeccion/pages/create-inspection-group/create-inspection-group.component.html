@@ -1,0 +1,74 @@
+<app-card [hidHeader]="true" cardClass="mb-3">
+
+  <form [formGroup]="itemFilter">
+    <section class="row">
+      <div class="col-5">
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Grupo</label>
+          <div class="col-sm-10 pr-0">
+            <dx-select-box [dataSource]="lsGrupo()"
+                           displayExpr="Nombre"
+                           valueExpr="ID"
+                           formControlName="IDTarifaGrupo"
+                           [searchEnabled]="true"
+            ></dx-select-box>
+          </div>
+        </div>
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">Actividad</label>
+          <div class="col-sm-10 pr-0">
+            <dx-select-box [dataSource]="lsActividad()"
+                           displayExpr="Nombre"
+                           valueExpr="ID"
+                           formControlName="IDTarifaActividad"
+                           [searchEnabled]="true"
+            ></dx-select-box>
+          </div>
+        </div>
+      </div>
+    </section>
+  </form>
+  <section class="d-flex justify-content-end">
+    <button class="btn btn-primary">
+      Crear Inspecciones
+    </button>
+  </section>
+
+
+</app-card>
+
+<app-card [cardTitle]="'Listado de Empresas'">
+  <dx-data-grid [dataSource]="gridDataSource"
+                [columnAutoWidth]="true"
+                [columnMinWidth]="80"
+                [hoverStateEnabled]="true"
+                [rowAlternationEnabled]="true"
+                [searchPanel]="{visible:true}"
+                [filterRow]="{visible:true}"
+                [loadPanel]="{enabled:true}"
+                [showBorders]="true">
+    <dxo-remote-operations [paging]="true"
+                           [filtering]="true"
+    />
+
+    <dxo-selection [showCheckBoxesMode]="'onClick'"
+                   [selectAllMode]="'allPages'"
+                   mode="multiple"
+    />
+
+
+    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-pager [showPageSizeSelector]="true"
+               [allowedPageSizes]="[10, 20, 40, 60]"
+               [showInfo]="true"
+    />
+
+    <dxi-column dataField="RUC"/>
+    <dxi-column dataField="NombreComercial"/>
+    <dxi-column dataField="RazonSocial"/>
+    <dxi-column dataField="Sector"/>
+    <dxi-column dataField="Grupo"/>
+    <dxi-column dataField="Actividad"/>
+
+  </dx-data-grid>
+</app-card>
