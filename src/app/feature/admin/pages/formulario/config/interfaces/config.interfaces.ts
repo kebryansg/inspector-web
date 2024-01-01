@@ -10,6 +10,7 @@ export interface ISeccion {
 export interface IComponente {
   ID: number;
   IDTipoComp: number;
+  OrderComponent: number;
   IDSeccion: number;
   Descripcion: string;
   Estado: 'ACT' | 'INA';

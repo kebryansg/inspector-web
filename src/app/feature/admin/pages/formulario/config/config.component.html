@@ -9,11 +9,12 @@
                 (click)="cancel()">
           Cancelar
         </button>
-        <button class="btn btn-primary"
-                (click)="save()"
-                *ngIf="lsSection().length > 0">
-          Guardar
-        </button>
+        @if (lsSection().length > 0) {
+          <button class="btn btn-primary"
+                  (click)="save()">
+            Guardar
+          </button>
+        }
       </div>
 
     </div>
@@ -40,6 +41,8 @@
       <div class="col-12">
 
         <app-item-section [section]="section"
+                          cdkDropList
+                          (cdkDropListDropped)="drop($event, idxSection)"
                           [idx]="idxSection">
           @for (component of section.componentes; track component.ID; let idxComponent = $index) {
             <app-item-component [idx]="idxComponent"
@@ -47,6 +50,7 @@
                                 [idxSection]="idxSection"
                                 [component]="component"
                                 [typeComponent]="component.IDTipoComp"
+                                cdkDrag
             />
           }
         </app-item-section>

@@ -9,9 +9,22 @@ import {FormDataResolver} from "../interfaces/form-data-resolver.interface";
 import {injectData} from "@utils-app/route-params.util";
 import {ConfigFormService} from "./services/config-form.service";
 import {IComponente} from "./interfaces/config.interfaces";
+import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
+import {ItemSectionComponent} from "./components/item-section/item-section.component";
+import {ItemComponentComponent} from "./components/item-component/item-component.component";
+import {CardComponent} from "@standalone-shared/card/card.component";
+import {DetailsFormComponent} from "./components/details-form/details-form.component";
 
 @Component({
   selector: 'app-config',
+  standalone: true,
+  imports: [
+    CdkDropList, CdkDrag,
+    CardComponent,
+    DetailsFormComponent,
+    ItemSectionComponent,
+    ItemComponentComponent,
+  ],
   templateUrl: './config.component.html',
   styleUrls: ['./config.component.scss',],
   providers: [
@@ -35,7 +48,19 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
   lsSection = this.configFormService.sections;
 
   ngOnInit() {
-    this.configFormService.setSections(this.formDataResolver.configs);
+    const {
+      sections,
+      components
+    } = this.formDataResolver.configs
+
+    this.configFormService.setSections(
+      sections.map(section => {
+        return {
+          ...section,
+          componentes: components.filter(component => component.IDSeccion == section.ID)
+        }
+      })
+    );
   }
 
   ngOnDestroy() {
@@ -72,10 +97,19 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
         return;
       }
       const mapSections = this.mapSectionComponents()
-      console.log([...mapSections])
+
+      this.notificationService.showLoader({
+        title: 'Guardando configuracion'
+      })
       this.formService.setConfigItemById(this.dataForm().ID, mapSections)
-        .subscribe(res => {
-          this.cancel()
+        .subscribe({
+          next: _ => {
+            this.notificationService.closeLoader()
+            this.cancel()
+          },
+          error: _ => {
+            this.notificationService.closeLoader()
+          }
         });
     });
   }
@@ -86,13 +120,14 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
         // @ts-ignore
         delete itemSeccion['ID'];
       }
-      itemSeccion.componentes = itemSeccion.componentes.map(component => {
+      itemSeccion.componentes = itemSeccion.componentes.map((component, idxOrder) => {
         if ('ID' in component && component.ID == 0) {
           // @ts-ignore
           delete component['ID'];
         }
         return {
           ...(component.ID == 0 ? null : {ID: component.ID}),
+          OrderComponent: idxOrder,
           IDTipoComp: component.IDTipoComp,
           Descripcion: component.Descripcion,
           Estado: component.Estado,
@@ -102,6 +137,11 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
       });
       return itemSeccion;
     });
+  }
+
+
+  drop(event: CdkDragDrop<string[]>, idxSection: number) {
+    moveItemInArray(this.lsSection()[idxSection].componentes, event.previousIndex, event.currentIndex);
   }
 
 }

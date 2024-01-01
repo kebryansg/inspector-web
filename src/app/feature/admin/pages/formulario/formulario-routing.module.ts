@@ -26,7 +26,7 @@ const routes: Routes = [
       //},
       {
         path: 'config/:id',
-        component: ConfigFormularioComponent,
+        loadComponent: () => import('./config/config.component').then(m => m.ConfigFormularioComponent),
         title: 'Configurar Formulario',
         resolve: {
           formData: formIdResolver
