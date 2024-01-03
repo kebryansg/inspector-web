@@ -44,6 +44,12 @@ export class EmpresaService<T extends Empresa> {
     )
   }
 
+  getPendingInspection(params: any) {
+    return lastValueFrom(
+      this.http.post<any>(this.endpointUrl + "/pending-inspection", params)
+    )
+  }
+
   getById(idRow: keyBase): Observable<T> {
     return this.http.get<T>(`${this.endpointUrl}/${idRow}`)
   }

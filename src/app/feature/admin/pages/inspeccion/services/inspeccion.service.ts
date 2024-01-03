@@ -29,6 +29,10 @@ export class InspeccionService {
       );
   }
 
+  createMassive(data: any) {
+    return this.http.post<any>(this.urlBase + 'inspeccion/massive', data);
+  }
+
   delete(idInspection: number) {
     return this.http.delete(this.urlBase + `inspeccion/${idInspection}`);
   }
