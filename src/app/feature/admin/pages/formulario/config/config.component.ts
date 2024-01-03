@@ -14,6 +14,7 @@ import {ItemSectionComponent} from "./components/item-section/item-section.compo
 import {ItemComponentComponent} from "./components/item-component/item-component.component";
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DetailsFormComponent} from "./components/details-form/details-form.component";
+import {PreviewConfigComponent} from "./components/preview-config/preview-config.component";
 
 @Component({
   selector: 'app-config',
@@ -88,6 +89,16 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
     this.router.navigate(['../../list'], {relativeTo: this.route});
   }
 
+
+  previewConfig() {
+    const modalRef = this.modalService.open(PreviewConfigComponent, {
+      data: {
+        sections: this.mapSectionComponents(),
+        titleModal: 'Vista Previa'
+      }
+    })
+  }
+
   save() {
     this.notificationService.showSwalConfirm({
       title: 'Guardar Configuración',
@@ -120,7 +131,7 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
         // @ts-ignore
         delete itemSeccion['ID'];
       }
-      itemSeccion.componentes = itemSeccion.componentes.map((component, idxOrder) => {
+      const components = itemSeccion.componentes.map((component, idxOrder) => {
         if ('ID' in component && component.ID == 0) {
           // @ts-ignore
           delete component['ID'];
@@ -135,7 +146,10 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
           Obligatorio: component.Obligatorio,
         } as IComponente;
       });
-      return itemSeccion;
+      return {
+        ...itemSeccion,
+        components
+      };
     });
   }
 

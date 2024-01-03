@@ -4,18 +4,26 @@
             [cardClass]="'mb-2'">
     <app-details-form [dataForm]="dataForm()"/>
     <div class="row mt-2">
-      <div class="col-md-12 d-flex flex-row justify-content-end gap-2">
-        <button class="btn btn-danger"
-                (click)="cancel()">
-          Cancelar
+      <section class="col-md-12 d-flex flex-row justify-content-between">
+        <button class="btn btn-outline-secondary"
+                (click)="previewConfig()">
+          Preview Configuración
         </button>
-        @if (lsSection().length > 0) {
-          <button class="btn btn-primary"
-                  (click)="save()">
-            Guardar
+
+        <section class="d-flex gap-2">
+          <button class="btn btn-danger"
+                  (click)="cancel()">
+            Cancelar
           </button>
-        }
-      </div>
+          @if (lsSection().length > 0) {
+            <button class="btn btn-primary"
+                    (click)="save()">
+              Guardar
+            </button>
+          }
+        </section>
+
+      </section>
 
     </div>
   </app-card>
