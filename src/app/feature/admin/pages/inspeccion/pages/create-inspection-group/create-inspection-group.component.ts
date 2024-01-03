@@ -75,6 +75,7 @@ export class CreateInspectionGroupComponent implements OnInit {
     this.itemFilter.markAllAsTouched()
     if (this.itemFilter.invalid) return
 
+    this.lsSelectedItems.set([])
     const {IDTarifaGrupo, IDTarifaActividad} = this.itemFilter.getRawValue()
     this.empresaService.getPendingInspection({
       IDTarifaGrupo,
