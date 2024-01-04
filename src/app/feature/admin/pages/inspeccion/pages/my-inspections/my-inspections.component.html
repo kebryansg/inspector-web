@@ -1,0 +1,97 @@
+<app-card cardTitle="Mis inspecciones">
+
+  <dx-data-grid #dataGridComponent
+                id="gridContainer"
+                [dataSource]="gridDataSource"
+                [showBorders]="true"
+                [rowAlternationEnabled]="true"
+                [columnAutoWidth]="true"
+                [searchPanel]="{visible:true}"
+                [headerFilter]="{visible:true}"
+                [filterRow]="{visible:true, applyFilter: 'auto'}">
+
+    <dxo-remote-operations [paging]="true"
+                           [filtering]="true" />
+
+    <dxo-paging [pageSize]="10"/>
+    <dxo-pager [showPageSizeSelector]="true"
+               [allowedPageSizes]="[10, 20, 30]"
+               [showInfo]="true"
+    />
+
+    <!--#region Columns -->
+
+    <dxi-column caption="..."
+                [width]="50"
+                alignment="center"
+                [allowFiltering]="false"
+                [allowExporting]="false"
+                [fixed]="true"
+                [allowSorting]="false"
+                cellTemplate="cellOptionsTemplate"
+    />
+    <dxi-column dataField="Id"
+                caption="Cód."
+                alignment="center"
+                [allowHeaderFiltering]="false"
+    />
+    <dxi-column dataField="FechaRegistro"
+                caption="Fecha Registro"
+                dataType="date"
+                format="yyyy, MMMM dd"
+                [allowHeaderFiltering]="false"
+    />
+    <dxi-column dataField="FechaInspeccion"
+                caption="Fecha Inspección"
+                dataType="date"
+                format="yyyy, MMMM dd"
+                [allowHeaderFiltering]="false"
+    />
+    <dxi-column dataField="Sector"
+                [allowHeaderFiltering]="false"
+                caption="Sector"
+    />
+    <dxi-column dataField="RUC"
+                [allowHeaderFiltering]="false"
+                caption="RUC"
+    />
+    <dxi-column dataField="RazonSocial"
+                [allowHeaderFiltering]="false"
+                caption="Razón Social"
+    />
+    <dxi-column dataField="NombreComercial"
+                [allowHeaderFiltering]="false"
+                caption="Nombre Comercial"
+    />
+    <dxi-column dataField="Estado"
+                caption="Estado">
+      <dxo-lookup [dataSource]="lsStatus()"
+                  displayExpr="label"
+                  valueExpr="value"
+      ></dxo-lookup>
+    </dxi-column>
+    <!--#endregion -->
+
+    <div *dxTemplate="let data of 'cellOptionsTemplate'">
+
+
+      <div class="btn-group-icons">
+
+        <!--
+        <dx-drop-down-button
+          [dropDownOptions]="{ width: 210 }"
+          [stylingMode]="'text'"
+          [showArrowIcon]="false"
+          icon="overflow"
+          [items]="optionsItems"
+          displayExpr="name"
+          keyExpr="id"
+          (onItemClick)="onItemClick($event, data.data)"
+        />
+        -->
+
+      </div>
+    </div>
+  </dx-data-grid>
+
+</app-card>

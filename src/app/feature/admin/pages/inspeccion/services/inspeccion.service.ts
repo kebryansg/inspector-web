@@ -1,4 +1,4 @@
-import {Injectable, signal} from '@angular/core';
+import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '@environments/environment';
 import {Observable, of, timeout} from 'rxjs';
@@ -11,12 +11,11 @@ import {STATUS_INSPECTION} from "../const/status-inspection.const";
 })
 export class InspeccionService {
 
+  private http: HttpClient = inject(HttpClient);
   private urlBase: string = environment.apiUrl;
 
   status = signal([...STATUS_INSPECTION]).asReadonly()
 
-  constructor(private http: HttpClient) {
-  }
 
   getItemsPending() {
     return this.http.get<any>(this.urlBase + 'inspeccion/pending')

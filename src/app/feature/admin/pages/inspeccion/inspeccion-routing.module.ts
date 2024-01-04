@@ -32,36 +32,34 @@ const routes: Routes = [
     loadComponent: () => import('./pages/create-inspection-group/create-inspection-group.component').then(m => m.CreateInspectionGroupComponent),
     title: 'Masiva - Creacion Inspección',
   },
-  /*
-    {
-    path: 'mi-inspeccion',
-    component: MiInspeccionComponent,
-    data: {
-      title: 'Mis Inspecciones',
-      status: true
-    },
-  },
 
   {
-    path: 'view/:id',
-    component: ViewInspeccionComponent,
-    data: {
-      title: 'Ver Inspección',
-      status: true
+    path: 'mi-inspeccion',
+    loadComponent: () => import('./pages/my-inspections/my-inspections.component')
+      .then(m => m.MyInspectionsComponent),
+    title: 'Mis Inspecciones',
+  },
+  /*
+    {
+      path: 'view/:id',
+      component: ViewInspeccionComponent,
+      data: {
+        title: 'Ver Inspección',
+        status: true
+      },
+      resolve:{
+        inspeccion: InspeccionResolver
+      }
     },
-    resolve:{
-      inspeccion: InspeccionResolver
-    }
-  },
-  {
-    path: 'inspweb/:id',
-    component: WebInspeccionComponent,
-    data: {
-      title: 'Realizar Inspección Web',
-      status: true
-    }
-  },
-  */
+    {
+      path: 'inspweb/:id',
+      component: WebInspeccionComponent,
+      data: {
+        title: 'Realizar Inspección Web',
+        status: true
+      }
+    },
+    */
 ];
 
 @NgModule({
