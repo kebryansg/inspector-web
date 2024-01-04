@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {debounceTime, filter, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {DxTreeListComponent} from 'devextreme-angular';
 import {BehaviorSubject, Observable, Subject} from 'rxjs';
@@ -35,7 +35,6 @@ export class OpcionRolComponent implements OnInit, OnDestroy {
   );
 
   lsRoles$: Observable<any[]> = this.catalogoService.getRole();
-  selectedModulesRol = signal<number[]>([]);
   bTreeExpanded: boolean = false;
 
   itemForm!: FormGroup;
@@ -83,35 +82,11 @@ export class OpcionRolComponent implements OnInit, OnDestroy {
           onClick: () => this.refreshTable$.next()
         }
       },
-      // {
-      //   location: 'after',
-      //   widget: 'dxButton',
-      //   options: {
-      //     disabled: !this.bProcess,
-      //     hint: 'Revocar todos las asignaciones a rol',
-      //     icon: 'icofont icofont-broken',
-      //     // locateInMenu: 'auto',
-      //     // showText: 'inMenu',
-      //     text: 'Revocar',
-      //     onClick: this.revocate.bind(this)
-      //   }
-      // },
-      // {
-      //   location: 'after',
-      //   widget: 'dxButton',
-      //   options: {
-      //     hint: 'Guardar',
-      //     icon: 'save',
-      //     text: 'Guardar',
-      //     onClick: this.save.bind(this)
-      //   }
-      // }
     );
   }
 
   clearSelection() {
     this.treeList.instance.clearSelection()
-    this.selectedModulesRol.set([])
   }
 
   changeRol(idRol: string) {
@@ -121,7 +96,6 @@ export class OpcionRolComponent implements OnInit, OnDestroy {
       )
       .subscribe({
         next: (rows: any) => {
-          this.selectedModulesRol.set(rows);
           this.treeList.instance.selectRows(rows, false);
         },
         complete: () => this.notificationService.showSwalNotif({title: 'Cargada las opciones.', icon: 'success'})

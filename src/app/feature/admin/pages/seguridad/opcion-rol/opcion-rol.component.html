@@ -24,10 +24,7 @@
           </div>
         </div>
         <section class="card-footer">
-          <div class="d-flex align-items-center justify-content-between">
-            <label>
-            Cantidad seleccionada: {{ selectedModulesRol().length }}
-            </label>
+          <div class="d-flex align-items-center justify-content-end">
             <button class="btn btn-outline-primary"
                     [disabled]="itemForm.invalid"
                     type="submit">
@@ -67,24 +64,24 @@
         <!--#region Config. DxDataGrid -->
         <dxo-selection mode="multiple"
                        [recursive]="true"
-        ></dxo-selection>
-        <dxo-sorting mode="multiple"></dxo-sorting>
+        />
+        <dxo-sorting mode="multiple"/>
 
         <dxo-column-chooser mode="select"
                             [allowSearch]="true"
                             [enabled]="true"
-        ></dxo-column-chooser>
+        />
 
         <dxo-paging [enabled]="true"
                     [pageSize]="10"
-        ></dxo-paging>
+        />
         <dxo-pager [showPageSizeSelector]="true"
                    [allowedPageSizes]="[10,20,30,50]"
                    [showInfo]="true"
-        ></dxo-pager>
+        />
         <dxo-search-panel [visible]="true"
                           [width]="300"
-        ></dxo-search-panel>
+        />
         <!--#endregion -->
 
         <dxi-column caption="Código"
