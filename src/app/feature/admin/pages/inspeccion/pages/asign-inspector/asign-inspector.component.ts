@@ -28,7 +28,7 @@ import {debounceTime} from "rxjs/operators";
 })
 export class AsignInspectorComponent {
   private readonly fb: FormBuilder = inject(FormBuilder);
-  private readonly notificacionService: NotificationService = inject(NotificationService);
+  private readonly notificationService: NotificationService = inject(NotificationService);
   private readonly inspeccionService: InspeccionService = inject(InspeccionService);
 
   refreshTable$ = new BehaviorSubject<void>(null as unknown as void);
@@ -47,10 +47,23 @@ export class AsignInspectorComponent {
 
   saveModuleInRol() {
 
-    if (this.selectedInspection().length == 0)
+    if (this.selectedInspection().length == 0) {
+      this.notificationService.showSwalNotif({
+        title: 'Debe seleccionar al menos una inspección',
+        icon: 'error',
+      })
       return;
+    }
 
-    this.notificacionService.showSwalConfirm({
+    if (this.itemForm.invalid) {
+      this.notificationService.showSwalNotif({
+        title: 'Debe seleccionar un inspector',
+        icon: 'error',
+      })
+      return;
+    }
+
+    this.notificationService.showSwalConfirm({
       title: 'Desea asignar el inspector a la inspección?',
       confirmButtonText: 'Si, asignar',
     }).then((result) => {
@@ -61,7 +74,7 @@ export class AsignInspectorComponent {
           () => {
             this.selectedInspection.set([]);
             this.refreshTable$.next();
-            this.notificacionService.showSwalNotif({
+            this.notificationService.showSwalNotif({
               title: 'Asignación exitosa',
               icon: 'success',
             })

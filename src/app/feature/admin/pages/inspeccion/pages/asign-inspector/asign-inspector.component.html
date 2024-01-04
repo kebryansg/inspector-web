@@ -20,7 +20,7 @@
                                valueExpr="ID"
                                formControlName="IdRol"
                                [showClearButton]="true"
-                ></dx-select-box>
+                />
               </div>
             </div>
           </div>
@@ -31,7 +31,6 @@
               Cantidad seleccionada: {{ selectedInspection().length }}
             </label>
             <button class="btn btn-outline-primary"
-                    [disabled]="itemForm.invalid"
                     type="submit">
               Asignar
             </button>
@@ -122,6 +121,5 @@
 
     </div>
   </div>
-
 
 </app-card>
