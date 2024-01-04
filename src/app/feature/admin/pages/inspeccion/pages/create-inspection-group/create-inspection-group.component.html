@@ -1,79 +1,56 @@
 <app-card [cardTitle]="'Filtros'" cardClass="mb-3">
 
   <form [formGroup]="itemFilter">
-    <section class="row">
-      <section class="col-12 col-md-6 col-lg-5">
 
-        <app-item-control [titleControl]="'Grupo'">
-          <dx-select-box [dataSource]="lsGrupo()"
-                         displayExpr="Nombre"
-                         valueExpr="ID"
-                         formControlName="IDTarifaGrupo"
-                         [searchEnabled]="true"
-          />
-        </app-item-control>
+    <section class="d-flex flex-row gap-1 mb-3">
+      <app-item-control [titleControl]="'Grupo'">
+        <dx-select-box [dataSource]="lsGrupo()"
+                       displayExpr="Nombre"
+                       valueExpr="ID"
+                       formControlName="IDTarifaGrupo"
+                       [searchEnabled]="true"
+        />
+      </app-item-control>
 
-        <app-item-control [titleControl]="'Actividad'">
-          <dx-select-box [dataSource]="lsActividad()"
-                         displayExpr="Nombre"
-                         valueExpr="ID"
-                         formControlName="IDTarifaActividad"
-                         [searchEnabled]="true"
-                         [showClearButton]="true"
-          />
-        </app-item-control>
-
-      </section>
-
-      <!--
-      <div class="col-12 col-md-6 col-lg-4">
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label">
-            Parroquia
-          </label>
-          <div class="col-sm-10 pr-0">
-            <dx-select-box [dataSource]="lsGrupo()"
-                           displayExpr="Nombre"
-                           valueExpr="ID"
-                           formControlName="IDTarifaGrupo"
-                           [searchEnabled]="true"
-            />
-          </div>
-        </div>
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label">
-            Sector
-          </label>
-          <div class="col-sm-10 pr-0">
-            <dx-select-box [dataSource]="lsActividad()"
-                           displayExpr="Nombre"
-                           valueExpr="ID"
-                           formControlName="IDTarifaActividad"
-                           [searchEnabled]="true"
-                           [showClearButton]="true"
-            />
-          </div>
-        </div>
-      </div>
-      -->
+      <app-item-control [titleControl]="'Actividad'">
+        <dx-select-box [dataSource]="lsActividad()"
+                       displayExpr="Nombre"
+                       valueExpr="ID"
+                       formControlName="IDTarifaActividad"
+                       [searchEnabled]="true"
+                       [showClearButton]="true"
+        />
+      </app-item-control>
     </section>
   </form>
 
   <section class="d-flex justify-content-end">
-    <button class="btn btn-outline-primary"
-            (click)="searchItems()">
-      <i class="fa fa-search"></i>
-      Consultar registros
-    </button>
+    @if (existRegister()) {
+      <button class="btn btn-outline-success"
+              type="button"
+              appDebounceClick
+              (debounceClick)="clearScreen()">
+        <i class="far fa-refresh"></i>
+        Volver a consultar
+      </button>
+
+    } @else {
+      <button class="btn btn-outline-primary"
+              type="button"
+              appDebounceClick
+              (debounceClick)="searchItems()">
+        <i class="fa fa-search"></i>
+        Consultar registros
+      </button>
+    }
+
   </section>
 
 </app-card>
 
 <app-card [cardTitle]="'Listado de Empresas'">
 
-  <form [formGroup]="itemInspectionGroup"
-        (ngSubmit)="generateInspections()"
-  >
+  <form [formGroup]="itemInspectionGroup">
 
     <section class="d-flex flex-row gap-2">
       <app-item-control [titleControl]="'Colaboradores'">
@@ -95,8 +72,11 @@
       <p>
         Cantidad de items seleccionados: {{ lsSelectedItems().length }}
       </p>
-      <button class="btn btn-success"
-              type="submit">
+      <button class="btn btn-outline-success"
+              appDebounceClick
+              (debounceClick)="generateInspections()"
+              type="button">
+        <i class="far fa-save"></i>
         Crear Inspecciones
       </button>
     </section>
@@ -105,7 +85,7 @@
 
   <hr class="my-3">
 
-  <dx-data-grid [dataSource]="lsItemsDatagrid()"
+  <dx-data-grid [dataSource]="lsItemsDataGrid()"
                 keyExpr="ID"
                 [columnAutoWidth]="true"
                 [columnMinWidth]="80"

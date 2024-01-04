@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, OnInit, signal} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {EmpresaService} from "../../../sociedad/services";
 import {DxButtonModule, DxDataGridModule, DxDateBoxModule, DxSelectBoxModule} from "devextreme-angular";
@@ -16,6 +16,7 @@ import {AsyncPipe} from "@angular/common";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 import {InspeccionService} from "../../services/inspeccion.service";
 import {NotificationService} from "@service-shared/notification.service";
+import {DebounceClickDirective} from "@directives/debounce-click.directive";
 
 @Component({
   standalone: true,
@@ -24,12 +25,13 @@ import {NotificationService} from "@service-shared/notification.service";
     DxButtonModule,
     DxDataGridModule,
     DxSelectBoxModule,
-    DxSelectErrorControlDirective,
     ReactiveFormsModule,
     IcofontComponent,
     AsyncPipe,
     ItemControlComponent,
     DxDateBoxModule,
+    DxSelectErrorControlDirective,
+    DebounceClickDirective,
   ],
   templateUrl: './create-inspection-group.component.html',
   styleUrl: './create-inspection-group.component.scss',
@@ -69,7 +71,8 @@ export class CreateInspectionGroupComponent implements OnInit {
   );
 
   lsSelectedItems = signal<string[]>([])
-  lsItemsDatagrid = signal<any[]>([])
+  lsItemsDataGrid = signal<any[]>([])
+  existRegister = computed(() => this.lsItemsDataGrid().length > 0)
 
   searchItems() {
     this.itemFilter.markAllAsTouched()
@@ -81,11 +84,24 @@ export class CreateInspectionGroupComponent implements OnInit {
       IDTarifaGrupo,
       IDTarifaActividad,
     }).then(
-      result => this.lsItemsDatagrid.set(result)
+      result => {
+        if(result.length > 0) {
+          this.itemFilter.disable()
+          this.lsItemsDataGrid.set(result)
+        }
+      }
     )
   }
 
   generateInspections() {
+
+    if (this.lsSelectedItems().length <= 0) {
+      this.notificationService.showSwalNotif({
+        title: 'Debe seleccionar al menos un item',
+        icon: 'error'
+      });
+      return
+    }
 
     const {
       idInspector,
@@ -123,8 +139,9 @@ export class CreateInspectionGroupComponent implements OnInit {
   }
 
   clearScreen() {
+    this.itemFilter.enable();
     this.lsSelectedItems.set([]);
-    this.lsItemsDatagrid.set([]);
+    this.lsItemsDataGrid.set([]);
     this.itemInspectionGroup.patchValue({
       idInspector: null,
       dateTentative: new Date(),
