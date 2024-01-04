@@ -1,6 +1,6 @@
 import {DestroyRef, Directive, EventEmitter, inject, OnInit} from '@angular/core';
 import {AbstractControl, NgControl} from "@angular/forms";
-import {merge} from "rxjs";
+import {filter, merge} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Directive()
@@ -40,6 +40,9 @@ export class StatusErrorControlDirective implements OnInit {
       this.dxComponent.onFocusOut,
       this.touched,
       this.control!.statusChanges
+        .pipe(
+          filter(status => ['VALID' , 'INVALID' , 'PENDING'].includes(status))
+        )
     ).pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe(() => {
