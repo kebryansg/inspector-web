@@ -1,10 +1,12 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ModalTemplate} from "@modal/modal-template";
-import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
+import {DxCheckBoxModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {Observable} from "rxjs";
 import {ToolsService} from "../../../../services/tools.service";
 import {AsyncPipe, NgClass} from "@angular/common";
+import {FormService} from "../../services/form.service";
+import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 
 @Component({
   standalone: true,
@@ -16,14 +18,21 @@ import {AsyncPipe, NgClass} from "@angular/common";
     AsyncPipe,
     NgClass,
     DxSelectBoxModule,
+    DxCheckBoxModule,
+    ItemControlComponent,
   ],
-  styles: []
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupFormularioComponent extends ModalTemplate implements OnInit {
   private readonly fb: FormBuilder = inject(FormBuilder);
   status$: Observable<any[]> = inject(ToolsService).status$;
 
   form!: FormGroup;
+
+  isEdit = signal(false);
+  cloneForm = signal(false);
+  idForm = signal<number | null>(null);
+  forms$ = inject(FormService).getAll()
 
   ngOnInit() {
     this.buildForm();
@@ -41,7 +50,12 @@ export class PopupFormularioComponent extends ModalTemplate implements OnInit {
     });
   }
 
+  valueChange(evt: any) {
+    this.cloneForm.set(evt)
+  }
+
   editData(data: any) {
+    this.isEdit.set(true);
     this.form.patchValue({
       ID: data.ID,
       Descripcion: data.Descripcion,
@@ -54,7 +68,12 @@ export class PopupFormularioComponent extends ModalTemplate implements OnInit {
     this.form.markAllAsTouched();
     if (this.form.invalid)
       return;
-    this.activeModal.close(this.form.getRawValue());
+    const dataForm = this.form.getRawValue()
+    this.activeModal.close({
+      ...dataForm,
+      isCloneForm: this.cloneForm(),
+      idForm: this.idForm()
+    });
   }
 
 }

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {ListaFormularioComponent} from './lista-formulario/lista-formulario.component';
+import {ListaFormularioComponent} from './pages/lista-formulario/lista-formulario.component';
 import {ConfigFormularioComponent} from './config/config.component';
 import {AssignFormComponent} from './asign/asign.component';
 import {formIdResolver} from "./resolvers/form-id.resolver";

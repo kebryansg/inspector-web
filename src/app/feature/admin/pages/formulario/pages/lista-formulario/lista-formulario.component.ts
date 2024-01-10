@@ -1,12 +1,12 @@
 import {Component, inject, OnDestroy,} from '@angular/core';
-import {PopupFormularioComponent} from './popup/popup.component';
+import {PopupFormularioComponent} from '../../components/popup/popup.component';
 import {filter, Observable, Subject} from 'rxjs';
 import {debounceTime, switchMap} from 'rxjs/operators';
-import {ToolsService} from "../../../services/tools.service";
+import {ToolsService} from "../../../../services/tools.service";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
-import {FormService} from "../services/form.service";
+import {FormService} from "../../services/form.service";
 
 @Component({
   selector: 'app-lista-formulario',
@@ -25,7 +25,8 @@ export class ListaFormularioComponent implements OnDestroy {
       .pipe(
         debounceTime(500),
         switchMap(() => this.formService.getAll()),
-      ), {initialValue: []}
+      ),
+    {initialValue: []}
   );
   lsEstados$: Observable<any[]> = inject(ToolsService).status$;
 
@@ -57,11 +58,10 @@ export class ListaFormularioComponent implements OnDestroy {
   }
 
   edit(row?: any) {
-
     const isEdit = !!row;
     const modalRef = this.modalService.open(PopupFormularioComponent, {
       data: {
-        data: row ?? {},
+        data: row ?? null,
         titleModal: isEdit ? 'Editar Formulario' : 'Nuevo Formulario'
       }
     });
@@ -69,7 +69,8 @@ export class ListaFormularioComponent implements OnDestroy {
       .pipe(
         filter(Boolean),
         switchMap<any, any>(data => {
-          return isEdit ? this.formService.update(row.ID, data) : this.formService.create(data)
+          return isEdit ? this.formService.update(row.ID, data) :
+            (data.isCloneForm ? this.formService.cloneForm(data, data.idForm) : this.formService.create(data))
         })
       )
       .subscribe(() => {

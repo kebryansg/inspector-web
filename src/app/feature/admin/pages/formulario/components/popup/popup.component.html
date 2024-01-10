@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">
-    {{titleModal}}
+    {{ titleModal }}
   </h4>
   <button type="button" class="close" aria-label="Close"
           (click)="activeModal.close()">
@@ -47,6 +47,33 @@
         </div>
       </div>
     </div>
+
+    @if (!isEdit()) {
+      <div class="d-flex gap-2">
+        <div class="col">
+          <app-item-control [titleControl]="'Clonar Formulario'">
+            <dx-check-box [value]="cloneForm()"
+                          (valueChange)="valueChange($event)"
+            />
+          </app-item-control>
+        </div>
+
+        @if (cloneForm()) {
+          <div class="col">
+            <app-item-control [titleControl]="'Formularios'">
+              <dx-select-box [dataSource]="forms$ | async"
+                             displayExpr="Descripcion"
+                             valueExpr="ID"
+                             (valueChange)="idForm.set($event)"
+                             [searchEnabled]="true"
+              />
+            </app-item-control>
+          </div>
+        }
+      </div>
+    }
+
+
   </div>
   <div class="modal-footer">
     <button type="reset"

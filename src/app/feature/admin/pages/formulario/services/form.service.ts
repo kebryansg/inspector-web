@@ -34,6 +34,10 @@ export class FormService {
     return this.http.post(this.endpointUrl, row)
   }
 
+  cloneForm(row: any, idFormClone: number): Observable<any> {
+    return this.http.post(this.endpointUrl + '/clone/' + idFormClone, row)
+  }
+
   update(idRow: string, row: any): Observable<any> {
     return this.http.put(`${this.endpointUrl}/${idRow}`, row)
   }

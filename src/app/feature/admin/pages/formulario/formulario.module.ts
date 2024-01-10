@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 
 import {FormularioRoutingModule} from './formulario-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {ListaFormularioComponent} from './lista-formulario/lista-formulario.component';
+import {ListaFormularioComponent} from './pages/lista-formulario/lista-formulario.component';
 import {AssignFormComponent} from './asign/asign.component';
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {
