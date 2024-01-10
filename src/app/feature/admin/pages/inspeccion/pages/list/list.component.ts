@@ -228,7 +228,7 @@ export class ListComponent implements OnInit {
 
     const nameFile = `solicitud ${row.Id}-${row.NombreComercial}-${formatDate(new Date(row.FechaRegistro), 'yyyyMMdd-hhmm')}.pdf`
 
-    this.inspeccionService.getFileRequest(row.Id)
+    this.inspeccionService.getFileContentRequest(row.Id)
       .subscribe({
         next: (res) => {
           this.notificationService.closeLoader();
