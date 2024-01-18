@@ -1,12 +1,10 @@
 import {Component, inject, OnInit, ViewChild} from '@angular/core';
 import {DxDataGridComponent} from 'devextreme-angular';
-import DataSource from 'devextreme/data/data_source';
-import {Observable} from 'rxjs';
+import CustomStore from 'devextreme/data/custom_store';
 import {ActivatedRoute, Router} from '@angular/router';
 import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 import {NotificationService} from "@service-shared/notification.service";
-import {CatalogoService} from "../../../services/catalogo.service";
 import {EmpresaService} from "../services";
 import {ToolsService} from "../../../services/tools.service";
 
@@ -18,7 +16,6 @@ import {ToolsService} from "../../../services/tools.service";
 export class EmpresaComponent implements OnInit {
 
   private empresaService: EmpresaService<any> = inject(EmpresaService);
-  private catalogoService: CatalogoService = inject(CatalogoService);
   private notificacionService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
@@ -27,19 +24,16 @@ export class EmpresaComponent implements OnInit {
   gridDataSource: any;
   lsStatus = inject(ToolsService).status;
 
-  lsActiEconomica$: Observable<any> = this.catalogoService.obtenerActividadEconomica();
-  lsTipoEmpresa$: Observable<any> = this.catalogoService.obtenerTipoEmpresa();
-
-
   ngOnInit() {
-    this.gridDataSource = new DataSource({
+    this.gridDataSource = new CustomStore({
       key: 'ID',
       load: (loadOptions: any) => {
         let params: any = headersParams.filter(i => isNotEmpty(loadOptions[i]))
           .reduce((a, b) => ({...a, [b]: loadOptions[b]}), {});
 
         return this.empresaService.getFilters(params)
-      }
+      },
+
     });
   }
 

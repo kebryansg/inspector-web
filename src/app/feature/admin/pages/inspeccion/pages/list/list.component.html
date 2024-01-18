@@ -1,7 +1,7 @@
 <section class="d-flex justify-content-end mb-3">
-    <button class="btn btn-outline-primary" (click)="redirectToMasive()">
-      Generar inspecciones masiva
-    </button>
+  <button class="btn btn-primary" (click)="redirectToMasive()">
+    Generar inspecciones masiva
+  </button>
 </section>
 <app-card cardTitle="Listado Inspección">
   <dx-data-grid #dataGridComponent
@@ -13,10 +13,12 @@
                 [columnAutoWidth]="true"
                 [searchPanel]="{visible:true}"
                 [headerFilter]="{visible:true}"
+                [syncLookupFilterValues]="false"
                 [filterRow]="{visible:true, applyFilter: 'auto'}">
 
     <dxo-remote-operations [paging]="true"
-                           [filtering]="true" />
+                           [filtering]="true"
+    />
 
     <dxo-paging [pageSize]="10"/>
     <dxo-pager [showPageSizeSelector]="true"
@@ -32,6 +34,7 @@
                 [allowExporting]="false"
                 [fixed]="true"
                 [allowSorting]="false"
+                alignment="center"
                 cellTemplate="cellOptionsTemplate"
     />
     <dxi-column dataField="Id"
@@ -75,6 +78,7 @@
       ></dxo-lookup>
     </dxi-column>
     <dxi-column dataField="IdColaborador"
+                [allowHeaderFiltering]="false"
                 caption="Inspector Asignado">
       <dxo-lookup [dataSource]="lsColaborador$ | async"
                   valueExpr="ID"

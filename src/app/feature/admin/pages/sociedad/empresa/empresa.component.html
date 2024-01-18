@@ -7,8 +7,10 @@
                 [searchPanel]="{visible:true}"
                 [filterRow]="{visible:true}"
                 [loadPanel]="{enabled:true}"
+                [syncLookupFilterValues]="false"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [showBorders]="true">
+
     <dxo-remote-operations [paging]="true"
                            [filtering]="true"
     />
@@ -25,6 +27,7 @@
                 [allowExporting]="false"
                 [fixed]="true"
                 [allowSorting]="false"
+                alignment="center"
                 cellTemplate="cellOptionsTemplate">
     </dxi-column>
     <dxi-column dataField="RUC"/>
@@ -34,7 +37,7 @@
     <dxi-column dataField="Actividad"/>
     <dxi-column dataField="Estado"
                 alignment="center">
-      <dxo-lookup [dataSource]="lsStatus()"
+      <dxo-lookup [dataSource]="lsStatus"
                   valueExpr="value"
                   displayExpr="label"
       />

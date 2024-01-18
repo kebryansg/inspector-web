@@ -4,11 +4,14 @@
                 [columnMinWidth]="80"
                 [hoverStateEnabled]="true"
                 [rowAlternationEnabled]="true"
+                [syncLookupFilterValues]="false"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [searchPanel]="{visible:true}"
                 [filterRow]="{visible:true}"
                 [showBorders]="true">
-    <dxo-remote-operations [paging]="true"/>
+    <dxo-remote-operations [paging]="true"
+                           [filtering]="true"
+    />
 
     <dxo-paging [pageSize]="10"></dxo-paging>
     <dxo-pager
@@ -25,6 +28,7 @@
                 [allowExporting]="false"
                 [fixed]="true"
                 [allowSorting]="false"
+                alignment="center"
                 cellTemplate="cellOptionsTemplate"
     />
     <dxi-column dataField="Identificacion"
