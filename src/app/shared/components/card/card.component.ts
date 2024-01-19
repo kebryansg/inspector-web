@@ -1,13 +1,14 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {animate, AUTO_STYLE, state, style, transition, trigger} from '@angular/animations';
-import {NgClass, NgIf} from "@angular/common";
+import {NgClass, NgIf, NgTemplateOutlet} from "@angular/common";
 
 @Component({
   selector: 'app-card',
   standalone: true,
   imports: [
     NgIf,
-    NgClass
+    NgClass,
+    NgTemplateOutlet
   ],
   templateUrl: './card.component.html',
   styleUrls: ['./card.component.scss'],

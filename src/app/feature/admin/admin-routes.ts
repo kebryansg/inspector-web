@@ -43,6 +43,16 @@ export const ADMIN_ROUTES: Routes = [
       {
         path: 'formulario',
         loadChildren: () => import('./pages/formulario/formulario.module').then(m => m.FormularioModule)
+      },
+      {
+        path: 'profile',
+        title: 'Perfil',
+        loadComponent: () => import('./pages/settings/profile/profile.component').then(m => m.ProfileComponent)
+      },
+      {
+        path: 'config-sync-device',
+        title: 'Config Dispositivo',
+        loadComponent: () => import('./pages/settings/config-sync-device/config-sync-device.component').then(m => m.ConfigSyncDeviceComponent)
       }
     ]
   }

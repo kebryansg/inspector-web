@@ -33,6 +33,12 @@ export class DashboardLiteComponent implements OnInit {
       case UserAction.logout:
         this.logout()
         break;
+      case UserAction.settings:
+        this.router.navigate(['/config-sync-device']);
+        break;
+      case UserAction.profile:
+        this.router.navigate(['/profile']);
+        break;
       default:
         console.log(`No hay accion definida para el item seleccionado [${$event.action}]`);
         break;
