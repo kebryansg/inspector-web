@@ -7,16 +7,6 @@
     <form id="form-login" class="form-login" (ngSubmit)="submitLogin.next()"
           action="javascript:">
 
-      <div class="row mb-3">
-        <div class="col-md-12">
-          <div class="text-center font-weight-bold f-14 text-googleplus border w-100 p-2">
-            <span class="badge-ambiente">
-              AMBIENTE {{ ambiente }}
-            </span>
-          </div>
-        </div>
-      </div>
-
       <div class="row">
         <div class="col-md-12">
           <dx-form [(formData)]="loginData"

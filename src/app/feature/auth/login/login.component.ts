@@ -1,4 +1,4 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {DxFormModule, DxLoadPanelModule} from "devextreme-angular";
 import {DatePipe, NgIf, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
@@ -7,7 +7,6 @@ import {LoginService} from "../../../services/login.service";
 import {Router} from "@angular/router";
 import {tap} from "rxjs/operators";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
-import {environment} from "@environments/environment";
 
 @Component({
   selector: 'app-login',
@@ -35,7 +34,6 @@ export class LoginComponent implements OnInit {
   date: Date = new Date();
   loginData: any;
   message: string = '';
-  ambiente = environment.ambiente;
   buttonOptions: any = {
     text: 'Iniciar Sesión',
     type: 'success',
