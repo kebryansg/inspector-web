@@ -7,11 +7,11 @@
                 [rowAlternationEnabled]="true"
                 [columnAutoWidth]="true"
                 [searchPanel]="{visible:true}"
+                [syncLookupFilterValues]="false"
                 [headerFilter]="{visible:true}"
                 [filterRow]="{visible:true, applyFilter: 'auto'}">
 
-    <dxo-remote-operations [paging]="true"
-                           [filtering]="true" />
+    <dxo-remote-operations [paging]="true"/>
 
     <dxo-paging [pageSize]="10"/>
     <dxo-pager [showPageSizeSelector]="true"
