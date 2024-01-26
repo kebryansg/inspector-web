@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 
 import {GrupoRoutingModule} from './grupo-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {NewGrupoComponent} from './new/new.component';
+import {NewGrupoComponent} from './pages/new/new.component';
 import {GrupoComponent} from './grupo.component';
 import {DxButtonModule, DxDataGridModule, DxSelectBoxModule, DxTabsModule, DxTextBoxModule} from 'devextreme-angular';
 import {CardComponent} from "@standalone-shared/card/card.component";

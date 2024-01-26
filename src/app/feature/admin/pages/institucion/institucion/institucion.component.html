@@ -5,10 +5,10 @@
         <div class="pull-right">
           <button type="button"
                   class="btn btn-sm btn-primary"
-                  [class.btn-primary]="editProfile"
-                  [class.btn-danger]="!editProfile"
+                  [class.btn-primary]="editProfile()"
+                  [class.btn-danger]="!editProfile()"
                   (click)="toggleEditProfile()">
-            {{ editProfile ? 'Editar Información' : 'Cancelar Edición' }}
+            {{ editProfile() ? 'Editar Información' : 'Cancelar Edición' }}
           </button>
         </div>
       </div>
@@ -19,7 +19,7 @@
         <form (ngSubmit)="submit(formData.formData)">
           <dx-form #formData
                    [formData]="dataInstitution()"
-                   [readOnly]="editProfile"
+                   [readOnly]="editProfile()"
                    [showColonAfterLabel]="true"
                    [labelLocation]="'top'"
                    [showValidationSummary]="true"
@@ -64,7 +64,7 @@
             <dxi-item
               itemType="button"
               horizontalAlignment="right"
-              [visible]="!editProfile"
+              [visible]="!editProfile()"
               [buttonOptions]="buttonOptions"
             />
           </dx-form>

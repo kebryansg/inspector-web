@@ -1,7 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {ListaFormularioComponent} from './pages/lista-formulario/lista-formulario.component';
-import {ConfigFormularioComponent} from './config/config.component';
 import {AssignFormComponent} from './asign/asign.component';
 import {formIdResolver} from "./resolvers/form-id.resolver";
 
@@ -19,14 +18,10 @@ const routes: Routes = [
         component: AssignFormComponent,
         title: 'Formulario - Categoría',
       },
-      //{
-      //  path: 'new/:id',
-      //  component: FormularioComponent,
-      //  title: 'Nuevo Formulario',
-      //},
       {
         path: 'config/:id',
-        loadComponent: () => import('./config/config.component').then(m => m.ConfigFormularioComponent),
+        loadComponent: () => import('./config/config.component')
+          .then(m => m.ConfigFormularioComponent),
         title: 'Configurar Formulario',
         resolve: {
           formData: formIdResolver

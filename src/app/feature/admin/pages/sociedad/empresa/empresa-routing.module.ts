@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {EmpresaComponent} from './empresa.component';
-import {NewEmpresaComponent} from './new/new.component';
+import {NewEmpresaComponent} from './pages/new/new.component';
 import {empresaByIdResolver} from "./resolvers/empresa-by-id.resolver";
 
 const routes: Routes = [

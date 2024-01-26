@@ -43,7 +43,7 @@
                       Tipo Permiso
                     </label>
                     <div class="col-sm-12">
-                      <dx-select-box [dataSource]="lsTipoPermiso$ | async"
+                      <dx-select-box [dataSource]="lsTipoPermiso()"
                                      formControlName="IDTipoPermiso"
                                      displayExpr="Nombre"
                                      valueExpr="ID"
@@ -84,39 +84,37 @@
             </div>
             <div class="col-md-7">
 
-              <ng-container *ngIf="lsCategoria$ | async as lsCategorias">
-                <dx-data-grid [dataSource]="lsCategorias"
-                              [remoteOperations]="false"
-                              [columnAutoWidth]="true"
-                              height="500"
-                              keyExpr="ID"
-                              [hoverStateEnabled]="true"
-                              [rowAlternationEnabled]="true"
-                              [selectedRowKeys]="selectedCategory()"
-                              (selectedRowKeysChange)="selectedCategory.set($event) "
-                              [showBorders]="true"
-                              [loadPanel]="{enabled:true}"
-                              (onContentReady)="onContentReady($event)"
-                              (onToolbarPreparing)="onCategoryToolbarPreparing($event)">
+              <dx-data-grid [dataSource]="lsCategories()"
+                            [remoteOperations]="false"
+                            [columnAutoWidth]="true"
+                            height="500"
+                            keyExpr="ID"
+                            [hoverStateEnabled]="true"
+                            [rowAlternationEnabled]="true"
+                            [selectedRowKeys]="selectedCategory()"
+                            (selectedRowKeysChange)="selectedCategory.set($event) "
+                            [showBorders]="true"
+                            [loadPanel]="{enabled:true}"
+                            (onContentReady)="onContentReady($event)"
+                            (onToolbarPreparing)="onCategoryToolbarPreparing($event)">
 
-                  <dxo-selection
-                    [selectAllMode]="'allPages'"
-                    [showCheckBoxesMode]="'onClick'"
-                    mode="multiple"
-                  />
+                <dxo-selection
+                  [selectAllMode]="'allPages'"
+                  [showCheckBoxesMode]="'onClick'"
+                  mode="multiple"
+                />
 
-                  <dxo-scrolling mode="virtual"/>
+                <dxo-scrolling mode="virtual"/>
 
-                  <dxo-pager [showInfo]="true"/>
+                <dxo-pager [showInfo]="true"/>
 
-                  <dxo-search-panel
-                    [visible]="true"
-                  />
+                <dxo-search-panel
+                  [visible]="true"
+                />
 
-                  <dxi-column dataField="Nombre"
-                              caption="Categoría"/>
-                </dx-data-grid>
-              </ng-container>
+                <dxi-column dataField="Nombre"
+                            caption="Categoría"/>
+              </dx-data-grid>
 
               <br>
               <p>

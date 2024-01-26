@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {GrupoComponent} from './grupo.component';
-import {NewGrupoComponent} from './new/new.component';
+import {NewGrupoComponent} from './pages/new/new.component';
 import {grupoFindByResolver} from "./resolvers/grupo-find-by.resolver";
 
 const routes: Routes = [
@@ -20,7 +20,7 @@ const routes: Routes = [
     path: 'new/:id',
     component: NewGrupoComponent,
     resolve: {
-      grupo: grupoFindByResolver
+      group: grupoFindByResolver
     },
     title: 'Config. Grupo Económico',
   }

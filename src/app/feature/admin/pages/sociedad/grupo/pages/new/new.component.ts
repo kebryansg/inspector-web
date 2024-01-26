@@ -2,14 +2,16 @@ import {AfterContentInit, ChangeDetectionStrategy, Component, inject, signal} fr
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {animate, style, transition, trigger} from '@angular/animations';
-import {filter, lastValueFrom, Observable, shareReplay, switchMap} from 'rxjs';
-import {ToolsService} from "../../../../services/tools.service";
-import {CategoriaService, GrupoService} from "../../services";
+import {filter, lastValueFrom, Observable, switchMap} from 'rxjs';
+import {ToolsService} from "../../../../../services/tools.service";
+import {CategoriaService, GrupoService} from "../../../services";
 import {Dialog} from "@angular/cdk/dialog";
-import {PopupCategoriaComponent} from "../../categoria/popup/popup.component";
-import {PopupGrupoActividadComponent} from "../popup-actividad/popup.component";
-import {TipoPermisoService} from "../../services/tipo-permiso.service";
+import {PopupCategoriaComponent} from "../../../categoria/popup/popup.component";
+import {PopupGrupoActividadComponent} from "../../components/popup-actividad/popup.component";
+import {TipoPermisoService} from "../../../services/tipo-permiso.service";
 import {NotificationService} from "@service-shared/notification.service";
+import {injectData} from "@utils-app/route-params.util";
+import {toSignal} from "@angular/core/rxjs-interop";
 
 const longTabs = [
   {
@@ -52,17 +54,20 @@ export class NewGrupoComponent implements AfterContentInit {
   private categoriaService: CategoriaService<any> = inject(CategoriaService);
   private tipoPermisoService: TipoPermisoService = inject(TipoPermisoService);
 
-  form!: FormGroup;
+  form: FormGroup = this.buildForm();
   longTabs: any[] = longTabs;
 
   edit: boolean = false;
   status$: Observable<any[]> = inject(ToolsService).status$;
-  lsCategoria$ = this.categoriaService.getAll()
-    .pipe(
-      shareReplay()
-    );
+  lsCategories = toSignal(
+    this.categoriaService.getAll(),
+    {initialValue: []}
+  );
 
-  lsTipoPermiso$ = this.tipoPermisoService.getAll();
+  lsTipoPermiso = toSignal(
+    this.tipoPermisoService.getAll(),
+    {initialValue: []}
+  );
 
   lsActividad = signal<any[]>([]);
 
@@ -70,18 +75,17 @@ export class NewGrupoComponent implements AfterContentInit {
 
   selectTab = signal<string>('home');
 
+  dataRoute = injectData<{ group: any }>()
+
+
   onItemClick(e: any) {
     this.selectTab.set(this.longTabs[e.itemIndex].option);
   }
 
-  constructor() {
-    this.buildForm();
-  }
 
   ngAfterContentInit() {
-    const {grupo} = this.route.snapshot.data
-    if (grupo)
-      this.loadGroup(grupo)
+    if (this.dataRoute().group)
+      this.loadGroup(this.dataRoute().group)
   }
 
   onContentReady(e: any) {
@@ -89,7 +93,7 @@ export class NewGrupoComponent implements AfterContentInit {
   }
 
   buildForm() {
-    this.form = this.fb.group({
+    return this.fb.group({
       ID: [0],
       Nombre: ['', Validators.required],
       Descripcion: [null],
