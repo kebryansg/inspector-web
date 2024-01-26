@@ -16,9 +16,12 @@ export class InspeccionService {
 
   status = signal([...STATUS_INSPECTION]).asReadonly()
 
-
   getItemsPending() {
     return this.http.get<any>(this.urlBase + 'inspeccion/pending')
+  }
+
+  getItemsPendingApproval() {
+    return this.http.get<any>(this.urlBase + 'inspeccion/pending-approval')
   }
 
   create(data: any) {

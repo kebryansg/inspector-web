@@ -32,12 +32,15 @@ const routes: Routes = [
     loadComponent: () => import('./pages/create-inspection-group/create-inspection-group.component').then(m => m.CreateInspectionGroupComponent),
     title: 'Masiva - Creacion Inspección',
   },
-
   {
     path: 'mi-inspeccion',
     loadComponent: () => import('./pages/my-inspections/my-inspections.component')
       .then(m => m.MyInspectionsComponent),
     title: 'Mis Inspecciones',
+  },
+  {
+    path: 'pending-approval',
+    loadChildren: () => import('./pages/pending-approval/pending-approval-route').then(m => m.routes),
   },
   /*
     {
