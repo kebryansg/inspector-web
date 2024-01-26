@@ -2,7 +2,7 @@ import {APP_INITIALIZER, ApplicationConfig, importProvidersFrom} from "@angular/
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {provideHttpClient, withInterceptors} from "@angular/common/http";
 import {TokenInterceptor} from "./feature/admin/interceptors/token.interceptor";
-import {provideRouter} from "@angular/router";
+import {provideRouter, withComponentInputBinding} from "@angular/router";
 import {routes} from "./app-routing";
 import {DEFAULT_DIALOG_CONFIG, DialogModule} from "@angular/cdk/dialog";
 import {ModalContainerComponent} from "@standalone-shared/modal-container/modal-container.component";
@@ -19,7 +19,8 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(
       withInterceptors([TokenInterceptor])
     ),
-    provideRouter(routes),
+    provideRouter(routes, withComponentInputBinding()),
+
     importProvidersFrom([
       DialogModule
     ]),
