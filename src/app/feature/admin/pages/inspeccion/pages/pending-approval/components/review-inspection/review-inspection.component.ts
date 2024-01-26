@@ -1,13 +1,58 @@
-import {ChangeDetectionStrategy, Component, Input as RouteInput, numberAttribute} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, input} from '@angular/core';
+import {CardComponent} from "@standalone-shared/card/card.component";
+import {InspectionService} from "../../../../services/inspection.service";
+import {toObservable, toSignal} from "@angular/core/rxjs-interop";
+import {JsonPipe, KeyValuePipe} from "@angular/common";
+import {switchMap} from "rxjs";
+import {DxFormModule} from "devextreme-angular";
+import {InspectionResultService} from "../../../../services/inspection-result.service";
+import {InspectionResult} from "../../../../interfaces/inspection-result.interface";
+import {groupBy} from "@utils-app/array-fn.util";
+import {Router} from "@angular/router";
 
 @Component({
   standalone: true,
-  imports: [],
+  imports: [
+    CardComponent,
+    JsonPipe,
+    DxFormModule,
+    KeyValuePipe
+  ],
   templateUrl: './review-inspection.component.html',
   styleUrl: './review-inspection.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReviewInspectionComponent {
+  private inspectionService = inject(InspectionService);
+  private resultService = inject(InspectionResultService);
+  private router = inject(Router);
 
-  @RouteInput({transform: numberAttribute}) id!: number;
+
+  id = input.required<number>();
+
+  itemInspection = toSignal(
+    toObservable(this.id)
+      .pipe(
+        switchMap(id => this.inspectionService.getById(id))
+      )
+  );
+
+  itemResultInspection = toSignal<InspectionResult>(
+    toObservable(this.id)
+      .pipe(
+        switchMap(id => this.resultService.getById(id))
+      )
+  );
+
+  detailsInspection = computed(
+    () => {
+      return groupBy(this.itemResultInspection()?.resultsDetails ?? [], 'idSection')
+    }
+  );
+
+  cancelReview() {
+    this.router.navigate(['/inspeccion', 'pending-approval']);
+  }
+
+
 }

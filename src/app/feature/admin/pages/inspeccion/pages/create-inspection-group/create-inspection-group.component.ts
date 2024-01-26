@@ -14,7 +14,7 @@ import {map} from "rxjs/operators";
 import {IcofontComponent} from "@standalone-shared/icofont/icofont.component";
 import {AsyncPipe} from "@angular/common";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
-import {InspeccionService} from "../../services/inspeccion.service";
+import {InspectionService} from "../../services/inspection.service";
 import {NotificationService} from "@service-shared/notification.service";
 import {DebounceClickDirective} from "@directives/debounce-click.directive";
 
@@ -42,7 +42,7 @@ export class CreateInspectionGroupComponent implements OnInit {
   private catalogoService: CatalogoService = inject(CatalogoService);
   private formBuilder = inject(FormBuilder);
   private readonly notificationService = inject(NotificationService);
-  private readonly inspectionService = inject(InspeccionService);
+  private readonly inspectionService = inject(InspectionService);
   private readonly empresaService = inject(EmpresaService);
 
   gridDataSource: any;

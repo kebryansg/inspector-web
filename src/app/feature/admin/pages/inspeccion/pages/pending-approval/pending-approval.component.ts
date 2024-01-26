@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxButtonModule, DxDataGridModule} from "devextreme-angular";
-import {InspeccionService} from "../../services/inspeccion.service";
+import {InspectionService} from "../../services/inspection.service";
 import {AsyncPipe} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
 
@@ -21,7 +21,7 @@ export class PendingApprovalComponent {
 
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
-  private inspectionService = inject(InspeccionService);
+  private inspectionService = inject(InspectionService);
 
 
   $dataSource = this.inspectionService.getItemsPendingApproval();

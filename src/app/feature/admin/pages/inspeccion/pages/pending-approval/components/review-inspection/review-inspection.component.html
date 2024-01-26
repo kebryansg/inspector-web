@@ -1,1 +1,72 @@
-<p>review-inspection works!  {{ id }} </p>
+<app-card [cardTitle]="'Formulario - Inspección'">
+  <dx-form [formData]="itemInspection()"
+           [readOnly]="true">
+    <dxi-item [dataField]="'RUC'"
+              [label]="{text: 'RUC'}"
+    />
+    <dxi-item [dataField]="'NombreComercial'"
+              [label]="{text: 'Nombre Comercial'}"
+    />
+    <dxi-item [dataField]="'RazonSocial'"
+              [label]="{text: 'Razon Social'}"
+    />
+    <dxi-item [dataField]="'Sector'"
+              [label]="{text: 'Sector'}"
+    />
+    <dxi-item [dataField]="'Inspector'"
+              [label]="{text: 'Inspector'}"
+    />
+    <dxi-item [dataField]="'FechaInspeccion'"
+              editorType="dxDateBox"
+              [editorOptions]="{displayFormat:'MMMM dd, yyyy HH:mm'}"
+              [label]="{text: 'Fecha Inspección'}"
+    />
+    <dxi-item [dataField]="'FechaRegistro'"
+              editorType="dxDateBox"
+              [editorOptions]="{displayFormat:'MMMM dd, yyyy HH:mm'}"
+              [label]="{text: 'Fecha Registro'}"
+    />
+  </dx-form>
+
+  <div class="row mt-3">
+    <div class="col-12 d-flex justify-content-end gap-2">
+      <button type="button"
+              class="btn btn-danger"
+              (click)="cancelReview()">
+        Cancelar
+      </button>
+      <button type="button"
+              class="btn btn-primary">
+        Terminar Revisión
+      </button>
+    </div>
+  </div>
+
+</app-card>
+
+<app-card cardClass="mt-4" [cardTitle]="'Resultados'">
+
+  @for (item of (detailsInspection() | keyvalue); track item.key) {
+
+    <div class="dx-fieldset">
+      <div class="dx-fieldset-header">
+        Section {{ item.key }}
+      </div>
+
+      @for (criteria of item.value; track criteria.ID; ) {
+
+        <div class="dx-field">
+          <div class="dx-field-label">
+            {{ criteria.descriptionComponent }}
+          </div>
+          <div class="dx-field-value-static">
+            {{ criteria.Result }}
+          </div>
+        </div>
+
+      }
+
+    </div>
+  }
+
+</app-card>

@@ -38,3 +38,17 @@ export const orderBy = (arr: any, field: string, order: 'asc' | 'desc') =>
     }
     return 0;
   });
+
+export const groupBy = <T>(arr: T[], field: keyof T): { [key: string]: T[] } =>
+  arr.reduce((acc: any, curr: any) => {
+    if (!acc[curr[field]]) {
+      acc[curr[field]] = [];
+    }
+    acc[curr[field]].push(curr);
+    return acc;
+  }, {});
+
+export const groupByTuple = <T>(arr: T[], field: keyof T): [string, T[]][] => {
+  const _arrGroup = groupBy(arr, field);
+  return Object.keys(_arrGroup).map(key => [key, _arrGroup[key]]);
+}

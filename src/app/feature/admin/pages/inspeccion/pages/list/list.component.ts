@@ -6,7 +6,7 @@ import {debounceTime, map} from 'rxjs/operators';
 // @ts-ignore
 import DataSource from "devextreme/data/data_source";
 import {DxDataGridComponent} from 'devextreme-angular';
-import {InspeccionService} from '../../services/inspeccion.service';
+import {InspectionService} from '../../services/inspection.service';
 import {Inspection} from '../../interfaces/inspection.interface';
 import {CatalogoService} from "../../../../services/catalogo.service";
 import {headersParams} from "@utils/data-grid.util";
@@ -35,7 +35,7 @@ type action = 'download' | 'send_result' | 'view_result' | 'delete' | 'assign_in
 export class ListComponent implements OnInit {
 
   private readonly destroy: DestroyRef = inject(DestroyRef);
-  private inspeccionService: InspeccionService = inject(InspeccionService);
+  private inspeccionService: InspectionService = inject(InspectionService);
   private modalService: Dialog = inject(Dialog);
   private notificationService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);

@@ -1,20 +1,23 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '@environments/environment';
-import {Observable, of, timeout} from 'rxjs';
-import {shareReplay} from 'rxjs/operators';
-import {PaginateInspection} from '../interfaces/inspection.interface';
+import {Observable, timeout} from 'rxjs';
+import {Inspection, PaginateInspection} from '../interfaces/inspection.interface';
 import {STATUS_INSPECTION} from "../const/status-inspection.const";
 
 @Injectable({
   providedIn: 'root'
 })
-export class InspeccionService {
+export class InspectionService {
 
   private http: HttpClient = inject(HttpClient);
   private urlBase: string = environment.apiUrl;
 
   status = signal([...STATUS_INSPECTION]).asReadonly()
+
+  getById(id: number) {
+    return this.http.get<Inspection>(this.urlBase + 'inspeccion/' + id)
+  }
 
   getItemsPending() {
     return this.http.get<any>(this.urlBase + 'inspeccion/pending')

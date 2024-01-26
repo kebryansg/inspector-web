@@ -4,7 +4,7 @@ import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxButtonModule, DxDataGridModule, DxSelectBoxModule} from "devextreme-angular";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CatalogoService} from "../../../../services/catalogo.service";
-import {InspeccionService} from "../../services/inspeccion.service";
+import {InspectionService} from "../../services/inspection.service";
 import {NotificationService} from "@service-shared/notification.service";
 import {BehaviorSubject, switchMap} from "rxjs";
 import {toSignal} from "@angular/core/rxjs-interop";
@@ -29,7 +29,7 @@ import {debounceTime} from "rxjs/operators";
 export class AsignInspectorComponent {
   private readonly fb: FormBuilder = inject(FormBuilder);
   private readonly notificationService: NotificationService = inject(NotificationService);
-  private readonly inspeccionService: InspeccionService = inject(InspeccionService);
+  private readonly inspeccionService: InspectionService = inject(InspectionService);
 
   refreshTable$ = new BehaviorSubject<void>(null as unknown as void);
   lsInspectors$ = inject(CatalogoService).obtenerInspector()

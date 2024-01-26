@@ -4,7 +4,7 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {iif, lastValueFrom, of} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
 import CustomStore from 'devextreme/data/custom_store';
-import {InspeccionService} from "../../services/inspeccion.service";
+import {InspectionService} from "../../services/inspection.service";
 import {CatalogoService} from "../../../../services/catalogo.service";
 import {EmpresaService, EntidadService} from "../../../sociedad/services";
 import {NotificationService} from "@service-shared/notification.service";
@@ -23,7 +23,7 @@ export class NewInspeccionComponent implements OnInit {
   private route: ActivatedRoute = inject(ActivatedRoute);
   private fb: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
-  private inspectionService: InspeccionService = inject(InspeccionService);
+  private inspectionService: InspectionService = inject(InspectionService);
   private notificationService: NotificationService = inject(NotificationService);
   private empresaService: EmpresaService<Empresa> = inject(EmpresaService);
   private entidadService: EntidadService<Entidad> = inject(EntidadService);

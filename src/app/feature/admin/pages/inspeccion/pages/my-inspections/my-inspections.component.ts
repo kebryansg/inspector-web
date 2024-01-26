@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject, OnInit, ViewChild} from '@an
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {AsyncPipe} from "@angular/common";
 import {DxDataGridComponent, DxDataGridModule} from "devextreme-angular";
-import {InspeccionService} from "../../services/inspeccion.service";
+import {InspectionService} from "../../services/inspection.service";
 import {lastValueFrom, Observable} from "rxjs";
 import {CatalogoService} from "../../../../services/catalogo.service";
 import DataSource from "devextreme/data/data_source";
