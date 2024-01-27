@@ -1,4 +1,3 @@
-/* To learn more about this file see: https://angular.io/config/tsconfig. */
 {
   "compileOnSave": false,
   "compilerOptions": {
@@ -24,25 +23,26 @@
       "dom"
     ],
     "paths": {
-      "jszip": [
-        "node_modules/jszip/dist/jszip.min.js"
-      ],
       "@directives/*": [
         "src/app/common/directives/*"
       ],
-      "@modal/*": [
-        "src/app/common/modal/*"
-      ],
       "@environments/*": [
         "src/environments/*"
+      ],
+      "@modal/*": [
+        "src/app/common/modal/*"
       ],
       "@service-shared/*": [
         "src/app/shared/services/*"
       ],
       "@utils-app/*": [
         "src/app/utils/*"
+      ],
+      "jszip": [
+        "node_modules/jszip/dist/jszip.min.js"
       ]
-    }
+    },
+    "skipLibCheck": true
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
