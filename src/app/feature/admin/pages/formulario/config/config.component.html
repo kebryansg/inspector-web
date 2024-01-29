@@ -52,7 +52,7 @@
                           cdkDropList
                           (cdkDropListDropped)="drop($event, idxSection)"
                           [idx]="idxSection">
-          @for (component of section.componentes; track component.ID; let idxComponent = $index) {
+          @for (component of section.components; track component.ID; let idxComponent = $index) {
             <app-item-component [idx]="idxComponent"
                                 [typeDescriptionComponent]="component.idTipoComp.Descripcion"
                                 [idxSection]="idxSection"

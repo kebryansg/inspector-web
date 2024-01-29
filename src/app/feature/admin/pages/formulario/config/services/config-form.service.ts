@@ -14,7 +14,7 @@ export class ConfigFormService {
 
   //#region Operations Sections
   addSection(itemSection: ISeccion) {
-    itemSection.componentes = [];
+    itemSection.components = [];
     this._sections.update(sections =>
       [...sections, itemSection]
     );
@@ -53,7 +53,7 @@ export class ConfigFormService {
   //#region Operations Components
   addComponent(rowIndexSection: number, itemComponent: IComponente) {
     this._sections.update(sections => {
-        sections[rowIndexSection].componentes.push(itemComponent);
+        sections[rowIndexSection].components.push(itemComponent);
         return [...sections]
       }
     );
@@ -61,7 +61,7 @@ export class ConfigFormService {
 
   editComponent(rowIndexSection: number, rowIndexComponent: number, itemComponent: IComponente) {
     this._sections.update(sections => {
-        sections[rowIndexSection].componentes[rowIndexComponent] = {...itemComponent};
+        sections[rowIndexSection].components[rowIndexComponent] = {...itemComponent};
         return [...sections]
       }
     );
@@ -69,7 +69,7 @@ export class ConfigFormService {
 
   removeComponent(rowIndexSection: number, rowIndexComponent: number) {
     this._sections.update(sections => {
-        sections[rowIndexSection].componentes.splice(rowIndexComponent, 1);
+        sections[rowIndexSection].components.splice(rowIndexComponent, 1);
         return [...sections]
       }
     );
@@ -77,7 +77,7 @@ export class ConfigFormService {
 
   toggleActiveComponent(rowIndexSection: number, rowIndexComponent: number, status: 'ACT' | 'INA') {
     this._sections.update(sections => {
-        sections[rowIndexSection].componentes[rowIndexComponent].Estado = status;
+        sections[rowIndexSection].components[rowIndexComponent].Estado = status;
         return [...sections]
       }
     );

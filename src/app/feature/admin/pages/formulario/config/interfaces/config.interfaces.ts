@@ -4,7 +4,7 @@ export interface ISeccion {
   Observacion: string;
   Estado: 'ACT' | 'INA';
   IDFormulario: number;
-  componentes: IComponente[];
+  components: IComponente[];
 }
 
 export interface IComponente {

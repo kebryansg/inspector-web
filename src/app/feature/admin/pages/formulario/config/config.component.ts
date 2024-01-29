@@ -58,7 +58,7 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
       sections.map(section => {
         return {
           ...section,
-          componentes: components.filter(component => component.IDSeccion == section.ID)
+          components: components.filter(component => component.IDSeccion == section.ID)
         }
       })
     );
@@ -84,11 +84,9 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
       });
   }
 
-
   cancel() {
     this.router.navigate(['../../list'], {relativeTo: this.route});
   }
-
 
   previewConfig() {
     const modalRef = this.modalService.open(PreviewConfigComponent, {
@@ -126,13 +124,13 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
   }
 
   mapSectionComponents() {
-    return this.lsSection().map(itemSeccion => {
-      if ('ID' in itemSeccion && itemSeccion.ID == 0) {
+    return this.lsSection().map(itemSection => {
+      if ('ID' in itemSection && itemSection.ID == 0) {
         // @ts-ignore
-        delete itemSeccion['ID'];
+        delete itemSection['ID'];
       }
-      const components = itemSeccion.componentes.map((component, idxOrder) => {
-        if ('ID' in component && component.ID == 0) {
+      const components = itemSection.components.map((component, idxOrder) => {
+        if ('ID' in component && component.ID === 0) {
           // @ts-ignore
           delete component['ID'];
         }
@@ -147,7 +145,7 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
         } as IComponente;
       });
       return {
-        ...itemSeccion,
+        ...itemSection,
         components
       };
     });
@@ -155,7 +153,7 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
 
 
   drop(event: CdkDragDrop<string[]>, idxSection: number) {
-    moveItemInArray(this.lsSection()[idxSection].componentes, event.previousIndex, event.currentIndex);
+    moveItemInArray(this.lsSection()[idxSection].components, event.previousIndex, event.currentIndex);
   }
 
 }

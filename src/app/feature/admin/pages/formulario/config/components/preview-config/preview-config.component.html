@@ -23,7 +23,7 @@
     </div>
     <div *dxTemplate="let section of 'item'">
 
-      @for (_component of section.componentes; track _component.ID) {
+      @for (_component of section.components; track _component.ID) {
         @switch (_component.IDTipoComp) {
           @case (1) {
             <div class="dx-field dx-field-top-label">
@@ -34,6 +34,8 @@
               </div>
               <div class="dx-field-value">
                 <dx-select-box [items]="_component.Atributo"
+                               valueExpr="code"
+                               displayExpr="display"
                                placeholder="Opción"
                 />
               </div>

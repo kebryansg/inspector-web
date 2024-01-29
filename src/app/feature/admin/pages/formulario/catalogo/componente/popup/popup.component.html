@@ -31,7 +31,7 @@
             Tipo Componente
           </label>
           <div class="col-sm-12">
-            <dx-select-box [dataSource]="lsTipo()"
+            <dx-select-box [dataSource]="lsTypeComponent()"
                            displayExpr="Descripcion"
                            valueExpr="ID"
                            formControlName="IDTipoComp"
@@ -41,9 +41,9 @@
       </div>
       <div class="col-md-6">
         <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label font-weight-bold"
-          >Estado</label
-          >
+          <label class="col-sm-12 col-form-label font-weight-bold">
+            Estado
+          </label>
           <div class="col-sm-12">
             <dx-select-box [dataSource]="status$ | async"
                            displayExpr="label"
@@ -55,13 +55,15 @@
       </div>
     </div>
     @if (typeComponent.value === 1) {
-      <div class="row">
-        <div class="col-12">
+      <section class="row mt-3">
 
+        <!--
           <div class="form-group form-default row">
             <label class="col-sm-12 col-form-label font-weight-bold">
               Añadir items
             </label>
+
+
             <div class="col-sm-12">
               <dx-tag-box
                 [(value)]="lsAttr"
@@ -69,6 +71,58 @@
                 placeholder="+"
                 [inputAttr]="{ 'aria-label': 'Attr' }"
               />
+            </div>
+          </div>
+          -->
+
+        <div class="col-12">
+
+          <dx-data-grid
+            id="gridContainer"
+            [dataSource]="dataGrid"
+            [showBorders]="true"
+            (onRowInserted)="$event.component.navigateToRow($event.key)"
+          >
+
+            <dxo-editing mode="batch"
+                         [allowUpdating]="true"
+                         [allowAdding]="true"
+                         [allowDeleting]="true"
+                         [useIcons]="true"
+            />
+            <dxi-column
+              dataField="code"
+              caption="Código"
+              [width]="150"
+              [allowSorting]="false"
+            />
+            <dxi-column
+              caption="Descripción"
+              dataField="display"
+              [allowSorting]="false"
+            />
+          </dx-data-grid>
+
+        </div>
+
+      </section>
+    } @else if (typeComponent.value === 7) {
+      <div class="row">
+        <div class="col-12">
+
+          <div class="form-group form-default row">
+            <label class="col-sm-12 col-form-label font-weight-bold">
+              Catalogo Seleccionar
+            </label>
+            <div class="col-sm-12">
+
+              <dx-select-box [dataSource]="lsCatalog()"
+                             formControlName="selectCatalog"
+                             displayExpr="description"
+                             valueExpr="code"
+              />
+
+
             </div>
           </div>
         </div>

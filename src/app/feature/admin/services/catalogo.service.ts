@@ -89,4 +89,8 @@ export class CatalogoService {
     return this.httpClient.get<any[]>(this.url + 'combo/tipo-componente');
   }
 
+  getCatalogTypeComponent() {
+    return this.httpClient.get<any[]>(this.url + 'formulario/catalog');
+  }
+
 }
