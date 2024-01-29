@@ -31,11 +31,22 @@ jobs:
           npx ng build --configuration production --output-path=dist
 
       - name: Deploy to Simply
-        uses: rasmusbuchholdt/simply-web-deploy@2.1.0
+        uses: sand4rt/ftp-deployer@v1.7
         with:
-          website-name: ${{ secrets.WEBSITE_NAME }}
-          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
-          server-username: ${{ secrets.SERVER_USERNAME }}
-          server-password: ${{ secrets.SERVER_PASSWORD }}
-          source-path: '\dist\'
-          target-delete: true
+          sftp: false # optional
+          host: ${{ secrets.SERVER_COMPUTER_NAME }} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
+          port: 21 # optional, default is: 21
+          username: ${{ secrets.SERVER_USERNAME }} # FTP username
+          password: ${{ secrets.SERVER_PASSWORD }} # FTP password
+          local_folder: dist # optional, local path, default is: dist
+          cleanup: false # optional, remove existing files inside FTP remote folder
+          include: '[]' # optional, e.g. '['dist']'
+          exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
+          passive: true # optional
+          
+          # website-name: ${{ secrets.WEBSITE_NAME }}
+          # server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
+          # server-username: ${{ secrets.SERVER_USERNAME }}
+          # server-password: ${{ secrets.SERVER_PASSWORD }}
+          # source-path: '\dist\'
+          # target-delete: true
