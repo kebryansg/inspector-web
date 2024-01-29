@@ -31,7 +31,7 @@ jobs:
           npx ng build --configuration production --output-path=dist
 
       - name: Deploy to Simply
-        uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.8
+        uses: rasmusbuchholdt/simply-web-deploy@2.1.0
         with:
           website-name: ${{ secrets.WEBSITE_NAME }}
           server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
