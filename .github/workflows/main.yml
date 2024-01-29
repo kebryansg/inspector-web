@@ -28,7 +28,7 @@ jobs:
       - name: Build application
         run: | 
           npm install
-          ng build --configuration production --output-path=dist
+          npx ng build --configuration production --output-path=dist
 
       - name: Deploy to Simply
         uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.8
