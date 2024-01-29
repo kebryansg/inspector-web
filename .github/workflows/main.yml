@@ -34,10 +34,10 @@ jobs:
         uses: sand4rt/ftp-deployer@v1.7
         with:
           sftp: false # optional
-          host: ${{ secrets.SERVER_COMPUTER_NAME }} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
+          host: ${{ secrets.FTP_HOST }} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
           port: 21 # optional, default is: 21
-          username: ${{ secrets.SERVER_USERNAME }} # FTP username
-          password: ${{ secrets.SERVER_PASSWORD }} # FTP password
+          username: ${{ secrets.FTP_USERNAME }} # FTP username
+          password: ${{ secrets.FTP_PASSWORD }} # FTP password
           local_folder: dist # optional, local path, default is: dist
           cleanup: false # optional, remove existing files inside FTP remote folder
           include: '[]' # optional, e.g. '['dist']'
