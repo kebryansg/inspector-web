@@ -4,9 +4,19 @@ import {IComponente, ISeccion} from "../interfaces/config.interfaces";
 
 @Injectable()
 export class ConfigFormService {
-  private _sections = signal<ISeccion[]>([]);
 
+  private _sections = signal<ISeccion[]>([]);
   sections = this._sections.asReadonly();
+
+  #showItemsInactive = signal(true);
+
+  get showItemsInactive() {
+    return this.#showItemsInactive.asReadonly();
+  }
+
+  changeShowItemsInactive(val: boolean) {
+    this.#showItemsInactive.set(val);
+  }
 
   setSections(sections: ISeccion[]) {
     this._sections.set([...sections]);

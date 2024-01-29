@@ -45,25 +45,41 @@
   </app-card>
 
   <div class="row">
+    <div class="col-12 d-flex justify-content-end gap-1">
+      <label class="font-weight-500">Ocultar items inactivos</label>
+      <dx-switch [value]="false"
+                 switchedOffText="No"
+                 switchedOnText="Si"
+                 (valueChange)="changeShowItemsInactive($event)"
+      />
+    </div>
+  </div>
+
+  <div class="row">
     @for (section of lsSection(); track section.ID; let idxSection = $index) {
-      <div class="col-12">
+      @if (section.Estado === 'ACT' || showItemsInactive()) {
+        <div class="col-12">
 
-        <app-item-section [section]="section"
-                          cdkDropList
-                          (cdkDropListDropped)="drop($event, idxSection)"
-                          [idx]="idxSection">
-          @for (component of section.components; track component.ID; let idxComponent = $index) {
-            <app-item-component [idx]="idxComponent"
-                                [typeDescriptionComponent]="component.idTipoComp.Descripcion"
-                                [idxSection]="idxSection"
-                                [component]="component"
-                                [typeComponent]="component.IDTipoComp"
-                                cdkDrag
-            />
-          }
-        </app-item-section>
+          <app-item-section [section]="section"
+                            cdkDropList
+                            (cdkDropListDropped)="drop($event, idxSection)"
+                            [idx]="idxSection">
+            @for (component of section.components; track component.ID; let idxComponent = $index) {
+              @if (component.Estado === 'ACT' || showItemsInactive()) {
+                <app-item-component [idx]="idxComponent"
+                                    [typeDescriptionComponent]="component.idTipoComp.Descripcion"
+                                    [idxSection]="idxSection"
+                                    [component]="component"
+                                    [typeComponent]="component.IDTipoComp"
+                                    cdkDrag
+                />
+              }
 
-      </div>
+            }
+          </app-item-section>
+
+        </div>
+      }
     }
 
 

@@ -9,12 +9,13 @@ import {FormDataResolver} from "../interfaces/form-data-resolver.interface";
 import {injectData} from "@utils-app/route-params.util";
 import {ConfigFormService} from "./services/config-form.service";
 import {IComponente} from "./interfaces/config.interfaces";
-import {CdkDragDrop, CdkDropList, CdkDrag, moveItemInArray} from '@angular/cdk/drag-drop';
+import {CdkDrag, CdkDragDrop, CdkDropList, moveItemInArray} from '@angular/cdk/drag-drop';
 import {ItemSectionComponent} from "./components/item-section/item-section.component";
 import {ItemComponentComponent} from "./components/item-component/item-component.component";
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DetailsFormComponent} from "./components/details-form/details-form.component";
 import {PreviewConfigComponent} from "./components/preview-config/preview-config.component";
+import {DxSwitchModule} from "devextreme-angular";
 
 @Component({
   selector: 'app-config',
@@ -24,7 +25,7 @@ import {PreviewConfigComponent} from "./components/preview-config/preview-config
     CardComponent,
     DetailsFormComponent,
     ItemSectionComponent,
-    ItemComponentComponent,
+    ItemComponentComponent, DxSwitchModule,
   ],
   templateUrl: './config.component.html',
   styleUrls: ['./config.component.scss',],
@@ -45,8 +46,8 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
   formDataResolver: FormDataResolver = this.dataRoute().formData;
   dataForm = signal(this.formDataResolver.data);
 
-  //lsSection = signal<ISeccion[]>(this.formDataResolver.configs);
   lsSection = this.configFormService.sections;
+  showItemsInactive = this.configFormService.showItemsInactive;
 
   ngOnInit() {
     const {
@@ -65,6 +66,10 @@ export class ConfigFormularioComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+  }
+
+  changeShowItemsInactive(evt: boolean) {
+    this.configFormService.changeShowItemsInactive(!evt);
   }
 
   newSection() {
