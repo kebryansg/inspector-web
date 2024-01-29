@@ -12,8 +12,23 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
+      - name: Setup Node
+        uses: actions/setup-node@v4.0.1
+        with:
+          node-version: '18.x'
+
+      - name: Cache
+        uses: actions/cache@v1
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Build application
-        run: npm ci && ng build --configuration production --output-path=dist
+        run: | 
+          npm install
+          ng build --configuration production --output-path=dist
 
       - name: Deploy to Simply
         uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0.alpha.8
