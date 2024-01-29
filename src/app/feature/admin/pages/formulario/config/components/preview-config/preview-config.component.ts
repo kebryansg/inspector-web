@@ -27,7 +27,13 @@ export class PreviewConfigComponent extends ModalTemplate implements OnInit {
 
   ngOnInit() {
     this.titleModal = this.dataModal.titleModal
-    this.configSection.set(this.dataModal.sections);
+    this.configSection.set(
+      [
+        ...this.dataModal.sections.filter(
+          (item: ISeccion) => item.Estado === 'ACT'
+        )
+      ]
+    );
   }
 
 }

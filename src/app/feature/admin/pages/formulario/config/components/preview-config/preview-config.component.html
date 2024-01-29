@@ -17,65 +17,67 @@
                 noDataText="Cargando Formulario..."
                 [animationDuration]="300">
     <div *dxTemplate="let section of 'title'">
-            <span class="text-carmine">
-                {{ section.Descripcion | titlecase }}
-            </span>
+      <span class="text-carmine">
+        {{ section.Descripcion | titlecase }}
+      </span>
     </div>
     <div *dxTemplate="let section of 'item'">
 
       @for (_component of section.components; track _component.ID) {
-        @switch (_component.IDTipoComp) {
-          @case (1) {
-            <div class="dx-field dx-field-top-label">
-              <div class="dx-field-label">
-                {{ _component.Descripcion }}
-                <span *ngIf="_component.Obligatorio"
-                      class="text-md-danger">*</span>
+        @if (_component.Estado === 'ACT') {
+          @switch (_component.IDTipoComp) {
+            @case (1) {
+              <div class="dx-field dx-field-top-label">
+                <div class="dx-field-label">
+                  {{ _component.Descripcion }}
+                  <span *ngIf="_component.Obligatorio"
+                        class="text-md-danger">*</span>
+                </div>
+                <div class="dx-field-value">
+                  <dx-select-box [items]="_component.Atributo"
+                                 valueExpr="code"
+                                 displayExpr="display"
+                                 placeholder="Opción"
+                  />
+                </div>
               </div>
-              <div class="dx-field-value">
-                <dx-select-box [items]="_component.Atributo"
-                               valueExpr="code"
-                               displayExpr="display"
-                               placeholder="Opción"
-                />
+            }
+            @case (2) {
+              <div class="dx-field dx-field-top-label">
+                <div class="dx-field-label">
+                  {{ _component.Descripcion }}
+                  <span *ngIf="_component.Obligatorio"
+                        class="text-md-danger">*</span>
+                </div>
+                <div class="dx-field-value">
+                  <dx-number-box [format]="'fixedPoint'"
+                                 placeholder="Opción"
+                  />
+                </div>
               </div>
-            </div>
-          }
-          @case (2) {
-            <div class="dx-field dx-field-top-label">
-              <div class="dx-field-label">
-                {{ _component.Descripcion }}
-                <span *ngIf="_component.Obligatorio"
-                      class="text-md-danger">*</span>
+            }
+            @case (3) {
+              <div class="dx-field dx-field-top-label">
+                <div class="dx-field-label">
+                  {{ _component.Descripcion }}
+                  <span *ngIf="_component.Obligatorio"
+                        class="text-md-danger">*</span>
+                </div>
+                <div class="dx-field-value">
+                  <dx-text-box [showClearButton]="true"
+                               placeholder="..."
+                  ></dx-text-box>
+                </div>
               </div>
-              <div class="dx-field-value">
-                <dx-number-box [format]="'fixedPoint'"
-                               placeholder="Opción"
-                />
-              </div>
-            </div>
-          }
-          @case (3) {
-            <div class="dx-field dx-field-top-label">
-              <div class="dx-field-label">
-                {{ _component.Descripcion }}
-                <span *ngIf="_component.Obligatorio"
-                      class="text-md-danger">*</span>
-              </div>
-              <div class="dx-field-value">
-                <dx-text-box [showClearButton]="true"
-                             placeholder="..."
-                ></dx-text-box>
-              </div>
-            </div>
-          }
-          @case (4) {
-            <dx-check-box class="dx-field-checkbox bold"
-                          [width]="'100%'"
-                          [text]="_component.Descripcion"
-            />
-          }
+            }
+            @case (4) {
+              <dx-check-box class="dx-field-checkbox bold"
+                            [width]="'100%'"
+                            [text]="_component.Descripcion"
+              />
+            }
 
+          }
         }
       }
     </div>
