@@ -30,19 +30,13 @@ jobs:
           npm install
           npx ng build --configuration production --output-path=dist
 
-      - name: Deploy to Simply
-        uses: sand4rt/ftp-deployer@v1.7
+      - name: Deploy to FTP
+        uses: airvzxf/ftp-deployment-action@latest
         with:
-          sftp: false # optional
-          host: ${{ secrets.FTP_HOST }} # e.g. ftp.host.com or sftp.host.com (without ftp:// or ftps://)
-          port: 21 # optional, default is: 21
-          username: ${{ secrets.FTP_USERNAME }} # FTP username
-          password: ${{ secrets.FTP_PASSWORD }} # FTP password
-          local_folder: dist # optional, local path, default is: dist
-          cleanup: false # optional, remove existing files inside FTP remote folder
-          include: '[]' # optional, e.g. '['dist']'
-          exclude: '[]' # optional, e.g. '['node_modules/**', '.git/**', '*.env']'
-          passive: true # optional
+          server: ${{ secrets.FTP_HOST }}
+          user: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local_dir: "./dist"
           
           # website-name: ${{ secrets.WEBSITE_NAME }}
           # server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
