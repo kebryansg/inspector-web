@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     
     steps:
       - name: Checkout Repo
@@ -18,7 +18,7 @@ jobs:
           node-version: '18.x'
 
       - name: Cache
-        uses: actions/cache@v1
+        uses: actions/cache@v4.0.0
         with:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
@@ -36,7 +36,7 @@ jobs:
           server: ${{ secrets.FTP_HOST }}
           user: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local_dir: "./dist"
+          local_dir: './dist'
           
           # website-name: ${{ secrets.WEBSITE_NAME }}
           # server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
