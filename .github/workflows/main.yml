@@ -37,6 +37,7 @@ jobs:
           user: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local_dir: './dist'
+          max_retries: "2"
           
           # website-name: ${{ secrets.WEBSITE_NAME }}
           # server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
