@@ -3,5 +3,5 @@ export interface EnvironmentInt {
   apiUrl: string,
   ambiente?: 'DEVELOPMENT' | "STAGING" | "PRODUCTION",
   googleMapsKey: string,
-  apiUrlAnexos: string,
+  apiUrlAnexos?: string,
 }
