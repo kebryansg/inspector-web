@@ -13,6 +13,7 @@
   }
 
   footer {
+    padding: 10px;
     width: 100%;
     color: #ffffff;
     background-color: #4680ff;
@@ -27,6 +28,6 @@
     background-color: #ffffff;
     padding: 2rem;
     border-radius: 2px;
-    width: 450px;
+    max-width: 450px;
   }
 }
