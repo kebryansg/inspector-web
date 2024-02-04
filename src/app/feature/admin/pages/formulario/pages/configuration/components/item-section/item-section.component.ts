@@ -2,13 +2,13 @@ import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {TitleCasePipe} from '@angular/common';
 import {DxButtonModule, DxSwitchModule} from "devextreme-angular";
 import {CdkAccordionModule} from '@angular/cdk/accordion';
-import {PopupItemComponentComponent} from "../../../catalogo/componente/popup/popup.component";
 import {filter} from "rxjs";
-import {PopupSeccionComponent} from "../../../catalogo/seccion/popup/popup.component";
 import {Dialog} from "@angular/cdk/dialog";
 import {ItemComponentComponent} from "../item-component/item-component.component";
 import {ISeccion} from "../../interfaces/config.interfaces";
 import {ConfigFormService} from "../../services/config-form.service";
+import {PopupItemComponentComponent} from "../../../../catalogo/componente/popup/popup.component";
+import {PopupSeccionComponent} from "../../../../catalogo/seccion/popup/popup.component";
 
 @Component({
   selector: 'app-item-section',

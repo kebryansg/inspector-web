@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, computed, inject, OnInit, signal} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {EmpresaService} from "../../../sociedad/services";
-import {DxButtonModule, DxDataGridModule, DxDateBoxModule, DxSelectBoxModule} from "devextreme-angular";
+import {DxButtonModule, DxDataGridModule, DxDateBoxModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import DataSource from "devextreme/data/data_source";
 import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
@@ -32,6 +32,7 @@ import {DebounceClickDirective} from "@directives/debounce-click.directive";
     DxDateBoxModule,
     DxSelectErrorControlDirective,
     DebounceClickDirective,
+    DxTextBoxModule,
   ],
   templateUrl: './create-inspection-group.component.html',
   styleUrl: './create-inspection-group.component.scss',
@@ -73,6 +74,10 @@ export class CreateInspectionGroupComponent implements OnInit {
   lsSelectedItems = signal<string[]>([])
   lsItemsDataGrid = signal<any[]>([])
   existRegister = computed(() => this.lsItemsDataGrid().length > 0)
+
+  clearFiltersForm(){
+    this.itemFilter.reset()
+  }
 
   searchItems() {
     this.itemFilter.markAllAsTouched()

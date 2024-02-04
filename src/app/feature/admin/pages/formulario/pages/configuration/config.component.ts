@@ -1,11 +1,11 @@
 import {Component, inject, OnDestroy, OnInit, signal,} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {PopupSeccionComponent} from '../catalogo/seccion/popup/popup.component';
+import {PopupSeccionComponent} from '../../catalogo/seccion/popup/popup.component';
 import {filter} from 'rxjs';
-import {FormService} from "../services/form.service";
+import {FormService} from "../../services/form.service";
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
-import {FormDataResolver} from "../interfaces/form-data-resolver.interface";
+import {FormDataResolver} from "../../interfaces/form-data-resolver.interface";
 import {injectData} from "@utils-app/route-params.util";
 import {ConfigFormService} from "./services/config-form.service";
 import {IComponente} from "./interfaces/config.interfaces";

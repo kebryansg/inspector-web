@@ -1,0 +1,28 @@
+<div class="dx-field dx-field-top-label">
+  <div class="dx-field-label">
+    {{ _component().Descripcion }}
+  </div>
+  <div class="dx-field-value">
+    <dx-tag-box [items]="itemsCatalog()"
+                [displayExpr]="displayExpr()"
+                [valueExpr]="valueExpr()"
+                [showSelectionControls]="true"
+                (onMultiTagPreparing)="onMultiTagPreparing($event)"
+                [maxDisplayedTags]="0"
+    />
+
+    <section class="d-grid gap-2 mt-4">
+      @for (_item of itemsSelected(); track _item[valueExpr()]) {
+        <div class="d-flex align-items-center justify-content-between">
+          <label class="font-weight-400">{{ _item[displayExpr()] }}</label>
+
+          <dx-number-box [value]="0"
+                         [showSpinButtons]="true"
+          />
+
+        </div>
+      }
+    </section>
+
+  </div>
+</div>

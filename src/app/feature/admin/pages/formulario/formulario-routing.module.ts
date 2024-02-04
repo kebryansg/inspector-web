@@ -20,7 +20,7 @@ const routes: Routes = [
       },
       {
         path: 'config/:id',
-        loadComponent: () => import('./config/config.component')
+        loadComponent: () => import('./pages/configuration/config.component')
           .then(m => m.ConfigFormularioComponent),
         title: 'Configurar Formulario',
         resolve: {

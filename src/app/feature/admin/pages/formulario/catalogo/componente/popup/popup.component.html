@@ -84,6 +84,12 @@
             (onRowInserted)="$event.component.navigateToRow($event.key)"
           >
 
+            <dxo-keyboard-navigation
+              [editOnKeyPress]="true"
+              [enterKeyAction]="'moveFocus'"
+              [enterKeyDirection]="'row'"
+            />
+
             <dxo-editing mode="batch"
                          [allowUpdating]="true"
                          [allowAdding]="true"
@@ -118,10 +124,9 @@
 
               <dx-select-box [dataSource]="lsCatalog()"
                              formControlName="selectCatalog"
-                             displayExpr="description"
+                             displayExpr="name"
                              valueExpr="code"
               />
-
 
             </div>
           </div>

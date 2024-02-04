@@ -9,6 +9,7 @@ import {ToolsService} from "../../../../../services/tools.service";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
+import {CatalogFormService} from "../../../services/catalog-form.service";
 
 @Component({
   standalone: true,
@@ -29,12 +30,13 @@ export class PopupItemComponentComponent extends ModalTemplate implements OnInit
 
   private readonly fb: FormBuilder = inject(FormBuilder);
   private readonly catalogService: CatalogoService = inject(CatalogoService);
+  private readonly formCatalogService: CatalogFormService = inject(CatalogFormService);
 
   form: FormGroup = this.buildForm();
   status$: Observable<any[]> = inject(ToolsService).status$;
   dataInputModal = signal<any>({})
   lsCatalog = toSignal(
-    this.catalogService.getCatalogTypeComponent(),
+    this.formCatalogService.getCatalogComponent(),
     {initialValue: []}
   );
   lsTypeComponent = toSignal<any[], any[]>(

@@ -3,9 +3,9 @@ import {NgTemplateOutlet} from '@angular/common';
 import {DxButtonModule, DxSwitchModule, DxTagBoxModule} from "devextreme-angular";
 import {IComponente} from "../../interfaces/config.interfaces";
 import {ConfigFormService} from "../../services/config-form.service";
-import {PopupItemComponentComponent} from "../../../catalogo/componente/popup/popup.component";
 import {filter} from "rxjs";
 import {Dialog} from "@angular/cdk/dialog";
+import {PopupItemComponentComponent} from "../../../../catalogo/componente/popup/popup.component";
 
 @Component({
   selector: 'app-item-component',

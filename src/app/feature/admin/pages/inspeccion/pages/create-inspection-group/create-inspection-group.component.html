@@ -22,9 +22,26 @@
         />
       </app-item-control>
     </section>
+
+    <section class="d-flex flex-row gap-1 mb-3">
+      <app-item-control [titleControl]="'Sector'">
+        <dx-select-box [dataSource]="lsGrupo()"
+                       displayExpr="Nombre"
+                       valueExpr="ID"
+                       formControlName="IDTarifaGrupo"
+                       [searchEnabled]="true"
+        />
+      </app-item-control>
+
+      <app-item-control [titleControl]="'Dirección'">
+        <dx-text-box placeholder="Ej: San Camilo"></dx-text-box>
+      </app-item-control>
+    </section>
+
+
   </form>
 
-  <section class="d-flex justify-content-end">
+  <section class="d-flex justify-content-end gap-2">
     @if (existRegister()) {
       <button class="btn btn-outline-success"
               type="button"
@@ -35,6 +52,13 @@
       </button>
 
     } @else {
+      <button class="btn btn-outline-danger"
+              type="button"
+              appDebounceClick
+              (debounceClick)="clearFiltersForm()">
+        <i class="fa fa-trash"></i>
+        Limpiar filtros
+      </button>
       <button class="btn btn-outline-primary"
               type="button"
               appDebounceClick

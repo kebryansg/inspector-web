@@ -15,7 +15,7 @@ import {
   DxSwitchModule,
   DxTreeListModule
 } from "devextreme-angular";
-import {DetailsFormComponent} from "./config/components/details-form/details-form.component";
+import {DetailsFormComponent} from "./pages/configuration/components/details-form/details-form.component";
 
 
 @NgModule({
