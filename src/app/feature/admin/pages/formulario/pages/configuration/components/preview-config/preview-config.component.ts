@@ -3,22 +3,22 @@ import {ModalTemplate} from "@modal/modal-template";
 import {
   DxAccordionModule,
   DxCheckBoxModule,
-  DxNumberBoxModule, DxScrollViewModule,
+  DxNumberBoxModule,
+  DxScrollViewModule,
   DxSelectBoxModule,
   DxTagBoxModule,
   DxTextBoxModule
 } from "devextreme-angular";
-import {NgIf, TitleCasePipe} from "@angular/common";
+import {TitleCasePipe} from "@angular/common";
 import {ISeccion} from "../../interfaces/config.interfaces";
 import {ItemComponentCatalogComponent} from "../item-component-catalog/item-component-catalog.component";
 import {CatalogFormService} from "../../../../services/catalog-form.service";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {CatalogPreviewService} from "../../services/catalog-form.service";
 
 @Component({
-  selector: 'app-preview-config',
   standalone: true,
   imports: [
-    NgIf,
     DxAccordionModule,
     TitleCasePipe,
     DxSelectBoxModule,
@@ -27,8 +27,9 @@ import {toSignal} from "@angular/core/rxjs-interop";
     DxCheckBoxModule,
     DxTagBoxModule,
     ItemComponentCatalogComponent,
-    DxScrollViewModule
+    DxScrollViewModule,
   ],
+  providers: [CatalogPreviewService],
   templateUrl: './preview-config.component.html',
   styleUrl: './preview-config.component.scss',
   encapsulation: ViewEncapsulation.None,
@@ -38,21 +39,13 @@ export class PreviewConfigComponent extends ModalTemplate implements OnInit {
 
   private catalogFormService: CatalogFormService = inject(CatalogFormService)
 
-  private dataCatalog = toSignal(
-    this.catalogFormService.getCatalogDataComponent(),
+  dataCatalog = toSignal(
+    this.catalogFormService.getCatalogComponent(),
     {initialValue: []}
   )
 
-  itemsCatalog = [
-    {code: '1', display: '5lbs'},
-    {code: '2', display: '10lbs'},
-    {code: '3', display: '20lbs'},
-    {code: '4', display: '50lbs'},
-    {code: '5', display: '75lbs'},
-    {code: '6', display: '100lbs+'},
-  ]
-
   configSection = signal<ISeccion[]>([]);
+
 
   ngOnInit() {
     this.titleModal = this.dataModal.titleModal

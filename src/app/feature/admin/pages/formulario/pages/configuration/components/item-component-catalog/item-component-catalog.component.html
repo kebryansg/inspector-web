@@ -3,7 +3,8 @@
     {{ _component().Descripcion }}
   </div>
   <div class="dx-field-value">
-    <dx-tag-box [items]="itemsCatalog()"
+
+    <dx-tag-box [items]="(itemsCatalog$ | async) ?? []"
                 [displayExpr]="displayExpr()"
                 [valueExpr]="valueExpr()"
                 [showSelectionControls]="true"
@@ -13,7 +14,7 @@
 
     <section class="d-grid gap-2 mt-4">
       @for (_item of itemsSelected(); track _item[valueExpr()]) {
-        <div class="d-flex align-items-center justify-content-between">
+        <div class="container-items-row">
           <label class="font-weight-400">{{ _item[displayExpr()] }}</label>
 
           <dx-number-box [value]="0"
