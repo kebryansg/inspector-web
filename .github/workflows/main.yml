@@ -27,7 +27,7 @@ jobs:
 
       - name: Build application
         run: | 
-          npm install
+          npm install --no-audit --no-fund
           npx ng build --configuration production --output-path=dist
 
       - name: Deploy to SmarterASP.NET
