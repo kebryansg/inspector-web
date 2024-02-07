@@ -28,7 +28,7 @@ import {NgClass, NgFor, NgIf, TitleCasePipe} from "@angular/common";
            *ngIf="item.items && item.items.length > 0"
            [ngClass]="getActiveClass(item)"
         >
-          <i class="sublevel-link-icon fa fa-circle"></i>
+          <!-- <i class="sublevel-link-icon fa fa-circle"></i> -->
           <span class="sublevel-link-text" @fadeInOut
                 *ngIf="collapsed">
               {{ item.label | titlecase }}
