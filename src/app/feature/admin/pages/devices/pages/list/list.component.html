@@ -1,0 +1,63 @@
+<app-card [cardTitle]="'Listado de Dispositivos'">
+  <dx-data-grid [dataSource]="lsRows()"
+                [remoteOperations]="false"
+                [columnAutoWidth]="true"
+                [hoverStateEnabled]="true"
+                [rowAlternationEnabled]="true"
+                (onInitialized)="refreshTable$.next()"
+                [loadPanel]="{enabled:true}"
+                (onToolbarPreparing)="onToolbarPreparing($event)"
+                [showBorders]="true"
+                [searchPanel]="{visible:true}"
+                [filterRow]="{visible:false}">
+
+    <dxo-export [enabled]="true"
+                [fileName]="'Devices'"
+                [allowExportSelectedData]="false"
+    />
+
+    <dxo-paging [pageSize]="10"/>
+    <dxo-pager [showPageSizeSelector]="true"
+               [allowedPageSizes]="[10, 20, 30]"
+               [showInfo]="true"
+    />
+
+    <dxi-column caption="Opciones"
+                alignment="center"
+                [width]="80"
+                [allowFiltering]="false"
+                [allowExporting]="false"
+                [fixed]="true"
+                [allowSorting]="false"
+                cellTemplate="cellOptionsTemplate"
+    />
+    <dxi-column dataField="Nombre" caption="Nombre"/>
+    <dxi-column dataField="MAC" caption="MAC"/>
+    <dxi-column dataField="Autorizado"
+                caption="Autorizado"
+                [allowFiltering]="false"
+                dataType="boolean"
+    />
+    <dxi-column dataField="created_at"
+                caption="Fecha Creación"
+                dataType="datetime"
+                format="yyyy, MMMM dd"
+    />
+    <dxi-column dataField="updated_at"
+                caption="Última Modificación"
+                dataType="datetime"
+                format="yyyy, MMMM dd"
+    />
+
+    <div *dxTemplate="let data of 'cellOptionsTemplate'">
+      <div class="btn-group-icons justify-content-center">
+
+        <dx-button icon="check"
+                   (onClick)="setAuthorizedDevice(data.data)"
+                   hint="Editar"
+        />
+
+      </div>
+    </div>
+  </dx-data-grid>
+</app-card>

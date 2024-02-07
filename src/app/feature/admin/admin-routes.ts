@@ -53,6 +53,11 @@ export const ADMIN_ROUTES: Routes = [
         path: 'config-sync-device',
         title: 'Config Dispositivo',
         loadComponent: () => import('./pages/settings/config-sync-device/config-sync-device.component').then(m => m.ConfigSyncDeviceComponent)
+      },
+      {
+        path: 'device',
+        title: 'Listado de dispositivos',
+        loadChildren: () => import('./pages/devices/devices-routes').then(m => m.devices_routes)
       }
     ]
   }
