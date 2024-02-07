@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: windows-2019
     
     steps:
       - name: Checkout Repo
@@ -27,21 +27,14 @@ jobs:
 
       - name: Build application
         run: | 
-          npm install
+          npm install --no-audit
           npx ng build --configuration production --output-path=dist
 
-      - name: Deploy to FTP
-        uses: airvzxf/ftp-deployment-action@latest
+      - name: Deploy to SmarterASP.NET
+        uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0
         with:
-          server: ${{ secrets.FTP_HOST }}
-          user: ${{ secrets.FTP_USERNAME }}
-          password: ${{ secrets.FTP_PASSWORD }}
-          local_dir: './dist'
-          max_retries: "2"
-          
-          # website-name: ${{ secrets.WEBSITE_NAME }}
-          # server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
-          # server-username: ${{ secrets.SERVER_USERNAME }}
-          # server-password: ${{ secrets.SERVER_PASSWORD }}
-          # source-path: '\dist\'
-          # target-delete: true
+          website-name: ${{ secrets.WEBSITE_NAME }}
+          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
+          server-username: ${{ secrets.SERVER_USERNAME }}
+          server-password: ${{ secrets.SERVER_PASSWORD }}
+          source-path: '\dist\'
