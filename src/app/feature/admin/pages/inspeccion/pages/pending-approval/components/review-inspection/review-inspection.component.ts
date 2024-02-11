@@ -9,6 +9,7 @@ import {InspectionResultService} from "../../../../services/inspection-result.se
 import {InspectionResult} from "../../../../interfaces/inspection-result.interface";
 import {groupBy} from "@utils-app/array-fn.util";
 import {Router} from "@angular/router";
+import {computedAsync} from "ngxtension/computed-async";
 
 @Component({
   standalone: true,
@@ -30,23 +31,30 @@ export class ReviewInspectionComponent {
 
   id = input.required<number>();
 
-  itemInspection = toSignal(
-    toObservable(this.id)
-      .pipe(
-        switchMap(id => this.inspectionService.getById(id))
-      )
-  );
+  itemInspection = computedAsync(() =>
+    this.inspectionService.getById(this.id()),
+  )
+  //toSignal(
+  //  toObservable(this.id)
+  //    .pipe(
+  //      switchMap(id => this.inspectionService.getById(id))
+  //    )
+  //);
 
-  itemResultInspection = toSignal<InspectionResult>(
-    toObservable(this.id)
-      .pipe(
-        switchMap(id => this.resultService.getById(id))
-      )
-  );
+  itemResultInspection = computedAsync(() =>
+    this.resultService.getById(this.id()),
+  )
+
+  //toSignal<InspectionResult>(
+  //  toObservable(this.id)
+  //    .pipe(
+  //      switchMap(id => this.resultService.getById(id))
+  //    )
+  //);
 
   detailsInspection = computed(
     () => {
-      return groupBy(this.itemResultInspection()?.resultsDetails ?? [], 'idSection')
+      return groupBy(this.itemResultInspection() ?? [], 'idSection')
     }
   );
 

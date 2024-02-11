@@ -37,7 +37,8 @@
       </button>
       <button type="button"
               class="btn btn-primary">
-        Terminar Revisión
+        <i class="fa fa-mail"></i>
+        Enviar resultados
       </button>
     </div>
   </div>
@@ -50,21 +51,50 @@
 
     <div class="dx-fieldset">
       <div class="dx-fieldset-header">
-        Section {{ item.key }}
+        {{ getSection(item.key) }}
       </div>
 
-      @for (criteria of item.value; track criteria.idDetail; ) {
+      <section class="d-grid">
+        @for (criteria of item.value; track criteria.idDetail; let last = $last) {
 
-        <div class="dx-field">
-          <div class="dx-field-label">
-            {{ criteria.descriptionComponent }}
-          </div>
-          <div class="dx-field-value-static">
-            {{ criteria.result }}
-          </div>
-        </div>
+          <div class="dx-custom-field">
+            <div class="field-label">
+              {{ criteria.descriptionComponent }}
+            </div>
+            <div class="value-static">
 
-      }
+              @switch (criteria.typeComp) {
+                @case ('DEC') {
+                  <dx-check-box [value]="criteria.result"
+                                [readOnly]="true"
+                  />
+                }
+                @case ('QUN') {
+                  {{ criteria.result | number: '1.2-2' }}
+                }
+                @case ('QUA') {
+                  {{ criteria.result.display }}
+                }
+                @case ('CAT') {
+
+                  @for (catalog of criteria.result; track catalog.id) {
+                    <section class="container-catalog ">
+                      <span class="font-weight-bold">{{ catalog.display }}</span>
+                      <span>{{ catalog.data }}</span>
+                    </section>
+                  }
+                }
+
+              }
+
+            </div>
+          </div>
+
+          @if (!last) {
+            <hr class="row-separator">
+          }
+        }
+      </section>
 
     </div>
   }

@@ -102,7 +102,7 @@
           [stylingMode]="'text'"
           [showArrowIcon]="false"
           icon="overflow"
-          [items]="optionsItems"
+          [items]="getItemAction(data.data)"
           displayExpr="name"
           keyExpr="id"
           (onItemClick)="onItemClick($event, data.data)"

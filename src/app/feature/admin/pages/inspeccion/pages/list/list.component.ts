@@ -15,8 +15,8 @@ import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
 import {FileSaverService} from 'ngx-filesaver';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {AnexoService} from "../../services/anexo.service";
 import {formatDate} from "devextreme/localization";
+import {ItemAction} from "../../const/item-action.const";
 
 type itemAction = {
   name: string;
@@ -43,18 +43,6 @@ export class ListComponent implements OnInit {
   private _fileSaverService: FileSaverService = inject(FileSaverService);
 
   gridDataSource: any;
-
-  optionsItems: itemAction[] = [
-    {name: 'Descargar resultados', id: 'download', icon: 'download',},
-    {name: 'Reenviar resultados', id: 'send_result', icon: 'exportpdf'},
-    //{name: 'Revisar resultados', id: 'view_result', icon: 'eyeopen'},
-    {name: 'Eliminar', id: 'delete', icon: 'trash'},
-    {name: 'Asignar Colaborador', id: 'assign_inspector', icon: 'group'},
-    {name: 'Obtener solicitud', id: 'view_request', icon: 'eyeopen'},
-    {name: 'Reimprimir solicitud', id: 'print_request', icon: 'print'},
-    {name: 'Enviar solicitud', id: 'send_request', icon: 'email'},
-    {name: 'Realizar en web', id: 'make_web', icon: 'box'},
-  ];
 
   lsColaborador$: Observable<any> = inject(CatalogoService).obtenerInspector();
   lsStatus = this.inspeccionService.status;
@@ -94,11 +82,20 @@ export class ListComponent implements OnInit {
           relativeTo: this.activatedRoute
         });
         break;
+      case 'view_result':
+        this.router.navigate(['..', 'view-result', dataRow.Id], {
+          relativeTo: this.activatedRoute
+        });
+        break;
       default:
         console.log(`No se encontro la acción seleccionada ${itemData.id}`)
         break;
     }
 
+  }
+
+  getItemAction(row: Inspection) {
+    return ItemAction.filter(item => item.state.includes(row.Estado));
   }
 
   redirectToMasive() {

@@ -1,0 +1,27 @@
+.dx-custom-field {
+  display: grid;
+  grid-template-columns: auto 120px;
+  align-items: center;
+
+
+  .field-label {
+    color: #8899a8;
+    cursor: default;
+    padding: 8px 15px 9px 0;
+  }
+
+  .value-static {
+    text-align: center;
+  }
+}
+.row-separator{
+  border: 1px dashed #dee1e3;
+  margin: 15px 0;
+}
+
+.container-catalog {
+  display: grid;
+  grid-template-columns: 1fr 40px;
+  place-items: flex-start;
+  padding: 15px 0;
+}

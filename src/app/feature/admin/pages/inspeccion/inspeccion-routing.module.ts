@@ -28,7 +28,6 @@ const routes: Routes = [
   },
   {
     path: 'create-inspection-group',
-    //component: CreateInspectionGroupComponent,
     loadComponent: () => import('./pages/create-inspection-group/create-inspection-group.component').then(m => m.CreateInspectionGroupComponent),
     title: 'Masiva - Creacion Inspección',
   },
@@ -37,6 +36,11 @@ const routes: Routes = [
     loadComponent: () => import('./pages/my-inspections/my-inspections.component')
       .then(m => m.MyInspectionsComponent),
     title: 'Mis Inspecciones',
+  },
+  {
+    path: 'view-result/:id',
+    loadComponent: () => import('./pages/view-result/view-result.component')
+      .then(m => m.ViewResultComponent),
   },
   {
     path: 'pending-approval',
