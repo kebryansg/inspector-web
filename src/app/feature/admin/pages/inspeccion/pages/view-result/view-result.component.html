@@ -1,4 +1,5 @@
-<app-card [cardTitle]="'Formulario - Inspección'">
+<app-card cardClass="mb-4"
+          [cardTitle]="'Formulario - Inspección'">
   <dx-form [formData]="itemInspection()"
            [readOnly]="true">
     <dxi-item [dataField]="'RUC'"
@@ -45,58 +46,88 @@
 
 </app-card>
 
-<app-card cardClass="mt-4" [cardTitle]="'Resultados'">
+<dx-tabs
+  #withIconAndText
+  [width]="'auto'"
+  [keyExpr]="'id'"
+  [selectedIndex]="0"
+  (onItemClick)="onSelectionChanged($event)"
+  [dataSource]="tabsWithIconAndText"
+  [orientation]="'horizontal'"
+  [stylingMode]="'primary'"
+  [iconPosition]="'start'"
+/>
 
-  @for (item of (detailsInspection() | keyvalue); track item.key) {
+@switch (tabSelected()) {
+  @case ('summary') {
+    <app-card cardClass="mt-4" [hidHeader]="true">
 
-    <div class="dx-fieldset">
-      <div class="dx-fieldset-header">
-        {{ getSection(item.key) }}
-      </div>
+      @for (item of (detailsInspection() | keyvalue); track item.key) {
 
-      <section class="d-grid">
-        @for (criteria of item.value; track criteria.idDetail; let last = $last) {
-
-          <div class="dx-custom-field">
-            <div class="field-label">
-              {{ criteria.descriptionComponent }}
-            </div>
-            <div class="value-static">
-
-              @switch (criteria.typeComp) {
-                @case ('DEC') {
-                  <dx-check-box [value]="criteria.result"
-                                [readOnly]="true"
-                  />
-                }
-                @case ('QUN') {
-                  {{ criteria.result | number: '1.2-2' }}
-                }
-                @case ('QUA') {
-                  {{ criteria.result.display }}
-                }
-                @case ('CAT') {
-
-                  @for (catalog of criteria.result; track catalog.id) {
-                    <section class="container-catalog ">
-                      <span class="font-weight-bold">{{ catalog.display }}</span>
-                      <span>{{ catalog.data }}</span>
-                    </section>
-                  }
-                }
-
-              }
-
-            </div>
+        <div class="dx-fieldset">
+          <div class="dx-fieldset-header">
+            {{ getSection(item.key) }}
           </div>
 
-          @if (!last) {
-            <hr class="row-separator">
-          }
-        }
-      </section>
+          <section class="d-grid">
+            @for (criteria of item.value; track criteria.idDetail; let last = $last) {
 
-    </div>
+              <div class="dx-custom-field">
+                <div class="field-label">
+                  {{ criteria.descriptionComponent }}
+                </div>
+                <div class="value-static">
+
+                  @switch (criteria.typeComp) {
+                    @case ('DEC') {
+                      <dx-check-box [value]="criteria.result"
+                                    [readOnly]="true"
+                      />
+                    }
+                    @case ('QUN') {
+                      {{ criteria.result | number: '1.2-2' }}
+                    }
+                    @case ('QUA') {
+                      {{ criteria.result.display }}
+                    }
+                    @case ('CAT') {
+
+                      @for (catalog of criteria.result; track catalog.id) {
+                        <section class="container-catalog ">
+                          <span class="font-weight-bold">{{ catalog.display }}</span>
+                          <span>{{ catalog.data }}</span>
+                        </section>
+                      }
+                    }
+
+                  }
+
+                </div>
+              </div>
+
+              @if (!last) {
+                <hr class="row-separator">
+              }
+            }
+          </section>
+
+        </div>
+      }
+
+    </app-card>
   }
+  @case ('images') {
+    <app-card cardClass="mt-4" [hidHeader]="true">
+      <div class="container-image">
+        @for (img of images(); track img.id) {
+          <img [src]="img.src"
+               alt="Inspección">
+        }
+      </div>
+    </app-card>
+  }
+}
 
-</app-card>
+
+
+

@@ -50,3 +50,14 @@ export interface ResultsDetail {
 }
 
 export type GroupByTuple = [number, ResultsDetail[]]
+
+export interface Attachment {
+  ID:           number;
+  IdInspeccion: number;
+  tipo_anexo:   string;
+  path:         string;
+  id_cloud:     string;
+  vigente:      boolean;
+  created_at:   Date;
+  updated_at:   Date;
+}

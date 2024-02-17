@@ -47,6 +47,13 @@
                 alignment="center"
                 [allowHeaderFiltering]="false"
     />
+    <dxi-column dataField="Estado"
+                caption="Estado">
+      <dxo-lookup [dataSource]="lsStatus()"
+                  displayExpr="label"
+                  valueExpr="value"
+      ></dxo-lookup>
+    </dxi-column>
     <dxi-column dataField="FechaRegistro"
                 caption="Fecha Registro"
                 dataType="date"
@@ -75,13 +82,6 @@
                 [allowHeaderFiltering]="false"
                 caption="Nombre Comercial"
     />
-    <dxi-column dataField="Estado"
-                caption="Estado">
-      <dxo-lookup [dataSource]="lsStatus()"
-                  displayExpr="label"
-                  valueExpr="value"
-      ></dxo-lookup>
-    </dxi-column>
     <dxi-column dataField="IdColaborador"
                 [allowHeaderFiltering]="false"
                 caption="Inspector Asignado">

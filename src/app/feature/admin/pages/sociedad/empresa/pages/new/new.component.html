@@ -150,7 +150,7 @@
           <div class="col-md-12">
             <dx-form [formData]="entidad()"
                      [readOnly]="true"
-                     colCount="2"
+                     [colCount]="2"
                      labelLocation="top">
               <dxi-item dataField="Identificacion"
                         [label]="{text:'Identificación'}"
@@ -327,12 +327,12 @@
 
           <div class="col-4">
             <app-item-control titleControl="Latitud">
-              <dx-text-box formControlName="Latitud" />
+              <dx-text-box formControlName="Latitud"/>
             </app-item-control>
           </div>
           <div class="col-4">
             <app-item-control titleControl="Longitud">
-              <dx-text-box formControlName="Longitud" />
+              <dx-text-box formControlName="Longitud"/>
             </app-item-control>
           </div>
 

@@ -1,12 +1,9 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {InspectionService} from "../../../../services/inspection.service";
-import {toObservable, toSignal} from "@angular/core/rxjs-interop";
 import {JsonPipe, KeyValuePipe} from "@angular/common";
-import {switchMap} from "rxjs";
 import {DxFormModule} from "devextreme-angular";
 import {InspectionResultService} from "../../../../services/inspection-result.service";
-import {InspectionResult} from "../../../../interfaces/inspection-result.interface";
 import {groupBy} from "@utils-app/array-fn.util";
 import {Router} from "@angular/router";
 import {computedAsync} from "ngxtension/computed-async";
@@ -34,23 +31,10 @@ export class ReviewInspectionComponent {
   itemInspection = computedAsync(() =>
     this.inspectionService.getById(this.id()),
   )
-  //toSignal(
-  //  toObservable(this.id)
-  //    .pipe(
-  //      switchMap(id => this.inspectionService.getById(id))
-  //    )
-  //);
 
   itemResultInspection = computedAsync(() =>
     this.resultService.getById(this.id()),
   )
-
-  //toSignal<InspectionResult>(
-  //  toObservable(this.id)
-  //    .pipe(
-  //      switchMap(id => this.resultService.getById(id))
-  //    )
-  //);
 
   detailsInspection = computed(
     () => {
