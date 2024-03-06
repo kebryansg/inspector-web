@@ -11,6 +11,8 @@ export class StatusPipe implements PipeTransform {
       'ACT': 'Activo',
       'PEN': 'Pendiente',
       'INA': 'Inactivo',
+      'APR': 'Aprobado',
+      'REP': 'Reprobado',
     }
     return status[value] ?? 'Activo';
   }

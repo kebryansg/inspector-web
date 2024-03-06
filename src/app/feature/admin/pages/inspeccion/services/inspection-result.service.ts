@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
-import {Attachment, VWInspectionDetail} from "../interfaces/inspection-result.interface";
+import {Attachment, InspectionDetail, VWInspectionDetail} from "../interfaces/inspection-result.interface";
 import {Observable} from "rxjs";
 
 @Injectable({
@@ -12,6 +12,10 @@ export class InspectionResultService {
   private http: HttpClient = inject(HttpClient);
   private urlBase: string = environment.apiUrl;
 
+
+  getInfoById(id: number): Observable<InspectionDetail> {
+    return this.http.get<InspectionDetail>(this.urlBase + 'inspection-result/report/' + id)
+  }
 
   getById(id: number): Observable<VWInspectionDetail[]> {
     return this.http.get<VWInspectionDetail[]>(this.urlBase + 'inspection-result/' + id)

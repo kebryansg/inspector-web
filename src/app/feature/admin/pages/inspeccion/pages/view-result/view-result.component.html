@@ -37,9 +37,10 @@
         Cancelar
       </button>
       <button type="button"
+              (click)="downloadResultFile()"
               class="btn btn-primary">
-        <i class="fa fa-mail"></i>
-        Enviar resultados
+        <i class="fa fa-download"></i>
+        Descargar resultados
       </button>
     </div>
   </div>
@@ -62,6 +63,33 @@
   @case ('summary') {
     <app-card cardClass="mt-4" [hidHeader]="true">
 
+      @for (section of itemInfoInspection()?.details; track section.section) {
+        <div class="dx-fieldset">
+          <div class="dx-fieldset-header">
+            {{ section.description }}
+          </div>
+
+          <section class="d-grid">
+            @for (criteria of section.items; track criteria.id; let last = $last) {
+              <div class="dx-custom-field">
+                <div class="field-label">
+                  {{ criteria.description }}
+                </div>
+                <div class="value-static">
+                  {{ criteria.result }}
+                </div>
+              </div>
+
+              @if (!last) {
+                <hr class="row-separator">
+              }
+            }
+          </section>
+
+        </div>
+      }
+
+      <!--
       @for (item of (detailsInspection() | keyvalue); track item.key) {
 
         <div class="dx-fieldset">
@@ -114,16 +142,53 @@
         </div>
       }
 
+      -->
+
     </app-card>
   }
   @case ('images') {
     <app-card cardClass="mt-4" [hidHeader]="true">
       <div class="container-image">
-        @for (img of images(); track img.id) {
-          <img [src]="img.src"
+        @for (img of imagesInspection(); track img.id) {
+          <img [src]="img.srcURI"
                alt="Inspección">
+        } @empty {
+          <div class="d-flex justify-content-center">
+            <p>No hay imagenes</p>
+          </div>
         }
       </div>
+    </app-card>
+  }
+  @case ('annotations') {
+    <app-card cardClass="mt-4" [hidHeader]="true">
+
+      @for (annotation of annotationsInspection(); track annotation) {
+        <div class="dx-fieldset">
+          <div class="dx-fieldset-header">
+            {{ annotation.type }}
+          </div>
+
+          <section class="d-grid">
+            @for (criteria of annotation.annotations; track criteria.id; let last = $last) {
+              <div class="dx-custom-field">
+                <div class="field-label">
+                  {{ criteria.annotation }}
+                </div>
+              </div>
+
+              @if (!last) {
+                <hr class="row-separator">
+              }
+            }
+          </section>
+
+        </div>
+      } @empty {
+        <div class="d-flex justify-content-center">
+          <p>No hay anotaciones</p>
+        </div>
+      }
     </app-card>
   }
 }

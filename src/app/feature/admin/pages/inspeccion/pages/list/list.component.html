@@ -48,6 +48,7 @@
                 [allowHeaderFiltering]="false"
     />
     <dxi-column dataField="Estado"
+                cellTemplate="cellTemplate"
                 caption="Estado">
       <dxo-lookup [dataSource]="lsStatus()"
                   displayExpr="label"
@@ -91,6 +92,14 @@
       ></dxo-lookup>
     </dxi-column>
     <!--#endregion -->
+
+    <ng-container *dxTemplate="let data of 'cellTemplate'">
+      <div class="font-weight-bold"
+           [class.text-danger]="data.data.Estado === 'REP'"
+           [class.text-info]="data.data.Estado === 'APR'">
+        {{ data.data.Estado | status }}
+      </div>
+    </ng-container>
 
     <div *dxTemplate="let data of 'cellOptionsTemplate'">
 

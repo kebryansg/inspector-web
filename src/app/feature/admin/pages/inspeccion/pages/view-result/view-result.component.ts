@@ -7,10 +7,10 @@ import {InspectionResultService} from "../../services/inspection-result.service"
 import {Router} from "@angular/router";
 import {computedAsync} from "ngxtension/computed-async";
 import {groupBy} from "@utils-app/array-fn.util";
-import {toObservable, toSignal} from "@angular/core/rxjs-interop";
-import {switchMap} from "rxjs";
-import {map} from "rxjs/operators";
-import { DomSanitizer } from '@angular/platform-browser';
+import {DomSanitizer} from '@angular/platform-browser';
+import {formatDate} from "devextreme/localization";
+import {NotificationService} from "@service-shared/notification.service";
+import {FileSaverService} from "ngx-filesaver";
 
 @Component({
   standalone: true,
@@ -30,6 +30,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class ViewResultComponent {
 
   private inspectionService = inject(InspectionService);
+  private notificationService: NotificationService = inject(NotificationService);
+  private _fileSaverService: FileSaverService = inject(FileSaverService);
   private resultService = inject(InspectionResultService);
   private router = inject(Router);
   private domSanitizer = inject(DomSanitizer);
@@ -42,19 +44,27 @@ export class ViewResultComponent {
       icon: 'chart',
     },
     {
+      id: 'annotations',
+      text: 'Anotaciones',
+      icon: 'chart',
+    },
+    {
       id: 'images',
-      text: 'Evidencia Images',
+      text: 'Evidencia imagenes',
       icon: 'image',
     },
   ]
 
   tabSelected = signal<string>('summary');
 
-
   id = input.required<number>();
 
   itemInspection = computedAsync(() =>
     this.inspectionService.getById(this.id()),
+  );
+
+  itemInfoInspection = computedAsync(() =>
+    this.resultService.getInfoById(this.id()),
   );
 
   itemResultInspection = computedAsync(() =>
@@ -65,30 +75,13 @@ export class ViewResultComponent {
     () => groupBy(this.itemResultInspection() ?? [], 'idSection')
   );
 
-  sections = computed(
-    () => this.itemResultInspection()?.reduce((acc, item) => {
-      return {...acc, [item.idSection]: item.descriptionSection}
-    }, {}) ?? ({} as any)
-  )
-
-  images = toSignal(
-    toObservable(this.id)
-      .pipe(
-        switchMap(id => this.resultService.getAttachmentById(id)),
-        map(items => {
-
-          return items.map(item => {
-            return {
-              id: item.ID,
-              src: this.domSanitizer.bypassSecurityTrustUrl(`https://drive.google.com/thumbnail?id=${item.id_cloud}`)
-            }
-          })
-
-        })
-      ),
-    {initialValue: []}
+  annotationsInspection = computed(
+    () => this.itemInfoInspection()?.annotations ?? []
   );
 
+  imagesInspection = computed(
+    () => this.itemInfoInspection()?.images ?? []
+  );
 
   onSelectionChanged(evt: any) {
     this.tabSelected.set(evt.itemData.id)
@@ -98,7 +91,36 @@ export class ViewResultComponent {
     this.router.navigate(['/inspeccion', 'list']);
   }
 
-  getSection(idSection: string): string {
-    return this.sections()[idSection] ?? ''
+  downloadResultFile() {
+
+    this.notificationService.showLoader({
+      title: 'Recuperando solicitud de inspección'
+    });
+
+    const {
+      nameCommercial,
+    } = this.itemInfoInspection()!
+
+    const {
+      FechaInspeccion
+    } = this.itemInspection()!
+
+    const nameFile = `result ${nameCommercial}-${formatDate(new Date(FechaInspeccion), 'yyyyMMdd-hhmm')}.pdf`
+
+    this.inspectionService.getFileContentRequest(this.id())
+      .subscribe({
+        next: (res) => {
+          this.notificationService.closeLoader();
+          this._fileSaverService.save((<any>res), nameFile);
+        },
+        error: (err) => {
+          this.notificationService.closeLoader();
+          this.notificationService.showSwalMessage({
+            title: 'Operación fallida.',
+            text: 'No se pudo descargar el archivo.',
+            icon: 'error',
+          })
+        }
+      })
   }
 }

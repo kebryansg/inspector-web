@@ -74,6 +74,14 @@ export class InspectionService {
     );
   }
 
+  getFileContentResult(idInspection: number) {
+    return this.http.get(this.urlBase + `inspeccion/file/${idInspection}/result-pdf`, {
+      responseType: 'blob' // This must be a Blob type
+    }).pipe(
+      timeout(7000)
+    );
+  }
+
   getFileRequest(idInspection: number) {
     return this.http.get(this.urlBase + `inspeccion/file/${idInspection}/solicitud_pdf`, {
       responseType: 'blob' // This must be a Blob type
