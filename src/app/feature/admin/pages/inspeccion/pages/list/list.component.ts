@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, ViewChild, ViewContainerRef} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal, ViewChild, ViewContainerRef} from '@angular/core';
 import {AsignColaboradorComponent} from './asign/asign.component';
 import {filter, lastValueFrom, Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -47,6 +47,8 @@ export class ListComponent implements OnInit {
   lsColaborador$: Observable<any> = inject(CatalogoService).obtenerInspector();
   lsStatus = this.inspeccionService.status;
 
+  itemsAction = signal<any[]>(ItemAction)
+
   @ViewChild('dataGridComponent', {static: true}) dataGridComponent!: DxDataGridComponent;
   @ViewChild('container', {read: ViewContainerRef}) entry!: ViewContainerRef;
 
@@ -57,7 +59,7 @@ export class ListComponent implements OnInit {
     const {itemData} = $event;
     switch (itemData.id) {
       case 'download':
-        this.downloadFormulario(dataRow);
+        this.downloadResultInspection(dataRow);
         break;
       case 'send_result':
         this.sendMailFormulario(dataRow);
@@ -92,10 +94,6 @@ export class ListComponent implements OnInit {
         break;
     }
 
-  }
-
-  getItemAction(row: Inspection) {
-    return ItemAction.filter(item => item.state.includes(row.Estado));
   }
 
   redirectToMasive() {
@@ -153,10 +151,6 @@ export class ListComponent implements OnInit {
       });
   }
 
-  validVerResultados(row: Inspection) {
-    return row.Estado == 'APR' || row.Estado == 'REP';
-  }
-
   assign_colaborador(row: Inspection) {
     const modalRef = this.modalService.open<number>(AsignColaboradorComponent, {
       data: {
@@ -199,21 +193,15 @@ export class ListComponent implements OnInit {
     });
   }
 
-  synchronize(row: any) {
-    this.inspeccionService.synchronize(row.Id)
-      .subscribe(response => {
-        this.dataGridComponent.instance.refresh();
-      });
-  }
+  downloadResultInspection(row: Inspection) {
+    const nameFile = `result ${row.NombreComercial}-${formatDate(new Date(row.FechaInspeccion), 'yyyyMMdd-hhmm')}.pdf`
 
-  downloadFormulario(row: any) {
-    this.inspeccionService.downloadForm(row.Id)
+    this.inspeccionService.getFileContentResult(row.Id)
       .pipe(
         takeUntilDestroyed(this.destroy)
       ).subscribe(response => {
       // TODO Download File
-      //this.exportService.saveAsExcelFile(response, `Inspeccion - ${row.RazonSocial}`);
-      this._fileSaverService.save((<any>response), `Inspeccion - ${row.RazonSocial}.pdf`);
+      this._fileSaverService.save((<any>response), nameFile);
     });
   }
 

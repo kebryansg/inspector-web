@@ -16,29 +16,31 @@ import {
 import {NewInspeccionComponent} from './pages/new/new.component';
 import {FileSaverModule} from 'ngx-filesaver';
 import {StatusPipe} from "../../../../pipes/status-inspection.pipe";
+import {ActionsInspectionPipe} from "./pipes/actions-inspection.pipe";
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    InspeccionRoutingModule,
-    StatusPipe,
-    // AngularFirestoreModule,
-    // AngularFireAuthModule,
-    // AngularFireStorageModule,
+	imports: [
+		CommonModule,
+		FormsModule,
+		ReactiveFormsModule,
+		InspeccionRoutingModule,
+		StatusPipe,
+		// AngularFirestoreModule,
+		// AngularFireAuthModule,
+		// AngularFireStorageModule,
 
-    DxDataGridModule,
-    CardComponent,
-    DxButtonModule,
-    DxDropDownBoxModule,
-    DxFormModule,
-    DxSelectBoxModule,
-    DxDateBoxModule,
-    DxDropDownButtonModule,
-    FileSaverModule
-  ],
+		DxDataGridModule,
+		CardComponent,
+		DxButtonModule,
+		DxDropDownBoxModule,
+		DxFormModule,
+		DxSelectBoxModule,
+		DxDateBoxModule,
+		DxDropDownButtonModule,
+		FileSaverModule,
+		ActionsInspectionPipe
+	],
   declarations: [
     ListComponent,
     NewInspeccionComponent,

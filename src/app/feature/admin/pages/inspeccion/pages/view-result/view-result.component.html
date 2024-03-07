@@ -76,7 +76,16 @@
                   {{ criteria.description }}
                 </div>
                 <div class="value-static">
-                  {{ criteria.result }}
+                  @if (criteria.isDetail) {
+                    @for (catalog of criteria.items; track catalog.id) {
+                      <section class="container-catalog ">
+                        <span class="font-weight-bold">{{ catalog.description }}</span>
+                        <span>{{ catalog.result }}</span>
+                      </section>
+                    }
+                  } @else {
+                    {{ criteria.result }}
+                  }
                 </div>
               </div>
 

@@ -107,7 +107,7 @@ export class ViewResultComponent {
 
     const nameFile = `result ${nameCommercial}-${formatDate(new Date(FechaInspeccion), 'yyyyMMdd-hhmm')}.pdf`
 
-    this.inspectionService.getFileContentRequest(this.id())
+    this.inspectionService.getFileContentResult(this.id())
       .subscribe({
         next: (res) => {
           this.notificationService.closeLoader();

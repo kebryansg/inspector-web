@@ -85,7 +85,16 @@ export interface Detail {
 export interface Item {
   id: number;
   description: string;
+  typeComp: 'DEC' | 'QUN' | 'QUA' | 'CAT',
+  isDetail: boolean,
   result: string | number;
+  items: ItemCatalog[]
+}
+
+export interface ItemCatalog {
+  id: number,
+  description: string,
+  result: string
 }
 
 export interface Image {
@@ -94,12 +103,12 @@ export interface Image {
 }
 
 export interface Annotations {
-  type:        string;
+  type: string;
   annotations: Annotation[];
 }
 
 export interface Annotation {
-  id:         number;
+  id: number;
   annotation: string;
 }
 
