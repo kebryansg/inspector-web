@@ -71,6 +71,7 @@ export interface InspectionDetail {
   state: string;
   sectorLocation: string;
   inspector: string;
+  attachmentResult: boolean;
   details: Detail[];
   annotations: Annotations[];
   images: Image[];

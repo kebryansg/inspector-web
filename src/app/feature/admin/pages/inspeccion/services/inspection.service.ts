@@ -1,7 +1,7 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '@environments/environment';
-import {Observable, timeout} from 'rxjs';
+import {lastValueFrom, Observable, timeout} from 'rxjs';
 import {Inspection, PaginateInspection} from '../interfaces/inspection.interface';
 import {STATUS_INSPECTION} from "../const/status-inspection.const";
 

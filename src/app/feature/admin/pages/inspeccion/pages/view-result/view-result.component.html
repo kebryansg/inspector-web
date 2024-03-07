@@ -36,12 +36,14 @@
               (click)="cancelReview()">
         Cancelar
       </button>
-      <button type="button"
-              (click)="downloadResultFile()"
-              class="btn btn-primary">
-        <i class="fa fa-download"></i>
-        Descargar resultados
-      </button>
+      @if (itemInfoInspection()?.attachmentResult) {
+        <button type="button"
+                (click)="downloadResultFile()"
+                class="btn btn-primary">
+          <i class="fa fa-download"></i>
+          Descargar resultados
+        </button>
+      }
     </div>
   </div>
 
