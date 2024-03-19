@@ -10,6 +10,8 @@ export interface Inspection {
   RazonSocial: string;
   NombreComercial: string;
   Inspector: string;
+  latitude: string;
+  longitude: string;
 }
 
 export interface PaginateInspection {

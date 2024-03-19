@@ -247,7 +247,7 @@ export class ListComponent implements OnInit {
     this.notificationService.showLoader({
       title: 'Reimprimiendo solicitud de inspección.'
     });
-    this.inspeccionService.generateFile(row.Id)
+    this.inspeccionService.generateFileRequest(row.Id)
       .subscribe({
         next: () => {
           this.notificationService.closeLoader();
