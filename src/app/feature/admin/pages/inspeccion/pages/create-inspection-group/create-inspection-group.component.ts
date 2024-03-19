@@ -17,6 +17,7 @@ import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-c
 import {InspectionService} from "../../services/inspection.service";
 import {NotificationService} from "@service-shared/notification.service";
 import {DebounceClickDirective} from "@directives/debounce-click.directive";
+import {HttpErrorResponse} from "@angular/common/http";
 
 @Component({
   standalone: true,
@@ -75,7 +76,7 @@ export class CreateInspectionGroupComponent implements OnInit {
   lsItemsDataGrid = signal<any[]>([])
   existRegister = computed(() => this.lsItemsDataGrid().length > 0)
 
-  clearFiltersForm(){
+  clearFiltersForm() {
     this.itemFilter.reset()
   }
 
@@ -90,7 +91,7 @@ export class CreateInspectionGroupComponent implements OnInit {
       IDTarifaActividad,
     }).then(
       result => {
-        if(result.length > 0) {
+        if (result.length > 0) {
           this.itemFilter.disable()
           this.lsItemsDataGrid.set(result)
         }
@@ -132,10 +133,10 @@ export class CreateInspectionGroupComponent implements OnInit {
             icon: 'success'
           });
         },
-        error: (err) => {
+        error: (err: HttpErrorResponse) => {
           this.notificationService.closeLoader()
           this.notificationService.showSwalNotif({
-            title: err.error.message,
+            title: err.status === 400 ? err.error.message : 'Ocurrio un problema con la operación',
             icon: 'error'
           });
 
