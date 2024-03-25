@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input, signal} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
-import {DxCheckBoxModule, DxFormModule, DxTabsModule} from "devextreme-angular";
+import {DxCheckBoxModule, DxFormModule, DxMapModule, DxTabsModule} from "devextreme-angular";
 import {DecimalPipe, JsonPipe, KeyValuePipe} from "@angular/common";
 import {InspectionService} from "../../services/inspection.service";
 import {InspectionResultService} from "../../services/inspection-result.service";
@@ -12,6 +12,7 @@ import {NotificationService} from "@service-shared/notification.service";
 import {FileSaverService} from "ngx-filesaver";
 import {GoogleMap, MapMarker} from "@angular/google-maps";
 import {DebounceClickDirective} from "@directives/debounce-click.directive";
+import {environment} from "@environments/environment";
 
 @Component({
   standalone: true,
@@ -26,6 +27,7 @@ import {DebounceClickDirective} from "@directives/debounce-click.directive";
     GoogleMap,
     MapMarker,
     DebounceClickDirective,
+    DxMapModule,
   ],
   templateUrl: './view-result.component.html',
   styleUrl: './view-result.component.scss',
@@ -84,14 +86,21 @@ export class ViewResultComponent {
   );
 
   zoomMap = 17;
+  apiKey = {google: environment.googleMapsKey}
   markerOptions: google.maps.MarkerOptions = {draggable: false};
-  centerMap = computed(() => ({
+  centerMap = computed<any>(() => ({
     lat: Number(this.itemInspection()?.latitude),
     lng: Number(this.itemInspection()?.longitude)
   }));
   markerPositions = computed(() => [
-    this.centerMap()
-  ])
+    //this.centerMap()
+    {
+      location: [this.centerMap().lat, this.centerMap().lng],
+      tooltip: {
+        isShown: false,
+        text: 'Times Square',
+      },
+    }])
 
   onSelectionChanged(evt: any) {
     this.tabSelected.set(evt.itemData.id)

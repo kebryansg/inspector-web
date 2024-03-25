@@ -64,6 +64,15 @@
             </div>
 
             <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Establecimiento</label>
+              <div class="col-sm-12">
+                <dx-text-box formControlName="Establecimiento"
+                             [maxLength]="3"
+                />
+              </div>
+            </div>
+
+            <div class="form-group form-default row">
               <label class="col-sm-12 col-form-label">Tipo Permiso</label>
               <div class="col-sm-12">
                 <dx-select-box [dataSource]="lsTypePerm()"
@@ -140,7 +149,7 @@
                          [text]="'Buscar Entidad'"
                          [icon]="'search'"
                          [type]="'success'"
-                         (click)="loadModalEntidad()"
+                         (click)="loadModalEntity()"
               />
             </div>
           </div>
@@ -337,7 +346,20 @@
           </div>
 
           <div class="mt-4 col-md-12">
-            @defer (on timer(2s)) {
+            @defer (on timer(1s)) {
+              <dx-map
+                [center]="centerMap"
+                [zoom]="zoomMap"
+                [height]="400"
+                width="100%"
+                provider="google"
+                [controls]="true"
+                [apiKey]="apiKey"
+                [type]="'roadmap'"
+                (onClick)="addMarker($event)"
+                [markers]="markerPositions"
+              />
+              <!--
               <google-map [zoom]="zoomMap"
                           [center]="centerMap"
                           (mapClick)="addMarker($event)"
@@ -347,6 +369,7 @@
                               [options]="markerOptions"/>
                 }
               </google-map>
+              -->
             } @placeholder {
               <section class="my-3 py-2">
                 <h3>

@@ -13,6 +13,7 @@ import {TYPE_PERMISO} from "../../const/type-permiso.const";
 import {Dialog} from "@angular/cdk/dialog";
 import {ModalEntidadComponent} from "../../../components/modal-entidad/modal-entidad.component";
 import {EmpresaService} from "../../../services";
+import {environment} from "@environments/environment";
 
 
 const longTabs = [
@@ -85,8 +86,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   lat: number = -0.8948968;
   lng: number = -79.4903393;
 
-  markerPositions: any[] = [];
-
   refreshCombo$: Subject<string> = new Subject<string>();
 
   lsActEconomica: any[] = [];
@@ -109,16 +108,27 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   titleModal: string = '';
   edit = signal<boolean>(false);
 
+
+  apiKey = {google: environment.googleMapsKey}
   zoomMap = 17;
-  centerMap: google.maps.LatLngLiteral = {lat: this.lat, lng: this.lng};
+  centerMap: any = {lat: this.lat, lng: this.lng};
+  markerPositions: any[] = [];
   markerOptions: google.maps.MarkerOptions = {draggable: false};
 
-  addMarker(event: google.maps.MapMouseEvent) {
+  addMarker(event: any) {
+    const {location} = event;
     this.markerPositions.pop();
-    this.markerPositions.push(event.latLng?.toJSON());
+    this.markerPositions.push({
+      location: [location.lat, location.lng],
+      tooltip: {
+        isShown: false,
+        text: 'Times Square',
+      },
+    });
+
     this.form.patchValue({
-      Latitud: event.latLng?.lat(),
-      Longitud: event.latLng?.lng(),
+      Latitud: location.lat,
+      Longitud: location.lng,
     });
   }
 
@@ -173,6 +183,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       RUC: [null, Validators.required],
       NombreComercial: ['', Validators.required],
       RazonSocial: ['', Validators.required],
+      Establecimiento: ['', [Validators.required, Validators.maxLength(3)]],
       Direccion: ['', Validators.required],
       Telefono: ['', Validators.required],
       Celular: ['', Validators.required],
@@ -232,7 +243,13 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
         lng: Number(datos.Longitud)
       }
       this.markerPositions.push(
-        {...this.centerMap}
+        {
+          location: [Number(datos.Latitud), Number(datos.Longitud)],
+          tooltip: {
+            isShown: false,
+            text: 'Company',
+          },
+        }
       );
 
     }
@@ -297,7 +314,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  //#region Localizacion
+  //#region Localization
   loadCanton(IDProvincia: string) {
     // TODO: Optimizar
     // Limpiar
@@ -380,7 +397,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   //#region Modals
 
-  loadModalEntidad() {
+  loadModalEntity() {
     const modalRef = this.modalService.open(ModalEntidadComponent, {
       //size: 'lg', centered: true
       data: {
@@ -398,111 +415,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
         this.form.controls['IDEntidad'].setValue(data.ID);
       });
   }
-
-
-  /*
-  modalActividadEconomica() {
-    const modalRef = this.modalService.open(PopupActividadEconomicaComponent, {size: 'lg', centered: true});
-    modalRef.componentInstance.titleModal = 'Nueva Actividad Económica';
-    modalRef.componentInstance.data = {};
-
-    modalRef.result
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
-        }
-        this.crudService.Insertar(data, 'acteconomica')
-          .subscribe((response: any) => {
-            this.refreshCombo$.next('ActividadEconomica');
-            this.form.controls['IDActEconomica'].setValue(response.ID);
-          });
-      });
-  }
-
-  modalTipoEmpresa() {
-    const modalRef = this.modalService.open(PopupTipoEmpresaComponent, {size: 'lg', centered: true});
-    modalRef.componentInstance.titleModal = 'Nueva Tipo Empresa';
-    modalRef.componentInstance.data = {};
-
-    modalRef.result
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
-        }
-        this.crudService.Insertar(data, 'tipoempresa')
-          .subscribe((response: any) => {
-            this.refreshCombo$.next('TipoEmpresa');
-            this.form.controls['IDTipoEmpresa'].setValue(response.ID);
-          });
-      });
-  }
-
-  modalGrupo() {
-    const modalRef = this.modalService.open(PopupGrupoComponent, {size: 'lg', centered: true});
-    modalRef.componentInstance.titleModal = 'Nuevo Grupo';
-    modalRef.componentInstance.data = {};
-
-    modalRef.result
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
-        }
-
-        delete (data.ID);
-        this.crudService.Insertar(data, 'grupo')
-          .subscribe((response: any) => {
-            this.lsGrupo = [...this.lsGrupo, response];
-            this.form.patchValue({
-              IDTarifaGrupo: response.ID,
-              IDTarifaActividad: null,
-              IDTarifaCategoria: null,
-            }, {
-              emitEvent: false
-            });
-          });
-      });
-  }
-
-  modalActividadTarifario() {
-    const data = {IDGrupo: this.form.controls['IDTarifaGrupo'].value};
-    const modalRef = this.modalService.open(PopupActividadComponent, {size: 'lg', centered: true});
-    modalRef.componentInstance.titleModal = 'Nuevo Grupo - Actividad';
-    modalRef.componentInstance.data = data;
-
-    modalRef.result
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
-        }
-        this.crudService.Insertar(data, 'ActTarifario')
-          .subscribe((response: any) => {
-            this.lsActividad = [...this.lsActividad, response];
-            this.form.controls['IDTarifaActividad'].setValue(response.ID);
-          });
-      });
-  }
-
-  modalCategoria() {
-    const modalRef = this.modalService.open(PopupCategoriaComponent, {size: 'lg', centered: true});
-    modalRef.componentInstance.titleModal = 'Nuevo Grupo - Categoría';
-    modalRef.componentInstance.data = {};
-
-    modalRef.result
-      .subscribe((data: any) => {
-        if (!data) {
-          return;
-        }
-        delete (data.ID);
-        this.crudService.Insertar(data, 'categoria/grupo/' + this.form.controls['IDTarifaGrupo'].value)
-          .subscribe((response: any) => {
-            this.lsCategoria = [...this.lsCategoria, response];
-            this.form.controls['IDTarifaCategoria'].setValue(response.ID);
-          });
-      });
-  }
-
-  */
-
 
   //#endregion
 
