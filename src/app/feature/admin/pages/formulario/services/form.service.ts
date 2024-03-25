@@ -49,4 +49,10 @@ export class FormService {
   delete(idRow: string): Observable<any> {
     return this.http.delete(`${this.endpointUrl}/${idRow}`)
   }
+
+  getAssignmentsGroupActForm(idRow: string): Observable<any> {
+    return this.http.get(`${this.endpointUrl}/group-act/${idRow}`)
+  }
+
+
 }

@@ -58,6 +58,11 @@ export const ADMIN_ROUTES: Routes = [
         path: 'device',
         title: 'Listado de dispositivos',
         loadChildren: () => import('./pages/devices/devices-routes').then(m => m.devices_routes)
+      },
+      {
+        path: 'reportes',
+        title: 'Reportes',
+        loadChildren: () => import('./pages/reports/reports.route').then(m => m.reportsRoute)
       }
     ]
   }

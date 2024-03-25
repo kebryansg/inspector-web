@@ -1,0 +1,35 @@
+<app-card [cardTitle]="'Filtros'">
+
+  <div class="row">
+    <div class="col">
+      <app-item-control titleControl="Fecha Inicial">
+        <dx-date-box></dx-date-box>
+      </app-item-control>
+
+    </div>
+    <div class="col">
+      <app-item-control titleControl="Fecha Final">
+        <dx-date-box></dx-date-box>
+      </app-item-control>
+    </div>
+  </div>
+  <div class="my-2 row">
+    <div class="col d-flex flex-row justify-content-end">
+      <button class="btn btn-primary">
+        Filtrar
+      </button>
+    </div>
+  </div>
+
+
+</app-card>
+
+<app-card [cardTitle]="'Reporte de inspecciones'"
+          cardClass="my-3">
+
+  <dx-pivot-grid
+    [showBorders]="true"
+    [dataSource]="dataSource"
+  />
+
+</app-card>

@@ -1,20 +1,23 @@
-import {Component, inject, OnInit, signal, ViewChild} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal, ViewChild} from '@angular/core';
 import {toSignal} from "@angular/core/rxjs-interop";
 import {FormControl, Validators} from "@angular/forms";
 import {DxTreeListComponent} from "devextreme-angular";
 import {FormService} from "../services/form.service";
-import {FormularioGroupService} from "../services/formulario-group.service";
+import {FormGroupService} from "../services/form-group.service";
 import {NotificationService} from "@service-shared/notification.service";
+import {of, switchMap} from "rxjs";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-asign',
   templateUrl: './asign.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: []
 })
 export class AssignFormComponent implements OnInit {
 
   private formService: FormService = inject(FormService);
-  private formGroupService: FormularioGroupService = inject(FormularioGroupService);
+  private formGroupService: FormGroupService = inject(FormGroupService);
   private readonly notificationService: NotificationService = inject(NotificationService);
 
   @ViewChild('dxTreeData') treeList!: DxTreeListComponent;
@@ -24,19 +27,29 @@ export class AssignFormComponent implements OnInit {
     nonNullable: true
   })
 
-  listGrupoActividad = toSignal<any[], any[]>(
+  listGroupActivity = toSignal<any[], any[]>(
     this.formService.getGrupoActividad(),
     {initialValue: []}
   )
 
-  lsFormulario = toSignal(this.formService.getAll(), {
+  lsForms = toSignal(this.formService.getAll(), {
     initialValue: []
   });
   selectedItemsId = signal<number[]>([]);
 
-  //selected: any[] = [];
 
   ngOnInit() {
+    this.formControl.valueChanges
+      .pipe(
+        switchMap(idForm => {
+          if (!idForm) return of([])
+          return this.formGroupService.getItems(idForm)
+        }),
+        map(items => items.map((item) => item.IdGrupoActividad))
+      )
+      .subscribe(items => {
+        this.selectedItemsId.update(() => items)
+      })
 
   }
 
@@ -51,7 +64,7 @@ export class AssignFormComponent implements OnInit {
           icon: 'refresh',
           onClick: () => {
             //this.refreshTable.next()
-            console.log(this.listGrupoActividad())
+            console.log(this.listGroupActivity())
             //this.refreshTable$.next()
           }
         }
@@ -94,7 +107,6 @@ export class AssignFormComponent implements OnInit {
   };
 
   save() {
-    /*
     this.notificationService.showSwalConfirm({
       title: 'Guardar Configuración',
       confirmButtonText: 'Si, guardar.',
@@ -107,8 +119,11 @@ export class AssignFormComponent implements OnInit {
         title: 'Guardando Configuración',
       })
 
+      const keys = this.getAllSelectedKeys()
+        .filter(item => !(item + '').includes('gp_'))
 
-      this.formGroupService.save(this.formControl.value, this.getAllSelectedKeys())
+
+      this.formGroupService.save(this.formControl.value, keys)
         .subscribe({
           next: () => {
             this.notificationService.closeLoader()
@@ -116,6 +131,7 @@ export class AssignFormComponent implements OnInit {
               title: 'Configuración guardada',
               icon: 'success'
             })
+            this.formControl.reset();
           },
           error: () => {
             this.notificationService.closeLoader()
@@ -123,7 +139,6 @@ export class AssignFormComponent implements OnInit {
         })
 
     });
-    */
   }
 
 }

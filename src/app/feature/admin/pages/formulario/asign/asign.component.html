@@ -12,7 +12,7 @@
                 Formulario
               </div>
               <dx-select-box class="dx-field-value"
-                             [dataSource]="lsFormulario()"
+                             [dataSource]="lsForms()"
                              displayExpr="Descripcion"
                              valueExpr="ID"
                              [formControl]="formControl"
@@ -91,7 +91,7 @@
                     [columnHidingEnabled]="true"
                     [columnMinWidth]="50"
                     [columnResizingMode]="'widget'"
-                    [dataSource]="listGrupoActividad()"
+                    [dataSource]="listGroupActivity()"
                     [highlightChanges]="true"
                     [hoverStateEnabled]="true"
                     [showRowLines]="true"
