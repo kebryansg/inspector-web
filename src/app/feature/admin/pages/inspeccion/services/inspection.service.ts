@@ -1,7 +1,7 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '@environments/environment';
-import {lastValueFrom, Observable, timeout} from 'rxjs';
+import {Observable, timeout} from 'rxjs';
 import {Inspection, PaginateInspection} from '../interfaces/inspection.interface';
 import {STATUS_INSPECTION} from "../const/status-inspection.const";
 
@@ -50,8 +50,12 @@ export class InspectionService {
     return this.http.get(this.urlBase + `inspeccion/${idInspection}/async`);
   }
 
-  generateFile(idInspection: number) {
+  generateFileRequest(idInspection: number) {
     return this.http.get(this.urlBase + `inspeccion/generate/${idInspection}/solicitud_pdf`);
+  }
+
+  generateFileReport(idInspection: number) {
+    return this.http.get(this.urlBase + `inspeccion/generate/${idInspection}/result_pdf`);
   }
 
   sendMailForm(idInspection: number) {
@@ -76,14 +80,6 @@ export class InspectionService {
 
   getFileContentResult(idInspection: number) {
     return this.http.get(this.urlBase + `inspeccion/file/${idInspection}/result-pdf`, {
-      responseType: 'blob' // This must be a Blob type
-    }).pipe(
-      timeout(7000)
-    );
-  }
-
-  getFileRequest(idInspection: number) {
-    return this.http.get(this.urlBase + `inspeccion/file/${idInspection}/solicitud_pdf`, {
       responseType: 'blob' // This must be a Blob type
     }).pipe(
       timeout(7000)

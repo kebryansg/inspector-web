@@ -6,11 +6,12 @@ import {InspectionService} from "../../services/inspection.service";
 import {InspectionResultService} from "../../services/inspection-result.service";
 import {Router} from "@angular/router";
 import {computedAsync} from "ngxtension/computed-async";
-import {groupBy} from "@utils-app/array-fn.util";
 import {DomSanitizer} from '@angular/platform-browser';
 import {formatDate} from "devextreme/localization";
 import {NotificationService} from "@service-shared/notification.service";
 import {FileSaverService} from "ngx-filesaver";
+import {GoogleMap, MapMarker} from "@angular/google-maps";
+import {DebounceClickDirective} from "@directives/debounce-click.directive";
 
 @Component({
   standalone: true,
@@ -21,7 +22,10 @@ import {FileSaverService} from "ngx-filesaver";
     KeyValuePipe,
     JsonPipe,
     DecimalPipe,
-    DxTabsModule
+    DxTabsModule,
+    GoogleMap,
+    MapMarker,
+    DebounceClickDirective,
   ],
   templateUrl: './view-result.component.html',
   styleUrl: './view-result.component.scss',
@@ -35,7 +39,6 @@ export class ViewResultComponent {
   private resultService = inject(InspectionResultService);
   private router = inject(Router);
   private domSanitizer = inject(DomSanitizer);
-
 
   tabsWithIconAndText = [
     {
@@ -53,6 +56,11 @@ export class ViewResultComponent {
       text: 'Evidencia imagenes',
       icon: 'image',
     },
+    {
+      id: 'maps',
+      text: 'Ubicar mapa',
+      icon: 'map',
+    },
   ]
 
   tabSelected = signal<string>('summary');
@@ -67,14 +75,6 @@ export class ViewResultComponent {
     this.resultService.getInfoById(this.id()),
   );
 
-  itemResultInspection = computedAsync(() =>
-    this.resultService.getById(this.id()),
-  );
-
-  detailsInspection = computed(
-    () => groupBy(this.itemResultInspection() ?? [], 'idSection')
-  );
-
   annotationsInspection = computed(
     () => this.itemInfoInspection()?.annotations ?? []
   );
@@ -82,6 +82,16 @@ export class ViewResultComponent {
   imagesInspection = computed(
     () => this.itemInfoInspection()?.images ?? []
   );
+
+  zoomMap = 17;
+  markerOptions: google.maps.MarkerOptions = {draggable: false};
+  centerMap = computed(() => ({
+    lat: Number(this.itemInspection()?.latitude),
+    lng: Number(this.itemInspection()?.longitude)
+  }));
+  markerPositions = computed(() => [
+    this.centerMap()
+  ])
 
   onSelectionChanged(evt: any) {
     this.tabSelected.set(evt.itemData.id)
@@ -91,10 +101,24 @@ export class ViewResultComponent {
     this.router.navigate(['/inspeccion', 'list']);
   }
 
+  generateReport() {
+    this.inspectionService.generateFileReport(this.id())
+      .subscribe({
+        next: (res) => {
+          this.notificationService.showSwalMessage({
+            title: 'Operación exitosa.',
+            text: 'El archivo se ha generado correctamente.',
+            icon: 'success',
+          })
+          window.location.reload();
+        }
+      })
+  }
+
   downloadResultFile() {
 
     this.notificationService.showLoader({
-      title: 'Recuperando solicitud de inspección'
+      title: 'Recuperando resultado de la inspección'
     });
 
     const {

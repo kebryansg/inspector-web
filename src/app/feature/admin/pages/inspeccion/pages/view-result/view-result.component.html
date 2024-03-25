@@ -31,6 +31,7 @@
 
   <div class="row mt-3">
     <div class="col-12 d-flex justify-content-end gap-2">
+
       <button type="button"
               class="btn btn-danger"
               (click)="cancelReview()">
@@ -38,10 +39,19 @@
       </button>
       @if (itemInfoInspection()?.attachmentResult) {
         <button type="button"
-                (click)="downloadResultFile()"
+                appDebounceClick
+                (debounceClick)="downloadResultFile()"
                 class="btn btn-primary">
-          <i class="fa fa-download"></i>
+          <i class="far fa-download"></i>
           Descargar resultados
+        </button>
+      } @else {
+        <button type="button"
+                appDebounceClick
+                (debounceClick)="generateReport()"
+                class="btn btn-primary">
+          <i class="far fa-eyes"></i>
+          Generar reporte
         </button>
       }
     </div>
@@ -100,61 +110,6 @@
         </div>
       }
 
-      <!--
-      @for (item of (detailsInspection() | keyvalue); track item.key) {
-
-        <div class="dx-fieldset">
-          <div class="dx-fieldset-header">
-            {{ getSection(item.key) }}
-          </div>
-
-          <section class="d-grid">
-            @for (criteria of item.value; track criteria.idDetail; let last = $last) {
-
-              <div class="dx-custom-field">
-                <div class="field-label">
-                  {{ criteria.descriptionComponent }}
-                </div>
-                <div class="value-static">
-
-                  @switch (criteria.typeComp) {
-                    @case ('DEC') {
-                      <dx-check-box [value]="criteria.result"
-                                    [readOnly]="true"
-                      />
-                    }
-                    @case ('QUN') {
-                      {{ criteria.result | number: '1.2-2' }}
-                    }
-                    @case ('QUA') {
-                      {{ criteria.result.display }}
-                    }
-                    @case ('CAT') {
-
-                      @for (catalog of criteria.result; track catalog.id) {
-                        <section class="container-catalog ">
-                          <span class="font-weight-bold">{{ catalog.display }}</span>
-                          <span>{{ catalog.data }}</span>
-                        </section>
-                      }
-                    }
-
-                  }
-
-                </div>
-              </div>
-
-              @if (!last) {
-                <hr class="row-separator">
-              }
-            }
-          </section>
-
-        </div>
-      }
-
-      -->
-
     </app-card>
   }
   @case ('images') {
@@ -176,7 +131,7 @@
 
       @for (annotation of annotationsInspection(); track annotation) {
         <div class="dx-fieldset">
-          <div class="dx-fieldset-header">
+          <div class="dx-fieldset-header text-danger">
             {{ annotation.type }}
           </div>
 
@@ -201,6 +156,25 @@
         </div>
       }
     </app-card>
+  }
+  @case ('maps') {
+    <section class="my-3 py-2">
+
+      @defer (on timer(2s)) {
+        <google-map [zoom]="zoomMap"
+                    [center]="centerMap()"
+                    [width]="'100%'">
+          @for (position of markerPositions(); track position) {
+            <map-marker [position]="position"
+                        [options]="markerOptions"/>
+          }
+        </google-map>
+      } @placeholder {
+        <h3>
+          Cargando mapa...
+        </h3>
+      }
+    </section>
   }
 }
 

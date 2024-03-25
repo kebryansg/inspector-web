@@ -36,8 +36,6 @@ import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-c
     DxTextBoxModule,
     DxFormModule,
 
-    HttpClientModule,
-    HttpClientJsonpModule,
     GoogleMapsModule,
     StatusPipe,
     ItemControlComponent

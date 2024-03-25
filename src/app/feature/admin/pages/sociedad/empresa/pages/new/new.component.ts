@@ -2,8 +2,8 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, O
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {animate, style, transition, trigger} from '@angular/animations';
-import {catchError, forkJoin, Observable, of, Subject} from 'rxjs';
-import {map, shareReplay, switchMap} from 'rxjs/operators';
+import {forkJoin, of, Subject} from 'rxjs';
+import {switchMap} from 'rxjs/operators';
 import {NotificationService} from "@service-shared/notification.service";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import {ToolsService} from "../../../../../services/tools.service";
@@ -13,8 +13,6 @@ import {TYPE_PERMISO} from "../../const/type-permiso.const";
 import {Dialog} from "@angular/cdk/dialog";
 import {ModalEntidadComponent} from "../../../components/modal-entidad/modal-entidad.component";
 import {EmpresaService} from "../../../services";
-import {HttpClient} from "@angular/common/http";
-import {environment} from "@environments/environment";
 
 
 const longTabs = [
@@ -110,14 +108,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   entidad = signal<any | null>(null);
   titleModal: string = '';
   edit = signal<boolean>(false);
-
-  private readonly httpClient = inject(HttpClient)
-  apiLoaded: Observable<boolean> = this.httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=' + environment.googleMapsKey, 'callback')
-    .pipe(
-      map(() => true),
-      catchError(() => of(false)),
-      shareReplay(1),
-    );
 
   zoomMap = 17;
   centerMap: google.maps.LatLngLiteral = {lat: this.lat, lng: this.lng};
