@@ -135,6 +135,49 @@
 
           </div>
         </div>
+
+        <div class="row my-2">
+          <div class="col-6">
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Area Terreno</label>
+              <div class="col-sm-12">
+                <dx-number-box formControlName="AreaTerreno" format="#,##0.00"
+                               [showSpinButtons]="true"
+                               [step]="0.10"
+                />
+              </div>
+            </div>
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Area Terreno</label>
+              <div class="col-sm-12">
+                <dx-number-box formControlName="AreaUtil" format="#,##0.00"
+                               [showSpinButtons]="true"
+                               [step]="0.10"
+                />
+              </div>
+            </div>
+          </div>
+          <div class="col-6">
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Capacidad de personas (Aforo Fijo)</label>
+              <div class="col-sm-12">
+                <dx-number-box formControlName="AforoFijo" format="#,##0.00"
+                               [showSpinButtons]="true"
+                               [step]="0.10"
+                />
+              </div>
+            </div>
+            <div class="form-group form-default row">
+              <label class="col-sm-12 col-form-label">Capacidad de personas (Aforo Flotante)</label>
+              <div class="col-sm-12">
+                <dx-number-box formControlName="AforoFlotante" format="#,##0.00"
+                               [showSpinButtons]="true"
+                               [step]="0.10"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
       }
       @case ('ENT') {
         <div class="row">

@@ -7,13 +7,13 @@ import {GoogleMapsModule} from '@angular/google-maps';
 import {EmpresaComponent} from './empresa.component';
 import {NewEmpresaComponent} from './pages/new/new.component';
 import {
-  DxButtonModule,
-  DxDataGridModule,
-  DxFormModule,
-  DxMapModule,
-  DxSelectBoxModule,
-  DxTabsModule,
-  DxTextBoxModule
+	DxButtonModule,
+	DxDataGridModule,
+	DxFormModule,
+	DxMapModule, DxNumberBoxModule,
+	DxSelectBoxModule,
+	DxTabsModule,
+	DxTextBoxModule
 } from "devextreme-angular";
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
@@ -26,28 +26,29 @@ import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-c
     EmpresaComponent,
     NewEmpresaComponent,
   ],
-  imports: [
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    EmpresaRoutingModule,
+	imports: [
+		CommonModule,
+		FormsModule,
+		ReactiveFormsModule,
+		EmpresaRoutingModule,
 
-    DxTextErrorControlDirective,
-    DxSelectErrorControlDirective,
+		DxTextErrorControlDirective,
+		DxSelectErrorControlDirective,
 
-    DxDataGridModule,
-    CardComponent,
-    DxButtonModule,
-    DxTabsModule,
-    DxSelectBoxModule,
-    DxTextBoxModule,
-    DxFormModule,
+		DxDataGridModule,
+		CardComponent,
+		DxButtonModule,
+		DxTabsModule,
+		DxSelectBoxModule,
+		DxTextBoxModule,
+		DxFormModule,
 
-    GoogleMapsModule,
-    StatusPipe,
-    ItemControlComponent,
-    DxMapModule
-  ]
+		GoogleMapsModule,
+		StatusPipe,
+		ItemControlComponent,
+		DxMapModule,
+		DxNumberBoxModule
+	]
 })
 export class EmpresaModule {
 }

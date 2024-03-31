@@ -113,7 +113,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   zoomMap = 17;
   centerMap: any = {lat: this.lat, lng: this.lng};
   markerPositions: any[] = [];
-  markerOptions: google.maps.MarkerOptions = {draggable: false};
 
   addMarker(event: any) {
     const {location} = event;
@@ -195,6 +194,12 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       Longitud: [null],
       TipoPermiso: ['ANL'],
 
+      AreaTerreno: [0, [Validators.required, Validators.min(0.01)]],
+      AreaUtil: [0, [Validators.required, Validators.min(0.01)]],
+      AforoFijo: [0, [Validators.required, Validators.min(0.01)]],
+      AforoFlotante: [0, [Validators.required, Validators.min(0.01)]],
+
+
       IDEntidad: [null, Validators.required],
 
       IDActEconomica: [null, Validators.required],
@@ -233,6 +238,12 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       IDActEconomica: datos.IDActEconomica,
       IDTipoEmpresa: datos.IDTipoEmpresa,
       IDTarifaGrupo: datos.IDTarifaGrupo,
+
+
+      AreaTerreno: datos.AreaTerreno,
+      AreaUtil: datos.AreaUtil,
+      AforoFijo: datos.AforoFijo,
+      AforoFlotante: datos.AforoFlotante,
     });
     this.edit.set(true);
     this.entidad.set(datos.idEntidad);
