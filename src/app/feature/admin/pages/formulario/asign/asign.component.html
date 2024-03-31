@@ -13,7 +13,7 @@
               </div>
               <dx-select-box class="dx-field-value"
                              [dataSource]="lsForms()"
-                             displayExpr="Descripcion"
+                             displayExpr="text"
                              valueExpr="ID"
                              [formControl]="formControl"
                              [showClearButton]="true"
@@ -42,45 +42,6 @@
 
   <div class="row">
     <div class="col-md-12">
-
-      <!--
-      <dx-data-grid [dataSource]="listGrupoActividad()"
-                    [columnAutoWidth]="true"
-                    [columnHidingEnabled]="true"
-                    [showRowLines]="true"
-                    [showBorders]="true"
-                    keyExpr="IDActividad"
-                    [headerFilter]="{visible:true}"
-                    [selectedRowKeys]="selectedItemsId()"
-                    (selectedRowKeysChange)="selectedItemsId.set($event)"
-                    [columnMinWidth]="50"
-                    (onToolbarPreparing)="onToolbarPreparing($event)">
-
-        <dxo-search-panel [visible]="true"
-                          [width]="300"
-        />
-
-        <dxo-selection mode="multiple"
-                       [selectAllMode]="'allPages'"
-                       [showCheckBoxesMode]="'onClick'"
-        ></dxo-selection>
-
-        <dxo-group-panel [visible]="true"></dxo-group-panel>
-        <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
-
-        <dxi-column caption="Grupo"
-                    dataField="grupo"
-                    [groupIndex]="0"
-                    [showWhenGrouped]="false"
-                    [allowSorting]="false"
-        ></dxi-column>
-        <dxi-column caption="Actividad Tarifario"
-                    dataField="actividad"
-                    [allowHeaderFiltering]="false"
-                    [allowSorting]="false"
-        ></dxi-column>
-      </dx-data-grid>
-      -->
 
       <dx-tree-list #dxTreeData
                     keyExpr="ID"
@@ -115,18 +76,18 @@
 
         <dxo-paging [enabled]="true"
                     [pageSize]="10"
-        ></dxo-paging>
+        />
         <dxo-pager [showPageSizeSelector]="true"
                    [allowedPageSizes]="[10,20,30,50]"
                    [showInfo]="true"
-        ></dxo-pager>
+        />
         <dxo-search-panel [visible]="true"
                           [width]="300"
-        ></dxo-search-panel>
+        />
         <dxi-column caption="Actividad"
                     dataField="ItemName"
                     [allowSorting]="false"
-        ></dxi-column>
+        />
       </dx-tree-list>
     </div>
   </div>

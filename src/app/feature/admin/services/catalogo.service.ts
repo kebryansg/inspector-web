@@ -4,6 +4,7 @@ import {environment} from "@environments/environment";
 import {Observable} from "rxjs";
 import {ActividadEconomica, GrupoTarifario, TipoEmpresa} from "../pages/sociedad/interfaces";
 import {Canton, Parroquia, Provincia, Sector} from "../localization/interfaces/base.interface";
+import {TypeInspection} from "../pages/formulario/interfaces/type-inspection.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -14,6 +15,8 @@ export class CatalogoService {
 
   constructor(private httpClient: HttpClient) {
   }
+
+  //#region Localization
 
   obtenerProvincia(): Observable<Provincia[]> {
     return this.httpClient.get<Provincia[]>(this.url + 'combo/provincia');
@@ -40,6 +43,8 @@ export class CatalogoService {
       }
     });
   }
+
+  //#endregion
 
   obtenerCompania(): Observable<any[]> {
     return this.httpClient.get<any[]>(this.url + 'combo/compania');
@@ -87,6 +92,10 @@ export class CatalogoService {
 
   getTypeComponent() {
     return this.httpClient.get<any[]>(this.url + 'combo/tipo-componente');
+  }
+
+  getTypeInspection() {
+    return this.httpClient.get<TypeInspection[]>(this.url + 'type-inspection');
   }
 
   getCatalogTypeComponent() {

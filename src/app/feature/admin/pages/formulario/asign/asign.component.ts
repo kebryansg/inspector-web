@@ -9,7 +9,6 @@ import {of, switchMap} from "rxjs";
 import {map} from "rxjs/operators";
 
 @Component({
-  selector: 'app-asign',
   templateUrl: './asign.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: []
@@ -32,9 +31,22 @@ export class AssignFormComponent implements OnInit {
     {initialValue: []}
   )
 
-  lsForms = toSignal(this.formService.getAll(), {
-    initialValue: []
-  });
+  lsForms = toSignal(
+    this.formService.getAll()
+      .pipe(
+        map(forms =>
+          forms.map(form => {
+            return {
+              ...form,
+              text: `${form.TipoInspeccion} - ${form.Descripcion}`,
+            }
+          })
+        )
+      ),
+    {
+      initialValue: []
+    }
+  );
   selectedItemsId = signal<number[]>([]);
 
 

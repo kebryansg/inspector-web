@@ -9,7 +9,6 @@ import {NotificationService} from "@service-shared/notification.service";
 import {FormService} from "../../services/form.service";
 
 @Component({
-  selector: 'app-lista-formulario',
   templateUrl: './lista-formulario.component.html',
   styleUrls: []
 })

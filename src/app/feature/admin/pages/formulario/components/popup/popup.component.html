@@ -14,7 +14,9 @@
       <div class="col-md-6">
 
         <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label">Nombre Formulario</label>
+          <label class="col-sm-12 col-form-label">
+            Nombre Formulario
+          </label>
           <div class="col-sm-12">
             <dx-text-box formControlName="Descripcion"/>
           </div>
@@ -30,8 +32,26 @@
                            displayExpr="label"
                            valueExpr="value"
                            formControlName="Estado"
-                           [searchEnabled]="true"
-            ></dx-select-box>
+            />
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+
+      <div class="col-md-6">
+
+        <div class="form-group form-default row">
+          <label class="col-sm-12 col-form-label">
+            Tipo Inspeccion
+          </label>
+          <div class="col-sm-12">
+            <dx-select-box [dataSource]="lsTypeInspection$ | async"
+                           displayExpr="Nombre"
+                           valueExpr="ID"
+                           formControlName="IDTipoInspeccion"
+            />
           </div>
         </div>
 

@@ -7,6 +7,9 @@ import {ToolsService} from "../../../../services/tools.service";
 import {AsyncPipe, NgClass} from "@angular/common";
 import {FormService} from "../../services/form.service";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
+import {CatalogoService} from "../../../../services/catalogo.service";
+import {toSignal} from "@angular/core/rxjs-interop";
+import {map} from "rxjs/operators";
 
 @Component({
   standalone: true,
@@ -26,25 +29,39 @@ import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-c
 export class PopupFormularioComponent extends ModalTemplate implements OnInit {
   private readonly fb: FormBuilder = inject(FormBuilder);
   status$: Observable<any[]> = inject(ToolsService).status$;
+  private catalogService: CatalogoService = inject(CatalogoService);
+  private formService = inject(FormService)
 
-  form!: FormGroup;
+
+  form: FormGroup = this.buildForm();
 
   isEdit = signal(false);
   cloneForm = signal(false);
   idForm = signal<number | null>(null);
-  forms$ = inject(FormService).getAll()
+  lsTypeInspection$ = this.catalogService.getTypeInspection();
+
+  forms = toSignal(
+    this.formService.getAll(),
+    {initialValue: []}
+  );
+  forms$ = this.form.get('IDTipoInspeccion')!.valueChanges
+    .pipe(
+      map(idTypeInspection =>
+        this.forms().filter(form => form.IDTipoInspeccion === idTypeInspection)
+      )
+    );
 
   ngOnInit() {
-    this.buildForm();
     const {titleModal, data} = this.dataModal;
     this.titleModal = titleModal;
     data && this.editData(data);
   }
 
   buildForm() {
-    this.form = this.fb.group({
+    return this.fb.group({
       ID: [0],
       Descripcion: ['', Validators.required],
+      IDTipoInspeccion: ['', Validators.required],
       Observacion: ['', Validators.required],
       Estado: ['ACT', Validators.required]
     });
@@ -59,6 +76,7 @@ export class PopupFormularioComponent extends ModalTemplate implements OnInit {
     this.form.patchValue({
       ID: data.ID,
       Descripcion: data.Descripcion,
+      IDTipoInspeccion: data.IDTipoInspeccion,
       Observacion: data.Observacion,
       Estado: data.Estado,
     });
