@@ -28,6 +28,11 @@ export interface Empresa {
   IDTipoEmpresa: number;
   idSector: IDSector;
   idEntidad: Entidad;
+
+  AreaTerreno: number;
+  AreaUtil: number;
+  AforoFijo: number;
+  AforoFlotante: number;
 }
 
 export interface IDSector {
