@@ -27,6 +27,13 @@
               [editorOptions]="{displayFormat:'MMMM dd, yyyy HH:mm'}"
               [label]="{text: 'Fecha Registro'}"
     />
+    <dxi-item [dataField]="'Estado'"
+              [label]="{text: 'Estado'}"
+              editorType="dxSelectBox"
+              [editorOptions]="{
+              items: status(), displayExpr:'label', valueExpr:'value'
+            }"
+    />
   </dx-form>
 
   <div class="row mt-3">

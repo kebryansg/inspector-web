@@ -42,6 +42,9 @@ export class ViewResultComponent {
   private router = inject(Router);
   private domSanitizer = inject(DomSanitizer);
 
+
+  status = this.inspectionService.status
+
   tabsWithIconAndText = [
     {
       id: 'summary',
