@@ -7,6 +7,7 @@ import {MenuService} from "../../services/menu.service";
 import {AsyncPipe, NgIf} from "@angular/common";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
+import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 
 @Component({
   standalone: true,
@@ -20,7 +21,8 @@ import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
     DxTextBoxModule,
 
     DxTextErrorControlDirective,
-    DxSelectErrorControlDirective
+    DxSelectErrorControlDirective,
+    ItemControlComponent
   ],
   templateUrl: './popup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -81,7 +83,7 @@ export class OpcionPopupComponent extends ModalTemplate implements OnInit {
   }
 
   events() {
-    this.itemForm.controls['parentId']
+    this.parentId
       .valueChanges
       .subscribe(parentId => this.oTreeValue = parentId);
   }

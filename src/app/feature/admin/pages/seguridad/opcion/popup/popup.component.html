@@ -12,83 +12,61 @@
       (ngSubmit)="submit()">
   <div class="modal-body">
     <div class="row">
-      <div class="col-md-6">
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label font-weight-bold">
-            Nombre Módulo
-          </label>
-          <div class="col-sm-12">
+      <div class="col-12">
 
-            <dx-text-box formControlName="name"/>
+        <app-item-control titleControl="Nombre Módulo" >
+          <dx-text-box formControlName="name"/>
+        </app-item-control>
 
-          </div>
-        </div>
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label font-weight-bold">
-            Icono Módulo
-          </label>
-          <div class="col-sm-12">
-            <dx-select-box formControlName="icon"
-                           [dataSource]="icons_feather"
-                           [searchEnabled]="true">
-              <div *dxTemplate="let data of 'dropDownButton'">
-                <i *ngIf="itemForm.controls['icon'].value"
-                   class="text-primary custom-icon feather {{ itemForm.controls['icon'].value }}"></i>
-                <div class="dx-dropdowneditor-icon"
-                     *ngIf="!itemForm.controls['icon'].value"
-                ></div>
-              </div>
+        <app-item-control titleControl="Ruta Módulo" >
+          <dx-text-box formControlName="state"/>
+        </app-item-control>
 
-              <div *dxTemplate="let data of 'item'" class="custom-item">
-                <i class="text-primary feather {{ data }}"></i>
-                <div class="product-name">{{ data }}</div>
-              </div>
-            </dx-select-box>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label font-weight-bold">
-            Ruta Módulo
-          </label>
-          <div class="col-sm-12">
-            <dx-text-box formControlName="state"/>
-          </div>
-        </div>
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label font-weight-bold">
-            Módulo Padre
-          </label>
-          <div class="col-sm-12">
-            <dx-drop-down-box displayExpr="name"
-                              valueExpr="ID"
-                              formControlName="parentId"
-                              [dataSource]="lsModulos$ | async"
-                              [showClearButton]="true"
-                              [(value)]="oTreeValue">
-              <div *dxTemplate="let data of 'content'">
-                <dx-tree-view dataStructure="plain"
-                              displayExpr="name"
-                              keyExpr="ID"
-                              parentIdExpr="IDPadre"
-                              selectionMode="single"
-                              [dataSource]="lsModulos$ | async"
-                              [searchEnabled]="true"
-                              [searchMode]="'contains'"
-                              [selectByClick]="true"
-                              (onContentReady)="$event.component.selectItem(oTreeValue)"
-                              (onItemSelectionChanged)="treeView_itemSelectionChanged($event)"
-                ></dx-tree-view>
-              </div>
-            </dx-drop-down-box>
-            <div class="messages text-danger"
-                 *ngIf="parentId.touched && parentId.invalid">
-              Valor Requerido
+        <app-item-control titleControl=" Icono Módulo" >
+          <dx-select-box formControlName="icon"
+                         [dataSource]="icons_feather"
+                         [searchEnabled]="true">
+            <div *dxTemplate="let data of 'dropDownButton'">
+              <i *ngIf="itemForm.controls['icon'].value"
+                 class="text-primary custom-icon feather {{ itemForm.controls['icon'].value }}"></i>
+              <div class="dx-dropdowneditor-icon"
+                   *ngIf="!itemForm.controls['icon'].value"
+              ></div>
             </div>
-          </div>
-        </div>
+
+            <div *dxTemplate="let data of 'item'" class="custom-item">
+              <i class="text-primary feather {{ data }}"></i>
+              <div class="product-name">{{ data }}</div>
+            </div>
+          </dx-select-box>
+        </app-item-control>
+
+        <app-item-control titleControl="Módulo Padre" >
+          <dx-drop-down-box displayExpr="name"
+                            valueExpr="ID"
+                            formControlName="parentId"
+                            [dataSource]="lsModulos$ | async"
+                            [showClearButton]="true"
+                            [(value)]="oTreeValue">
+            <div *dxTemplate="let data of 'content'">
+              <dx-tree-view dataStructure="plain"
+                            displayExpr="name"
+                            keyExpr="ID"
+                            parentIdExpr="IDPadre"
+                            selectionMode="single"
+                            [dataSource]="lsModulos$ | async"
+                            [searchEnabled]="true"
+                            [searchMode]="'contains'"
+                            [selectByClick]="true"
+                            (onContentReady)="$event.component.selectItem(oTreeValue)"
+                            (onItemSelectionChanged)="treeView_itemSelectionChanged($event)"
+              ></dx-tree-view>
+            </div>
+          </dx-drop-down-box>
+        </app-item-control>
+
       </div>
+
     </div>
   </div>
 

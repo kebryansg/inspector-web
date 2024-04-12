@@ -1,0 +1,63 @@
+<app-card cardTitle="Listado de Vehículos">
+  <dx-data-grid [dataSource]="gridDataSource"
+                [columnAutoWidth]="true"
+                [columnMinWidth]="80"
+                [hoverStateEnabled]="true"
+                [rowAlternationEnabled]="true"
+                [searchPanel]="{visible:true}"
+                [filterRow]="{visible:true}"
+                [loadPanel]="{enabled:true}"
+                [syncLookupFilterValues]="false"
+                (onToolbarPreparing)="onToolbarPreparing($event)"
+                [showBorders]="true">
+
+    <dxo-remote-operations [paging]="true"
+                           [filtering]="true"
+    />
+
+    <dxo-paging [pageSize]="10" />
+    <dxo-pager [showPageSizeSelector]="true"
+               [allowedPageSizes]="[10, 20, 40, 60]"
+               [showInfo]="true"
+    />
+
+    <dxi-column caption="Opciones"
+                [width]="120"
+                [allowFiltering]="false"
+                [allowExporting]="false"
+                [fixed]="true"
+                [allowSorting]="false"
+                alignment="center"
+                cellTemplate="cellOptionsTemplate">
+    </dxi-column>
+    <dxi-column dataField="brand" caption="Marca" />
+    <dxi-column dataField="model" caption="Modelo"/>
+    <dxi-column dataField="license" caption="Matricula"/>
+    <dxi-column dataField="color_primary" caption="Color Primario"/>
+    <dxi-column dataField="color_second" caption="Color Secundario"/>
+    <dxi-column dataField="state"
+                caption="Estado"
+                alignment="center">
+      <dxo-lookup [dataSource]="lsStatus"
+                  valueExpr="value"
+                  displayExpr="label"
+      />
+    </dxi-column>
+
+    <div *dxTemplate="let data of 'cellOptionsTemplate'">
+      <div class="btn-group-icons">
+        @if (data.data?.Estado === 'ACT') {
+          <dx-button icon="edit"
+                     hint="Editar"
+                     (onClick)="edit(data.data.ID)"
+          />
+
+          <dx-button icon="trash"
+                     hint="Eliminar"
+                     (onClick)="delete(data.data)"
+          />
+        }
+      </div>
+    </div>
+  </dx-data-grid>
+</app-card>

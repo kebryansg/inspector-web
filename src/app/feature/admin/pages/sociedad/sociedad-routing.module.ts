@@ -21,22 +21,32 @@ const routes: Routes = [
     data: {title: 'Entidad', status: true}
   },
   {
-    path: 'categoria',
-    component: CategoriaComponent,
-    title: 'Categoría',
-    data: {title: 'Categoría', status: true}
+    path: 'catalog',
+    children: [
+      {
+        path: 'categoria',
+        component: CategoriaComponent,
+        title: 'Categoría',
+        data: {title: 'Categoría', status: true}
+      },
+      {
+        path: 'actividad-economica',
+        component: ActividadEconomicaComponent,
+        title: 'Actividad Económica',
+        data: {title: 'Actividad Económica', status: true}
+      },
+      {
+        path: 'tipo-empresa',
+        component: TipoEmpresaComponent,
+        title: 'Tipo Empresa',
+        data: {title: 'Tipo Empresa', status: true}
+      },
+    ]
   },
   {
-    path: 'actividad-economica',
-    component: ActividadEconomicaComponent,
-    title: 'Actividad Económica',
-    data: {title: 'Actividad Económica', status: true}
-  },
-  {
-    path: 'tipo-empresa',
-    component: TipoEmpresaComponent,
-    title: 'Tipo Empresa',
-    data: {title: 'Tipo Empresa', status: true}
+    path: 'vehicle',
+    loadChildren: () => import('./pages/vehicle/vehicle-routing').then(module => module.VehicleRouting),
+    title: 'Vehículos',
   },
 ];
 

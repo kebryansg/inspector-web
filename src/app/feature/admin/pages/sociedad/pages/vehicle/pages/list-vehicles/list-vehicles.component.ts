@@ -1,21 +1,36 @@
-import {Component, inject, OnInit, ViewChild} from '@angular/core';
-import {DxDataGridComponent} from 'devextreme-angular';
-import CustomStore from 'devextreme/data/custom_store';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ChangeDetectionStrategy, Component, inject, OnInit, ViewChild} from '@angular/core';
+import {CardComponent} from "@standalone-shared/card/card.component";
+import {DxButtonModule, DxDataGridComponent, DxDataGridModule, DxTemplateModule} from "devextreme-angular";
+import {DxiColumnModule, DxoLookupModule, DxoPagerModule, DxoPagingModule, DxoRemoteOperationsModule} from "devextreme-angular/ui/nested";
+import {ToolsService} from "../../../../../../services/tools.service";
+import CustomStore from "devextreme/data/custom_store";
 import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 import {NotificationService} from "@service-shared/notification.service";
-import {EmpresaService} from "../services";
-import {ToolsService} from "../../../services/tools.service";
+import {ActivatedRoute, Router} from "@angular/router";
+import {VehiclesService} from "../../services/vehicles.service";
 
 @Component({
-  selector: 'app-empresa',
-  templateUrl: './empresa.component.html',
-  styleUrls: []
+  selector: 'app-list-vehicles',
+  standalone: true,
+  imports: [
+    CardComponent,
+    DxButtonModule,
+    DxDataGridModule,
+    DxTemplateModule,
+    DxiColumnModule,
+    DxoLookupModule,
+    DxoPagerModule,
+    DxoPagingModule,
+    DxoRemoteOperationsModule
+  ],
+  templateUrl: './list-vehicles.component.html',
+  styleUrl: './list-vehicles.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class EmpresaComponent implements OnInit {
+export class ListVehiclesComponent implements OnInit {
 
-  private companyService: EmpresaService<any> = inject(EmpresaService);
+  private vehiclesService: VehiclesService = inject(VehiclesService);
   private notificationService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
@@ -31,7 +46,7 @@ export class EmpresaComponent implements OnInit {
         let params: any = headersParams.filter(i => isNotEmpty(loadOptions[i]))
           .reduce((a, b) => ({...a, [b]: loadOptions[b]}), {});
 
-        return this.companyService.getFilters(params)
+        return this.vehiclesService.getAlls(params)
       },
 
     });
@@ -54,7 +69,7 @@ export class EmpresaComponent implements OnInit {
         options: {
           icon: 'add',
           text: 'Agregar Registro',
-          onClick: () => this.router.navigate(['new'], {relativeTo: this.activatedRoute})
+          //onClick: () => this.router.navigate(['new'], {relativeTo: this.activatedRoute})
         }
       });
   }
@@ -72,24 +87,7 @@ export class EmpresaComponent implements OnInit {
       if (!response) {
         return;
       }
-      this.companyService.delete(row.ID)
-        .subscribe(data => {
-          this.dataGrid.instance.refresh();
-        });
-    });
-  }
-
-  reactivar(row: any) {
-    this.notificationService.showSwalConfirm({
-      title: 'Activar registro?',
-      text: 'Esta seguro de activar el registro.',
-      confirmButtonText: 'Si, activar.'
-    }).then(response => {
-      if (!response) {
-        return;
-      }
-
-      this.companyService.activateRegister(row.ID)
+      this.vehiclesService.delete(row.ID)
         .subscribe(data => {
           this.dataGrid.instance.refresh();
         });
