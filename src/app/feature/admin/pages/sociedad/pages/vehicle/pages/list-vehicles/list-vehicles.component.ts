@@ -69,13 +69,13 @@ export class ListVehiclesComponent implements OnInit {
         options: {
           icon: 'add',
           text: 'Agregar Registro',
-          //onClick: () => this.router.navigate(['new'], {relativeTo: this.activatedRoute})
+          onClick: () => this.router.navigate(['..', 'new'], {relativeTo: this.activatedRoute})
         }
       });
   }
 
   edit(idRow: string) {
-    this.router.navigate(['./new', idRow], {relativeTo: this.activatedRoute})
+    this.router.navigate(['..', 'new', idRow], {relativeTo: this.activatedRoute})
   }
 
   delete(row: any) {

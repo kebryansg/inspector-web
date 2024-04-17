@@ -97,6 +97,7 @@
               "buildTarget": "inspector-web-frontend:build:production"
             },
             "development": {
+              "port": 4202,
               "buildTarget": "inspector-web-frontend:build:development"
             }
           },

@@ -1,0 +1,36 @@
+<app-card cardTitle="Editar Vehiculo">
+
+  <form [formGroup]="registerForm"
+        (ngSubmit)="submitForm()">
+    <section>
+      <app-item-control titleControl="Chasis">
+        <dx-text-box formControlName="chassis"/>
+      </app-item-control>
+
+      <app-item-control titleControl="Año Fabrica">
+        <dx-text-box formControlName="year_manufacture"/>
+      </app-item-control>
+
+      <app-item-control titleControl="Pasajeros">
+        <dx-text-box formControlName="count_passengers"/>
+      </app-item-control>
+
+      <app-item-control titleControl="Placa Anterior">
+        <dx-text-box formControlName="previous_plate"/>
+      </app-item-control>
+
+      <app-item-control titleControl="Placa Actual">
+        <dx-text-box formControlName="current_plate"/>
+      </app-item-control>
+
+      <app-item-control titleControl="Toneladas">
+        <dx-text-box formControlName="tonnage"/>
+      </app-item-control>
+    </section>
+
+    <section class="d-flex justify-content-end gap-2">
+      <button class="btn btn-danger" type="reset">Cancelar</button>
+      <button class="btn btn-primary" type="submit">Guardar</button>
+    </section>
+  </form>
+</app-card>
