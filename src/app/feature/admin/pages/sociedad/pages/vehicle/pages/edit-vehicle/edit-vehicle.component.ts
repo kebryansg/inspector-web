@@ -1,9 +1,14 @@
-import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {DxTextBoxModule} from "devextreme-angular";
+import {DxButtonModule, DxFormModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
+import {CatalogVehicleService} from "../../services/catalog-vechicle";
+import {AsyncPipe, JsonPipe} from "@angular/common";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
+import {Dialog} from "@angular/cdk/dialog";
+import {ModalEntidadComponent} from "../../../../components/modal-entidad/modal-entidad.component";
 
 @Component({
   selector: 'app-edit-vehicle',
@@ -15,8 +20,14 @@ import {DxTextErrorControlDirective} from "@directives/text-box.directive";
     ReactiveFormsModule,
     FormsModule,
     DxTextBoxModule,
+    DxSelectBoxModule,
 
     DxTextErrorControlDirective,
+    DxSelectErrorControlDirective,
+    AsyncPipe,
+    JsonPipe,
+    DxFormModule,
+    DxButtonModule,
 
   ],
   templateUrl: './edit-vehicle.component.html',
@@ -25,8 +36,19 @@ import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 })
 export class EditVehicleComponent {
   formBuilder = inject(FormBuilder)
+  dialogService: Dialog = inject(Dialog);
 
-  registerForm = this.buildForm()
+  catalogVehicleService = inject(CatalogVehicleService)
+
+  registerForm = this.buildForm();
+
+  typeCatalog = this.catalogVehicleService.getType()
+  brandCatalog = this.catalogVehicleService.getBrand()
+  modelCatalog = this.catalogVehicleService.getModel()
+  classCatalog = this.catalogVehicleService.getClass()
+  colorCatalog = this.catalogVehicleService.getColor()
+
+  infoEntity = signal({})
 
   buildForm() {
     return this.formBuilder.group({
@@ -53,6 +75,24 @@ export class EditVehicleComponent {
     })
   }
 
+  loadModalEntity() {
+    const modalRef = this.dialogService.open(ModalEntidadComponent, {
+      //size: 'lg', centered: true
+      data: {
+        titleModal: 'Buscar Entidad'
+      },
+      panelClass: 'modal-lg'
+    });
+
+    modalRef.closed
+      .subscribe((data: any) => {
+        if (!data) {
+          return;
+        }
+        this.infoEntity.set(data);
+        this.registerForm.controls['entity_id'].setValue(data.ID);
+      });
+  }
 
   submitForm() {
     this.registerForm.markAllAsTouched();

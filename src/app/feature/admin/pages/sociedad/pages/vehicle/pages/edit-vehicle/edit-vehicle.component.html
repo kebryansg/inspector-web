@@ -2,34 +2,130 @@
 
   <form [formGroup]="registerForm"
         (ngSubmit)="submitForm()">
-    <section>
-      <app-item-control titleControl="Chasis">
-        <dx-text-box formControlName="chassis"/>
-      </app-item-control>
 
-      <app-item-control titleControl="Año Fabrica">
-        <dx-text-box formControlName="year_manufacture"/>
-      </app-item-control>
+    <section class="row">
+      <section class="col">
+        <app-item-control titleControl="Tipo">
+          <dx-select-box formControlName="type_id"
+                         [dataSource]="typeCatalog | async"
+                         displayExpr="description"
+                         valueExpr="ID"
+          />
+        </app-item-control>
 
-      <app-item-control titleControl="Pasajeros">
-        <dx-text-box formControlName="count_passengers"/>
-      </app-item-control>
+        <app-item-control titleControl="Modelo">
+          <dx-select-box formControlName="model_id"
+                         [dataSource]="modelCatalog | async"
+                         displayExpr="description"
+                         valueExpr="ID"
+          />
+        </app-item-control>
 
-      <app-item-control titleControl="Placa Anterior">
-        <dx-text-box formControlName="previous_plate"/>
-      </app-item-control>
+        <app-item-control titleControl="Marca">
+          <dx-select-box formControlName="brand_id"
+                         [dataSource]="brandCatalog | async"
+                         displayExpr="description"
+                         valueExpr="ID"
+          />
+        </app-item-control>
 
-      <app-item-control titleControl="Placa Actual">
-        <dx-text-box formControlName="current_plate"/>
-      </app-item-control>
+        <app-item-control titleControl="Clase">
+          <dx-select-box formControlName="class_id"
+                         [dataSource]="classCatalog | async"
+                         displayExpr="description"
+                         valueExpr="ID"
+          />
+        </app-item-control>
 
-      <app-item-control titleControl="Toneladas">
-        <dx-text-box formControlName="tonnage"/>
-      </app-item-control>
+        <app-item-control titleControl="Color #1">
+          <dx-select-box formControlName="color_one_id"
+                         [dataSource]="colorCatalog | async"
+                         displayExpr="description"
+                         valueExpr="ID"
+          />
+        </app-item-control>
+
+        <app-item-control titleControl="Color #2">
+          <dx-select-box formControlName="color_two_id"
+                         [dataSource]="colorCatalog | async"
+                         displayExpr="description"
+                         valueExpr="ID"
+          />
+        </app-item-control>
+
+      </section>
+
+      <section class="col">
+        <app-item-control titleControl="Chasis">
+          <dx-text-box formControlName="chassis"/>
+        </app-item-control>
+
+        <app-item-control titleControl="Año Fabrica">
+          <dx-text-box formControlName="year_manufacture"/>
+        </app-item-control>
+
+        <app-item-control titleControl="Pasajeros">
+          <dx-text-box formControlName="count_passengers"/>
+        </app-item-control>
+
+        <app-item-control titleControl="Placa Anterior">
+          <dx-text-box formControlName="previous_plate"/>
+        </app-item-control>
+
+        <app-item-control titleControl="Placa Actual">
+          <dx-text-box formControlName="current_plate"/>
+        </app-item-control>
+
+        <app-item-control titleControl="Toneladas">
+          <dx-text-box formControlName="tonnage"/>
+        </app-item-control>
+      </section>
     </section>
 
-    <section class="d-flex justify-content-end gap-2">
-      <button class="btn btn-danger" type="reset">Cancelar</button>
+    <section class="row">
+      <div class="col">
+
+        <dx-button class="my-5"
+                   [text]="'Buscar Responsable'"
+                   [icon]="'search'"
+                   [type]="'success'"
+                   (click)="loadModalEntity()"
+        />
+        <br>
+
+        <section class="row">
+          <div class="col-md-12">
+            <dx-form [formData]="infoEntity()"
+                     [readOnly]="true"
+                     [colCount]="2"
+                     labelLocation="top">
+              <dxi-item dataField="Identificacion"
+                        [label]="{text:'Identificación'}"
+              />
+              <dxi-item dataField="Nombres"/>
+              <dxi-item dataField="Apellidos"/>
+              <dxi-item dataField="Telefono"
+                        [label]="{text:'Teléfono'}"
+              />
+              <dxi-item dataField="Celular"
+                        [label]="{text:'Celular'}"
+              />
+              <dxi-item dataField="Email"/>
+              <dxi-item dataField="Direccion"
+                        [label]="{text:'Dirección'}"
+                        editorType="dxTextArea"
+                        [editorOptions]="{ height: 60 }"
+                        [colSpan]="2"
+              />
+            </dx-form>
+          </div>
+        </section>
+
+      </div>
+    </section>
+
+    <section class="my-3 d-flex justify-content-end gap-2">
+      <button class="btn btn-outline-danger" type="reset">Cancelar</button>
       <button class="btn btn-primary" type="submit">Guardar</button>
     </section>
   </form>
