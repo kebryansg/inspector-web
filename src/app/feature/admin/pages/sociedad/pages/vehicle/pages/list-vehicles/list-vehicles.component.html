@@ -5,7 +5,7 @@
                 [hoverStateEnabled]="true"
                 [rowAlternationEnabled]="true"
                 [searchPanel]="{visible:true}"
-                [filterRow]="{visible:true}"
+                [filterRow]="{visible:false}"
                 [loadPanel]="{enabled:true}"
                 [syncLookupFilterValues]="false"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
@@ -15,7 +15,7 @@
                            [filtering]="true"
     />
 
-    <dxo-paging [pageSize]="10" />
+    <dxo-paging [pageSize]="10"/>
     <dxo-pager [showPageSizeSelector]="true"
                [allowedPageSizes]="[10, 20, 40, 60]"
                [showInfo]="true"
@@ -30,11 +30,18 @@
                 alignment="center"
                 cellTemplate="cellOptionsTemplate">
     </dxi-column>
-    <dxi-column dataField="brand" caption="Marca" />
+    <dxi-column dataField="entity" caption="Responsable"/>
+    <dxi-column dataField="year_manufacture" caption="Año Fabricación"/>
+    <dxi-column dataField="type" caption="Tipo"/>
+    <dxi-column dataField="brand" caption="Marca"/>
     <dxi-column dataField="model" caption="Modelo"/>
-    <dxi-column dataField="license" caption="Matricula"/>
-    <dxi-column dataField="color_primary" caption="Color Primario"/>
-    <dxi-column dataField="color_second" caption="Color Secundario"/>
+    <dxi-column dataField="class" caption="Clase"/>
+    <dxi-column dataField="previous_plate" caption="Placa Anterior"/>
+    <dxi-column dataField="current_plate" caption="Placa Actual"/>
+    <dxi-column dataField="tonnage" caption="Tonelada"/>
+    <dxi-column dataField="count_passengers" caption="Pasajeros"/>
+    <dxi-column dataField="color_one_id" caption="Color Primario"/>
+    <dxi-column dataField="color_two_id" caption="Color Secundario"/>
     <dxi-column dataField="state"
                 caption="Estado"
                 alignment="center">
@@ -46,10 +53,10 @@
 
     <div *dxTemplate="let data of 'cellOptionsTemplate'">
       <div class="btn-group-icons">
-        @if (data.data?.Estado === 'ACT') {
+        @if (data.data?.state === 'ACT') {
           <dx-button icon="edit"
                      hint="Editar"
-                     (onClick)="edit(data.data.ID)"
+                     (onClick)="edit(data.data.id)"
           />
 
           <dx-button icon="trash"

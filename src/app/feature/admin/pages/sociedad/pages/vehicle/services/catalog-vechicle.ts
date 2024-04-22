@@ -4,7 +4,7 @@ import {environment} from "@environments/environment";
 
 @Injectable({providedIn: 'root'})
 export class CatalogVehicleService {
-  private apiURL = environment.apiUrl + 'vehicle'
+  private apiURL = environment.apiUrl + 'vehicle/'
   private httpClient: HttpClient = inject(HttpClient)
 
   getType() {

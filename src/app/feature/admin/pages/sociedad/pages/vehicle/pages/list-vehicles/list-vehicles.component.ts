@@ -41,7 +41,7 @@ export class ListVehiclesComponent implements OnInit {
 
   ngOnInit() {
     this.gridDataSource = new CustomStore({
-      key: 'ID',
+      key: 'id',
       load: (loadOptions: any) => {
         let params: any = headersParams.filter(i => isNotEmpty(loadOptions[i]))
           .reduce((a, b) => ({...a, [b]: loadOptions[b]}), {});
@@ -87,7 +87,7 @@ export class ListVehiclesComponent implements OnInit {
       if (!response) {
         return;
       }
-      this.vehiclesService.delete(row.ID)
+      this.vehiclesService.delete(row.id)
         .subscribe(data => {
           this.dataGrid.instance.refresh();
         });
