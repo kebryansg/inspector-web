@@ -9,6 +9,9 @@ import {isNotEmpty} from "@utils/empty.util";
 import {NotificationService} from "@service-shared/notification.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {VehiclesService} from "../../services/vehicles.service";
+import {CatalogVehicleService} from "../../services/catalog-vechicle";
+import {AsyncPipe} from "@angular/common";
+import {shareReplay} from "rxjs/operators";
 
 @Component({
   selector: 'app-list-vehicles',
@@ -22,7 +25,8 @@ import {VehiclesService} from "../../services/vehicles.service";
     DxoLookupModule,
     DxoPagerModule,
     DxoPagingModule,
-    DxoRemoteOperationsModule
+    DxoRemoteOperationsModule,
+    AsyncPipe
   ],
   templateUrl: './list-vehicles.component.html',
   styleUrl: './list-vehicles.component.scss',
@@ -30,6 +34,7 @@ import {VehiclesService} from "../../services/vehicles.service";
 })
 export class ListVehiclesComponent implements OnInit {
 
+  private catalogVehicleService: CatalogVehicleService = inject(CatalogVehicleService);
   private vehiclesService: VehiclesService = inject(VehiclesService);
   private notificationService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);
@@ -38,6 +43,11 @@ export class ListVehiclesComponent implements OnInit {
   @ViewChild(DxDataGridComponent) dataGrid!: DxDataGridComponent;
   gridDataSource: any;
   lsStatus = inject(ToolsService).status;
+
+  lsColors$ = this.catalogVehicleService.getColor()
+    .pipe(
+      shareReplay(1)
+    );
 
   ngOnInit() {
     this.gridDataSource = new CustomStore({

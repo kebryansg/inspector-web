@@ -12,7 +12,7 @@ import {ModalEntidadComponent} from "../../../../components/modal-entidad/modal-
 import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
 import {ActividadTarifario, CategoriaGrupo, GrupoTarifario} from "../../../../interfaces";
 import {CatalogoService} from "../../../../../../services/catalogo.service";
-import {switchMap} from "rxjs/operators";
+import {shareReplay, switchMap} from "rxjs/operators";
 import {of} from "rxjs";
 import {Router} from "@angular/router";
 import {VehiclesService} from "../../services/vehicles.service";
@@ -51,7 +51,7 @@ export class EditVehicleComponent implements OnInit {
   private notificationService = inject(NotificationService);
   vehicleService: VehiclesService = inject(VehiclesService);
   catalogAppService: CatalogoService = inject(CatalogoService);
-  catalogVehicleService = inject(CatalogVehicleService)
+  catalogVehicleService = inject(CatalogVehicleService);
 
   registerForm = this.buildForm();
 
@@ -64,6 +64,9 @@ export class EditVehicleComponent implements OnInit {
   modelCatalog = this.catalogVehicleService.getModel()
   classCatalog = this.catalogVehicleService.getClass()
   colorCatalog = this.catalogVehicleService.getColor()
+    .pipe(
+      shareReplay(1)
+    );
 
   infoEntity = signal({});
 
@@ -101,7 +104,6 @@ export class EditVehicleComponent implements OnInit {
       group_economic: ['', Validators.required],
       tariff_activity: ['', Validators.required],
       category: ['', Validators.required],
-
     })
   }
 
@@ -109,6 +111,16 @@ export class EditVehicleComponent implements OnInit {
     this.registerForm.patchValue({
       ...dataForm
     })
+
+    this.infoEntity.set(dataForm.entityItem);
+
+    setTimeout(() => {
+      this.registerForm.patchValue({
+        category: dataForm.category,
+        tariff_activity: dataForm.tariff_activity,
+      })
+    }, 1500);
+
   }
 
   loadModalEntity() {
@@ -131,7 +143,8 @@ export class EditVehicleComponent implements OnInit {
   }
 
   eventForm() {
-    this.registerForm.controls.group_economic
+    this.registerForm.controls
+      .group_economic
       .valueChanges
       .pipe(
         switchMap(idGroup => idGroup ?

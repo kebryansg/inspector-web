@@ -40,8 +40,18 @@
     <dxi-column dataField="current_plate" caption="Placa Actual"/>
     <dxi-column dataField="tonnage" caption="Tonelada"/>
     <dxi-column dataField="count_passengers" caption="Pasajeros"/>
-    <dxi-column dataField="color_one_id" caption="Color Primario"/>
-    <dxi-column dataField="color_two_id" caption="Color Secundario"/>
+    <dxi-column dataField="color_one_id" caption="Color Primario">
+      <dxo-lookup [dataSource]="lsColors$ | async"
+                  valueExpr="ID"
+                  displayExpr="description"
+      />
+    </dxi-column>
+    <dxi-column dataField="color_two_id" caption="Color Secundario">
+      <dxo-lookup [dataSource]="lsColors$ | async"
+                  valueExpr="ID"
+                  displayExpr="description"
+      />
+    </dxi-column>
     <dxi-column dataField="state"
                 caption="Estado"
                 alignment="center">

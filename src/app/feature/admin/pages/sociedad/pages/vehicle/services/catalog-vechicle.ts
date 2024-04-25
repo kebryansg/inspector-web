@@ -16,7 +16,7 @@ export class CatalogVehicleService {
   }
 
   getColor() {
-    return this.httpClient.get(this.apiURL + 'color')
+    return this.httpClient.get<any[]>(this.apiURL + 'color')
   }
 
   getModel() {
