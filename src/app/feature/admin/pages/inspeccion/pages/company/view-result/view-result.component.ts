@@ -2,8 +2,8 @@ import {ChangeDetectionStrategy, Component, computed, inject, input, signal} fro
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxCheckBoxModule, DxFormModule, DxMapModule, DxTabsModule} from "devextreme-angular";
 import {DecimalPipe, JsonPipe, KeyValuePipe} from "@angular/common";
-import {InspectionService} from "../../services/inspection.service";
-import {InspectionResultService} from "../../services/inspection-result.service";
+import {InspectionService} from "../../../services/inspection.service";
+import {InspectionResultService} from "../../../services/inspection-result.service";
 import {Router} from "@angular/router";
 import {computedAsync} from "ngxtension/computed-async";
 import {DomSanitizer} from '@angular/platform-browser';
