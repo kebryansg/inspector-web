@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {CardComponent} from "@standalone-shared/card/card.component";
+import {CardComponent} from "../../../../../../../shared/components/card/card.component";
 import {DxButtonModule, DxDataGridModule} from "devextreme-angular";
-import {InspectionService} from "../../services/inspection.service";
+import {InspectionService} from "../../../services/inspection.service";
 import {AsyncPipe} from "@angular/common";
 import {ActivatedRoute, Router} from "@angular/router";
 

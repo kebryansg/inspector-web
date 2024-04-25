@@ -1,9 +1,9 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input} from '@angular/core';
-import {CardComponent} from "@standalone-shared/card/card.component";
-import {InspectionService} from "../../../../services/inspection.service";
+import {CardComponent} from "../../../../../../../../../shared/components/card/card.component";
+import {InspectionService} from "../../../../../services/inspection.service";
 import {JsonPipe, KeyValuePipe} from "@angular/common";
 import {DxFormModule} from "devextreme-angular";
-import {InspectionResultService} from "../../../../services/inspection-result.service";
+import {InspectionResultService} from "../../../../../services/inspection-result.service";
 import {groupBy} from "@utils-app/array-fn.util";
 import {Router} from "@angular/router";
 import {computedAsync} from "ngxtension/computed-async";

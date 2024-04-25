@@ -5,10 +5,10 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, map} from 'rxjs/operators';
 // @ts-ignore
 import DataSource from "devextreme/data/data_source";
-import {DxDataGridComponent} from 'devextreme-angular';
-import {InspectionService} from '../../services/inspection.service';
-import {Inspection} from '../../interfaces/inspection.interface';
-import {CatalogoService} from "../../../../services/catalogo.service";
+import {DxDataGridComponent, DxDataGridModule, DxDropDownButtonModule} from 'devextreme-angular';
+import {InspectionService} from '../../../services/inspection.service';
+import {Inspection} from '../../../interfaces/inspection.interface';
+import {CatalogoService} from "../../../../../services/catalogo.service";
 import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 import {Dialog} from "@angular/cdk/dialog";
@@ -16,7 +16,11 @@ import {NotificationService} from "@service-shared/notification.service";
 import {FileSaverService} from 'ngx-filesaver';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {formatDate} from "devextreme/localization";
-import {ItemAction} from "../../const/item-action.const";
+import {ItemAction} from "../../../const/item-action.const";
+import {CardComponent} from "@standalone-shared/card/card.component";
+import {ActionsInspectionPipe} from "../../../pipes/actions-inspection.pipe";
+import {AsyncPipe} from "@angular/common";
+import {StatusPipe} from "../../../../../../../pipes/status-inspection.pipe";
 
 type itemAction = {
   name: string;
@@ -28,14 +32,22 @@ type action = 'download' | 'send_result' | 'view_result' | 'delete' | 'assign_in
 
 
 @Component({
-  selector: 'app-list',
+  standalone: true,
   templateUrl: './list.component.html',
+  imports: [
+    CardComponent,
+    DxDataGridModule,
+    DxDropDownButtonModule,
+    ActionsInspectionPipe,
+    AsyncPipe,
+    StatusPipe
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent implements OnInit {
 
   private readonly destroy: DestroyRef = inject(DestroyRef);
-  private inspeccionService: InspectionService = inject(InspectionService);
+  private inspectionService: InspectionService = inject(InspectionService);
   private modalService: Dialog = inject(Dialog);
   private notificationService: NotificationService = inject(NotificationService);
   private router: Router = inject(Router);
@@ -44,8 +56,8 @@ export class ListComponent implements OnInit {
 
   gridDataSource: any;
 
-  lsColaborador$: Observable<any> = inject(CatalogoService).obtenerInspector();
-  lsStatus = this.inspeccionService.status;
+  lsInspectors$: Observable<any> = inject(CatalogoService).obtenerInspector();
+  lsStatus = this.inspectionService.status;
 
   itemsAction = signal<any[]>(ItemAction)
 
@@ -103,8 +115,6 @@ export class ListComponent implements OnInit {
   }
 
   ngOnInit() {
-
-
     this.gridDataSource = new DataSource({
       key: 'Id',
       load: (loadOptions: any) => {
@@ -112,7 +122,7 @@ export class ListComponent implements OnInit {
           .reduce((a, b) => ({...a, [b]: loadOptions[b]}), {});
 
         return lastValueFrom(
-          this.inspeccionService.getItemsPaginate(params)
+          this.inspectionService.getItemsPaginate(params)
             .pipe(
               debounceTime(500),
               map(result => ({
@@ -165,7 +175,7 @@ export class ListComponent implements OnInit {
       )
       .subscribe((idInspector: number) => {
 
-        this.inspeccionService.assigmentInspector(row.Id, idInspector)
+        this.inspectionService.assigmentInspector(row.Id, idInspector)
           .subscribe(res => {
             this.notificationService.showSwalMessage({
               title: 'Colaborador Asignado',
@@ -186,7 +196,7 @@ export class ListComponent implements OnInit {
       if (!response) {
         return;
       }
-      this.inspeccionService.delete(row.Id)
+      this.inspectionService.delete(row.Id)
         .subscribe(data => {
           this.dataGridComponent.instance.refresh();
         });
@@ -196,7 +206,7 @@ export class ListComponent implements OnInit {
   downloadResultInspection(row: Inspection) {
     const nameFile = `result ${row.NombreComercial}-${formatDate(new Date(row.FechaInspeccion), 'yyyyMMdd-hhmm')}.pdf`
 
-    this.inspeccionService.getFileContentResult(row.Id)
+    this.inspectionService.getFileContentResult(row.Id)
       .pipe(
         takeUntilDestroyed(this.destroy)
       ).subscribe(response => {
@@ -213,7 +223,7 @@ export class ListComponent implements OnInit {
 
     const nameFile = `solicitud ${row.Id}-${row.NombreComercial}-${formatDate(new Date(row.FechaRegistro), 'yyyyMMdd-hhmm')}.pdf`
 
-    this.inspeccionService.getFileContentRequest(row.Id)
+    this.inspectionService.getFileContentRequest(row.Id)
       .subscribe({
         next: (res) => {
           this.notificationService.closeLoader();
@@ -231,7 +241,7 @@ export class ListComponent implements OnInit {
   }
 
   sendMailFormulario(row: Inspection) {
-    this.inspeccionService.sendMailForm(row.Id)
+    this.inspectionService.sendMailForm(row.Id)
       .pipe(takeUntilDestroyed(this.destroy))
       .subscribe(
         (response: any) => {
@@ -247,7 +257,7 @@ export class ListComponent implements OnInit {
     this.notificationService.showLoader({
       title: 'Reimprimiendo solicitud de inspección.'
     });
-    this.inspeccionService.generateFileRequest(row.Id)
+    this.inspectionService.generateFileRequest(row.Id)
       .subscribe({
         next: () => {
           this.notificationService.closeLoader();
@@ -271,7 +281,7 @@ export class ListComponent implements OnInit {
       title: 'Enviando solicitud de inspección.'
     });
 
-    this.inspeccionService.sendMailRequest(row.Id)
+    this.inspectionService.sendMailRequest(row.Id)
       .pipe(takeUntilDestroyed(this.destroy))
       .subscribe(
         {

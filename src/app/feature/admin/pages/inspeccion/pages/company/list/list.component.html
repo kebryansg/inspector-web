@@ -86,7 +86,7 @@
     <dxi-column dataField="IdColaborador"
                 [allowHeaderFiltering]="false"
                 caption="Inspector Asignado">
-      <dxo-lookup [dataSource]="lsColaborador$ | async"
+      <dxo-lookup [dataSource]="lsInspectors$ | async"
                   valueExpr="ID"
                   displayExpr="Colaborador"
       ></dxo-lookup>

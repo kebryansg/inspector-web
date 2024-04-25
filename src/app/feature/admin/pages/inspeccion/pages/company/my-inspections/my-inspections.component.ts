@@ -1,15 +1,15 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, ViewChild} from '@angular/core';
-import {CardComponent} from "@standalone-shared/card/card.component";
+import {CardComponent} from "../../../../../../../shared/components/card/card.component";
 import {AsyncPipe} from "@angular/common";
 import {DxDataGridComponent, DxDataGridModule} from "devextreme-angular";
-import {InspectionService} from "../../services/inspection.service";
+import {InspectionService} from "../../../services/inspection.service";
 import {lastValueFrom, Observable} from "rxjs";
-import {CatalogoService} from "../../../../services/catalogo.service";
+import {CatalogoService} from "../../../../../services/catalogo.service";
 import DataSource from "devextreme/data/data_source";
-import {headersParams} from "@utils/data-grid.util";
-import {isNotEmpty} from "@utils/empty.util";
+import {headersParams} from "../../../../../../../shared/utils/data-grid.util";
+import {isNotEmpty} from "../../../../../../../shared/utils/empty.util";
 import {debounceTime, map} from "rxjs/operators";
-import {MyInspectionService} from "../../services/my-inspection.service";
+import {MyInspectionService} from "../../../services/my-inspection.service";
 
 @Component({
   selector: 'app-my-inspections',

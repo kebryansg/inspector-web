@@ -1,5 +1,6 @@
 import {Routes} from "@angular/router";
 import {DashboardLiteComponent} from "../../layouts/dashboard-lite/pages/index.component";
+import {inspectionRoutes} from "./pages/inspeccion/inspeccion-routing.module";
 
 export const ADMIN_ROUTES: Routes = [
   {
@@ -26,7 +27,7 @@ export const ADMIN_ROUTES: Routes = [
       {
         path: 'inspeccion',
         title: 'Inspección',
-        loadChildren: () => import('./pages/inspeccion/inspeccion.module').then(m => m.InspeccionModule)
+        loadChildren: () => import('./pages/inspeccion/inspeccion-routing.module').then(m => m.inspectionRoutes)
       },
       {
         path: 'sistema',

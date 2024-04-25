@@ -1,21 +1,37 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {ActivatedRoute, Router} from '@angular/router';
+import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {iif, lastValueFrom, of} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
 import CustomStore from 'devextreme/data/custom_store';
-import {InspectionService} from "../../services/inspection.service";
-import {CatalogoService} from "../../../../services/catalogo.service";
-import {EmpresaService, EntidadService} from "../../../sociedad/services";
+import {InspectionService} from "../../../services/inspection.service";
+import {CatalogoService} from "../../../../../services/catalogo.service";
+import {EmpresaService, EntidadService} from "../../../../sociedad/services";
 import {NotificationService} from "@service-shared/notification.service";
-import {Empresa, Entidad} from "../../../sociedad/interfaces";
+import {Empresa, Entidad} from "../../../../sociedad/interfaces";
 import {toSignal} from "@angular/core/rxjs-interop";
-import {ToolsService} from "../../../../services/tools.service";
+import {ToolsService} from "../../../../../services/tools.service";
+import {CardComponent} from "@standalone-shared/card/card.component";
+import {DxDataGridModule, DxDateBoxModule, DxDropDownBoxModule, DxFormModule, DxSelectBoxModule} from "devextreme-angular";
+import {AsyncPipe} from "@angular/common";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
-  selector: 'app-new',
+  standalone: true,
   templateUrl: './new.component.html',
   styleUrls: ['./new.component.css',],
+  imports: [
+    CardComponent,
+    DxDropDownBoxModule,
+    DxDataGridModule,
+    DxFormModule,
+    ReactiveFormsModule,
+    DxSelectBoxModule,
+    DxSelectErrorControlDirective,
+    AsyncPipe,
+    DxDateBoxModule,
+    RouterLink
+  ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewInspeccionComponent implements OnInit {
