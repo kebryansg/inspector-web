@@ -65,8 +65,6 @@ export class ListComponent implements OnInit {
   @ViewChild('container', {read: ViewContainerRef}) entry!: ViewContainerRef;
 
 
-  //private exportService: ExportService = inject(ExportService);
-
   onItemClick($event: any, dataRow: any) {
     const {itemData} = $event;
     switch (itemData.id) {

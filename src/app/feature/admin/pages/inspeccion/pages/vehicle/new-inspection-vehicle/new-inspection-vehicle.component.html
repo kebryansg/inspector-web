@@ -1,46 +1,60 @@
 <app-card [cardTitle]="'Nueva Inspección'">
   <!-- Información de la Entidad solicitante -->
   <section class="row">
+
     <div class="col-md-12">
-      <div class="dx-field">
-        <div class="dx-field-label">
-          Seleccionar Entidad:
-        </div>
-        <div class="dx-field-value">
-          <dx-drop-down-box [(value)]="gridBoxValue"
-                            [opened]="isOpenedDropDownBox()"
-                            (openedChange)="isOpenedDropDownBox.set($event)"
-                            valueExpr="ID"
-                            [deferRendering]="false"
-                            [displayExpr]="displayExprEntidad"
-                            [showClearButton]="true"
-                            [dataSource]="gridDataStore"
-                            (onValueChanged)="entidadChange($event)">
-            <div *dxTemplate="let data of 'content'">
-              <dx-data-grid [dataSource]="gridDataStore"
-                            [columns]="['Identificacion', 'Nombres', 'Apellidos']"
-                            [selection]="{ mode: 'single' }"
-                            [hoverStateEnabled]="true"
-                            [paging]="{ enabled: true, pageSize: 10 }"
-                            [filterRow]="{ visible: true }"
-                            [scrolling]="{ mode: 'infinite' }"
-                            [(selectedRowKeys)]="gridBoxValue"
-                            height="100%"
-              ></dx-data-grid>
-            </div>
-          </dx-drop-down-box>
-        </div>
+      <div class="pull-left">
+        <label style="font-size: 1.45rem;">
+          Entidad
+        </label>
+
+        <dx-button class="mx-5"
+                   [text]="'Buscar Entidad'"
+                   [icon]="'search'"
+                   [type]="'success'"
+                   (click)="loadModalEntity()"
+        />
       </div>
     </div>
   </section>
 
-  @if (itemEntidad()) {
+  <!--
+  <div class="row">
+    <div class="col-md-12">
+      <dx-form [formData]="itemEntity()"
+               [readOnly]="true"
+               [colCount]="2"
+               labelLocation="top">
+        <dxi-item dataField="Identificacion"
+                  [label]="{text:'Identificación'}"
+        ></dxi-item>
+        <dxi-item dataField="Nombres"></dxi-item>
+        <dxi-item dataField="Apellidos"></dxi-item>
+        <dxi-item dataField="Telefono"
+                  [label]="{text:'Teléfono'}"
+        ></dxi-item>
+        <dxi-item dataField="Celular"
+                  [label]="{text:'Celular'}"
+        ></dxi-item>
+        <dxi-item dataField="Email"></dxi-item>
+        <dxi-item dataField="Direccion"
+                  [label]="{text:'Dirección'}"
+                  editorType="dxTextArea"
+                  [editorOptions]="{ height: 60 }"
+                  [colSpan]="2"
+        ></dxi-item>
+      </dx-form>
+    </div>
+  </div>
+  -->
+
+  @if (itemEntity()) {
     <div class="row mt-2">
       <div class="col-md-12">
         <h5 class="font-weight-bold">
           Información de entidad
         </h5>
-        <dx-form [formData]="itemEntidad()"
+        <dx-form [formData]="itemEntity()"
                  style="background-color: rgba(191, 191, 191, 0.15); padding: 16px;"
                  [readOnly]="true"
                  [showColonAfterLabel]="true"
@@ -72,21 +86,21 @@
 
   <!--#region Table Empresa -->
 
-  @if (entidad.valid) {
+  @if (itemEntity()) {
 
 
     <section class="my-4">
       <div class="col-md-12">
         <h4 class="font-weight-bold">
-          Listado de Empresas
+          Listado de Vehiculos
         </h4>
-        <dx-data-grid [dataSource]="lsEmpresas()"
+        <dx-data-grid [dataSource]="lsVehicles()"
                       [showBorders]="true"
                       [rowAlternationEnabled]="true"
                       [hoverStateEnabled]="true"
                       [columnAutoWidth]="true"
                       keyExpr="ID"
-                      (selectedRowKeysChange)="empresa.setValue($event)"
+                      (selectedRowKeysChange)="vehicle?.setValue($event.at(0))"
                       [searchPanel]="{visible:true}"
                       [headerFilter]="{visible:true}">
 
@@ -98,17 +112,10 @@
                      [showInfo]="true"
           />
           <!--#endregion-->
-
-          <dxi-column dataField="Estado"
-                      alignment="center">
-            <dxo-lookup [dataSource]="lsStatus()"
-                        valueExpr="value"
-                        displayExpr="label"
-            />
-          </dxi-column><dxi-column dataField="RUC"
+          <dxi-column dataField="RUC"
                       [allowHeaderFiltering]="false"
           />
-         <dxi-column dataField="NombreComercial"
+          <dxi-column dataField="NombreComercial"
                       [allowHeaderFiltering]="false"
           />
           <dxi-column dataField="RazonSocial"
@@ -128,13 +135,13 @@
         </dx-data-grid>
       </div>
     </section>
-    @if (selectedEmpresa()) {
+    @if (selectedVehicle()) {
       <section class="my-2">
         <h5 class="font-weight-bold">
           Información de empresa
         </h5>
 
-        <dx-form [formData]="selectedEmpresa()"
+        <dx-form [formData]="selectedVehicle()"
                  style="background-color: rgba(191, 191, 191, 0.15); padding: 16px;"
                  [readOnly]="true"
                  [showColonAfterLabel]="true"
@@ -145,18 +152,6 @@
           <dxi-item dataField="RazonSocial"/>
           <dxi-item dataField="NombreComercial"/>
           <dxi-item dataField="Email"/>
-          <dxi-item dataField="idSector.Descripcion"
-                    [label]="{text:'Sector'}"/>
-          <dxi-item dataField="Direccion"
-                    editorType="dxTextArea"
-                    [editorOptions]="{ height: 90 }"
-                    [colSpan]="2"
-          />
-          <dxi-item dataField="Referencia"
-                    editorType="dxTextArea"
-                    [editorOptions]="{ height: 90 }"
-                    [colSpan]="2"
-          />
         </dx-form>
 
       </section>
@@ -167,8 +162,8 @@
 
   <hr>
   <section class="mt-3">
-    <form [formGroup]="form"
-          (ngSubmit)="save()"
+    <form [formGroup]="registerForm"
+          (ngSubmit)="saveRegister()"
           (keydown.enter)="$event.preventDefault()">
       <div class="row">
 
@@ -182,22 +177,7 @@
               <dx-select-box [dataSource]="lsInspectors$ | async"
                              valueExpr="ID"
                              displayExpr="Colaborador"
-                             formControlName="IDColaborador"
-              />
-            </div>
-          </div>
-
-        </div>
-
-        <div class="col-md-4">
-          <div class="form-group form-default row">
-            <label class="col-sm-12 col-form-label">
-              Fecha Inspección (Tentativa)
-            </label>
-            <div class="col-sm-12">
-              <dx-date-box formControlName="FechaTentativa"
-                           displayFormat="yyyy-MM-dd"
-                           type="date"
+                             formControlName="IdInspector"
               />
             </div>
           </div>
@@ -210,7 +190,7 @@
         <div class="col-md-12 d-flex justify-content-end gap-2">
           <button type="reset"
                   class="btn btn-outline-danger "
-                  [routerLink]="['../list']">
+                  [routerLink]="['..','list']">
             Cancelar
           </button>
           <button type="submit"

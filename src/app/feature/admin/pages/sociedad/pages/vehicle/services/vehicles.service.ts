@@ -32,6 +32,10 @@ export class VehiclesService {
     return this.httpClient.get<any>(this.apiURL + `item/${idItem}`)
   }
 
+  getByIdEntity(idEntity: number) {
+    return this.httpClient.get<any>(this.apiURL + `item/entity/${idEntity}`)
+  }
+
   create(body: any) {
     return this.httpClient.post(this.apiURL + `item`, body)
   }

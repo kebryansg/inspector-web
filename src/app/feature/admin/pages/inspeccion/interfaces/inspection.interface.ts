@@ -14,10 +14,22 @@ export interface Inspection {
   longitude: string;
 }
 
-export interface PaginateInspection {
-  data: Inspection[];
+export interface InspectionVehicle {
+  Id: number;
+  IdInspector: number;
+  IdVehicle: number;
+  state: string;
+}
+
+export interface BaseInspection<T> {
+  data: T[];
   totalCount: number;
   summary?: number;
   groupCount?: number;
 }
+
+export type PaginateInspection = BaseInspection<Inspection>;
+export type PaginateInspectionVehicle = BaseInspection<InspectionVehicle>;
+
+
 

@@ -44,7 +44,7 @@ export class NewInspeccionComponent implements OnInit {
   private empresaService: EmpresaService<Empresa> = inject(EmpresaService);
   private entidadService: EntidadService<Entidad> = inject(EntidadService);
 
-  lsColaborador$ = inject(CatalogoService).obtenerInspector();
+  lsInspectors$ = inject(CatalogoService).obtenerInspector();
 
   isOpenedDropDownBox = signal<boolean>(false);
   lsStatus = inject(ToolsService).status;
