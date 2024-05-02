@@ -1,52 +1,14 @@
-<app-card [cardTitle]="'Nueva Inspección'">
+<app-card [cardTitle]="'Nueva Inspección - Vehículo'">
   <!-- Información de la Entidad solicitante -->
   <section class="row">
-
-    <div class="col-md-12">
-      <div class="pull-left">
-        <label style="font-size: 1.45rem;">
-          Entidad
-        </label>
-
-        <dx-button class="mx-5"
-                   [text]="'Buscar Entidad'"
-                   [icon]="'search'"
-                   [type]="'success'"
-                   (click)="loadModalEntity()"
-        />
-      </div>
+    <div class="col">
+      <dx-button [text]="'Buscar Entidad'"
+                 [icon]="'search'"
+                 [type]="'success'"
+                 (click)="loadModalEntity()"
+      />
     </div>
   </section>
-
-  <!--
-  <div class="row">
-    <div class="col-md-12">
-      <dx-form [formData]="itemEntity()"
-               [readOnly]="true"
-               [colCount]="2"
-               labelLocation="top">
-        <dxi-item dataField="Identificacion"
-                  [label]="{text:'Identificación'}"
-        ></dxi-item>
-        <dxi-item dataField="Nombres"></dxi-item>
-        <dxi-item dataField="Apellidos"></dxi-item>
-        <dxi-item dataField="Telefono"
-                  [label]="{text:'Teléfono'}"
-        ></dxi-item>
-        <dxi-item dataField="Celular"
-                  [label]="{text:'Celular'}"
-        ></dxi-item>
-        <dxi-item dataField="Email"></dxi-item>
-        <dxi-item dataField="Direccion"
-                  [label]="{text:'Dirección'}"
-                  editorType="dxTextArea"
-                  [editorOptions]="{ height: 60 }"
-                  [colSpan]="2"
-        ></dxi-item>
-      </dx-form>
-    </div>
-  </div>
-  -->
 
   @if (itemEntity()) {
     <div class="row mt-2">
@@ -75,16 +37,16 @@
 
 
   } @else {
-    <div class="row ">
+    <div class="row">
       <div class="col d-flex justify-content-end mt-2 mb-2">
-        <div class="alert alert-danger" role="alert">
+        <div class="alert alert-danger text-danger" role="alert">
           No hay entidad seleccionada.
         </div>
       </div>
     </div>
   }
 
-  <!--#region Table Empresa -->
+  <!--#region Table Vehicle -->
 
   @if (itemEntity()) {
 
@@ -99,7 +61,7 @@
                       [rowAlternationEnabled]="true"
                       [hoverStateEnabled]="true"
                       [columnAutoWidth]="true"
-                      keyExpr="ID"
+                      keyExpr="id"
                       (selectedRowKeysChange)="vehicle?.setValue($event.at(0))"
                       [searchPanel]="{visible:true}"
                       [headerFilter]="{visible:true}">
@@ -112,50 +74,39 @@
                      [showInfo]="true"
           />
           <!--#endregion-->
-          <dxi-column dataField="RUC"
+          <dxi-column dataField="current_plate"
+                      caption="Placa Actual"
                       [allowHeaderFiltering]="false"
           />
-          <dxi-column dataField="NombreComercial"
+          <dxi-column dataField="previous_plate"
+                      caption="Placa Anterior"
                       [allowHeaderFiltering]="false"
           />
-          <dxi-column dataField="RazonSocial"
-                      caption="Razón Social"
+          <dxi-column dataField="class"
+                      caption="Clase"
                       [allowHeaderFiltering]="false"
           />
-          <dxi-column dataField="idActEconomica.Descripcion"
-                      caption="Actividad Económica"
+          <dxi-column dataField="brand"
+                      caption="Marca"
+                      [allowHeaderFiltering]="false"
           />
-          <dxi-column dataField="idSector.Descripcion"
-                      caption="Sector"
+          <dxi-column dataField="model"
+                      caption="Modelo"
+                      [allowHeaderFiltering]="false"
           />
-          <dxi-column dataField="idTipoEmpresa.Descripcion"
-                      caption="Tipo Empresa"
+          <dxi-column dataField="type"
+                      caption="Tipo"
+                      [allowHeaderFiltering]="false"
+          />
+          <dxi-column dataField="entity"
+                      caption="Entidad"
+                      [allowHeaderFiltering]="false"
           />
 
         </dx-data-grid>
       </div>
     </section>
-    @if (selectedVehicle()) {
-      <section class="my-2">
-        <h5 class="font-weight-bold">
-          Información de empresa
-        </h5>
 
-        <dx-form [formData]="selectedVehicle()"
-                 style="background-color: rgba(191, 191, 191, 0.15); padding: 16px;"
-                 [readOnly]="true"
-                 [showColonAfterLabel]="true"
-                 [labelLocation]="'top'"
-                 [minColWidth]="150"
-                 [title]="'Información Empresa'"
-                 [colCount]="2">
-          <dxi-item dataField="RazonSocial"/>
-          <dxi-item dataField="NombreComercial"/>
-          <dxi-item dataField="Email"/>
-        </dx-form>
-
-      </section>
-    }
   }
 
   <!--#endregion -->
@@ -190,7 +141,7 @@
         <div class="col-md-12 d-flex justify-content-end gap-2">
           <button type="reset"
                   class="btn btn-outline-danger "
-                  [routerLink]="['..','list']">
+                  [routerLink]="['..','list-vehicles']">
             Cancelar
           </button>
           <button type="submit"

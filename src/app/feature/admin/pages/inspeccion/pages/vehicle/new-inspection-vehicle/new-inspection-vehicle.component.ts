@@ -12,6 +12,7 @@ import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 import {MdFindEntityComponent} from "../../../components/md-find-entity/md-find-entity.component";
 import {Dialog} from "@angular/cdk/dialog";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {InspectionVehicleService} from "../../../services/inspection-vehicle.service";
 
 @Component({
   selector: 'app-new-inspection-vehicle',
@@ -35,13 +36,14 @@ import {toSignal} from "@angular/core/rxjs-interop";
 })
 export class NewInspectionVehicleComponent implements OnInit {
 
-  private route: ActivatedRoute = inject(ActivatedRoute);
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private fb: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
   private dialogModal: Dialog = inject(Dialog);
 
 
   private notificationService: NotificationService = inject(NotificationService);
+  private inspectionVehicleService = inject(InspectionVehicleService);
   private vehicleService = inject(VehiclesService);
 
   registerForm = this.fb.nonNullable.group({
@@ -53,7 +55,6 @@ export class NewInspectionVehicleComponent implements OnInit {
   lsInspectors$ = inject(CatalogoService).obtenerInspector();
 
   itemEntity = signal<any>(null);
-  selectedVehicle = signal<any>(null);
   lsVehicles = toSignal<any[], any[]>(
     this.registerForm.controls.IdEntity.valueChanges
       .pipe(
@@ -87,6 +88,33 @@ export class NewInspectionVehicleComponent implements OnInit {
   }
 
   saveRegister() {
+    if (this.registerForm.invalid) {
+      this.registerForm.markAllAsTouched();
+      return;
+    }
+    const payload = this.registerForm.getRawValue();
+    this.inspectionVehicleService.createInspection(payload)
+      .subscribe({
+        next: () => {
+          this.notificationService.showSwalMessage({
+            title: 'Registro Exitoso',
+            icon: 'success'
+          });
+          this.navigateListVehicles();
+        },
+        error: () => {
+          this.notificationService.showSwalMessage({
+            title: 'Problemas con el registro',
+            icon: 'error'
+          });
+        },
+      })
+
+  }
+
+  navigateListVehicles() {
+    this.router.navigate(['..', 'list-vehicles'], {relativeTo: this.activatedRoute});
+
   }
 
   get vehicle() {

@@ -17,5 +17,9 @@ export class InspectionVehicleService {
     return this.httpClient.get<PaginateInspectionVehicle>(this.urlBase + '/all', {params});
   }
 
+  createInspection(body: any, params?: any): Observable<boolean> {
+    return this.httpClient.post<boolean>(this.urlBase, body, {params});
+  }
+
 
 }
