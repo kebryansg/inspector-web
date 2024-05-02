@@ -1,20 +1,21 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {iif, lastValueFrom, of} from 'rxjs';
+import {filter, iif, of} from 'rxjs';
 import {switchMap, tap} from 'rxjs/operators';
-import CustomStore from 'devextreme/data/custom_store';
 import {InspectionService} from "../../../services/inspection.service";
 import {CatalogoService} from "../../../../../services/catalogo.service";
-import {EmpresaService, EntidadService} from "../../../../sociedad/services";
+import {EmpresaService} from "../../../../sociedad/services";
 import {NotificationService} from "@service-shared/notification.service";
-import {Empresa, Entidad} from "../../../../sociedad/interfaces";
+import {Empresa} from "../../../../sociedad/interfaces";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {ToolsService} from "../../../../../services/tools.service";
 import {CardComponent} from "@standalone-shared/card/card.component";
-import {DxDataGridModule, DxDateBoxModule, DxDropDownBoxModule, DxFormModule, DxSelectBoxModule} from "devextreme-angular";
+import {DxButtonModule, DxDataGridModule, DxDateBoxModule, DxDropDownBoxModule, DxFormModule, DxSelectBoxModule} from "devextreme-angular";
 import {AsyncPipe} from "@angular/common";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
+import {MdFindEntityComponent} from "../../../components/md-find-entity/md-find-entity.component";
+import {Dialog} from "@angular/cdk/dialog";
 
 @Component({
   standalone: true,
@@ -30,7 +31,8 @@ import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
     DxSelectErrorControlDirective,
     AsyncPipe,
     DxDateBoxModule,
-    RouterLink
+    RouterLink,
+    DxButtonModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -39,32 +41,20 @@ export class NewInspeccionComponent implements OnInit {
   private route: ActivatedRoute = inject(ActivatedRoute);
   private fb: FormBuilder = inject(FormBuilder);
   private router: Router = inject(Router);
+  private dialogModal: Dialog = inject(Dialog);
+
   private inspectionService: InspectionService = inject(InspectionService);
   private notificationService: NotificationService = inject(NotificationService);
   private empresaService: EmpresaService<Empresa> = inject(EmpresaService);
-  private entidadService: EntidadService<Entidad> = inject(EntidadService);
+
+  registerForm: FormGroup = this.buildForm();
 
   lsInspectors$ = inject(CatalogoService).obtenerInspector();
-
-  isOpenedDropDownBox = signal<boolean>(false);
   lsStatus = inject(ToolsService).status;
 
-  form: FormGroup = this.buildForm();
+  itemEntity = signal<any>(null);
 
-  itemEntidad = toSignal<Entidad | null>(
-    this.entidad.valueChanges
-      .pipe(
-        switchMap((id) =>
-          iif(() => id === null,
-            of(null),
-            this.entidadService.getById(id)
-          )
-        )
-      ),
-    {initialValue: null}
-  );
-
-  lsEmpresas = toSignal<Empresa[], Empresa[]>(
+  lsCompany = toSignal<Empresa[], Empresa[]>(
     this.entidad.valueChanges
       .pipe(
         tap(() => this.empresa.setValue(null)),
@@ -90,15 +80,12 @@ export class NewInspeccionComponent implements OnInit {
     {initialValue: null}
   )
 
-  gridDataStore: any;
-  gridBoxValue: any;
 
   ngOnInit() {
-    this.gridDataStore = this.makeAsyncDataSource();
   }
 
   buildForm() {
-    return this.fb.group({
+    return this.fb.nonNullable.group({
       ID: [0],
       IDEntidad: [null, Validators.required],
       IDEmpresa: [null, Validators.required],
@@ -107,42 +94,37 @@ export class NewInspeccionComponent implements OnInit {
     });
   }
 
+  loadModalEntity() {
+    const modalRef = this.dialogModal.open(MdFindEntityComponent, {
+      data: {
+        titleModal: 'Buscar Entidad'
+      },
+      panelClass: 'modal-lg'
+    });
+
+    modalRef.closed
+      .pipe(
+        filter(Boolean),
+      )
+      .subscribe((data: any) => {
+        this.itemEntity.set(data);
+        this.registerForm.controls['IDEntidad'].setValue(data.ID)
+      });
+  }
+
   //#region Getters
   get empresa(): FormControl {
-    return this.form.get('IDEmpresa') as FormControl;
+    return this.registerForm.get('IDEmpresa') as FormControl;
   }
 
   get entidad(): FormControl {
-    return this.form?.get('IDEntidad') as FormControl;
+    return this.registerForm?.get('IDEntidad') as FormControl;
   }
-
   //#endregion
 
-  makeAsyncDataSource() {
-    return new CustomStore({
-      loadMode: 'raw',
-      key: 'ID',
-      load: () => {
-        return lastValueFrom(
-          this.entidadService.getAll()
-        )
-      }
-    });
-  };
-
-  displayExprEntidad(data: any) {
-    return `${data.Identificacion} - ${data.Apellidos} ${data.Nombres}`;
-  }
-
-  entidadChange(evt: any) {
-    let idEntidad = Array.isArray(evt.value) ? evt.value[0] : null;
-    this.isOpenedDropDownBox.set(false);
-    this.entidad.setValue(idEntidad)
-  }
-
   save() {
-    this.form.markAllAsTouched();
-    if (this.form.invalid) {
+    this.registerForm.markAllAsTouched();
+    if (this.registerForm.invalid) {
       return;
     }
 
@@ -150,7 +132,7 @@ export class NewInspeccionComponent implements OnInit {
       title: 'Ingresando nueva solicitud de inspección'
     });
 
-    let data = this.form.getRawValue();
+    let data = this.registerForm.getRawValue();
     data.IDEmpresa = data.IDEmpresa[0];
 
     this.inspectionService.create(data)
