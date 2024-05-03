@@ -1,4 +1,3 @@
-
 <app-card cardTitle="Listado Inspección - Vehículos">
   <dx-data-grid #dataGridComponent
                 id="gridContainer"
@@ -43,6 +42,16 @@
                 alignment="center"
                 [allowHeaderFiltering]="false"
     />
+    <dxi-column dataField="entity"
+                caption="Responsable"
+                alignment="center"
+                [allowHeaderFiltering]="false"
+    />
+    <dxi-column dataField="current_plate"
+                caption="Placa"
+                alignment="center"
+                [allowHeaderFiltering]="false"
+    />
     <dxi-column dataField="Estado"
                 cellTemplate="cellTemplate"
                 caption="Estado">
@@ -63,7 +72,7 @@
                 format="yyyy, MMMM dd hh:mm"
                 [allowHeaderFiltering]="false"
     />
-    <dxi-column dataField="IdColaborador"
+    <dxi-column dataField="IdInspector"
                 [allowHeaderFiltering]="false"
                 caption="Inspector Asignado">
       <dxo-lookup [dataSource]="lsInspectors$ | async"

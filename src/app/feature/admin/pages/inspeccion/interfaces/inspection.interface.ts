@@ -18,6 +18,10 @@ export interface InspectionVehicle {
   Id: number;
   IdInspector: number;
   IdVehicle: number;
+  entity:         string;
+  previous_plate: string;
+  current_plate:  string;
+  created_at:     Date;
   state: string;
 }
 

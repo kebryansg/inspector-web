@@ -21,5 +21,4 @@ export class InspectionVehicleService {
     return this.httpClient.post<boolean>(this.urlBase, body, {params});
   }
 
-
 }
