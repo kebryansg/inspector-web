@@ -26,11 +26,12 @@
     />
 
     <dxi-column caption="Opciones"
-                [width]="180"
+                [width]="160"
                 [allowFiltering]="false"
                 [allowExporting]="false"
                 [fixed]="true"
                 [allowSorting]="false"
+                alignment="center"
                 cellTemplate="cellOptionsTemplate"
     />
     <dxi-column dataField="Descripcion"
@@ -83,11 +84,13 @@
         />
 
         <ng-container *ngIf="data.data?.Estado == 'ACT'">
+          <!--
           <dx-button icon="upload"
                      *ngIf="data.data.updated_at != data.data.firebase_at"
                      (onClick)="synchronize(data.data)"
                      hint="Sincronizar"
           />
+          -->
           <dx-button icon="trash"
                      (onClick)="delete(data.data)"
                      hint="Eliminar"
