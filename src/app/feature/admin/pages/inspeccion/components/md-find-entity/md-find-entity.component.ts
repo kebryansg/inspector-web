@@ -2,10 +2,10 @@ import {ChangeDetectionStrategy, Component, inject, OnInit, ViewChild} from '@an
 import {DxDataGridComponent, DxDataGridModule} from 'devextreme-angular';
 import DataSource from 'devextreme/data/data_source';
 import {ModalTemplate} from "@modal/modal-template";
-import {typeEntitySignal} from "../../../const/type-entidad.const";
+import {typeEntitySignal} from "../../../../const/type-entidad.const";
 import {EntidadService} from "../../../sociedad/services";
-import {headersParams} from "../../../../../../shared/utils/data-grid.util";
-import {isNotEmpty} from "../../../../../../shared/utils/empty.util";
+import {headersParams} from "@utils/data-grid.util";
+import {isNotEmpty} from "@utils/empty.util";
 
 @Component({
   templateUrl: './md-find-entity.component.html',

@@ -5,7 +5,7 @@ import {ModalTemplate} from "@modal/modal-template";
 import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 import {EntidadService} from "../../services";
-import {typeEntitySignal} from "../../../const/type-entidad.const";
+import {typeEntitySignal} from "../../../../const/type-entidad.const";
 
 @Component({
   templateUrl: './modal-entidad.component.html',

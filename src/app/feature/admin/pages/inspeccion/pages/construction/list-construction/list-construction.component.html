@@ -1,0 +1,112 @@
+<app-card cardTitle="Listado Inspección - Construcción">
+  <dx-data-grid #dataGridComponent
+                id="gridContainer"
+                [dataSource]="gridDataSource"
+                [showBorders]="true"
+                [rowAlternationEnabled]="true"
+                (onToolbarPreparing)="onToolbarPreparing($event)"
+                [columnAutoWidth]="true"
+                [searchPanel]="{visible:true}"
+                [headerFilter]="{visible:true}"
+                [syncLookupFilterValues]="false"
+                [filterRow]="{visible:true, applyFilter: 'auto'}">
+
+    <dxo-remote-operations [paging]="true"
+                           [filtering]="true"
+    />
+
+    <dxo-paging [pageSize]="10"/>
+    <dxo-pager [showPageSizeSelector]="true"
+               [allowedPageSizes]="[10, 20, 30]"
+               [showInfo]="true"
+    />
+
+    <!--#region Columns -->
+
+    <dxi-column caption="..."
+                [width]="50"
+                [allowFiltering]="false"
+                [allowExporting]="false"
+                [fixed]="true"
+                [allowSorting]="false"
+                alignment="center"
+                cellTemplate="cellOptionsTemplate"
+    />
+    <dxi-column dataField="attachmentRequest"
+                caption="Archivo Solicitud"
+                dataType="boolean"
+                [allowFiltering]="false"
+    />
+    <dxi-column dataField="Id"
+                caption="Cód."
+                alignment="center"
+                [allowHeaderFiltering]="false"
+    />
+    <dxi-column dataField="entity"
+                caption="Responsable"
+                alignment="center"
+                [allowHeaderFiltering]="false"
+    />
+    <dxi-column dataField="current_plate"
+                caption="Placa"
+                alignment="center"
+                [allowHeaderFiltering]="false"
+    />
+    <dxi-column dataField="Estado"
+                cellTemplate="cellTemplate"
+                caption="Estado">
+      <dxo-lookup [dataSource]="lsStatus()"
+                  displayExpr="label"
+                  valueExpr="value"
+      ></dxo-lookup>
+    </dxi-column>
+    <dxi-column dataField="created_at"
+                caption="Fecha Registro"
+                dataType="date"
+                format="yyyy, MMMM dd"
+                [allowHeaderFiltering]="false"
+    />
+    <dxi-column dataField="FechaInspeccion"
+                caption="Fecha Inspección"
+                dataType="date"
+                format="yyyy, MMMM dd hh:mm"
+                [allowHeaderFiltering]="false"
+    />
+    <dxi-column dataField="IdInspector"
+                [allowHeaderFiltering]="false"
+                caption="Inspector Asignado">
+      <dxo-lookup [dataSource]="lsInspectors$ | async"
+                  valueExpr="ID"
+                  displayExpr="Colaborador"
+      />
+    </dxi-column>
+    <!--#endregion -->
+
+    <ng-container *dxTemplate="let data of 'cellTemplate'">
+      <div class="font-weight-bold"
+           [class.text-danger]="data.data.Estado === 'REP'"
+           [class.text-info]="data.data.Estado === 'APR'">
+        {{ data.data.Estado | status }}
+      </div>
+    </ng-container>
+
+    <div *dxTemplate="let data of 'cellOptionsTemplate'">
+
+      <div class="btn-group-icons">
+        <!--
+        <dx-drop-down-button
+          [dropDownOptions]="{ width: 210 }"
+          [stylingMode]="'text'"
+          [showArrowIcon]="false"
+          icon="overflow"
+          [items]=" itemsAction() | actionsInspection: data.data.Estado"
+          displayExpr="name"
+          keyExpr="id"
+          (onItemClick)="onItemClick($event, data.data)"
+        />
+        -->
+      </div>
+
+    </div>
+  </dx-data-grid>
+</app-card>

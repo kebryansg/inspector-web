@@ -5,7 +5,7 @@ import DataSource from 'devextreme/data/data_source';
 import {DxDataGridComponent} from 'devextreme-angular';
 import {filter, Observable, Subject} from 'rxjs';
 import {ToolsService} from "../../../services/tools.service";
-import {typeEntitySignal} from "../../const/type-entidad.const";
+import {typeEntitySignal} from "../../../const/type-entidad.const";
 import {Dialog} from "@angular/cdk/dialog";
 import {EntidadService} from "../services";
 import {NotificationService} from "@service-shared/notification.service";

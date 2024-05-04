@@ -1,0 +1,167 @@
+<app-card [cardTitle]="'Nueva Inspección - Construcción'">
+  <!-- Información de la Entidad solicitante -->
+  <section class="row">
+    <div class="col">
+      <dx-button [text]="'Buscar Entidad'"
+                 [icon]="'search'"
+                 [type]="'success'"
+                 (click)="loadModalEntity()"
+      />
+    </div>
+  </section>
+
+  @if (itemEntity()) {
+    <div class="row mt-2">
+      <div class="col-md-12">
+        <h5 class="font-weight-bold">
+          Información de entidad
+        </h5>
+        <dx-form [formData]="itemEntity()"
+                 style="background-color: rgba(191, 191, 191, 0.15); padding: 16px;"
+                 [readOnly]="true"
+                 [showColonAfterLabel]="true"
+                 [labelLocation]="'top'"
+                 [minColWidth]="150"
+                 [colCount]="2">
+          <dxi-item dataField="Apellidos"></dxi-item>
+          <dxi-item dataField="Nombres"></dxi-item>
+          <dxi-item dataField="Identificacion"></dxi-item>
+          <dxi-item dataField="Direccion"
+                    editorType="dxTextArea"
+                    [editorOptions]="{ height: 90 }"
+                    [colSpan]="2"
+          />
+        </dx-form>
+      </div>
+    </div>
+
+
+  } @else {
+    <div class="row">
+      <div class="col d-flex justify-content-end mt-2 mb-2">
+        <div class="alert alert-danger text-danger" role="alert">
+          No hay entidad seleccionada.
+        </div>
+      </div>
+    </div>
+  }
+
+  <!--#region Table Vehicle -->
+
+
+  <!--#endregion -->
+
+  <hr>
+  <section class="mt-3">
+    <form [formGroup]="registerForm"
+          (ngSubmit)="saveRegister()"
+          (keydown.enter)="$event.preventDefault()">
+      <section class="row">
+
+        <div class="col-md-6">
+
+          <app-item-control titleControl="Nombre Proyecto">
+            <dx-text-box formControlName="nameProject"
+                         placeholder="Ej. Proyecto de construcción"
+            />
+          </app-item-control>
+
+          <app-item-control titleControl="Parroquía - Sector">
+            <dx-text-box formControlName="parroquia_sector"
+                         placeholder="Ej. San Camilo - Los Ceibos"
+            />
+          </app-item-control>
+
+        </div>
+
+        <div class="col-md-6">
+          <app-item-control titleControl="Teléfono">
+            <dx-text-box formControlName="phone"
+                         placeholder="Ej. 0996775022"
+            />
+          </app-item-control>
+
+          <app-item-control titleControl="Area M2">
+            <dx-number-box formControlName="area_m2"
+                           placeholder="Ej. 25"
+            />
+          </app-item-control>
+        </div>
+
+      </section>
+
+
+      <section class="row">
+        <div class="col d-flex justify-content-start mt-2 mb-2">
+          <h3 class="font-weight-500 text-info">
+            Geolocalización
+          </h3>
+        </div>
+      </section>
+
+      <hr>
+
+      <section class="row">
+        <div class="col">
+          <app-item-control titleControl="Latitud">
+            <dx-text-box formControlName="latitude"
+                         [readOnly]="true"
+                         placeholder="Ej. 0996775022"
+            />
+          </app-item-control>
+
+        </div>
+        <div class="col">
+          <app-item-control titleControl="Longuitud">
+            <dx-text-box formControlName="longitude"
+                         [readOnly]="true"
+                         placeholder="Ej. 0996775022"
+            />
+          </app-item-control>
+        </div>
+
+
+        <div class="col-12">
+          @defer (on timer(1s)) {
+            <dx-map
+              [center]="centerMap"
+              [zoom]="zoomMap"
+              [height]="400"
+              width="100%"
+              provider="google"
+              [controls]="true"
+              [apiKey]="apiKey"
+              [type]="'roadmap'"
+              (onClick)="addMarker($event)"
+              [markers]="markerPositions"
+            />
+          } @placeholder {
+            <section class="my-3 py-2">
+              <h3>
+                Cargando mapa...
+              </h3>
+            </section>
+          }
+        </div>
+
+      </section>
+
+      <div class="row my-4">
+        <div class="col-md-12 d-flex justify-content-end gap-2">
+          <button type="reset"
+                  class="btn btn-outline-danger "
+                  [routerLink]="['..','list-construction']">
+            Cancelar
+          </button>
+          <button type="submit"
+                  class="btn btn-primary">
+            <i class="feather icon-save"></i>
+            Agregar
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </section>
+
+</app-card>

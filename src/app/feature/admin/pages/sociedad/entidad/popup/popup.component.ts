@@ -5,7 +5,7 @@ import {AsyncPipe, NgClass, NgIf} from "@angular/common";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {Observable} from "rxjs";
 import {ToolsService} from "../../../../services/tools.service";
-import {typeEntitySignal} from "../../../const/type-entidad.const";
+import {typeEntitySignal} from "../../../../const/type-entidad.const";
 
 @Component({
   standalone: true,

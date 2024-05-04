@@ -402,17 +402,6 @@
                 (onClick)="addMarker($event)"
                 [markers]="markerPositions"
               />
-              <!--
-              <google-map [zoom]="zoomMap"
-                          [center]="centerMap"
-                          (mapClick)="addMarker($event)"
-                          [width]="'100%'">
-                @for (position of markerPositions; track position) {
-                  <map-marker [position]="position"
-                              [options]="markerOptions"/>
-                }
-              </google-map>
-              -->
             } @placeholder {
               <section class="my-3 py-2">
                 <h3>

@@ -14,6 +14,7 @@ import {Dialog} from "@angular/cdk/dialog";
 import {ModalEntidadComponent} from "../../../components/modal-entidad/modal-entidad.component";
 import {EmpresaService} from "../../../services";
 import {environment} from "@environments/environment";
+import {GeoLocationDefault} from "../../../../../const/geo-location.const";
 
 
 const longTabs = [
@@ -82,10 +83,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   form!: FormGroup;
   status$ = inject(ToolsService).status$
 
-  /* Maps */
-  lat: number = -0.8948968;
-  lng: number = -79.4903393;
-
   refreshCombo$: Subject<string> = new Subject<string>();
 
   lsActEconomica: any[] = [];
@@ -111,7 +108,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   apiKey = {google: environment.googleMapsKey}
   zoomMap = 17;
-  centerMap: any = {lat: this.lat, lng: this.lng};
+  centerMap: any = {lat: GeoLocationDefault.lat, lng: GeoLocationDefault.lng};
   markerPositions: any[] = [];
 
   addMarker(event: any) {
@@ -410,7 +407,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   loadModalEntity() {
     const modalRef = this.modalService.open(ModalEntidadComponent, {
-      //size: 'lg', centered: true
       data: {
         titleModal: 'Buscar Entidad'
       },
