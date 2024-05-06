@@ -10,6 +10,7 @@ import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 import {environment} from "@environments/environment";
 import {GeoLocationDefault} from "../../../../../const/geo-location.const";
+import {InspectionConstructionService} from "../../../services/inspection-construction.service";
 
 @Component({
   selector: 'app-new-inspection-construction',
@@ -37,12 +38,14 @@ export class NewInspectionConstructionComponent {
   private router: Router = inject(Router);
   private dialogModal: Dialog = inject(Dialog);
 
+  private inspectionConstructionService = inject(InspectionConstructionService);
+
   registerForm = this.fb.nonNullable.group({
-    IdEntity: [null, Validators.required],
+    IdOwner: [null, Validators.required],
     phone: [null, Validators.required],
     nameProject: [null, Validators.required],
     address: [null, Validators.required],
-    parroquia_sector: [null, Validators.required],
+    address_two: [null, Validators.required],
     area_m2: [null, Validators.required],
     latitude: [null, Validators.required],
     longitude: [null, Validators.required],
@@ -69,13 +72,24 @@ export class NewInspectionConstructionComponent {
       )
       .subscribe((data: any) => {
         this.itemEntity.set(data);
-        this.registerForm.controls.IdEntity.setValue(data.ID)
+        this.registerForm.controls.IdOwner.setValue(data.ID)
       });
   }
 
   saveRegister() {
     this.registerForm.markAllAsTouched();
     if (this.registerForm.invalid) return;
+
+    const payload = this.registerForm.getRawValue();
+
+    this.inspectionConstructionService.createInspection(payload)
+      .subscribe({
+        next: value => {
+          this.router.navigate(['..', 'list-construction'], {relativeTo: this.activatedRoute});
+        },
+        error: err => {
+        },
+      })
 
   }
 

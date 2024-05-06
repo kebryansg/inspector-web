@@ -6,11 +6,12 @@ import {DxDataGridComponent, DxDataGridModule, DxDropDownButtonModule, DxTemplat
 import {DxiColumnModule, DxoLookupModule, DxoPagerModule, DxoPagingModule, DxoRemoteOperationsModule} from "devextreme-angular/ui/nested";
 import {StatusPipe} from "../../../../../../../pipes/status-inspection.pipe";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Observable} from "rxjs";
+import {lastValueFrom, Observable} from "rxjs";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import DataSource from "devextreme/data/data_source";
 import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
+import {InspectionConstructionService} from "../../../services/inspection-construction.service";
 
 @Component({
   standalone: true,
@@ -37,6 +38,8 @@ export class ListConstructionComponent implements OnInit {
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
+  private inspectionConstructionService = inject(InspectionConstructionService);
+
   @ViewChild('dataGridComponent', {static: true}) dataGridComponent!: DxDataGridComponent;
   gridDataSource: any;
 
@@ -50,12 +53,10 @@ export class ListConstructionComponent implements OnInit {
         let params: any = headersParams.filter(i => isNotEmpty(loadOptions[i]))
           .reduce((a, b) => ({...a, [b]: loadOptions[b]}), {});
 
-        return Promise.resolve({
-          data: [],
-          totalCount: 0,
-          summary: 0,
-          groupCount: 0,
-        });
+        return lastValueFrom(
+          this.inspectionConstructionService
+            .getItemsPaginate(params)
+        );
       }
     });
   }

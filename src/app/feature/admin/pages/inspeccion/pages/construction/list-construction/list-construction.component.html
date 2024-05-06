@@ -42,12 +42,17 @@
                 alignment="center"
                 [allowHeaderFiltering]="false"
     />
+    <dxi-column dataField="identifier"
+                caption="Identificación Responsable"
+                alignment="center"
+                [allowHeaderFiltering]="false"
+    />
     <dxi-column dataField="entity"
                 caption="Responsable"
                 alignment="center"
                 [allowHeaderFiltering]="false"
     />
-    <dxi-column dataField="nameProject"
+    <dxi-column dataField="name_project"
                 caption="Nombre de Proyecto"
                 alignment="center"
                 [allowHeaderFiltering]="false"
@@ -57,21 +62,23 @@
                 alignment="center"
                 [allowHeaderFiltering]="false"
     />
-    <dxi-column dataField="parroquia_sector"
+    <dxi-column dataField="address_two"
                 caption="Parroquía - Sector"
                 alignment="center"
                 [allowHeaderFiltering]="false"
     />
     <dxi-column dataField="area_m2"
                 caption="Área M2"
-                alignment="center"
+                alignment="right"
                 [allowHeaderFiltering]="false"
     />
+    <!--
     <dxi-column dataField="geolocation"
                 caption="Geolocalización"
                 alignment="center"
                 [allowHeaderFiltering]="false"
     />
+    -->
     <dxi-column dataField="phone"
                 caption="Teléfono"
                 alignment="center"
@@ -97,14 +104,10 @@
                 format="yyyy, MMMM dd hh:mm"
                 [allowHeaderFiltering]="false"
     />
-    <dxi-column dataField="IdInspector"
+    <dxi-column dataField="collaborator"
                 [allowHeaderFiltering]="false"
-                caption="Inspector Asignado">
-      <dxo-lookup [dataSource]="lsInspectors$ | async"
-                  valueExpr="ID"
-                  displayExpr="Colaborador"
-      />
-    </dxi-column>
+                caption="Inspector Asignado"
+    />
     <!--#endregion -->
 
     <ng-container *dxTemplate="let data of 'cellTemplate'">
