@@ -52,6 +52,3 @@ export interface BaseInspection<T> {
 export type PaginateInspection = BaseInspection<Inspection>;
 export type PaginateInspectionVehicle = BaseInspection<InspectionVehicle>;
 export type PaginateInspectionConstruction = BaseInspection<InspectionConstruction>;
-
-
-

@@ -9,3 +9,9 @@ export const ItemAction = [
   {name: 'Enviar solicitud', id: 'send_request', icon: 'email', state: ['PEN']},
   {name: 'Realizar en web', id: 'make_web', icon: 'box', state: ['PEN']},
 ];
+
+
+export const ItemActionConstruction = [
+  {name: 'Eliminar', id: 'delete', icon: 'trash', state: ['PEN']},
+  {name: 'Realizar en web', id: 'resolve', icon: 'box', state: ['PEN']},
+]

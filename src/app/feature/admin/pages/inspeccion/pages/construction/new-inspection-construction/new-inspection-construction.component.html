@@ -50,6 +50,13 @@
 
 
   <!--#endregion -->
+  <section class="row">
+    <div class="col d-flex justify-content-start mt-2 mb-2">
+      <h3 class="font-weight-500 text-info">
+        Información de la construcción
+      </h3>
+    </div>
+  </section>
 
   <hr>
   <section class="mt-3">
@@ -96,6 +103,24 @@
 
       </section>
 
+
+      <section class="row">
+        <div class="col d-flex justify-content-start mt-2 mb-2">
+          <h3 class="font-weight-500 text-info">
+            Datos de inspección
+          </h3>
+        </div>
+      </section>
+
+      <hr>
+      <app-item-control titleControl="Inspector">
+        <dx-select-box formControlName="IdInspector"
+                       [items]="lsInspectors()"
+                       displayExpr="Colaborador"
+                       valueExpr="ID"
+                       placeholder="Seleccione un inspector"
+        />
+      </app-item-control>
 
       <section class="row">
         <div class="col d-flex justify-content-start mt-2 mb-2">

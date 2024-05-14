@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
-import {DxButtonModule, DxFormModule, DxMapModule, DxNumberBoxModule, DxTextBoxModule} from "devextreme-angular";
+import {DxButtonModule, DxFormModule, DxMapModule, DxNumberBoxModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {MdFindEntityComponent} from "../../../components/md-find-entity/md-find-entity.component";
@@ -11,6 +11,9 @@ import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-c
 import {environment} from "@environments/environment";
 import {GeoLocationDefault} from "../../../../../const/geo-location.const";
 import {InspectionConstructionService} from "../../../services/inspection-construction.service";
+import {CatalogoService} from "../../../../../services/catalogo.service";
+import {toSignal} from "@angular/core/rxjs-interop";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
   selector: 'app-new-inspection-construction',
@@ -21,11 +24,13 @@ import {InspectionConstructionService} from "../../../services/inspection-constr
     DxFormModule,
     ReactiveFormsModule,
     RouterLink,
+    ItemControlComponent,
     DxTextBoxModule,
     DxTextErrorControlDirective,
-    ItemControlComponent,
     DxMapModule,
     DxNumberBoxModule,
+    DxSelectBoxModule,
+    DxSelectErrorControlDirective,
   ],
   templateUrl: './new-inspection-construction.component.html',
   styleUrl: './new-inspection-construction.component.scss',
@@ -39,9 +44,11 @@ export class NewInspectionConstructionComponent {
   private dialogModal: Dialog = inject(Dialog);
 
   private inspectionConstructionService = inject(InspectionConstructionService);
+  private catalogService = inject(CatalogoService);
 
   registerForm = this.fb.nonNullable.group({
     IdOwner: [null, Validators.required],
+    IdInspector: [null, Validators.required],
     phone: [null, Validators.required],
     nameProject: [null, Validators.required],
     address: [null, Validators.required],
@@ -52,6 +59,10 @@ export class NewInspectionConstructionComponent {
   });
 
   itemEntity = signal<any>(null);
+  lsInspectors = toSignal(
+    this.catalogService.obtenerInspector(),
+    {initialValue: []}
+  )
 
   apiKey = {google: environment.googleMapsKey}
   zoomMap = 17;

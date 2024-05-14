@@ -12,6 +12,7 @@ import DataSource from "devextreme/data/data_source";
 import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 import {InspectionConstructionService} from "../../../services/inspection-construction.service";
+import {ItemAction, ItemActionConstruction} from "../../../const/item-action.const";
 
 @Component({
   standalone: true,
@@ -43,6 +44,8 @@ export class ListConstructionComponent implements OnInit {
   @ViewChild('dataGridComponent', {static: true}) dataGridComponent!: DxDataGridComponent;
   gridDataSource: any;
 
+  itemsAction = signal<any[]>(ItemActionConstruction)
+
   lsStatus = signal<any[]>([]);
   lsInspectors$: Observable<any> = inject(CatalogoService).obtenerInspector();
 
@@ -59,6 +62,28 @@ export class ListConstructionComponent implements OnInit {
         );
       }
     });
+  }
+
+  onItemClick($event: any, dataRow: any) {
+    const {itemData} = $event;
+    switch (itemData.id) {
+      case 'delete':
+        this.delete(dataRow);
+        break;
+      case 'resolve':
+        this.router.navigate(['..', 'resolve-inspection-construction', dataRow.Id], {
+          relativeTo: this.activatedRoute
+        });
+        break;
+      default:
+        console.log(`No se encontro la acción seleccionada ${itemData.id}`)
+        break;
+    }
+
+  }
+
+  delete(dataRow:any){
+
   }
 
   onToolbarPreparing(e: any) {

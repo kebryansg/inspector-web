@@ -32,11 +32,6 @@
                 alignment="center"
                 cellTemplate="cellOptionsTemplate"
     />
-    <dxi-column dataField="attachmentRequest"
-                caption="Archivo Solicitud"
-                dataType="boolean"
-                [allowFiltering]="false"
-    />
     <dxi-column dataField="Id"
                 caption="Cód."
                 alignment="center"
@@ -112,27 +107,25 @@
 
     <ng-container *dxTemplate="let data of 'cellTemplate'">
       <div class="font-weight-bold"
-           [class.text-danger]="data.data.Estado === 'REP'"
-           [class.text-info]="data.data.Estado === 'APR'">
-        {{ data.data.Estado | status }}
+           [class.text-danger]="data.data.state === 'REP'"
+           [class.text-info]="data.data.state === 'APR'">
+        {{ data.data.state | status }}
       </div>
     </ng-container>
 
     <div *dxTemplate="let data of 'cellOptionsTemplate'">
 
       <div class="btn-group-icons">
-        <!--
         <dx-drop-down-button
           [dropDownOptions]="{ width: 210 }"
           [stylingMode]="'text'"
           [showArrowIcon]="false"
           icon="overflow"
-          [items]=" itemsAction() | actionsInspection: data.data.Estado"
+          [items]=" itemsAction() | actionsInspection: data.data.state"
           displayExpr="name"
           keyExpr="id"
           (onItemClick)="onItemClick($event, data.data)"
         />
-        -->
       </div>
 
     </div>
