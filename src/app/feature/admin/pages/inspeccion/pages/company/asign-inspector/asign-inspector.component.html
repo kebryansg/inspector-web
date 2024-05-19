@@ -47,7 +47,7 @@
     <div class="col-md-12">
       <dx-data-grid [dataSource]="lsItemsPending()"
                     [rowAlternationEnabled]="true"
-                    keyExpr="Id"
+                    keyExpr="ID"
                     [selectedRowKeys]="selectedInspection()"
                     (selectedRowKeysChange)="selectedInspection.set($event)"
                     [columnAutoWidth]="true"
@@ -85,7 +85,16 @@
         </dxo-toolbar>
 
         <!--#region Columns -->
-        <dxi-column dataField="Id"
+        <dxi-column dataField="CodeApplication"
+                    alignment="center"
+                    [allowHeaderFiltering]="true"
+                    caption="Application">
+          <dxo-lookup [dataSource]="lsCodeApplication()"
+                      valueExpr="value"
+                      displayExpr="text"
+          />
+        </dxi-column>
+        <dxi-column dataField="ID"
                     caption="Cód."
                     alignment="center"
                     [allowHeaderFiltering]="false"
@@ -108,7 +117,7 @@
                     [allowHeaderFiltering]="false"
                     caption="RUC"
         />
-        <dxi-column dataField="RazonSocial"
+        <dxi-column dataField="EntidadRazonSocial"
                     [allowHeaderFiltering]="false"
                     caption="Razón Social"
         />

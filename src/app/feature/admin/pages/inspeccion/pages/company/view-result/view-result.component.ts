@@ -110,7 +110,7 @@ export class ViewResultComponent {
   }
 
   cancelReview() {
-    this.router.navigate(['/inspeccion', 'list']);
+    this.router.navigate(['/inspeccion', 'company', 'list']);
   }
 
   generateReport() {

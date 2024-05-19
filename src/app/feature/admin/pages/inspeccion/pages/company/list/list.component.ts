@@ -65,7 +65,7 @@ export class ListComponent implements OnInit {
   @ViewChild('container', {read: ViewContainerRef}) entry!: ViewContainerRef;
 
 
-  onItemClick($event: any, dataRow: any) {
+  onItemClick($event: any, dataRow: Inspection) {
     const {itemData} = $event;
     switch (itemData.id) {
       case 'download':
@@ -89,13 +89,8 @@ export class ListComponent implements OnInit {
       case 'print_request':
         this.printRequest(dataRow);
         break;
-      case 'make_web':
-        this.router.navigate(['..', 'inspweb', dataRow.Id], {
-          relativeTo: this.activatedRoute
-        });
-        break;
       case 'view_result':
-        this.router.navigate(['..', 'view-result', dataRow.Id], {
+        this.router.navigate(['..', 'view-result', dataRow.ID], {
           relativeTo: this.activatedRoute
         });
         break;
@@ -114,7 +109,7 @@ export class ListComponent implements OnInit {
 
   ngOnInit() {
     this.gridDataSource = new DataSource({
-      key: 'Id',
+      key: 'ID',
       load: (loadOptions: any) => {
         let params: any = headersParams.filter(i => isNotEmpty(loadOptions[i]))
           .reduce((a, b) => ({...a, [b]: loadOptions[b]}), {});
@@ -161,6 +156,7 @@ export class ListComponent implements OnInit {
 
   assign_colaborador(row: Inspection) {
     const modalRef = this.modalService.open<number>(AsignColaboradorComponent, {
+
       data: {
         titleModal: 'Asignar Colaborador',
         NombreComercial: row.NombreComercial
@@ -173,7 +169,7 @@ export class ListComponent implements OnInit {
       )
       .subscribe((idInspector: number) => {
 
-        this.inspectionService.assigmentInspector(row.Id, idInspector)
+        this.inspectionService.assigmentInspector(row.ID, idInspector)
           .subscribe(res => {
             this.notificationService.showSwalMessage({
               title: 'Colaborador Asignado',
@@ -194,7 +190,7 @@ export class ListComponent implements OnInit {
       if (!response) {
         return;
       }
-      this.inspectionService.delete(row.Id)
+      this.inspectionService.delete(row.ID)
         .subscribe(data => {
           this.dataGridComponent.instance.refresh();
         });
@@ -204,7 +200,7 @@ export class ListComponent implements OnInit {
   downloadResultInspection(row: Inspection) {
     const nameFile = `result ${row.NombreComercial}-${formatDate(new Date(row.FechaInspeccion), 'yyyyMMdd-hhmm')}.pdf`
 
-    this.inspectionService.getFileContentResult(row.Id)
+    this.inspectionService.getFileContentResult(row.ID)
       .pipe(
         takeUntilDestroyed(this.destroy)
       ).subscribe(response => {
@@ -219,9 +215,9 @@ export class ListComponent implements OnInit {
       title: 'Recuperando solicitud de inspección'
     });
 
-    const nameFile = `solicitud ${row.Id}-${row.NombreComercial}-${formatDate(new Date(row.FechaRegistro), 'yyyyMMdd-hhmm')}.pdf`
+    const nameFile = `solicitud ${row.ID}-${row.NombreComercial}-${formatDate(new Date(row.FechaRegistro), 'yyyyMMdd-hhmm')}.pdf`
 
-    this.inspectionService.getFileContentRequest(row.Id)
+    this.inspectionService.getFileContentRequest(row.ID)
       .subscribe({
         next: (res) => {
           this.notificationService.closeLoader();
@@ -239,7 +235,7 @@ export class ListComponent implements OnInit {
   }
 
   sendMailFormulario(row: Inspection) {
-    this.inspectionService.sendMailForm(row.Id)
+    this.inspectionService.sendMailForm(row.ID)
       .pipe(takeUntilDestroyed(this.destroy))
       .subscribe(
         (response: any) => {
@@ -255,7 +251,7 @@ export class ListComponent implements OnInit {
     this.notificationService.showLoader({
       title: 'Reimprimiendo solicitud de inspección.'
     });
-    this.inspectionService.generateFileRequest(row.Id)
+    this.inspectionService.generateFileRequest(row.ID)
       .subscribe({
         next: () => {
           this.notificationService.closeLoader();
@@ -279,7 +275,7 @@ export class ListComponent implements OnInit {
       title: 'Enviando solicitud de inspección.'
     });
 
-    this.inspectionService.sendMailRequest(row.Id)
+    this.inspectionService.sendMailRequest(row.ID)
       .pipe(takeUntilDestroyed(this.destroy))
       .subscribe(
         {

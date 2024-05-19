@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {AsyncPipe} from '@angular/common';
-import {CardComponent} from "../../../../../../../shared/components/card/card.component";
+import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxButtonModule, DxDataGridModule, DxSelectBoxModule} from "devextreme-angular";
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CatalogoService} from "../../../../../services/catalogo.service";
@@ -9,6 +9,7 @@ import {NotificationService} from "@service-shared/notification.service";
 import {BehaviorSubject, switchMap} from "rxjs";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {debounceTime} from "rxjs/operators";
+import {itemsCodeApplication} from "../../../const/code-application.const";
 
 @Component({
   selector: 'app-asign-inspector',
@@ -40,6 +41,9 @@ export class AsignInspectorComponent {
         switchMap(() => this.inspeccionService.getItemsPending())
       )
   );
+
+  lsCodeApplication = signal<any[]>(itemsCodeApplication);
+
   selectedInspection = signal<number[]>([]);
   itemForm: FormGroup = this.fb.group({
     IdRol: [null, Validators.required],

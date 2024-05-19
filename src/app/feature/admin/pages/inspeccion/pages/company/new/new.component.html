@@ -62,7 +62,7 @@
                       [hoverStateEnabled]="true"
                       [columnAutoWidth]="true"
                       keyExpr="ID"
-                      (selectedRowKeysChange)="empresa.setValue($event)"
+                      (selectedRowKeysChange)="empresa.setValue($event[0])"
                       [searchPanel]="{visible:true}"
                       [headerFilter]="{visible:true}">
 
@@ -87,30 +87,32 @@
          <dxi-column dataField="NombreComercial"
                       [allowHeaderFiltering]="false"
           />
-          <dxi-column dataField="RazonSocial"
+          <dxi-column dataField="EntidadRazonSocial"
                       caption="Razón Social"
                       [allowHeaderFiltering]="false"
           />
-          <dxi-column dataField="idActEconomica.Descripcion"
+          <dxi-column dataField="Actividad"
                       caption="Actividad Económica"
           />
-          <dxi-column dataField="idSector.Descripcion"
+          <dxi-column dataField="Sector"
                       caption="Sector"
           />
+          <!--
           <dxi-column dataField="idTipoEmpresa.Descripcion"
                       caption="Tipo Empresa"
           />
+          -->
 
         </dx-data-grid>
       </div>
     </section>
-    @if (selectedEmpresa()) {
+    @if (selectedCompany()) {
       <section class="my-2">
         <h5 class="font-weight-bold">
           Información de empresa
         </h5>
 
-        <dx-form [formData]="selectedEmpresa()"
+        <dx-form [formData]="selectedCompany()"
                  style="background-color: rgba(191, 191, 191, 0.15); padding: 16px;"
                  [readOnly]="true"
                  [showColonAfterLabel]="true"
@@ -118,10 +120,11 @@
                  [minColWidth]="150"
                  [title]="'Información Empresa'"
                  [colCount]="2">
-          <dxi-item dataField="RazonSocial"/>
+          <dxi-item dataField="EntidadRazonSocial"
+                    [label]="{text:'Razon Social'}"/>
           <dxi-item dataField="NombreComercial"/>
           <dxi-item dataField="Email"/>
-          <dxi-item dataField="idSector.Descripcion"
+          <dxi-item dataField="Sector"
                     [label]="{text:'Sector'}"/>
           <dxi-item dataField="Direccion"
                     editorType="dxTextArea"
@@ -146,6 +149,7 @@
     <form [formGroup]="registerForm"
           (ngSubmit)="save()"
           (keydown.enter)="$event.preventDefault()">
+
       <div class="row">
 
         <div class="col-md-4">
@@ -182,7 +186,7 @@
 
       </div>
 
-      <div class="row">
+      <div class="row my-4">
         <div class="col-md-12 d-flex justify-content-end gap-2">
           <button type="reset"
                   class="btn btn-outline-danger "

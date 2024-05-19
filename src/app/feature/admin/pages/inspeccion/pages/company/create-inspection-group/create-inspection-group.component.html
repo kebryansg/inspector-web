@@ -120,12 +120,13 @@
                 [headerFilter]="{visible:true}"
                 (selectedRowKeysChange)="lsSelectedItems.set($event)"
                 [showBorders]="true">
+
     <dxo-selection [showCheckBoxesMode]="'onClick'"
                    [selectAllMode]="'allPages'"
                    mode="multiple"
     />
 
-    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-paging [pageSize]="10"/>
     <dxo-pager [showPageSizeSelector]="true"
                [allowedPageSizes]="[10, 20, 40, 60]"
                [showInfo]="true"
@@ -137,7 +138,7 @@
     <dxi-column dataField="NombreComercial"
                 [allowHeaderFiltering]="false"
     />
-    <dxi-column dataField="RazonSocial"
+    <dxi-column dataField="EntidadRazonSocial"
                 [allowHeaderFiltering]="false"
     />
     <dxi-column dataField="Sector"/>

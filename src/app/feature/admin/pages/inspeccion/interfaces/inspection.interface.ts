@@ -1,14 +1,15 @@
 export interface Inspection {
-  Id: number;
-  IdColaborador: number;
-  IdEmpresa: number;
-  IdEntidad: number;
+  ID: number;
+  IDColaborador: number;
+  IDEmpresa: number;
+  IDEntidad: number;
   FechaRegistro: string;
   FechaInspeccion: string;
   Estado: string;
   RUC: string;
-  RazonSocial: string;
+  EntidadRazonSocial: string;
   NombreComercial: string;
+  TipoPermiso: string;
   Inspector: string;
   latitude: string;
   longitude: string;

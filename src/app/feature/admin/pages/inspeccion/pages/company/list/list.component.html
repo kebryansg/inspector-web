@@ -42,7 +42,7 @@
                 dataType="boolean"
                 [allowFiltering]="false"
     />
-    <dxi-column dataField="Id"
+    <dxi-column dataField="ID"
                 caption="Cód."
                 alignment="center"
                 [allowHeaderFiltering]="false"
@@ -75,7 +75,7 @@
                 [allowHeaderFiltering]="false"
                 caption="RUC"
     />
-    <dxi-column dataField="RazonSocial"
+    <dxi-column dataField="EntidadRazonSocial"
                 [allowHeaderFiltering]="false"
                 caption="Razón Social"
     />
@@ -83,7 +83,7 @@
                 [allowHeaderFiltering]="false"
                 caption="Nombre Comercial"
     />
-    <dxi-column dataField="IdColaborador"
+    <dxi-column dataField="IDColaborador"
                 [allowHeaderFiltering]="false"
                 caption="Inspector Asignado">
       <dxo-lookup [dataSource]="lsInspectors$ | async"

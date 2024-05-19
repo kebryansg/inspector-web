@@ -15,7 +15,7 @@
                            [filtering]="true"
     />
 
-    <dxo-paging [pageSize]="10"></dxo-paging>
+    <dxo-paging [pageSize]="10"/>
     <dxo-pager [showPageSizeSelector]="true"
                [allowedPageSizes]="[10, 20, 40, 60]"
                [showInfo]="true"
@@ -28,11 +28,11 @@
                 [fixed]="true"
                 [allowSorting]="false"
                 alignment="center"
-                cellTemplate="cellOptionsTemplate">
-    </dxi-column>
+                cellTemplate="cellOptionsTemplate"
+    />
     <dxi-column dataField="RUC"/>
     <dxi-column dataField="NombreComercial"/>
-    <dxi-column dataField="RazonSocial"/>
+    <dxi-column dataField="EntidadRazonSocial"/>
     <dxi-column dataField="Grupo"/>
     <dxi-column dataField="Actividad"/>
     <dxi-column dataField="Estado"

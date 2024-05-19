@@ -1,8 +1,8 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
-import {filter, iif, of} from 'rxjs';
-import {switchMap, tap} from 'rxjs/operators';
+import {filter, of} from 'rxjs';
+import {map, switchMap, tap} from 'rxjs/operators';
 import {InspectionService} from "../../../services/inspection.service";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import {EmpresaService} from "../../../../sociedad/services";
@@ -67,15 +67,14 @@ export class NewInspeccionComponent implements OnInit {
     {initialValue: []}
   )
 
-  selectedEmpresa = toSignal<Empresa | null>(
+  selectedCompany = toSignal<Empresa | null>(
     this.empresa.valueChanges
       .pipe(
-        switchMap((id) =>
-          iif(() => id === null,
-            of(null),
-            this.empresaService.getById(id)
-          )
-        )
+        map((idCompany) => {
+          if (!idCompany) return null;
+
+          return this.lsCompany().find(company => company.ID === idCompany)!
+        })
       ),
     {initialValue: null}
   )
@@ -120,6 +119,7 @@ export class NewInspeccionComponent implements OnInit {
   get entidad(): FormControl {
     return this.registerForm?.get('IDEntidad') as FormControl;
   }
+
   //#endregion
 
   save() {
@@ -132,10 +132,9 @@ export class NewInspeccionComponent implements OnInit {
       title: 'Ingresando nueva solicitud de inspección'
     });
 
-    let data = this.registerForm.getRawValue();
-    data.IDEmpresa = data.IDEmpresa[0];
+    let dataForm = this.registerForm.getRawValue();
 
-    this.inspectionService.create(data)
+    this.inspectionService.create(dataForm)
       .subscribe({
         next: res => {
           this.notificationService.closeLoader()
