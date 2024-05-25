@@ -20,5 +20,8 @@ export class SideNavService {
 
   onSetInnerWindow(value: number) {
     this.innerWidth.set(value);
+    if (value <= 768) {
+      this.onCollapse(false);
+    }
   }
 }
