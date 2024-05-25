@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, inject, signal} from '@angular/core';
 import {AsyncPipe} from '@angular/common';
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxButtonModule, DxDataGridModule, DxSelectBoxModule} from "devextreme-angular";
@@ -7,12 +7,11 @@ import {CatalogoService} from "../../../../../services/catalogo.service";
 import {InspectionService} from "../../../services/inspection.service";
 import {NotificationService} from "@service-shared/notification.service";
 import {BehaviorSubject, switchMap} from "rxjs";
-import {toSignal} from "@angular/core/rxjs-interop";
+import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
 import {debounceTime} from "rxjs/operators";
 import {itemsCodeApplication} from "../../../const/code-application.const";
 
 @Component({
-  selector: 'app-asign-inspector',
   standalone: true,
   imports: [
     CardComponent,
@@ -23,14 +22,16 @@ import {itemsCodeApplication} from "../../../const/code-application.const";
     DxDataGridModule,
     DxButtonModule,
   ],
-  templateUrl: './asign-inspector.component.html',
-  styleUrls: ['./asign-inspector.component.scss'],
+  templateUrl: './assign-inspector.component.html',
+  styleUrls: ['./assign-inspector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AsignInspectorComponent {
+export class AssignInspectorComponent {
   private readonly fb: FormBuilder = inject(FormBuilder);
   private readonly notificationService: NotificationService = inject(NotificationService);
-  private readonly inspeccionService: InspectionService = inject(InspectionService);
+  private readonly inspectionService: InspectionService = inject(InspectionService);
+
+  private destroyRef = inject(DestroyRef);
 
   refreshTable$ = new BehaviorSubject<void>(null as unknown as void);
   lsInspectors$ = inject(CatalogoService).obtenerInspector()
@@ -38,8 +39,10 @@ export class AsignInspectorComponent {
     this.refreshTable$.asObservable()
       .pipe(
         debounceTime(500),
-        switchMap(() => this.inspeccionService.getItemsPending())
-      )
+        switchMap(() => this.inspectionService.getItemsPending())
+      ),{
+      initialValue: []
+    }
   );
 
   lsCodeApplication = signal<any[]>(itemsCodeApplication);
@@ -73,7 +76,10 @@ export class AsignInspectorComponent {
     }).then((result) => {
       if (!result) return;
 
-      this.inspeccionService.assigmentInspectorByIds(this.itemForm.getRawValue().IdRol, this.selectedInspection())
+      this.inspectionService.assigmentInspectorByIds(this.itemForm.getRawValue().IdRol, this.selectedInspection())
+        .pipe(
+          takeUntilDestroyed(this.destroyRef)
+        )
         .subscribe(
           () => {
             this.selectedInspection.set([]);

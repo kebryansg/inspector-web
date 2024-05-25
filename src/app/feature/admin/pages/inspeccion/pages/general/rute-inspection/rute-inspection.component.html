@@ -1,0 +1,109 @@
+<div class="row justify-content-center mb-3">
+  <div class="col-md-6 col-sm-12">
+    <div class="card">
+      <div class="card-header bg-warning text-center font-weight-bold f-14">
+        Inspectores
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="dx-field dx-field-top-label">
+              <div class="dx-field-label">
+                Colaborador
+              </div>
+              <dx-select-box class="dx-field-value"
+                             [dataSource]="lsInspectors$ | async"
+                             displayExpr="Colaborador"
+                             valueExpr="ID"
+                             [formControl]="inspectorControl"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <section class="card-footer">
+        <div class="d-flex align-items-center justify-content-end">
+          <button class="btn btn-outline-primary"
+                  type="button"
+                  [disabled]="inspectorControl.invalid"
+                  (click)="sendRute()">
+            Crear ruta
+          </button>
+        </div>
+      </section>
+    </div>
+  </div>
+</div>
+
+
+<app-card cardTitle="Ruta inspección">
+
+  <div class="row">
+    <div class="col-md-12">
+      <dx-data-grid #dataGridComponent
+                    keyExpr="ID"
+                    [dataSource]="lsInspectionsFilter()"
+                    [columnAutoWidth]="true"
+                    [columnResizingMode]="'widget'"
+                    [highlightChanges]="true"
+                    [hoverStateEnabled]="true"
+                    [showRowLines]="true"
+                    [showBorders]="true"
+                    [columnFixing]="{enabled:true}"
+                    [headerFilter]="{visible:false}"
+                    [filterRow]="{visible:false}">
+
+        <!--#region Config. DxDataGrid -->
+        <dxo-row-dragging [allowReordering]="true"
+                          [onReorder]="onReorder"
+                          [showDragIcons]="true"
+        />
+
+        <dxo-paging [enabled]="true"
+                    [pageSize]="10"
+        />
+        <dxo-pager [showPageSizeSelector]="true"
+                   [allowedPageSizes]="[10,20,30,50]"
+                   [showInfo]="true"
+        />
+        <dxo-search-panel [visible]="true"
+                          [width]="250"
+        />
+        <!--#endregion -->
+
+        <!--#region Columns -->
+        <dxi-column dataField="ID"
+                    caption="Cód."
+                    alignment="center"
+                    [allowHeaderFiltering]="false"
+        />
+        <dxi-column dataField="FechaRegistro"
+                    caption="Fecha Registro"
+                    dataType="date"
+                    format="yyyy, MMMM dd"
+                    [allowHeaderFiltering]="false"
+        />
+        <dxi-column dataField="Sector"
+                    [allowHeaderFiltering]="true"
+                    caption="Sector"
+        />
+        <dxi-column dataField="RUC"
+                    [allowHeaderFiltering]="false"
+                    caption="RUC"
+        />
+        <dxi-column dataField="NombreComercial"
+                    [allowHeaderFiltering]="false"
+                    caption="Nombre Comercial"
+        />
+        <dxi-column dataField="EntidadRazonSocial"
+                    [allowHeaderFiltering]="false"
+                    caption="Razón Social"
+        />
+        <!--#endregion -->
+
+      </dx-data-grid>
+    </div>
+  </div>
+
+
+</app-card>

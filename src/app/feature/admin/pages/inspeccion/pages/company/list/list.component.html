@@ -55,6 +55,14 @@
                   valueExpr="value"
       ></dxo-lookup>
     </dxi-column>
+    <dxi-column dataField="TipoPermiso"
+                [allowHeaderFiltering]="false"
+                caption="Tipo Permiso">
+      <dxo-lookup [dataSource]="lsTypePermission()"
+                  valueExpr="type"
+                  displayExpr="name"
+      ></dxo-lookup>
+    </dxi-column>
     <dxi-column dataField="FechaRegistro"
                 caption="Fecha Registro"
                 dataType="date"
@@ -91,6 +99,7 @@
                   displayExpr="Colaborador"
       ></dxo-lookup>
     </dxi-column>
+
     <!--#endregion -->
 
     <ng-container *dxTemplate="let data of 'cellTemplate'">

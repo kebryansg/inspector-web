@@ -9,7 +9,7 @@ export const inspectionCompanyRoute: Routes = [
   },
   {
     path: 'asign-inspector',
-    loadComponent: () => import('./asign-inspector/asign-inspector.component').then(m => m.AsignInspectorComponent),
+    loadComponent: () => import('./asign-inspector/assign-inspector.component').then(m => m.AssignInspectorComponent),
     title: 'Asignación de Inspectores',
   },
   {

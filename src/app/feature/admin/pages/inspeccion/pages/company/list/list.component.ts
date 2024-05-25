@@ -21,6 +21,7 @@ import {CardComponent} from "@standalone-shared/card/card.component";
 import {ActionsInspectionPipe} from "../../../pipes/actions-inspection.pipe";
 import {AsyncPipe} from "@angular/common";
 import {StatusPipe} from "../../../../../../../pipes/status-inspection.pipe";
+import {TypePermission} from "../../../../sociedad/empresa/const/type-permiso.const";
 
 type itemAction = {
   name: string;
@@ -58,6 +59,8 @@ export class ListComponent implements OnInit {
 
   lsInspectors$: Observable<any> = inject(CatalogoService).obtenerInspector();
   lsStatus = this.inspectionService.status;
+
+  lsTypePermission = signal(TypePermission);
 
   itemsAction = signal<any[]>(ItemAction)
 

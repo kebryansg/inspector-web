@@ -9,7 +9,7 @@ import {CatalogoService} from "../../../../../services/catalogo.service";
 import {ToolsService} from "../../../../../services/tools.service";
 import {ActividadTarifario, CategoriaGrupo, Empresa, GrupoTarifario} from "../../../interfaces";
 import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
-import {TYPE_PERMISO} from "../../const/type-permiso.const";
+import {TypePermission} from "../../const/type-permiso.const";
 import {Dialog} from "@angular/cdk/dialog";
 import {ModalEntidadComponent} from "../../../components/modal-entidad/modal-entidad.component";
 import {EmpresaService} from "../../../services";
@@ -94,7 +94,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   lsActividad = signal<ActividadTarifario[]>([]);
   lsCategoria = signal<CategoriaGrupo[]>([]);
-  lsTypePerm = signal<any[]>(TYPE_PERMISO);
+  lsTypePerm = signal<any[]>(TypePermission);
 
   lsProvincias: any[] = [];
   lsCanton: any[] = [];

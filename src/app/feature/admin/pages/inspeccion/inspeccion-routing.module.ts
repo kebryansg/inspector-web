@@ -16,4 +16,9 @@ export const inspectionRoutes: Routes = [
     loadChildren: () => import('./pages/construction/inspection-construction.route')
       .then(m => m.inspectionConstructionRoutes),
   },
+  {
+    path: 'rute-inspection',
+    loadComponent: () => import('./pages/general/rute-inspection/rute-inspection.component')
+      .then(m => m.RuteInspectionComponent),
+  },
 ];

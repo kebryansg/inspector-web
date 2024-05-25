@@ -19,8 +19,11 @@ export class InspectionService {
     return this.http.get<Inspection>(this.urlBase + 'inspeccion/' + id)
   }
 
+  /**
+   * Get items pending
+   */
   getItemsPending() {
-    return this.http.get<any>(this.urlBase + 'inspeccion/pending')
+    return this.http.get<Inspection[]>(this.urlBase + 'inspeccion/pending')
   }
 
   getItemsPendingApproval() {
@@ -42,6 +45,10 @@ export class InspectionService {
     return this.http.delete(this.urlBase + `inspeccion/${idInspection}`);
   }
 
+  /**
+   * Get items paginate
+   * @param params
+   */
   getItemsPaginate(params: any): Observable<PaginateInspection> {
     return this.http.post<PaginateInspection>(this.urlBase + 'inspeccion/all', params);
   }
@@ -101,6 +108,18 @@ export class InspectionService {
       headers: {
         responseType: 'blob'
       }
+    });
+  }
+
+  /**
+   * Create rute inspection by inspector
+   * @param idInspector
+   * @param idsInspectionOrder
+   */
+  createRuteInspection(idInspector: number, idsInspectionOrder: any[]) {
+    return this.http.post(this.urlBase + `inspeccion/rute`, {
+      idInspector,
+      idsInspectionOrder
     });
   }
 
