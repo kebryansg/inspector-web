@@ -37,6 +37,14 @@
                 alignment="center"
                 [allowHeaderFiltering]="false"
     />
+    <dxi-column dataField="Estado"
+                cellTemplate="cellTemplate"
+                caption="Estado">
+      <dxo-lookup [dataSource]="lsStatus()"
+                  displayExpr="label"
+                  valueExpr="value"
+      />
+    </dxi-column>
     <dxi-column dataField="identifier"
                 caption="Identificación Responsable"
                 alignment="center"
@@ -79,14 +87,6 @@
                 alignment="center"
                 [allowHeaderFiltering]="false"
     />
-    <dxi-column dataField="Estado"
-                cellTemplate="cellTemplate"
-                caption="Estado">
-      <dxo-lookup [dataSource]="lsStatus()"
-                  displayExpr="label"
-                  valueExpr="value"
-      ></dxo-lookup>
-    </dxi-column>
     <dxi-column dataField="created_at"
                 caption="Fecha Registro"
                 dataType="date"
@@ -107,9 +107,8 @@
 
     <ng-container *dxTemplate="let data of 'cellTemplate'">
       <div class="font-weight-bold"
-           [class.text-danger]="data.data.state === 'REP'"
-           [class.text-info]="data.data.state === 'APR'">
-        {{ data.data.state | status }}
+           [ngClass]="data.data.state | status: 'color' ">
+        {{ data.data.state | status: 'label' }}
       </div>
     </ng-container>
 

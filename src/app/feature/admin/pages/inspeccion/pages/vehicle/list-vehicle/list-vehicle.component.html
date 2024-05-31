@@ -58,7 +58,7 @@
       <dxo-lookup [dataSource]="lsStatus()"
                   displayExpr="label"
                   valueExpr="value"
-      ></dxo-lookup>
+      />
     </dxi-column>
     <dxi-column dataField="created_at"
                 caption="Fecha Registro"
@@ -84,9 +84,8 @@
 
     <ng-container *dxTemplate="let data of 'cellTemplate'">
       <div class="font-weight-bold"
-           [class.text-danger]="data.data.Estado === 'REP'"
-           [class.text-info]="data.data.Estado === 'APR'">
-        {{ data.data.Estado | status }}
+           [ngClass]="data.data.Estado | status: 'color' ">
+        {{ data.data.Estado | status : 'label' }}
       </div>
     </ng-container>
 

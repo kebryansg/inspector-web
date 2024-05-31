@@ -19,3 +19,22 @@
     font-weight: 600;
   }
 }
+
+
+.text-c {
+  &-pending {
+    color: #d59a18;
+  }
+
+  &-approved {
+    color: #035e11;
+  }
+
+  &-failed {
+    color: #de3a09;
+  }
+
+  &-deleted {
+    color: #a11bc8;
+  }
+}

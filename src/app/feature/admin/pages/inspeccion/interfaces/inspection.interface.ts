@@ -6,6 +6,8 @@ export interface Inspection {
   FechaRegistro: string;
   FechaInspeccion: string;
   Estado: string;
+  Sector: string;
+  Direccion: string;
   RUC: string;
   EntidadRazonSocial: string;
   NombreComercial: string;

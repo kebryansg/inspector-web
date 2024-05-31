@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal, ViewChild} from '@angular/core';
 import {ActionsInspectionPipe} from "../../../pipes/actions-inspection.pipe";
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, NgClass} from "@angular/common";
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxDataGridComponent, DxDataGridModule, DxDropDownButtonModule, DxTemplateModule} from "devextreme-angular";
 import {
@@ -36,7 +36,8 @@ import {debounceTime, map} from "rxjs/operators";
     DxoPagerModule,
     DxoPagingModule,
     DxoRemoteOperationsModule,
-    StatusPipe
+    StatusPipe,
+    NgClass
   ],
   templateUrl: './list-vehicle.component.html',
   styleUrl: './list-vehicle.component.scss',

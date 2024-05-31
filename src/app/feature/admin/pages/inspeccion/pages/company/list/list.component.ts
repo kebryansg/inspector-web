@@ -19,7 +19,7 @@ import {formatDate} from "devextreme/localization";
 import {ItemAction} from "../../../const/item-action.const";
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {ActionsInspectionPipe} from "../../../pipes/actions-inspection.pipe";
-import {AsyncPipe} from "@angular/common";
+import {AsyncPipe, NgClass} from "@angular/common";
 import {StatusPipe} from "../../../../../../../pipes/status-inspection.pipe";
 import {TypePermission} from "../../../../sociedad/empresa/const/type-permiso.const";
 
@@ -41,7 +41,8 @@ type action = 'download' | 'send_result' | 'view_result' | 'delete' | 'assign_in
     DxDropDownButtonModule,
     ActionsInspectionPipe,
     AsyncPipe,
-    StatusPipe
+    StatusPipe,
+    NgClass
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
