@@ -1,14 +1,16 @@
 import {animate, keyframes, style, transition, trigger} from '@angular/animations';
-import {Component, EventEmitter, HostListener, inject, OnInit, Output} from '@angular/core';
+import {ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {fadeInOut, INavbarData} from './helper';
 import {NgClass, NgFor, NgIf, TitleCasePipe} from "@angular/common";
 import {SublevelMenuComponent} from "./sublevel-menu.component";
 import {MenuService} from "../../../../services/menu.service";
-import {toSignal} from "@angular/core/rxjs-interop";
+import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
 import {SideNavService} from "../../services/side-nav.service";
 import {LoginService} from "../../../../services/login.service";
 import {Profile} from "../../../../feature/auth/interfaces/login.interface";
+import {fromEvent} from "rxjs";
+import {map} from "rxjs/operators";
 
 interface SideNavToggle {
   screenWidth: number;
@@ -18,6 +20,7 @@ interface SideNavToggle {
 @Component({
   selector: 'app-sidenav',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgClass, RouterLink, RouterLinkActive, NgIf, NgFor, SublevelMenuComponent, TitleCasePipe],
   templateUrl: './sidenav.component.html',
   styleUrls: ['./sidenav.component.scss'],
@@ -49,12 +52,15 @@ export class SidenavComponent implements OnInit {
   userLogged = toSignal<Profile, Profile>(this.loginService.userLogged(), {initialValue: {} as Profile});
   multiple: boolean = false;
 
-  @HostListener('window:resize', ['$event'])
-  onResize(event: any) {
-    this.sideNavService.onSetInnerWindow(window.innerWidth);
-  }
+  resize$ = fromEvent(window, 'resize')
+    .pipe(
+      map(() => window.innerWidth),
+      takeUntilDestroyed(),
+    )
 
   ngOnInit(): void {
+    this.resize$
+      .subscribe((innerWidth) => this.sideNavService.onSetInnerWindow(innerWidth))
     this.sideNavService.onSetInnerWindow(window.innerWidth);
   }
 

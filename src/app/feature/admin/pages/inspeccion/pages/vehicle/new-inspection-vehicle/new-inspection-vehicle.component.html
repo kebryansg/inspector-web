@@ -2,7 +2,7 @@
   <!-- Información de la Entidad solicitante -->
   <section class="row">
     <div class="col">
-      <dx-button [text]="'Buscar Entidad'"
+      <dx-button [text]="'Buscar Propietario'"
                  [icon]="'search'"
                  [type]="'success'"
                  (click)="loadModalEntity()"
@@ -14,7 +14,7 @@
     <div class="row mt-2">
       <div class="col-md-12">
         <h5 class="font-weight-bold">
-          Información de entidad
+          Información del Propietario
         </h5>
         <dx-form [formData]="itemEntity()"
                  style="background-color: rgba(191, 191, 191, 0.15); padding: 16px;"
@@ -40,7 +40,7 @@
     <div class="row">
       <div class="col d-flex justify-content-end mt-2 mb-2">
         <div class="alert alert-danger text-danger" role="alert">
-          No hay entidad seleccionada.
+          No hay propietario seleccionado.
         </div>
       </div>
     </div>
@@ -99,7 +99,7 @@
                       [allowHeaderFiltering]="false"
           />
           <dxi-column dataField="entity"
-                      caption="Entidad"
+                      caption="Propietario"
                       [allowHeaderFiltering]="false"
           />
 

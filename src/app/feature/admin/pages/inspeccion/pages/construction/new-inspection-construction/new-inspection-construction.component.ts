@@ -14,6 +14,8 @@ import {InspectionConstructionService} from "../../../services/inspection-constr
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
+import {switchMap, tap} from "rxjs/operators";
+import {Sector} from "../../../../../localization/interfaces/base.interface";
 
 @Component({
   selector: 'app-new-inspection-construction',
@@ -53,6 +55,8 @@ export class NewInspectionConstructionComponent {
     nameProject: [null, Validators.required],
     address: [null, Validators.required],
     address_two: [null, Validators.required],
+    idParroquia: [null, Validators.required],
+    idSector: [null, Validators.required],
     area_m2: [null, Validators.required],
     latitude: [null, Validators.required],
     longitude: [null, Validators.required],
@@ -64,6 +68,22 @@ export class NewInspectionConstructionComponent {
     {initialValue: []}
   )
 
+  lsParroquia = toSignal(
+    this.catalogService.obtenerParroquia(),
+    {initialValue: []}
+  );
+
+  lsSector = toSignal<Sector[], Sector[]>(
+    this.registerForm.controls.idParroquia
+      .valueChanges
+      .pipe(
+        filter(Boolean),
+        tap(() => this.registerForm.controls.idSector.setValue(null)),
+        switchMap((idParroquia: string) => this.catalogService.obtenerSector(idParroquia))
+      ),
+    {initialValue: []}
+  );
+
   apiKey = {google: environment.googleMapsKey}
   zoomMap = 17;
   centerMap: any = {lat: GeoLocationDefault.lat, lng: GeoLocationDefault.lng};
@@ -72,7 +92,7 @@ export class NewInspectionConstructionComponent {
   loadModalEntity() {
     const modalRef = this.dialogModal.open(MdFindEntityComponent, {
       data: {
-        titleModal: 'Buscar Entidad'
+        titleModal: 'Buscar Propietario'
       },
       panelClass: 'modal-lg'
     });

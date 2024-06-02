@@ -20,6 +20,7 @@ export class MdFindEntityComponent extends ModalTemplate implements OnInit {
 
   private entityService: EntidadService<any> = inject(EntidadService);
   lsTypeEntity = typeEntitySignal;
+  onlyOwnerVehicle: boolean = false;
 
   @ViewChild(DxDataGridComponent) dataGrid!: DxDataGridComponent;
   gridDataSource: any;
@@ -27,13 +28,17 @@ export class MdFindEntityComponent extends ModalTemplate implements OnInit {
 
   ngOnInit() {
     this.titleModal = this.dataModal.titleModal;
+    this.onlyOwnerVehicle = this.dataModal.onlyOwnerVehicle ?? false;
 
     this.gridDataSource = new DataSource({
       load: (loadOptions: any) => {
         let params: any = headersParams.filter(i => isNotEmpty(loadOptions[i]))
           .reduce((a, b) => ({...a, [b]: loadOptions[b]}), {});
 
-        return this.entityService.getPaginate(params)
+        return this.entityService.getPaginate({
+          ...params,
+          ...(this.onlyOwnerVehicle ? {onlyOwnerVehicle: true} : {})
+        })
       }
     });
   }

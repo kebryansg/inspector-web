@@ -18,6 +18,7 @@ import {Router} from "@angular/router";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardLiteComponent implements OnInit {
+
   private readonly sideNavService: SideNavService = inject(SideNavService);
   private readonly loginService: LoginService = inject(LoginService);
   private readonly notificacionService: NotificationService = inject(NotificationService);

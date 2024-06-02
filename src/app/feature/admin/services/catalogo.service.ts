@@ -28,15 +28,14 @@ export class CatalogoService {
     });
   }
 
-  obtenerParroquia(idCanton: string): Observable<Parroquia[]> {
+  obtenerParroquia(idCanton?: string): Observable<Parroquia[]> {
+    const params: any = idCanton ? {IDCanton: idCanton} : {};
     return this.httpClient.get<Parroquia[]>(this.url + 'combo/parroquia', {
-      params: {
-        IDCanton: idCanton
-      }
+      params
     });
   }
 
-  obtenerSector(idParroquia: string): Observable<Sector[]> {
+  obtenerSector(idParroquia: string | number): Observable<Sector[]> {
     return this.httpClient.get<Sector[]>(this.url + 'combo/sector', {
       params: {
         IDParroquia: idParroquia

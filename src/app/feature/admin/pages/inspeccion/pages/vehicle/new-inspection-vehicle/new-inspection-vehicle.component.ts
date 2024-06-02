@@ -72,7 +72,8 @@ export class NewInspectionVehicleComponent implements OnInit {
   loadModalEntity() {
     const modalRef = this.dialogModal.open(MdFindEntityComponent, {
       data: {
-        titleModal: 'Buscar Entidad'
+        titleModal: 'Buscar propietario',
+        onlyOwnerVehicle: true
       },
       panelClass: 'modal-lg'
     });
