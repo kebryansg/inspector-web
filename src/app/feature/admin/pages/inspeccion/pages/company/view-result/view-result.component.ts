@@ -10,7 +10,6 @@ import {DomSanitizer} from '@angular/platform-browser';
 import {formatDate} from "devextreme/localization";
 import {NotificationService} from "@service-shared/notification.service";
 import {FileSaverService} from "ngx-filesaver";
-import {GoogleMap, MapMarker} from "@angular/google-maps";
 import {DebounceClickDirective} from "@directives/debounce-click.directive";
 import {environment} from "@environments/environment";
 
@@ -24,8 +23,6 @@ import {environment} from "@environments/environment";
     JsonPipe,
     DecimalPipe,
     DxTabsModule,
-    GoogleMap,
-    MapMarker,
     DebounceClickDirective,
     DxMapModule,
   ],
@@ -90,13 +87,11 @@ export class ViewResultComponent {
 
   zoomMap = 17;
   apiKey = {google: environment.googleMapsKey}
-  markerOptions: google.maps.MarkerOptions = {draggable: false};
   centerMap = computed<any>(() => ({
     lat: Number(this.itemInspection()?.latitude),
     lng: Number(this.itemInspection()?.longitude)
   }));
   markerPositions = computed(() => [
-    //this.centerMap()
     {
       location: [this.centerMap().lat, this.centerMap().lng],
       tooltip: {

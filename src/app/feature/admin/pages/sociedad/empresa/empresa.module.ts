@@ -3,7 +3,6 @@ import {CommonModule} from '@angular/common';
 
 import {EmpresaRoutingModule} from './empresa-routing.module';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
-import {GoogleMapsModule} from '@angular/google-maps';
 import {EmpresaComponent} from './empresa.component';
 import {NewEmpresaComponent} from './pages/new/new.component';
 import {
@@ -43,7 +42,6 @@ import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-c
 		DxTextBoxModule,
 		DxFormModule,
 
-		GoogleMapsModule,
 		StatusPipe,
 		ItemControlComponent,
 		DxMapModule,
