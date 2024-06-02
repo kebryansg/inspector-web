@@ -54,9 +54,8 @@ export class NewInspectionConstructionComponent {
     phone: [null, Validators.required],
     nameProject: [null, Validators.required],
     address: [null, Validators.required],
-    address_two: [null, Validators.required],
-    idParroquia: [null, Validators.required],
-    idSector: [null, Validators.required],
+    IdParroquia: [null, Validators.required],
+    IdSector: [null, Validators.required],
     area_m2: [null, Validators.required],
     latitude: [null, Validators.required],
     longitude: [null, Validators.required],
@@ -74,11 +73,11 @@ export class NewInspectionConstructionComponent {
   );
 
   lsSector = toSignal<Sector[], Sector[]>(
-    this.registerForm.controls.idParroquia
+    this.registerForm.controls.IdParroquia
       .valueChanges
       .pipe(
         filter(Boolean),
-        tap(() => this.registerForm.controls.idSector.setValue(null)),
+        tap(() => this.registerForm.controls.IdSector.setValue(null)),
         switchMap((idParroquia: string) => this.catalogService.obtenerSector(idParroquia))
       ),
     {initialValue: []}
