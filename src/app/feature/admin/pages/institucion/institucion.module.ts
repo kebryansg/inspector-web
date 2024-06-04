@@ -8,7 +8,7 @@ import {AreaComponent} from './area/area.component';
 import {CompaniaComponent} from './compania/compania.component';
 import {InstitucionComponent} from './institucion/institucion.component';
 import {CardComponent} from "@standalone-shared/card/card.component";
-import {DxButtonModule, DxDataGridModule, DxFormModule} from "devextreme-angular";
+import {DxButtonModule, DxDataGridModule, DxFormModule, DxTextAreaModule} from "devextreme-angular";
 
 
 @NgModule({
@@ -27,6 +27,7 @@ import {DxButtonModule, DxDataGridModule, DxFormModule} from "devextreme-angular
     DxDataGridModule,
     DxButtonModule,
     DxFormModule,
+    DxTextAreaModule,
   ]
 })
 export class InstitucionModule {

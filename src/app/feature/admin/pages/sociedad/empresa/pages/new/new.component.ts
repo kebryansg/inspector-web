@@ -191,10 +191,10 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       Longitud: [null],
       TipoPermiso: ['ANL'],
 
-      AreaTerreno: [0, [Validators.required, Validators.min(0.01)]],
-      AreaUtil: [0, [Validators.required, Validators.min(0.01)]],
-      AforoFijo: [0, [Validators.required, Validators.min(0.01)]],
-      AforoFlotante: [0, [Validators.required, Validators.min(0.01)]],
+      AreaTerreno: [0, [Validators.required]],
+      AreaUtil: [0, [Validators.required]],
+      AforoFijo: [0, [Validators.required]],
+      AforoFlotante: [0, [Validators.required]],
 
 
       IDEntidad: [null, Validators.required],

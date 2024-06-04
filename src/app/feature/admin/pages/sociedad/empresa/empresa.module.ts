@@ -6,13 +6,13 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {EmpresaComponent} from './empresa.component';
 import {NewEmpresaComponent} from './pages/new/new.component';
 import {
-	DxButtonModule,
-	DxDataGridModule,
-	DxFormModule,
-	DxMapModule, DxNumberBoxModule,
-	DxSelectBoxModule,
-	DxTabsModule,
-	DxTextBoxModule
+  DxButtonModule,
+  DxDataGridModule,
+  DxFormModule,
+  DxMapModule, DxNumberBoxModule,
+  DxSelectBoxModule,
+  DxTabsModule, DxTextAreaModule,
+  DxTextBoxModule
 } from "devextreme-angular";
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
@@ -41,6 +41,7 @@ import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-c
 		DxSelectBoxModule,
 		DxTextBoxModule,
 		DxFormModule,
+    DxTextAreaModule,
 
 		StatusPipe,
 		ItemControlComponent,

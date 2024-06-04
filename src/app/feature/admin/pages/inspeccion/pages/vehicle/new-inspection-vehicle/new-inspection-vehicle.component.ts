@@ -1,6 +1,14 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
-import {DxButtonModule, DxDataGridModule, DxDateBoxModule, DxDropDownBoxModule, DxFormModule, DxSelectBoxModule} from "devextreme-angular";
+import {
+  DxButtonModule,
+  DxDataGridModule,
+  DxDateBoxModule,
+  DxDropDownBoxModule,
+  DxFormModule,
+  DxSelectBoxModule,
+  DxTextAreaModule
+} from "devextreme-angular";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -22,6 +30,7 @@ import {InspectionVehicleService} from "../../../services/inspection-vehicle.ser
     DxDropDownBoxModule,
     DxDataGridModule,
     DxSelectBoxModule,
+    DxTextAreaModule,
     DxSelectErrorControlDirective,
     DxFormModule,
     ReactiveFormsModule,

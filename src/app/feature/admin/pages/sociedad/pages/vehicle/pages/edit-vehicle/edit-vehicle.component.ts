@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, computed, DestroyRef, inject, input,
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {DxButtonModule, DxFormModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
+import {DxButtonModule, DxFormModule, DxSelectBoxModule, DxTextAreaModule, DxTextBoxModule} from "devextreme-angular";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {CatalogVehicleService} from "../../services/catalog-vechicle";
 import {AsyncPipe, JsonPipe} from "@angular/common";
@@ -29,6 +29,7 @@ import {NotificationService} from "@service-shared/notification.service";
     FormsModule,
     DxTextBoxModule,
     DxSelectBoxModule,
+    DxTextAreaModule,
 
     DxTextErrorControlDirective,
     DxSelectErrorControlDirective,

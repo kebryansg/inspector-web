@@ -11,7 +11,15 @@ import {Empresa} from "../../../../sociedad/interfaces";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {ToolsService} from "../../../../../services/tools.service";
 import {CardComponent} from "@standalone-shared/card/card.component";
-import {DxButtonModule, DxDataGridModule, DxDateBoxModule, DxDropDownBoxModule, DxFormModule, DxSelectBoxModule} from "devextreme-angular";
+import {
+  DxButtonModule,
+  DxDataGridModule,
+  DxDateBoxModule,
+  DxDropDownBoxModule,
+  DxFormModule,
+  DxSelectBoxModule,
+  DxTextAreaModule
+} from "devextreme-angular";
 import {AsyncPipe} from "@angular/common";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 import {MdFindEntityComponent} from "../../../components/md-find-entity/md-find-entity.component";
@@ -28,6 +36,7 @@ import {Dialog} from "@angular/cdk/dialog";
     DxFormModule,
     ReactiveFormsModule,
     DxSelectBoxModule,
+    DxTextAreaModule,
     DxSelectErrorControlDirective,
     AsyncPipe,
     DxDateBoxModule,

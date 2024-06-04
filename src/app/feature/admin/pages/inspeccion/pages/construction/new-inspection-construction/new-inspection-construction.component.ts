@@ -1,6 +1,14 @@
 import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
-import {DxButtonModule, DxFormModule, DxMapModule, DxNumberBoxModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
+import {
+  DxButtonModule,
+  DxFormModule,
+  DxMapModule,
+  DxNumberBoxModule,
+  DxSelectBoxModule,
+  DxTextAreaModule,
+  DxTextBoxModule
+} from "devextreme-angular";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
 import {MdFindEntityComponent} from "../../../components/md-find-entity/md-find-entity.component";
@@ -31,6 +39,7 @@ import {Sector} from "../../../../../localization/interfaces/base.interface";
     DxTextErrorControlDirective,
     DxMapModule,
     DxNumberBoxModule,
+    DxTextAreaModule,
     DxSelectBoxModule,
     DxSelectErrorControlDirective,
   ],
