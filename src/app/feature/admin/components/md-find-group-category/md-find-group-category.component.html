@@ -10,46 +10,38 @@
 </div>
 
 <div class="modal-body">
-  <dx-data-grid [dataSource]="gridDataSource"
+  <dx-data-grid [dataSource]="lsRows()"
                 [columnAutoWidth]="true"
                 [columnMinWidth]="80"
                 [hoverStateEnabled]="true"
                 [rowAlternationEnabled]="true"
-                (onToolbarPreparing)="onToolbarPreparing($event)"
                 [syncLookupFilterValues]="false"
                 height="450px"
+                keyExpr="No"
                 (onRowDblClick)="submit()"
                 [(selectedRowKeys)]="selected"
                 [searchPanel]="{visible:true}"
                 [filterRow]="{visible:true}"
+                [headerFilter]="{visible:true}"
                 [showBorders]="true">
-    <dxo-remote-operations [paging]="true"/>
 
-    <dxo-paging [pageSize]="10"></dxo-paging>
-    <dxo-pager
-      [showPageSizeSelector]="true"
-      [allowedPageSizes]="[10, 20, 40, 60]"
-      [showInfo]="true">
-    </dxo-pager>
-    <dxo-selection mode="single"></dxo-selection>
+    <dxo-paging [pageSize]="10"/>
+    <dxo-pager [showPageSizeSelector]="true"
+               [allowedPageSizes]="[10, 20, 40, 60]"
+               [showInfo]="true"
+    />
+    <dxo-selection mode="single"/>
 
-    <dxi-column dataField="Tipo"
-                caption="Tipo Entidad"
-                alignment="center">
-      <dxo-lookup [dataSource]="lsTipoEntidad()"
-                  valueExpr="value"
-                  displayExpr="label"
-      ></dxo-lookup>
-    </dxi-column>
-    <dxi-column dataField="Identificacion"
-                caption="Identificación"
-    ></dxi-column>
-    <dxi-column dataField="Nombres"
-                caption="Nombres"
-    ></dxi-column>
-    <dxi-column dataField="Apellidos"
-                caption="Apellidos"
-    ></dxi-column>
+    <dxi-column dataField="group_description"
+                caption="Grupo"
+    />
+    <dxi-column dataField="act_tarifario"
+                caption="Tarifario"
+    />
+    <dxi-column dataField="category"
+                caption="Categoria"
+                [allowHeaderFiltering]="false"
+    />
 
   </dx-data-grid>
 </div>

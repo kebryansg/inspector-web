@@ -2,19 +2,20 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, O
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {animate, style, transition, trigger} from '@angular/animations';
-import {forkJoin, of, Subject} from 'rxjs';
-import {switchMap} from 'rxjs/operators';
+import {filter, forkJoin, Subject} from 'rxjs';
 import {NotificationService} from "@service-shared/notification.service";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import {ToolsService} from "../../../../../services/tools.service";
-import {ActividadTarifario, CategoriaGrupo, Empresa, GrupoTarifario} from "../../../interfaces";
-import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
+import {Empresa} from "../../../interfaces";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {TypePermission} from "../../const/type-permiso.const";
 import {Dialog} from "@angular/cdk/dialog";
-import {ModalEntidadComponent} from "../../../components/modal-entidad/modal-entidad.component";
 import {EmpresaService} from "../../../services";
 import {environment} from "@environments/environment";
 import {GeoLocationDefault} from "../../../../../const/geo-location.const";
+import {MdFindEntityComponent} from "../../../../../components/md-find-entity/md-find-entity.component";
+import {GroupCatalog} from "../../../../../interfaces/group-catalog.interface";
+import {MdFindGroupCategoryComponent} from "../../../../../components/md-find-group-category/md-find-group-category.component";
 
 
 const longTabs = [
@@ -29,7 +30,7 @@ const longTabs = [
     icon: 'icon-cloud-rain',
   },
   {
-    text: 'Actividad Económica',
+    text: 'Tarifario',
     option: 'ACTE',
     icon: 'icon-briefcase',
   },
@@ -88,12 +89,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   lsActEconomica: any[] = [];
   lsTipoEmpresa: any[] = [];
 
-  lsGrupo = toSignal<GrupoTarifario[], GrupoTarifario[]>(this.catalogoService.obtenerGrupo(), {
-    initialValue: []
-  });
-
-  lsActividad = signal<ActividadTarifario[]>([]);
-  lsCategoria = signal<CategoriaGrupo[]>([]);
   lsTypePerm = signal<any[]>(TypePermission);
 
   lsProvincias: any[] = [];
@@ -104,6 +99,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   entidad = signal<any | null>(null);
   titleModal: string = '';
   edit = signal<boolean>(false);
+  infoGroup = signal<any>({});
 
 
   apiKey = {google: environment.googleMapsKey}
@@ -145,7 +141,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   ngAfterViewInit() {
     const {data} = this.activatedRoute.snapshot
     if ('empresa' in data)
-      this.loadEmpresa(data['empresa']);
+      this.loadCompany(data['empresa']);
   }
 
   obtenerCatalogos() {
@@ -215,44 +211,47 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.events();
   }
 
-  loadEmpresa(datos: Empresa) {
+  loadCompany(dataCompany: Empresa) {
     this.form.patchValue({
-      ID: datos.ID,
-      RUC: datos.RUC,
-      NombreComercial: datos.NombreComercial,
-      RazonSocial: datos.RazonSocial,
-      Direccion: datos.Direccion,
-      Telefono: datos.Telefono,
-      Celular: datos.Celular,
-      Email: datos.Email,
-      Referencia: datos.Referencia,
-      Estado: datos.Estado,
-      EstadoAplicacion: datos.EstadoAplicacion,
-      Latitud: datos.Latitud,
-      Longitud: datos.Longitud,
-      IDEntidad: datos.IDEntidad,
-      TipoPermiso: datos.TipoPermiso,
-      IDActEconomica: datos.IDActEconomica,
-      IDTipoEmpresa: datos.IDTipoEmpresa,
-      IDTarifaGrupo: datos.IDTarifaGrupo,
+      ID: dataCompany.ID,
+      RUC: dataCompany.RUC,
+      NombreComercial: dataCompany.NombreComercial,
+      RazonSocial: dataCompany.RazonSocial,
+      Direccion: dataCompany.Direccion,
+      Telefono: dataCompany.Telefono,
+      Celular: dataCompany.Celular,
+      Email: dataCompany.Email,
+      Referencia: dataCompany.Referencia,
+      Estado: dataCompany.Estado,
+      EstadoAplicacion: dataCompany.EstadoAplicacion,
+      Latitud: dataCompany.Latitud,
+      Longitud: dataCompany.Longitud,
+      IDEntidad: dataCompany.IDEntidad,
+      TipoPermiso: dataCompany.TipoPermiso,
+      IDActEconomica: dataCompany.IDActEconomica,
+      IDTipoEmpresa: dataCompany.IDTipoEmpresa,
+      IDTarifaGrupo: dataCompany.IDTarifaGrupo,
 
 
-      AreaTerreno: datos.AreaTerreno,
-      AreaUtil: datos.AreaUtil,
-      AforoFijo: datos.AforoFijo,
-      AforoFlotante: datos.AforoFlotante,
+      AreaTerreno: dataCompany.AreaTerreno,
+      AreaUtil: dataCompany.AreaUtil,
+      AforoFijo: dataCompany.AforoFijo,
+      AforoFlotante: dataCompany.AforoFlotante,
     });
     this.edit.set(true);
-    this.entidad.set(datos.idEntidad);
+    this.entidad.set(dataCompany.idEntidad);
 
-    if (datos.Latitud) {
+    if (dataCompany.groupCatalog)
+      this.infoGroup.set(dataCompany.groupCatalog);
+
+    if (dataCompany.Latitud) {
       this.centerMap = {
-        lat: Number(datos.Latitud),
-        lng: Number(datos.Longitud)
+        lat: Number(dataCompany.Latitud),
+        lng: Number(dataCompany.Longitud)
       }
       this.markerPositions.push(
         {
-          location: [Number(datos.Latitud), Number(datos.Longitud)],
+          location: [Number(dataCompany.Latitud), Number(dataCompany.Longitud)],
           tooltip: {
             isShown: false,
             text: 'Company',
@@ -262,48 +261,17 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     }
 
-    if (datos.IDTarifaGrupo) {
-      setTimeout(() => {
-        this.form.patchValue({
-          IDTarifaActividad: datos.IDTarifaActividad,
-          IDTarifaCategoria: datos.IDTarifaCategoria,
-        }, {emitEvent: false});
-      }, 1000);
-    }
-
-    if (datos.IDSector) {
+    if (dataCompany.IDSector) {
       this.form.patchValue({
-        IDProvincia: datos.idSector.IDProvincia,
-        IDCanton: datos.idSector.IDCanton,
-        IDParroquia: datos.idSector.IDParroquia,
-        IDSector: datos.idSector.ID,
+        IDProvincia: dataCompany.idSector.IDProvincia,
+        IDCanton: dataCompany.idSector.IDCanton,
+        IDParroquia: dataCompany.idSector.IDParroquia,
+        IDSector: dataCompany.idSector.ID,
       });
     }
   }
 
   events() {
-    this.tarifaGrupoControl.valueChanges
-      .pipe(
-        switchMap(IDTarifaGrupo => IDTarifaGrupo ?
-          this.catalogoService.obtenerTarifarioGrupo(IDTarifaGrupo) :
-          of(null)
-        ),
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe((grupo: any) => {
-
-      this.form.patchValue({
-        IDTarifaActividad: '',
-        IDTarifaCategoria: '',
-      }, {emitEvent: false});
-      if (!grupo) {
-        this.lsActividad.set([]);
-        this.lsCategoria.set([]);
-        return;
-      }
-
-      this.lsActividad.set(grupo.acttarifarios);
-      this.lsCategoria.set(grupo.categorias);
-    });
 
     this.provinciaControl.valueChanges
       .pipe(
@@ -406,7 +374,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   //#region Modals
 
   loadModalEntity() {
-    const modalRef = this.modalService.open(ModalEntidadComponent, {
+    const modalRef = this.modalService.open(MdFindEntityComponent, {
       data: {
         titleModal: 'Buscar Entidad'
       },
@@ -419,7 +387,36 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
           return;
         }
         this.entidad.set(data);
-        this.form.controls['IDEntidad'].setValue(data.ID);
+        this.form.patchValue({
+          RUC: data.Identificacion,
+          IDEntidad: data.ID,
+          Telefono: data.Telefono,
+          Celular: data.Celular,
+          RazonSocial: `${data.Apellidos} ${data.Nombres}`
+        });
+      });
+  }
+
+  loadModalGroup() {
+    const modalRef = this.modalService.open<GroupCatalog>(MdFindGroupCategoryComponent, {
+      data: {
+        titleModal: 'Buscar Grupo Tarifario'
+      },
+      panelClass: 'modal-lg'
+    });
+
+    modalRef.closed
+      .pipe(
+        filter(Boolean)
+      )
+      .subscribe((data: GroupCatalog) => {
+        console.log(data);
+        this.infoGroup.set(data);
+        this.form.patchValue({
+          IDTarifaGrupo: data.IdGroup,
+          IDTarifaActividad: data.IdActivityTar,
+          IDTarifaCategoria: data.IdCategory,
+        })
       });
   }
 

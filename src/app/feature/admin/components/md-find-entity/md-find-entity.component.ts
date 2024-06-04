@@ -2,13 +2,13 @@ import {ChangeDetectionStrategy, Component, inject, OnInit, ViewChild} from '@an
 import {DxDataGridComponent, DxDataGridModule} from 'devextreme-angular';
 import DataSource from 'devextreme/data/data_source';
 import {ModalTemplate} from "@modal/modal-template";
-import {headersParams} from "@utils/data-grid.util";
-import {isNotEmpty} from "@utils/empty.util";
-import {EntidadService} from "../../services";
-import {typeEntitySignal} from "../../../../const/type-entidad.const";
+import {typeEntitySignal} from "../../const/type-entidad.const";
+import {EntidadService} from "../../pages/sociedad/services";
+import {headersParams} from "../../../../shared/utils/data-grid.util";
+import {isNotEmpty} from "../../../../shared/utils/empty.util";
 
 @Component({
-  templateUrl: './modal-entidad.component.html',
+  templateUrl: './md-find-entity.component.html',
   standalone: true,
   styleUrls: [],
   imports: [
@@ -16,10 +16,11 @@ import {typeEntitySignal} from "../../../../const/type-entidad.const";
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ModalEntidadComponent extends ModalTemplate implements OnInit {
+export class MdFindEntityComponent extends ModalTemplate implements OnInit {
 
-  private entidadService: EntidadService<any> = inject(EntidadService);
-  lsTipoEntidad = typeEntitySignal;
+  private entityService: EntidadService<any> = inject(EntidadService);
+  lsTypeEntity = typeEntitySignal;
+  onlyOwnerVehicle: boolean = false;
 
   @ViewChild(DxDataGridComponent) dataGrid!: DxDataGridComponent;
   gridDataSource: any;
@@ -27,13 +28,17 @@ export class ModalEntidadComponent extends ModalTemplate implements OnInit {
 
   ngOnInit() {
     this.titleModal = this.dataModal.titleModal;
+    this.onlyOwnerVehicle = this.dataModal.onlyOwnerVehicle ?? false;
 
     this.gridDataSource = new DataSource({
       load: (loadOptions: any) => {
         let params: any = headersParams.filter(i => isNotEmpty(loadOptions[i]))
           .reduce((a, b) => ({...a, [b]: loadOptions[b]}), {});
 
-        return this.entidadService.getPaginate(params)
+        return this.entityService.getPaginate({
+          ...params,
+          ...(this.onlyOwnerVehicle ? {onlyOwnerVehicle: true} : {})
+        })
       }
     });
   }

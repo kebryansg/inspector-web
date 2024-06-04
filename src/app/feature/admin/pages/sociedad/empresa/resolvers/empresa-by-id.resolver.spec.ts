@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 import { ResolveFn } from '@angular/router';
 
-import { empresaByIdResolver } from './empresa-by-id.resolver';
+import { companyByIdResolver } from './company-by-id.resolver';
 
 describe('empresaByIdResolver', () => {
-  const executeResolver: ResolveFn<boolean> = (...resolverParameters) => 
-      TestBed.runInInjectionContext(() => empresaByIdResolver(...resolverParameters));
+  const executeResolver: ResolveFn<boolean> = (...resolverParameters) =>
+      TestBed.runInInjectionContext(() => companyByIdResolver(...resolverParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

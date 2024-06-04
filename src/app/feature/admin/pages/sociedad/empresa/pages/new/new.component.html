@@ -40,163 +40,118 @@
         <div class="row">
           <div class="col-md-6">
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">RUC</label>
-              <div class="col-sm-12">
-                <dx-text-box maxLength="13"
-                             formControlName="RUC"
-                />
-              </div>
-            </div>
+            <app-item-control titleControl="RUC">
+              <dx-text-box maxLength="13"
+                           formControlName="RUC"
+              />
+            </app-item-control>
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Nombre Comercial</label>
-              <div class="col-sm-12">
-                <dx-text-box formControlName="NombreComercial"/>
-              </div>
-            </div>
+            <app-item-control titleControl="Nombre Comercial">
+              <dx-text-box
+                formControlName="NombreComercial"/>
+            </app-item-control>
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Razón Social</label>
-              <div class="col-sm-12">
-                <dx-text-box formControlName="RazonSocial"/>
-              </div>
-            </div>
+            <app-item-control titleControl="Razón Social">
+              <dx-text-box
+                formControlName="RazonSocial"/>
+            </app-item-control>
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Establecimiento</label>
-              <div class="col-sm-12">
-                <dx-text-box formControlName="Establecimiento"
-                             [maxLength]="3"
-                />
-              </div>
-            </div>
+            <app-item-control titleControl="Establecimiento">
+              <dx-text-box formControlName="Establecimiento"
+                           [maxLength]="3"
+              />
+            </app-item-control>
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Tipo Permiso</label>
-              <div class="col-sm-12">
-                <dx-select-box [dataSource]="lsTypePerm()"
-                               displayExpr="name"
-                               valueExpr="type"
-                               formControlName="TipoPermiso"
-                />
-              </div>
-            </div>
+            <app-item-control titleControl="Tipo Permiso">
+              <dx-select-box [dataSource]="lsTypePerm()"
+                             displayExpr="name"
+                             valueExpr="type"
+                             formControlName="TipoPermiso"
+              />
+            </app-item-control>
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Estado</label>
-              <div class="col-sm-12">
-                <dx-select-box [dataSource]="status$ | async"
-                               displayExpr="label"
-                               valueExpr="value"
-                               formControlName="Estado"
-                               [searchEnabled]="true"
-                />
-              </div>
-            </div>
+            <app-item-control titleControl="Estado">
+              <dx-select-box [dataSource]="status$ | async"
+                             displayExpr="label"
+                             valueExpr="value"
+                             formControlName="Estado"
+                             [searchEnabled]="true"
+              />
+            </app-item-control>
 
           </div>
           <div class="col-md-6">
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Dirección</label>
-              <div class="col-sm-12">
-                <dx-text-box formControlName="Direccion"/>
-              </div>
-            </div>
+            <app-item-control titleControl="Dirección">
+              <dx-text-box formControlName="Direccion"/>
+            </app-item-control>
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Referencia</label>
-              <div class="col-sm-12">
-                <dx-text-box formControlName="Referencia"/>
-              </div>
-            </div>
+            <app-item-control titleControl="Referencia">
+              <dx-text-box formControlName="Referencia"/>
+            </app-item-control>
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Teléfono</label>
-              <div class="col-sm-12">
-                <dx-text-box formControlName="Telefono"/>
-              </div>
-            </div>
+            <app-item-control titleControl="Teléfono">
+              <dx-text-box formControlName="Telefono"/>
+            </app-item-control>
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Celular</label>
-              <div class="col-sm-12">
-                <dx-text-box formControlName="Celular"/>
-              </div>
-            </div>
+            <app-item-control titleControl="Celular">
+              <dx-text-box formControlName="Celular"/>
+            </app-item-control>
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Email</label>
-              <div class="col-sm-12">
-                <dx-text-box formControlName="Email"/>
-              </div>
-            </div>
+            <app-item-control titleControl="Email">
+              <dx-text-box formControlName="Email"/>
+            </app-item-control>
 
           </div>
         </div>
 
         <div class="row my-2">
           <div class="col-6">
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Area Terreno</label>
-              <div class="col-sm-12">
-                <dx-number-box formControlName="AreaTerreno"
-                               format="#,##0.00"
-                               [showSpinButtons]="true"
-                               [step]="0.10"
-                />
-              </div>
-            </div>
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Area Util</label>
-              <div class="col-sm-12">
-                <dx-number-box formControlName="AreaUtil"
-                               format="#,##0.00"
-                               [showSpinButtons]="true"
-                               [step]="0.10"
-                />
-              </div>
-            </div>
+
+            <app-item-control titleControl="Area Terreno">
+              <dx-number-box formControlName="AreaTerreno"
+                             format="#,##0.00"
+                             [showSpinButtons]="true"
+                             [step]="0.10"
+              />
+            </app-item-control>
+
+            <app-item-control titleControl="Area Util">
+              <dx-number-box formControlName="AreaUtil"
+                             format="#,##0.00"
+                             [showSpinButtons]="true"
+                             [step]="0.10"
+              />
+            </app-item-control>
+
           </div>
           <div class="col-6">
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Capacidad de personas (Aforo Fijo)</label>
-              <div class="col-sm-12">
-                <dx-number-box formControlName="AforoFijo"
-                               [showSpinButtons]="true"
-                />
-              </div>
-            </div>
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Capacidad de personas (Aforo Flotante)</label>
-              <div class="col-sm-12">
-                <dx-number-box formControlName="AforoFlotante"
-                               [showSpinButtons]="true"
-                />
-              </div>
-            </div>
+
+            <app-item-control titleControl="Capacidad de personas (Aforo Fijo)">
+              <dx-number-box formControlName="AforoFijo"
+                             [showSpinButtons]="true"
+              />
+            </app-item-control>
+
+            <app-item-control titleControl="Capacidad de personas (Aforo Flotante)">
+              <dx-number-box formControlName="AforoFlotante"
+                             [showSpinButtons]="true"
+              />
+            </app-item-control>
+
           </div>
         </div>
       }
       @case ('ENT') {
-        <div class="row">
-
-          <div class="col-md-12">
-            <div class="pull-left">
-              <label style="font-size: 1.45rem;">
-                Entidad
-              </label>
-
-              <dx-button class="mx-5"
-                         [text]="'Buscar Entidad'"
-                         [icon]="'search'"
-                         [type]="'success'"
-                         (click)="loadModalEntity()"
-              />
-            </div>
+        <section class="row mb-5">
+          <div class="col">
+            <dx-button [text]="'Buscar Entidad'"
+                       [icon]="'search'"
+                       [type]="'success'"
+                       (click)="loadModalEntity()"
+            />
           </div>
-        </div>
+        </section>
 
         <div class="row">
           <div class="col-md-12">
@@ -227,84 +182,70 @@
         </div>
       }
       @case ('ACTE') {
-        <div class="row">
-          <div class="col-md-6">
-            <h3 class="sub-title text-c-blue font-weight-bold">
-              Organización
-            </h3>
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Actividad Económica</label>
-              <div class="col-sm-10 pr-0">
+        <!--#region Group Economic  -->
+        <section class="row mb-4">
+          <div class="col">
+            <dx-button class="mb-4"
+                       [text]="'Asignar Grupo'"
+                       [icon]="'group'"
+                       [type]="'success'"
+                       (click)="loadModalGroup()"
+            />
 
-                <dx-select-box [dataSource]="lsActEconomica"
-                               displayExpr="Descripcion"
-                               [wrapItemText]="true"
-                               valueExpr="ID"
-                               formControlName="IDActEconomica"
-                               [searchEnabled]="true"
-                />
-
+            <section class="row">
+              <div class="col-md-12">
+                <dx-form [formData]="infoGroup()"
+                         [readOnly]="true"
+                         [colCount]="2"
+                         labelLocation="top">
+                  <dxi-item dataField="group_description"
+                            [label]="{text:'Grupo'}"
+                  />
+                  <dxi-item dataField="act_tarifario"
+                            [label]="{text:'Tarifario'}"
+                  />
+                  <dxi-item dataField="category"
+                            [label]="{text:'Categoria'}"
+                  />
+                </dx-form>
               </div>
-            </div>
-
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Tipo Empresa</label>
-              <div class="col-sm-10 pr-0">
-                <dx-select-box [dataSource]="lsTipoEmpresa"
-                               displayExpr="Nombre"
-                               [wrapItemText]="true"
-                               valueExpr="ID"
-                               formControlName="IDTipoEmpresa"
-                               [searchEnabled]="true"
-                />
-              </div>
-            </div>
+            </section>
 
           </div>
-          <div class="col-md-6">
-            <h3 class="sub-title text-c-blue font-weight-bold">
-              Tarifario
-            </h3>
+        </section>
+        <!--#endregion  -->
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Grupo</label>
-              <div class="col-sm-10 pr-0">
-                <dx-select-box [dataSource]="lsGrupo()"
-                               displayExpr="Nombre"
-                               valueExpr="ID"
-                               formControlName="IDTarifaGrupo"
-                               [searchEnabled]="true"
-                ></dx-select-box>
-              </div>
-            </div>
+        <h3 class="sub-title text-c-blue font-weight-bold">
+          Organización
+        </h3>
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Actividad</label>
-              <div class="col-sm-10 pr-0">
-                <dx-select-box [dataSource]="lsActividad()"
-                               displayExpr="Nombre"
-                               valueExpr="ID"
-                               formControlName="IDTarifaActividad"
-                               [searchEnabled]="true"
-                ></dx-select-box>
-              </div>
-            </div>
+        <section class="row">
+          <div class="col-md-6 col-sm">
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Categoría</label>
-              <div class="col-sm-10 pr-0">
-                <dx-select-box [dataSource]="lsCategoria()"
-                               displayExpr="Nombre"
-                               valueExpr="ID"
-                               formControlName="IDTarifaCategoria"
-                               [searchEnabled]="true"
-                ></dx-select-box>
-              </div>
-            </div>
+            <app-item-control titleControl="Actividad Económica">
+              <dx-select-box [dataSource]="lsActEconomica"
+                             displayExpr="Descripcion"
+                             [wrapItemText]="true"
+                             valueExpr="ID"
+                             formControlName="IDActEconomica"
+                             [searchEnabled]="true"
+              />
+            </app-item-control>
 
           </div>
-        </div>
+          <div class="col-md-6 col-sm">
+            <app-item-control titleControl="Tipo Empresa">
+              <dx-select-box [dataSource]="lsTipoEmpresa"
+                             displayExpr="Nombre"
+                             [wrapItemText]="true"
+                             valueExpr="ID"
+                             formControlName="IDTipoEmpresa"
+                             [searchEnabled]="true"
+              />
+            </app-item-control>
+          </div>
+        </section>
       }
       @case ('UBC') {
         <div class="row">
@@ -322,56 +263,44 @@
         <div class="row">
           <div class="col-md-6">
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Provincia</label>
-              <div class="col-sm-12">
-                <dx-select-box [dataSource]="lsProvincias"
-                               displayExpr="Descripcion"
-                               valueExpr="ID"
-                               formControlName="IDProvincia"
-                               [searchEnabled]="true"
-                ></dx-select-box>
-              </div>
-            </div>
+            <app-item-control titleControl="Provincia">
+              <dx-select-box [dataSource]="lsProvincias"
+                             displayExpr="Descripcion"
+                             valueExpr="ID"
+                             formControlName="IDProvincia"
+                             [searchEnabled]="true"
+              />
+            </app-item-control>
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Cantón</label>
-              <div class="col-sm-12">
-                <dx-select-box [dataSource]="lsCanton"
-                               displayExpr="Descripcion"
-                               valueExpr="ID"
-                               formControlName="IDCanton"
-                               [searchEnabled]="true"
-                ></dx-select-box>
-              </div>
-            </div>
+            <app-item-control titleControl="Cantón">
+              <dx-select-box [dataSource]="lsCanton"
+                             displayExpr="Descripcion"
+                             valueExpr="ID"
+                             formControlName="IDCanton"
+                             [searchEnabled]="true"
+              />
+            </app-item-control>
 
           </div>
           <div class="col-md-6">
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Parroquía</label>
-              <div class="col-sm-12">
-                <dx-select-box [dataSource]="lsParroquia"
-                               displayExpr="Descripcion"
-                               valueExpr="ID"
-                               formControlName="IDParroquia"
-                               [searchEnabled]="true"
-                ></dx-select-box>
-              </div>
-            </div>
+            <app-item-control titleControl="Parroquía">
+              <dx-select-box [dataSource]="lsParroquia"
+                             displayExpr="Descripcion"
+                             valueExpr="ID"
+                             formControlName="IDParroquia"
+                             [searchEnabled]="true"
+              />
+            </app-item-control>
 
-            <div class="form-group form-default row">
-              <label class="col-sm-12 col-form-label">Sector</label>
-              <div class="col-sm-12">
-                <dx-select-box [dataSource]="lsSector"
-                               displayExpr="Descripcion"
-                               valueExpr="ID"
-                               formControlName="IDSector"
-                               [searchEnabled]="true"
-                ></dx-select-box>
-              </div>
-            </div>
+            <app-item-control titleControl="Sector">
+              <dx-select-box [dataSource]="lsSector"
+                             displayExpr="Descripcion"
+                             valueExpr="ID"
+                             formControlName="IDSector"
+                             [searchEnabled]="true"
+              />
+            </app-item-control>
 
           </div>
         </div>

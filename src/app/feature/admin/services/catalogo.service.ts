@@ -5,6 +5,8 @@ import {Observable} from "rxjs";
 import {ActividadEconomica, GrupoTarifario, TipoEmpresa} from "../pages/sociedad/interfaces";
 import {Canton, Parroquia, Provincia, Sector} from "../localization/interfaces/base.interface";
 import {TypeInspection} from "../pages/formulario/interfaces/type-inspection.interface";
+import {GroupCatalog} from "../interfaces/group-catalog.interface";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -99,6 +101,18 @@ export class CatalogoService {
 
   getCatalogTypeComponent() {
     return this.httpClient.get<any[]>(this.url + 'formulario/catalog');
+  }
+
+  getGroupCatalog() {
+    return this.httpClient.get<GroupCatalog[]>(this.url + 'grupo/catalog');
+  }
+
+  getGroupCatalogById(queryParams: any): Observable<GroupCatalog> {
+    return this.httpClient.get<GroupCatalog[]>(this.url + 'grupo/catalog', {
+      params: queryParams
+    }).pipe(
+      map(items => items[0])
+    );
   }
 
 }

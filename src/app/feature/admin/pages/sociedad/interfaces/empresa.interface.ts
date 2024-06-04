@@ -1,4 +1,5 @@
 import {Entidad} from "./entidad.interface";
+import {GroupCatalog} from "../../../interfaces/group-catalog.interface";
 
 export interface Empresa {
   ID: number;
@@ -33,6 +34,8 @@ export interface Empresa {
   AreaUtil: number;
   AforoFijo: number;
   AforoFlotante: number;
+
+  groupCatalog?: GroupCatalog
 }
 
 export interface IDSector {

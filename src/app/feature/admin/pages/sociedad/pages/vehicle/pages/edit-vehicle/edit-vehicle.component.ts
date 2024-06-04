@@ -8,15 +8,17 @@ import {CatalogVehicleService} from "../../services/catalog-vechicle";
 import {AsyncPipe, JsonPipe} from "@angular/common";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 import {Dialog} from "@angular/cdk/dialog";
-import {ModalEntidadComponent} from "../../../../components/modal-entidad/modal-entidad.component";
-import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
+import {toSignal} from "@angular/core/rxjs-interop";
 import {ActividadTarifario, CategoriaGrupo, GrupoTarifario} from "../../../../interfaces";
 import {CatalogoService} from "../../../../../../services/catalogo.service";
-import {shareReplay, switchMap} from "rxjs/operators";
-import {of} from "rxjs";
+import {shareReplay} from "rxjs/operators";
+import {filter} from "rxjs";
 import {Router} from "@angular/router";
 import {VehiclesService} from "../../services/vehicles.service";
 import {NotificationService} from "@service-shared/notification.service";
+import {MdFindEntityComponent} from "../../../../../../components/md-find-entity/md-find-entity.component";
+import {MdFindGroupCategoryComponent} from "../../../../../../components/md-find-group-category/md-find-group-category.component";
+import {GroupCatalog} from "../../../../../../interfaces/group-catalog.interface";
 
 @Component({
   selector: 'app-edit-vehicle',
@@ -70,6 +72,7 @@ export class EditVehicleComponent implements OnInit {
     );
 
   infoEntity = signal({});
+  infoGroup = signal({});
 
   idItem = input(0, {transform: numberAttribute})
   itemData = input<any>({}, {alias: 'item'})
@@ -80,7 +83,6 @@ export class EditVehicleComponent implements OnInit {
   lsCategory = signal<CategoriaGrupo[]>([]);
 
   ngOnInit() {
-    this.eventForm();
     this.editRegister() && this.loadDataForm(this.itemData());
   }
 
@@ -102,9 +104,9 @@ export class EditVehicleComponent implements OnInit {
       model_id: ['', Validators.required],
       color_one_id: ['', Validators.required],
       color_two_id: ['', Validators.required],
-      group_economic: ['', Validators.required],
-      tariff_activity: ['', Validators.required],
-      category: ['', Validators.required],
+      group_economic: [0, [Validators.required, Validators.min(0)]],
+      tariff_activity: [0, [Validators.required, Validators.min(0)]],
+      category: [0, [Validators.required, Validators.min(0)]],
     })
   }
 
@@ -125,7 +127,7 @@ export class EditVehicleComponent implements OnInit {
   }
 
   loadModalEntity() {
-    const modalRef = this.dialogService.open(ModalEntidadComponent, {
+    const modalRef = this.dialogService.open(MdFindEntityComponent, {
       //size: 'lg', centered: true
       data: {
         titleModal: 'Buscar Entidad'
@@ -143,31 +145,27 @@ export class EditVehicleComponent implements OnInit {
       });
   }
 
-  eventForm() {
-    this.registerForm.controls
-      .group_economic
-      .valueChanges
-      .pipe(
-        switchMap(idGroup => idGroup ?
-          this.catalogAppService.obtenerTarifarioGrupo(idGroup) :
-          of(null)
-        ),
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe((group: any) => {
-
-      this.registerForm.patchValue({
-        category: '',
-        tariff_activity: '',
-      }, {emitEvent: false});
-      if (!group) {
-        this.lsActivity.set([]);
-        this.lsCategory.set([]);
-        return;
-      }
-
-      this.lsActivity.set(group.acttarifarios);
-      this.lsCategory.set(group.categorias);
+  loadModalGroup() {
+    const modalRef = this.dialogService.open<GroupCatalog>(MdFindGroupCategoryComponent, {
+      data: {
+        titleModal: 'Buscar Grupo Tarifario'
+      },
+      panelClass: 'modal-lg'
     });
+
+    modalRef.closed
+      .pipe(
+        filter(Boolean)
+      )
+      .subscribe((data: GroupCatalog) => {
+        console.log(data);
+        this.infoGroup.set(data);
+        this.registerForm.patchValue({
+          group_economic: data.IdGroup,
+          tariff_activity: data.IdActivityTar,
+          category: data.IdCategory,
+        })
+      });
   }
 
   cancelForm() {

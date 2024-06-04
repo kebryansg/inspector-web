@@ -22,7 +22,7 @@ import {
 } from "devextreme-angular";
 import {AsyncPipe} from "@angular/common";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
-import {MdFindEntityComponent} from "../../../components/md-find-entity/md-find-entity.component";
+import {MdFindEntityComponent} from "../../../../../components/md-find-entity/md-find-entity.component";
 import {Dialog} from "@angular/cdk/dialog";
 
 @Component({

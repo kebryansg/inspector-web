@@ -11,7 +11,7 @@ import {
 } from "devextreme-angular";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {ActivatedRoute, Router, RouterLink} from "@angular/router";
-import {MdFindEntityComponent} from "../../../components/md-find-entity/md-find-entity.component";
+import {MdFindEntityComponent} from "../../../../../components/md-find-entity/md-find-entity.component";
 import {filter} from "rxjs";
 import {Dialog} from "@angular/cdk/dialog";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";

@@ -2,7 +2,7 @@ import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 import {EmpresaComponent} from './empresa.component';
 import {NewEmpresaComponent} from './pages/new/new.component';
-import {empresaByIdResolver} from "./resolvers/empresa-by-id.resolver";
+import {companyByIdResolver} from "./resolvers/company-by-id.resolver";
 
 const routes: Routes = [
   {
@@ -20,7 +20,7 @@ const routes: Routes = [
     path: 'new/:id',
     component: NewEmpresaComponent,
     resolve: {
-      empresa: empresaByIdResolver
+      empresa: companyByIdResolver
     },
     title: 'Editar Empresa',
   },

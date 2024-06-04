@@ -89,35 +89,32 @@
     <!--#region Group Economic  -->
     <section class="row">
       <div class="col">
-        <app-item-control titleControl="Grupo Economico">
-          <dx-select-box formControlName="group_economic"
-                         [dataSource]="groupCatalog()"
-                         displayExpr="Nombre"
-                         valueExpr="ID"
-          />
-        </app-item-control>
-      </div>
-    </section>
+        <dx-button class="my-5"
+                   [text]="'Asignar Grupo'"
+                   [icon]="'group'"
+                   [type]="'success'"
+                   (click)="loadModalGroup()"
+        />
 
-    <section class="row">
-      <div class="col">
-        <app-item-control titleControl="Tarifario">
-          <dx-select-box formControlName="tariff_activity"
-                         [dataSource]="lsActivity()"
-                         displayExpr="Nombre"
-                         valueExpr="ID"
-          />
-        </app-item-control>
-      </div>
-      <div class="col">
+        <section class="row">
+          <div class="col-md-12">
+            <dx-form [formData]="infoGroup()"
+                     [readOnly]="true"
+                     [colCount]="2"
+                     labelLocation="top">
+              <dxi-item dataField="group_description"
+                        [label]="{text:'Grupo'}"
+              />
+              <dxi-item dataField="act_tarifario"
+                        [label]="{text:'Tarifario'}"
+              />
+              <dxi-item dataField="category"
+                        [label]="{text:'Categoria'}"
+              />
+            </dx-form>
+          </div>
+        </section>
 
-        <app-item-control titleControl="Categoria">
-          <dx-select-box formControlName="category"
-                         [dataSource]="lsCategory()"
-                         displayExpr="Nombre"
-                         valueExpr="ID"
-          />
-        </app-item-control>
       </div>
     </section>
     <!--#endregion  -->
