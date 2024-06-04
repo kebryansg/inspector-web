@@ -1,12 +1,13 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {ActividadEconomica, GrupoTarifario, TipoEmpresa} from "../pages/sociedad/interfaces";
 import {Canton, Parroquia, Provincia, Sector} from "../localization/interfaces/base.interface";
 import {TypeInspection} from "../pages/formulario/interfaces/type-inspection.interface";
 import {GroupCatalog} from "../interfaces/group-catalog.interface";
 import {map} from "rxjs/operators";
+import {isNotEmpty} from "@utils/empty.util";
 
 @Injectable({
   providedIn: 'root'
@@ -107,7 +108,14 @@ export class CatalogoService {
     return this.httpClient.get<GroupCatalog[]>(this.url + 'grupo/catalog');
   }
 
-  getGroupCatalogById(queryParams: any): Observable<GroupCatalog> {
+  getGroupCatalogById(queryParams: any): Observable<GroupCatalog | null> {
+
+    if (
+      !isNotEmpty(queryParams.IdGroup) ||
+      !isNotEmpty(queryParams.IdActivityTar) ||
+      !isNotEmpty(queryParams.IdCategory)
+    ) return of(null)
+
     return this.httpClient.get<GroupCatalog[]>(this.url + 'grupo/catalog', {
       params: queryParams
     }).pipe(
