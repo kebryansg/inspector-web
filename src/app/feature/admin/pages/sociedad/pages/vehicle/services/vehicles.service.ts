@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Paginate} from "../../../../../../../interfaces/paginate.interface";
-import {VehicleView} from "../interfaces/vehicle.interface";
+import {VehicleEntity, VehicleView} from "../interfaces/vehicle.interface";
 import {map} from "rxjs/operators";
 import {lastValueFrom} from "rxjs";
 import {environment} from "@environments/environment";
@@ -29,7 +29,7 @@ export class VehiclesService {
   }
 
   getId(idItem: number) {
-    return this.httpClient.get<any>(this.apiURL + `item/${idItem}`)
+    return this.httpClient.get<VehicleEntity>(this.apiURL + `item/${idItem}`)
   }
 
   getByIdEntity(idEntity: number) {

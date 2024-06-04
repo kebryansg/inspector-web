@@ -6,6 +6,11 @@ import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {Observable} from "rxjs";
 import {ToolsService} from "../../../../services/tools.service";
 import {typeEntitySignal} from "../../../../const/type-entidad.const";
+import {DxTextErrorControlDirective} from "@directives/text-box.directive";
+import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
+import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
+import {tap} from "rxjs/operators";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   standalone: true,
@@ -15,7 +20,10 @@ import {typeEntitySignal} from "../../../../const/type-entidad.const";
     ReactiveFormsModule,
     DxSelectBoxModule,
     DxTextBoxModule,
-    NgIf
+    NgIf,
+    DxSelectErrorControlDirective,
+    DxTextErrorControlDirective,
+    ItemControlComponent,
   ],
   templateUrl: './popup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -24,19 +32,32 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
 
   private fb: FormBuilder = inject(FormBuilder);
 
-  form!: FormGroup;
+  form: FormGroup = this.buildForm();
+
   status$: Observable<any[]> = inject(ToolsService).status$;
   typeEntity$ = typeEntitySignal;
+  typeEntityValue$ = this.tipoControl.valueChanges
+    .pipe(
+      takeUntilDestroyed(),
+      tap(item => {
+        if (item == 'P') {
+          this.apellidosControl.setValidators(Validators.required);
+        } else {
+          this.apellidosControl.clearValidators();
+          this.apellidosControl.updateValueAndValidity();
+        }
+      })
+    )
 
   ngOnInit() {
-    this.buildForm();
+    this.registerEvents();
     const {titleModal, data} = this.dataModal;
     this.titleModal = titleModal;
     data && this.editData(data);
   }
 
   buildForm() {
-    this.form = this.fb.group({
+    return this.fb.group({
       ID: [0],
       Identificacion: [null, Validators.required],
       Nombres: [null, Validators.required],
@@ -48,7 +69,6 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
       Celular: [null],
       Estado: ['ACT', Validators.required],
     });
-    this.registerEvents();
   }
 
   editData(data: any) {
@@ -58,15 +78,7 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
   }
 
   registerEvents() {
-    this.tipoControl.valueChanges
-      .subscribe(item => {
-        if (item == 'P') {
-          this.apellidosControl.setValidators(Validators.required);
-        } else {
-          this.apellidosControl.clearValidators();
-          this.apellidosControl.updateValueAndValidity();
-        }
-      });
+    this.typeEntityValue$.subscribe();
   }
 
   submit() {

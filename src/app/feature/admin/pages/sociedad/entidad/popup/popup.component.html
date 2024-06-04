@@ -1,96 +1,68 @@
 <div class="modal-header">
   <h4 class="modal-title">
-    {{titleModal}}
+    {{ titleModal }}
   </h4>
-  <button type="button" class="close" aria-label="Close"
+  <button type="button"
+          class="close"
+          aria-label="Close"
           (click)="activeModal.close()">
-    <i class="feather icon-x-circle"></i>
   </button>
 </div>
-<form [formGroup]="form" (submit)="submit()">
+<form [formGroup]="form" (ngSubmit)="submit()">
   <div class="modal-body">
     <div class="row">
       <div class="col-md-6">
 
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label">Identificación</label>
-          <div class="col-sm-12">
-            <dx-text-box formControlName="Identificacion" maxLength="13"/>
-          </div>
-        </div>
+        <app-item-control titleControl="Tipo Entidad">
+          <dx-select-box [dataSource]="typeEntity$()"
+                         displayExpr="label"
+                         valueExpr="value"
+                         formControlName="Tipo"
+                         [searchEnabled]="true"
+          />
+        </app-item-control>
 
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label">Nombres</label>
-          <div class="col-sm-12">
-            <dx-text-box formControlName="Nombres"/>
-          </div>
-        </div>
+        <app-item-control titleControl="Identificación">
+          <dx-text-box formControlName="Identificacion" maxLength="13"/>
+        </app-item-control>
 
-        <ng-container *ngIf="tipoControl.value == 'P'">
-          <div class="form-group form-default row">
-            <label class="col-sm-12 col-form-label">Apellidos</label>
-            <div class="col-sm-12">
-              <dx-text-box formControlName="Apellidos"/>
-            </div>
-          </div>
-        </ng-container>
+        <app-item-control titleControl="Nombres">
+          <dx-text-box formControlName="Nombres"/>
+        </app-item-control>
 
+        @if (tipoControl.value == 'P') {
+          <app-item-control titleControl="Apellidos">
+            <dx-text-box formControlName="Apellidos"/>
+          </app-item-control>
+        }
 
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label">Email</label>
-          <div class="col-sm-12">
-            <dx-text-box formControlName="Email"/>
-          </div>
-        </div>
-
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label">Tipo Entidad</label>
-          <div class="col-sm-12">
-            <dx-select-box [dataSource]="typeEntity$()"
-                           displayExpr="label"
-                           valueExpr="value"
-                           formControlName="Tipo"
-                           [searchEnabled]="true"
-            />
-          </div>
-        </div>
+        <app-item-control titleControl="Email">
+          <dx-text-box formControlName="Email"/>
+        </app-item-control>
 
       </div>
       <div class="col-md-6">
 
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label">Dirección</label>
-          <div class="col-sm-12">
-            <dx-text-box formControlName="Direccion"/>
+        <app-item-control titleControl="Dirección">
+          <dx-text-box formControlName="Direccion"/>
+        </app-item-control>
 
-          </div>
-        </div>
+        <app-item-control titleControl="Teléfono">
+          <dx-text-box formControlName="Telefono"/>
+        </app-item-control>
 
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label">Teléfono</label>
-          <div class="col-sm-12">
-            <dx-text-box formControlName="Telefono"/>
-          </div>
-        </div>
+        <app-item-control titleControl="Celular">
+          <dx-text-box formControlName="Celular"/>
+        </app-item-control>
 
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label">Celular</label>
-          <div class="col-sm-12">
-            <dx-text-box formControlName="Celular"/>
-          </div>
-        </div>
-
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label">Estado</label>
-          <div class="col-sm-12">
-            <dx-select-box [dataSource]="status$ | async"
-                           displayExpr="label"
-                           valueExpr="value"
-                           formControlName="Estado"
-                           [searchEnabled]="true"
-            ></dx-select-box>
-          </div>
-        </div>
+        <app-item-control titleControl="Estado">
+          <dx-select-box [dataSource]="status$ | async"
+                         displayExpr="label"
+                         valueExpr="value"
+                         formControlName="Estado"
+                         [searchEnabled]="true"
+          />
+        </app-item-control>
 
       </div>
     </div>

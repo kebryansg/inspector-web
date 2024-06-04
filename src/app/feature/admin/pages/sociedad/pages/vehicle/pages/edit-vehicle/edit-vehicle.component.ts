@@ -58,10 +58,6 @@ export class EditVehicleComponent implements OnInit {
 
   registerForm = this.buildForm();
 
-  groupCatalog = toSignal<GrupoTarifario[], GrupoTarifario[]>(this.catalogAppService.obtenerGrupo(), {
-    initialValue: []
-  });
-
   typeCatalog = this.catalogVehicleService.getType()
   brandCatalog = this.catalogVehicleService.getBrand()
   modelCatalog = this.catalogVehicleService.getModel()
@@ -75,12 +71,11 @@ export class EditVehicleComponent implements OnInit {
   infoGroup = signal({});
 
   idItem = input(0, {transform: numberAttribute})
-  itemData = input<any>({}, {alias: 'item'})
+  // entityItem, groupCatalog, vehicleItem
+  itemData = input<any>()
   editRegister = computed(() => !!this.idItem())
   pageTitle = computed(() => this.editRegister() ? 'Editar Vehículo' : 'Nuevo Vehículo')
 
-  lsActivity = signal<ActividadTarifario[]>([]);
-  lsCategory = signal<CategoriaGrupo[]>([]);
 
   ngOnInit() {
     this.editRegister() && this.loadDataForm(this.itemData());
@@ -112,17 +107,11 @@ export class EditVehicleComponent implements OnInit {
 
   loadDataForm(dataForm: any) {
     this.registerForm.patchValue({
-      ...dataForm
-    })
+      ...dataForm.vehicleItem
+    });
 
     this.infoEntity.set(dataForm.entityItem);
-
-    setTimeout(() => {
-      this.registerForm.patchValue({
-        category: dataForm.category,
-        tariff_activity: dataForm.tariff_activity,
-      })
-    }, 1500);
+    this.infoGroup.set(dataForm.groupCatalog);
 
   }
 

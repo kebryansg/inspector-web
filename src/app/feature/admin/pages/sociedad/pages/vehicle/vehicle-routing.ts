@@ -16,7 +16,7 @@ export const VehicleRouting: Route[] = [
     path: 'new/:idItem',
     title: 'Editar vehiculo',
     resolve: {
-      item: itemVehicleResolver
+      itemData: itemVehicleResolver
     },
     loadComponent: () => import('./pages/edit-vehicle/edit-vehicle.component').then(m => m.EditVehicleComponent)
   }
