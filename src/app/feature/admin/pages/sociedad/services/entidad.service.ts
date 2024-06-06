@@ -39,6 +39,10 @@ export class EntidadService<T> {
     return this.http.get<T>(this.endpointUrl + '/' + idRow);
   }
 
+  verifyExistByIdentifier(identifier: string) {
+    return this.http.post<{isExist: boolean}>(`${this.endpointUrl}/verification`, {identifier})
+  }
+
   create(row: T): Observable<any> {
     return this.http.post(this.endpointUrl, row)
   }

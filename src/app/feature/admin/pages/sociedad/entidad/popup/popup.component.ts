@@ -1,5 +1,5 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ModalTemplate} from "@modal/modal-template";
 import {AsyncPipe, NgClass, NgIf} from "@angular/common";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
@@ -9,8 +9,9 @@ import {typeEntitySignal} from "../../../../const/type-entidad.const";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
-import {tap} from "rxjs/operators";
+import {map, tap} from "rxjs/operators";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {EntidadService} from "../../services";
 
 @Component({
   standalone: true,
@@ -31,6 +32,7 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 export class PopupEntidadComponent extends ModalTemplate implements OnInit {
 
   private fb: FormBuilder = inject(FormBuilder);
+  private entityService = inject(EntidadService);
 
   form: FormGroup = this.buildForm();
 
@@ -41,13 +43,32 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
       takeUntilDestroyed(),
       tap(item => {
         if (item == 'P') {
+          this.maxLengthIdentifier.set(10);
+          this.identifierControl.setValidators(
+            Validators.pattern(/^[0-9]{10}$/)
+          );
+
           this.apellidosControl.setValidators(Validators.required);
         } else {
+          this.maxLengthIdentifier.set(13);
+          this.identifierControl.setValidators(
+            Validators.pattern(/^[0-9]{13}$/)
+          );
+
           this.apellidosControl.clearValidators();
           this.apellidosControl.updateValueAndValidity();
         }
+        this.identifierControl.updateValueAndValidity();
       })
     )
+
+  maxLengthIdentifier = signal(10);
+
+  identifierMessageErrors = {
+    required: 'Identificación es requerido',
+    exist: 'Identificación ya registrada',
+    pattern: 'El formato de identificación no es válido'
+  };
 
   ngOnInit() {
     this.registerEvents();
@@ -59,16 +80,31 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
   buildForm() {
     return this.fb.group({
       ID: [0],
-      Identificacion: [null, Validators.required],
+      Identificacion: new FormControl(null, {
+        validators: [
+          Validators.required,
+        ],
+        asyncValidators: [this.verifyExistByIdentifier()]
+      }),
       Nombres: [null, Validators.required],
       Apellidos: [null],
-      Email: [null],
+      Email: [null, [Validators.email]],
       Tipo: ['P', Validators.required],
       Direccion: [null, Validators.required],
-      Telefono: [null],
-      Celular: [null],
+      Telefono: [null, [Validators.pattern(/^[0-9]{10}$/)]],
+      Celular: [null, [Validators.pattern(/^[0-9]{10}$/)]],
       Estado: ['ACT', Validators.required],
     });
+  }
+
+  verifyExistByIdentifier(): AsyncValidatorFn {
+    return (control: AbstractControl) => {
+      return this.entityService
+        .verifyExistByIdentifier(control.getRawValue())
+        .pipe(
+          map(({isExist}) => isExist ? {exist: true} : null)
+        )
+    }
   }
 
   editData(data: any) {
@@ -86,6 +122,10 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
     if (this.form.invalid)
       return;
     this.activeModal.close(this.form.getRawValue());
+  }
+
+  get identifierControl() {
+    return this.form.get('Identificacion') as FormControl
   }
 
   get tipoControl() {

@@ -23,7 +23,10 @@
         </app-item-control>
 
         <app-item-control titleControl="Identificación">
-          <dx-text-box formControlName="Identificacion" maxLength="13"/>
+          <dx-text-box formControlName="Identificacion"
+                       [maxLength]="maxLengthIdentifier()"
+                       [errorsMessageCustom]="identifierMessageErrors"
+          />
         </app-item-control>
 
         <app-item-control titleControl="Nombres">
