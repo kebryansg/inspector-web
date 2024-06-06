@@ -1,4 +1,4 @@
-import {DestroyRef, Directive, EventEmitter, inject, OnInit} from '@angular/core';
+import {DestroyRef, Directive, EventEmitter, inject, input, OnInit} from '@angular/core';
 import {AbstractControl, NgControl} from "@angular/forms";
 import {filter, merge} from "rxjs";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
@@ -11,6 +11,9 @@ export class StatusErrorControlDirective implements OnInit {
   private readonly ngControl: NgControl = inject(NgControl);
   destroyRef = inject(DestroyRef);
   touched: EventEmitter<void> = new EventEmitter<void>();
+
+
+  errorsMessageCustom = input<any>();
   validationErrors: any = [{message: 'El campo es requerido'}]
 
   setDxComponent(component: any) {
@@ -41,14 +44,26 @@ export class StatusErrorControlDirective implements OnInit {
       this.touched,
       this.control!.statusChanges
         .pipe(
-          filter(status => ['VALID' , 'INVALID' , 'PENDING'].includes(status))
+          filter(status => ['VALID', 'INVALID', 'PENDING'].includes(status))
         )
     ).pipe(
       takeUntilDestroyed(this.destroyRef)
     ).subscribe(() => {
-      this.dxComponent._setOption('validationStatus', this.ngControl.valid ? 'valid' : 'invalid')
-      this.dxComponent._setOption('validationErrors', this.validationErrors)
+      this.dxComponent._setOption('validationStatus', this.ngControl.valid ? 'valid' : 'invalid');
+      if (this.ngControl.invalid) {
+        // console.log('errors => ', this.ngControl.errors)
+        this.dxComponent._setOption('validationErrors', this.getMessageError());
+      }
     })
+  }
+
+  private getMessageError(): any {
+    for (const errorCode in this.errorsMessageCustom()) {
+      if (this.control.getError(errorCode))
+        return [{ message: this.errorsMessageCustom()[errorCode] }]
+    }
+
+    return this.validationErrors
   }
 
   get control(): AbstractControl {
