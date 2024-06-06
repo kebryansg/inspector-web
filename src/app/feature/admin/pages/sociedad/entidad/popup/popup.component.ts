@@ -3,7 +3,7 @@ import {AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, 
 import {ModalTemplate} from "@modal/modal-template";
 import {AsyncPipe, NgClass, NgIf} from "@angular/common";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {ToolsService} from "../../../../services/tools.service";
 import {typeEntitySignal} from "../../../../const/type-entidad.const";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
@@ -45,14 +45,14 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
         if (item == 'P') {
           this.maxLengthIdentifier.set(10);
           this.identifierControl.setValidators(
-            Validators.pattern(/^[0-9]{10}$/)
+            [Validators.minLength(10), Validators.pattern(/^[0-9]{10}$/)]
           );
 
           this.apellidosControl.setValidators(Validators.required);
         } else {
           this.maxLengthIdentifier.set(13);
           this.identifierControl.setValidators(
-            Validators.pattern(/^[0-9]{13}$/)
+            [Validators.minLength(13), Validators.pattern(/^[0-9]{13}$/)]
           );
 
           this.apellidosControl.clearValidators();
@@ -63,6 +63,8 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
     )
 
   maxLengthIdentifier = signal(10);
+  isEdit = signal(false);
+  isEditData = signal<any>(null);
 
   identifierMessageErrors = {
     required: 'Identificación es requerido',
@@ -83,6 +85,7 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
       Identificacion: new FormControl(null, {
         validators: [
           Validators.required,
+          Validators.minLength(10),
         ],
         asyncValidators: [this.verifyExistByIdentifier()]
       }),
@@ -99,6 +102,11 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
 
   verifyExistByIdentifier(): AsyncValidatorFn {
     return (control: AbstractControl) => {
+
+      if (this.isEdit() &&
+        this.isEditData().Identificacion === control.getRawValue())
+        return of(null);
+
       return this.entityService
         .verifyExistByIdentifier(control.getRawValue())
         .pipe(
@@ -108,6 +116,8 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
   }
 
   editData(data: any) {
+    this.isEdit.set(true);
+    this.isEditData.set(data);
     this.form.patchValue({
       ...data
     });
