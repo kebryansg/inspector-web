@@ -4,13 +4,13 @@ import {EmpresaService} from "../../../../sociedad/services";
 import {DxButtonModule, DxDataGridModule, DxDateBoxModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import DataSource from "devextreme/data/data_source";
 import {headersParams} from "@utils/data-grid.util";
-import {isNotEmpty} from "@utils/empty.util";
+import {isEmptyValue, isNotEmpty} from "@utils/empty.util";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {ActividadTarifario, GrupoTarifario} from "../../../../sociedad/interfaces";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
-import {map} from "rxjs/operators";
+import {map, switchMap} from "rxjs/operators";
 import {IcofontComponent} from "@standalone-shared/icofont/icofont.component";
 import {AsyncPipe} from "@angular/common";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
@@ -18,6 +18,7 @@ import {InspectionService} from "../../../services/inspection.service";
 import {NotificationService} from "@service-shared/notification.service";
 import {DebounceClickDirective} from "@directives/debounce-click.directive";
 import {HttpErrorResponse} from "@angular/common/http";
+import {of} from "rxjs";
 
 @Component({
   standalone: true,
@@ -41,7 +42,7 @@ import {HttpErrorResponse} from "@angular/common/http";
 })
 export class CreateInspectionGroupComponent implements OnInit {
 
-  private catalogoService: CatalogoService = inject(CatalogoService);
+  private catalogService: CatalogoService = inject(CatalogoService);
   private formBuilder = inject(FormBuilder);
   private readonly notificationService = inject(NotificationService);
   private readonly inspectionService = inject(InspectionService);
@@ -50,24 +51,41 @@ export class CreateInspectionGroupComponent implements OnInit {
   gridDataSource: any;
 
   itemFilter = this.formBuilder.group({
-    IDTarifaGrupo: ['', [Validators.required]],
-    IDTarifaActividad: [''],
+    IDTarifaGrupo: [null],
+    IDParroquia: [null],
+    IDSector: [null],
+    IDTarifaActividad: [null],
+    address: [null],
   })
   itemInspectionGroup = this.formBuilder.group({
     idInspector: [''],
     dateTentative: [new Date(), [Validators.required]],
   })
 
-  lsColaborador$ = inject(CatalogoService).obtenerInspector();
+  lsInspector$ = this.catalogService.obtenerInspector();
+  lsParroquia$ = this.catalogService.obtenerParroquia();
 
-  lsGrupo = toSignal<GrupoTarifario[], GrupoTarifario[]>(this.catalogoService.obtenerGrupo(), {
+  lsSectors$ = this.itemFilter.controls.IDParroquia
+    .valueChanges
+    .pipe(
+      switchMap(idParroquia => {
+        if (!idParroquia) return of([])
+        return this.catalogService.obtenerSector(idParroquia)
+      })
+    )
+
+  lsGrupo = toSignal<GrupoTarifario[], GrupoTarifario[]>(this.catalogService.obtenerGrupo(), {
     initialValue: []
   });
 
   lsActividad = toSignal<ActividadTarifario[], ActividadTarifario[]>(
     this.groupControl.valueChanges
       .pipe(
-        map(idGroup => this.lsGrupo().find(group => group.ID == idGroup)!.acttarifarios)
+        map(idGroup => {
+          if (!idGroup) return [];
+
+          return this.lsGrupo().find(group => group.ID == idGroup)!.acttarifarios
+        })
       ),
     {initialValue: []}
   );
@@ -85,16 +103,28 @@ export class CreateInspectionGroupComponent implements OnInit {
     if (this.itemFilter.invalid) return
 
     this.lsSelectedItems.set([])
-    const {IDTarifaGrupo, IDTarifaActividad} = this.itemFilter.getRawValue()
+    let dataForm = this.itemFilter.getRawValue();
+
+    if (isEmptyValue(dataForm.IDTarifaGrupo) && isEmptyValue(dataForm.address)) {
+      this.notificationService.showSwalMessage({
+        title: 'Debe seleccionar un grupo tarifario o una dirección',
+        icon: 'error'
+      })
+      return;
+    }
+
     this.empresaService.getPendingInspection({
-      IDTarifaGrupo,
-      IDTarifaActividad,
+      ...dataForm
     }).then(
       result => {
         if (result.length > 0) {
           this.itemFilter.disable()
           this.lsItemsDataGrid.set(result)
-        }
+        } else
+          this.notificationService.showSwalMessage({
+            title: 'No se encontraron registros para la búsqueda',
+            icon: 'warning'
+          })
       }
     )
   }

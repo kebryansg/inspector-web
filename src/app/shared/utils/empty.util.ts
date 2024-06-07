@@ -6,3 +6,7 @@ export function isEmpty(obj: any) {
 export const isNotEmpty = (value: any): boolean => {
   return value !== undefined && value !== null && value !== '';
 };
+
+export const isEmptyValue = (value: any): boolean => {
+  return value === undefined || value === null || value === '';
+}

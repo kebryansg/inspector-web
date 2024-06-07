@@ -24,17 +24,26 @@
     </section>
 
     <section class="d-flex flex-row gap-1 mb-3">
-      <app-item-control [titleControl]="'Sector'">
-        <dx-select-box [dataSource]="lsGrupo()"
-                       displayExpr="Nombre"
+      <app-item-control [titleControl]="'Parroquia'">
+        <dx-select-box [dataSource]="lsParroquia$ | async"
+                       displayExpr="Descripcion"
                        valueExpr="ID"
-                       formControlName="IDTarifaGrupo"
+                       formControlName="IDParroquia"
+                       [searchEnabled]="true"
+        />
+      </app-item-control>
+
+      <app-item-control [titleControl]="'Sector'">
+        <dx-select-box [dataSource]="lsSectors$ | async"
+                       displayExpr="Descripcion"
+                       valueExpr="ID"
+                       formControlName="IDSector"
                        [searchEnabled]="true"
         />
       </app-item-control>
 
       <app-item-control [titleControl]="'Dirección'">
-        <dx-text-box placeholder="Ej: San Camilo"></dx-text-box>
+        <dx-text-box formControlName="address" placeholder="Ej: San Camilo"/>
       </app-item-control>
     </section>
 
@@ -78,7 +87,7 @@
 
     <section class="d-flex flex-row gap-2">
       <app-item-control [titleControl]="'Colaboradores'">
-        <dx-select-box [dataSource]="lsColaborador$ | async"
+        <dx-select-box [dataSource]="lsInspector$ | async"
                        valueExpr="ID"
                        displayExpr="Colaborador"
                        formControlName="idInspector"
@@ -142,6 +151,7 @@
                 [allowHeaderFiltering]="false"
     />
     <dxi-column dataField="Sector"/>
+    <dxi-column dataField="Direccion"/>
     <dxi-column dataField="Grupo"/>
     <dxi-column dataField="Actividad"/>
   </dx-data-grid>
