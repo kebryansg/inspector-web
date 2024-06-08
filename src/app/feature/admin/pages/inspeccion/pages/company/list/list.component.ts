@@ -256,8 +256,10 @@ export class ListComponent implements OnInit {
       title: 'Reimprimiendo solicitud de inspección.'
     });
     this.inspectionService.generateFileRequest(row.ID)
+      .pipe(takeUntilDestroyed(this.destroy))
       .subscribe({
         next: () => {
+          this.dataGridComponent.instance.refresh();
           this.notificationService.closeLoader();
           this.notificationService.showSwalMessage({
             title: 'La solicitud fue generada con éxito',
