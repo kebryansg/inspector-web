@@ -92,15 +92,15 @@ export class CreateInspectionGroupComponent implements OnInit {
 
   lsSelectedItems = signal<string[]>([])
   lsItemsDataGrid = signal<any[]>([])
-  existRegister = computed(() => this.lsItemsDataGrid().length > 0)
+  existRegister = computed(() => this.lsItemsDataGrid().length > 0);
+
+  disabledConsultRegister = signal(false);
 
   clearFiltersForm() {
     this.itemFilter.reset()
   }
 
   searchItems() {
-    this.itemFilter.markAllAsTouched()
-    if (this.itemFilter.invalid) return
 
     this.lsSelectedItems.set([])
     let dataForm = this.itemFilter.getRawValue();
@@ -112,6 +112,8 @@ export class CreateInspectionGroupComponent implements OnInit {
       })
       return;
     }
+
+    this.disabledConsultRegister.set(true);
 
     this.empresaService.getPendingInspection({
       ...dataForm
@@ -126,7 +128,7 @@ export class CreateInspectionGroupComponent implements OnInit {
             icon: 'warning'
           })
       }
-    )
+    ).finally(() => this.disabledConsultRegister.set(false))
   }
 
   generateInspections() {

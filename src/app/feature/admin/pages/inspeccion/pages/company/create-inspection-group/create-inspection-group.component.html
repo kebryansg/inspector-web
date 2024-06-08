@@ -71,6 +71,7 @@
       <button class="btn btn-outline-primary"
               type="button"
               appDebounceClick
+              [disabled]="disabledConsultRegister()"
               (debounceClick)="searchItems()">
         <i class="fa fa-search"></i>
         Consultar registros
@@ -139,6 +140,12 @@
     <dxo-pager [showPageSizeSelector]="true"
                [allowedPageSizes]="[10, 20, 40, 60]"
                [showInfo]="true"
+    />
+
+    <dxi-column dataField="LastAnnualOperatingPermit"
+                caption="Último Permiso Emitido"
+                dataType="date"
+                [format]="'year'"
     />
 
     <dxi-column dataField="RUC"
