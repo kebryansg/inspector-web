@@ -54,11 +54,12 @@
                   <div class="dx-field-label">
                     {{ _component.Descripcion }}
                   </div>
-                  <div class="dx-field-value">
-                    <dx-number-box [format]="'fixedPoint'"
+                  <div class="dx-field-value d-flex gap-1">
+                    <dx-number-box class="flex-fill"
                                    placeholder="Opción"
-                                   [showSpinButtons]="true"
                     />
+                    <dx-button icon="arrowdown"/>
+                    <dx-button icon="arrowup"/>
                   </div>
                 </div>
               }

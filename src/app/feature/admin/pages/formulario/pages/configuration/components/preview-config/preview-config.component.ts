@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal, ViewEncapsulation} from '@angular/core';
 import {ModalTemplate} from "@modal/modal-template";
 import {
-  DxAccordionModule,
+  DxAccordionModule, DxButtonModule,
   DxCheckBoxModule,
   DxNumberBoxModule,
   DxScrollViewModule,
@@ -28,6 +28,7 @@ import {CatalogPreviewService} from "../../services/catalog-form.service";
     DxTagBoxModule,
     ItemComponentCatalogComponent,
     DxScrollViewModule,
+    DxButtonModule,
   ],
   providers: [CatalogPreviewService],
   templateUrl: './preview-config.component.html',
