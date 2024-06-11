@@ -7,6 +7,7 @@
                 [syncLookupFilterValues]="false"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [searchPanel]="{visible:true}"
+                [sorting]="{mode: 'none'}"
                 [filterRow]="{visible:true}"
                 [showBorders]="true">
     <dxo-remote-operations [paging]="true"
@@ -34,11 +35,8 @@
     <dxi-column dataField="Identificacion"
                 caption="Identificación"
     />
-    <dxi-column dataField="Nombres"
-                caption="Nombres"
-    />
-    <dxi-column dataField="Apellidos"
-                caption="Apellidos"
+    <dxi-column dataField="EntidadRazonSocial"
+                caption="Razon Social"
     />
     <dxi-column dataField="Tipo"
                 caption="Tipo Entidad"

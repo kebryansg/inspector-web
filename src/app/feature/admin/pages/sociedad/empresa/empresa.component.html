@@ -8,6 +8,7 @@
                 [filterRow]="{visible:true}"
                 [loadPanel]="{enabled:true}"
                 [syncLookupFilterValues]="false"
+                [sorting]="{mode: 'none'}"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [showBorders]="true">
 
@@ -32,9 +33,15 @@
     />
     <dxi-column dataField="RUC"/>
     <dxi-column dataField="NombreComercial"/>
-    <dxi-column dataField="EntidadRazonSocial"/>
+    <dxi-column dataField="EntidadRazonSocial"
+                caption="Razon Social"
+    />
     <dxi-column dataField="Grupo"/>
     <dxi-column dataField="Actividad"/>
+    <dxi-column dataField="created_at"
+                caption="Fecha Creación"
+                dataType="date"
+    />
     <dxi-column dataField="Estado"
                 alignment="center">
       <dxo-lookup [dataSource]="lsStatus"

@@ -2,12 +2,12 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, O
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {animate, style, transition, trigger} from '@angular/animations';
-import {filter, forkJoin, Subject} from 'rxjs';
+import {filter, of, Subject, switchMap} from 'rxjs';
 import {NotificationService} from "@service-shared/notification.service";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import {ToolsService} from "../../../../../services/tools.service";
 import {Empresa} from "../../../interfaces";
-import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {toSignal} from "@angular/core/rxjs-interop";
 import {TypePermission} from "../../const/type-permiso.const";
 import {Dialog} from "@angular/cdk/dialog";
 import {EmpresaService} from "../../../services";
@@ -16,6 +16,8 @@ import {GeoLocationDefault} from "../../../../../const/geo-location.const";
 import {MdFindEntityComponent} from "../../../../../components/md-find-entity/md-find-entity.component";
 import {GroupCatalog} from "../../../../../interfaces/group-catalog.interface";
 import {MdFindGroupCategoryComponent} from "../../../../../components/md-find-group-category/md-find-group-category.component";
+import {tap} from "rxjs/operators";
+import {getCoordinatesFromUrl} from "@utils-app/coordinate-gps.util";
 
 
 const longTabs = [
@@ -39,11 +41,6 @@ const longTabs = [
     option: 'UBC',
     icon: 'icon-map-pin',
   },
-  {
-    text: 'Maps',
-    option: 'MPS',
-    icon: 'icon-map',
-  },
 ]
 
 @Component({
@@ -64,8 +61,6 @@ const longTabs = [
     ])
   ]
 })
-
-
 export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private destroyRef: DestroyRef = inject(DestroyRef);
@@ -78,45 +73,65 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
   selectTab = signal<string>('INFB');
+  formatNumber = '#,##0.00';
   destroy$ = new Subject<void>()
   longTabs: any[] = longTabs;
 
-  form!: FormGroup;
+  form: FormGroup = this.buildForm();
   status$ = inject(ToolsService).status$
 
-  refreshCombo$: Subject<string> = new Subject<string>();
-
-  lsActEconomica: any[] = [];
-  lsTipoEmpresa: any[] = [];
+  lsActEconomica = toSignal(
+    this.catalogoService.obtenerActividadEconomica(),
+    {initialValue: []}
+  );
+  lsTipoEmpresa = toSignal(
+    this.catalogoService.obtenerTipoEmpresa(),
+    {initialValue: []}
+  )
 
   lsTypePerm = signal<any[]>(TypePermission);
 
-  lsProvincias: any[] = [];
-  lsCanton: any[] = [];
-  lsParroquia: any[] = [];
-  lsSector: any[] = [];
   datos: any;
-  entidad = signal<any | null>(null);
   titleModal: string = '';
+  entidad = signal<any | null>(null);
   edit = signal<boolean>(false);
   infoGroup = signal<any>({});
 
+  parroquies = toSignal(
+    this.catalogoService.obtenerParroquia(),
+    {initialValue: []}
+  );
+
+  sectors = toSignal(
+    this.parroquiaControl.valueChanges
+      .pipe(
+        tap(() => {
+          this.sectorControl.setValue('');
+        }),
+        switchMap(IDParroquia => {
+          if (!IDParroquia) of([]);
+
+          return this.catalogoService.obtenerSector(IDParroquia)
+        })
+      ),
+    {initialValue: []}
+  )
 
   apiKey = {google: environment.googleMapsKey}
   zoomMap = 17;
   centerMap: any = {lat: GeoLocationDefault.lat, lng: GeoLocationDefault.lng};
-  markerPositions: any[] = [];
+  markerPositions = signal<any[]>([]);
 
   addMarker(event: any) {
     const {location} = event;
-    this.markerPositions.pop();
-    this.markerPositions.push({
+
+    this.markerPositions.set([{
       location: [location.lat, location.lng],
       tooltip: {
         isShown: false,
-        text: 'Times Square',
+        text: 'New Company',
       },
-    });
+    }]);
 
     this.form.patchValue({
       Latitud: location.lat,
@@ -129,8 +144,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.obtenerCatalogos();
-    this.buildForm();
   }
 
   ngOnDestroy() {
@@ -144,34 +157,14 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       this.loadCompany(data['empresa']);
   }
 
-  obtenerCatalogos() {
-    forkJoin([
-      this.catalogoService.obtenerActividadEconomica(),
-      this.catalogoService.obtenerTipoEmpresa(),
-      this.catalogoService.obtenerProvincia()
-    ])
-      .pipe(
-        takeUntilDestroyed(this.destroyRef)
-      )
-      .subscribe(
-        {
-          next: ([lsActivEconomica, lsTipoEmpresa, lsProvincias]: any) => {
-            this.lsActEconomica = lsActivEconomica;
-            this.lsTipoEmpresa = lsTipoEmpresa;
-            this.lsProvincias = lsProvincias;
-          },
-        }
-      );
-  }
-
   cancel() {
     const ruta = this.edit() ? '../../' : '../';
     this.router.navigate([ruta], {relativeTo: this.activatedRoute});
   }
 
   buildForm() {
-    this.form = this.fb.group({
-      ID: [0],
+    return this.fb.group({
+      ID: [null],
       RUC: [null, Validators.required],
       NombreComercial: ['', Validators.required],
       RazonSocial: ['', Validators.required],
@@ -208,7 +201,27 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       IDParroquia: [null, Validators.required],
       IDSector: [null, Validators.required],
     });
-    this.events();
+  }
+
+  async pasteLocation() {
+    const textRead = await navigator.clipboard.readText();
+    const coordinates = getCoordinatesFromUrl(textRead)
+    console.log('pasteLocation -> ', textRead)
+    console.log('pasteLocation -> ', getCoordinatesFromUrl(textRead))
+
+    this.form.patchValue({
+      Latitud: coordinates?.latitude,
+      Longitud: coordinates?.longitude,
+    });
+
+    this.markerPositions.set([
+      {
+        location: {
+          lat: coordinates?.latitude,
+          lng: coordinates?.longitude
+        }
+      }
+    ]);
   }
 
   loadCompany(dataCompany: Empresa) {
@@ -249,7 +262,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
         lat: Number(dataCompany.Latitud),
         lng: Number(dataCompany.Longitud)
       }
-      this.markerPositions.push(
+      this.markerPositions.set([
         {
           location: [Number(dataCompany.Latitud), Number(dataCompany.Longitud)],
           tooltip: {
@@ -257,8 +270,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
             text: 'Company',
           },
         }
-      );
-
+      ]);
     }
 
     if (dataCompany.IDSector) {
@@ -270,64 +282,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     }
   }
-
-  events() {
-
-    this.provinciaControl.valueChanges
-      .pipe(
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe(IDProvincia => this.loadCanton(IDProvincia));
-
-    this.cantonControl.valueChanges
-      .pipe(
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe(IDCanton => this.loadParroquia(IDCanton));
-
-    this.parroquiaControl.valueChanges
-      .pipe(
-        takeUntilDestroyed(this.destroyRef)
-      ).subscribe(IDParroquia => this.loadSector(IDParroquia));
-
-  }
-
-  //#region Localization
-  loadCanton(IDProvincia: string) {
-    // TODO: Optimizar
-    // Limpiar
-    this.lsCanton.splice(0);
-    this.cantonControl.setValue('');
-
-    if (IDProvincia) {
-      this.catalogoService.obtenerCanton(IDProvincia)
-        .subscribe((ls: any) => this.lsCanton = ls);
-    }
-  }
-
-  loadParroquia(IDCanton: string) {
-    // TODO: Optimizar
-    // Limpiar
-    this.lsParroquia.splice(0);
-    this.parroquiaControl.setValue('');
-
-    if (IDCanton) {
-      this.catalogoService.obtenerParroquia(IDCanton)
-        .subscribe((ls: any) => this.lsParroquia = ls);
-    }
-  }
-
-  loadSector(IDParroquia: string) {
-    // TODO: Optimizar
-    // Limpiar
-    this.lsSector.splice(0);
-    this.sectorControl.setValue('');
-
-    if (IDParroquia) {
-      this.catalogoService.obtenerSector(IDParroquia)
-        .subscribe((ls: any) => this.lsSector = ls);
-    }
-  }
-
-  //#endregion
 
   submit() {
     this.form.markAllAsTouched()
@@ -423,18 +377,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   //#endregion
 
   //#region Getters
-  get tarifaGrupoControl() {
-    return this.form.controls['IDTarifaGrupo'] as FormControl
-  }
-
-  get provinciaControl() {
-    return this.form.controls['IDProvincia'] as FormControl
-  }
-
-  get cantonControl() {
-    return this.form.controls['IDCanton'] as FormControl
-  }
-
   get parroquiaControl() {
     return this.form.controls['IDParroquia'] as FormControl
   }
@@ -443,11 +385,8 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
     return this.form.controls['IDSector'] as FormControl
   }
 
-  get rucControl() {
-    return this.form.controls['RUC'] as FormControl
-  }
-
   //#endregion
 
-
 }
+
+

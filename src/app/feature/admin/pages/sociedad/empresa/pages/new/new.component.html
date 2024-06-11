@@ -28,7 +28,7 @@
            (onItemClick)="onItemClick($event)">
 
     <div *dxTemplate="let itemData of 'tabItem'">
-      <i class="feather {{ itemData.icon }}"></i>
+      <i class="feather {{ itemData.icon }} mx-2"></i>
       {{ itemData.text }}
     </div>
   </dx-tabs>
@@ -47,13 +47,13 @@
             </app-item-control>
 
             <app-item-control titleControl="Nombre Comercial">
-              <dx-text-box
-                formControlName="NombreComercial"/>
+              <dx-text-box formControlName="NombreComercial"/>
             </app-item-control>
 
             <app-item-control titleControl="Razón Social">
-              <dx-text-box
-                formControlName="RazonSocial"/>
+              <dx-text-box formControlName="RazonSocial"
+                           [readOnly]="true"
+              />
             </app-item-control>
 
             <app-item-control titleControl="Establecimiento">
@@ -95,7 +95,7 @@
             </app-item-control>
 
             <app-item-control titleControl="Celular">
-              <dx-text-box formControlName="Celular"/>
+              <dx-text-box formControlName="Celular" [maxLength]="10"/>
             </app-item-control>
 
             <app-item-control titleControl="Email">
@@ -110,7 +110,7 @@
 
             <app-item-control titleControl="Area Terreno">
               <dx-number-box formControlName="AreaTerreno"
-                             format="#,##0.00"
+                             [format]="formatNumber"
                              [showSpinButtons]="true"
                              [step]="0.10"
               />
@@ -118,7 +118,7 @@
 
             <app-item-control titleControl="Area Util">
               <dx-number-box formControlName="AreaUtil"
-                             format="#,##0.00"
+                             [format]="formatNumber"
                              [showSpinButtons]="true"
                              [step]="0.10"
               />
@@ -224,7 +224,7 @@
           <div class="col-md-6 col-sm">
 
             <app-item-control titleControl="Actividad Económica">
-              <dx-select-box [dataSource]="lsActEconomica"
+              <dx-select-box [dataSource]="lsActEconomica()"
                              displayExpr="Descripcion"
                              [wrapItemText]="true"
                              valueExpr="ID"
@@ -236,7 +236,7 @@
           </div>
           <div class="col-md-6 col-sm">
             <app-item-control titleControl="Tipo Empresa">
-              <dx-select-box [dataSource]="lsTipoEmpresa"
+              <dx-select-box [dataSource]="lsTipoEmpresa()"
                              displayExpr="Nombre"
                              [wrapItemText]="true"
                              valueExpr="ID"
@@ -249,89 +249,69 @@
       }
       @case ('UBC') {
         <div class="row">
-          <div class="col-md-12">
-            <div class="pull-right">
-              <button type="button"
-                      class="btn btn-sm btn-danger"
-                      (click)="refreshCombo$.next('Location')">
-                <!--              <icofont ico="icofont-refresh"></icofont>-->
-                Refrescar Catalogos
-              </button>
-            </div>
-          </div>
+          <app-item-control class="col-md-6"
+                            titleControl="Parroquía">
+            <dx-select-box [dataSource]="parroquies()"
+                           displayExpr="Descripcion"
+                           valueExpr="ID"
+                           formControlName="IDParroquia"
+                           [wrapItemText]="true"
+                           [searchEnabled]="true"
+            />
+          </app-item-control>
+
+          <app-item-control class="col-md-6"
+                            titleControl="Sector">
+            <dx-select-box [dataSource]="sectors()"
+                           displayExpr="Descripcion"
+                           valueExpr="ID"
+                           formControlName="IDSector"
+                           [wrapItemText]="true"
+                           [searchEnabled]="true"
+            />
+          </app-item-control>
+
         </div>
-        <div class="row">
-          <div class="col-md-6">
 
-            <app-item-control titleControl="Provincia">
-              <dx-select-box [dataSource]="lsProvincias"
-                             displayExpr="Descripcion"
-                             valueExpr="ID"
-                             formControlName="IDProvincia"
-                             [searchEnabled]="true"
-              />
-            </app-item-control>
-
-            <app-item-control titleControl="Cantón">
-              <dx-select-box [dataSource]="lsCanton"
-                             displayExpr="Descripcion"
-                             valueExpr="ID"
-                             formControlName="IDCanton"
-                             [searchEnabled]="true"
-              />
-            </app-item-control>
-
-          </div>
-          <div class="col-md-6">
-
-            <app-item-control titleControl="Parroquía">
-              <dx-select-box [dataSource]="lsParroquia"
-                             displayExpr="Descripcion"
-                             valueExpr="ID"
-                             formControlName="IDParroquia"
-                             [searchEnabled]="true"
-              />
-            </app-item-control>
-
-            <app-item-control titleControl="Sector">
-              <dx-select-box [dataSource]="lsSector"
-                             displayExpr="Descripcion"
-                             valueExpr="ID"
-                             formControlName="IDSector"
-                             [searchEnabled]="true"
-              />
-            </app-item-control>
-
-          </div>
-        </div>
-      }
-      @case ('MPS') {
         <div class="row">
 
           <div class="col-4">
             <app-item-control titleControl="Latitud">
-              <dx-text-box formControlName="Latitud"/>
+              <dx-text-box formControlName="Latitud"
+                           [readOnly]="true"
+              />
             </app-item-control>
           </div>
           <div class="col-4">
             <app-item-control titleControl="Longitud">
-              <dx-text-box formControlName="Longitud"/>
+              <dx-text-box formControlName="Longitud"
+                           [readOnly]="true"
+              />
             </app-item-control>
           </div>
 
+          <div class="col align-content-end pb-3">
+            <button type="button"
+                    (click)="pasteLocation()"
+                    class="btn btn-primary btn-sm">
+              <i class="feather icon-map"></i>
+              Pegar Ubicación
+            </button>
+          </div>
+
+
           <div class="mt-4 col-md-12">
             @defer (on timer(1s)) {
-              <dx-map
-                [center]="centerMap"
-                [zoom]="zoomMap"
-                [height]="400"
-                width="100%"
-                provider="google"
-                [controls]="true"
-                [apiKey]="apiKey"
-                [type]="'roadmap'"
-                (onClick)="addMarker($event)"
-                [markers]="markerPositions"
+              <dx-map [center]="centerMap"
+                      [zoom]="zoomMap"
+                      [height]="400"
+                      width="100%"
+                      provider="google"
+                      [controls]="true"
+                      [apiKey]="apiKey"
+                      [type]="'roadmap'"
+                      (onClick)="addMarker($event)"
+                      [markers]="markerPositions()"
               />
             } @placeholder {
               <section class="my-3 py-2">
@@ -343,6 +323,7 @@
 
           </div>
         </div>
+
       }
     }
 

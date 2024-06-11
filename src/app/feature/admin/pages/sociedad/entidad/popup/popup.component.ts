@@ -43,26 +43,15 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
       takeUntilDestroyed(),
       tap(item => {
         if (item == 'P') {
-          this.maxLengthIdentifier.set(10);
-          this.identifierControl.setValidators(
-            [Validators.minLength(10), Validators.pattern(/^[0-9]{10}$/)]
-          );
-
           this.apellidosControl.setValidators(Validators.required);
         } else {
-          this.maxLengthIdentifier.set(13);
-          this.identifierControl.setValidators(
-            [Validators.minLength(13), Validators.pattern(/^[0-9]{13}$/)]
-          );
-
           this.apellidosControl.clearValidators();
           this.apellidosControl.updateValueAndValidity();
         }
-        this.identifierControl.updateValueAndValidity();
       })
     )
 
-  maxLengthIdentifier = signal(10);
+  maxLengthIdentifier = signal(13);
   isEdit = signal(false);
   isEditData = signal<any>(null);
 
@@ -86,6 +75,7 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
         validators: [
           Validators.required,
           Validators.minLength(10),
+          Validators.pattern(/^[0-9]{10,13}$/)
         ],
         asyncValidators: [this.verifyExistByIdentifier()]
       }),

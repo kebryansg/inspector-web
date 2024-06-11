@@ -22,8 +22,13 @@
                 [(selectedRowKeys)]="selected"
                 [searchPanel]="{visible:true}"
                 [filterRow]="{visible:true}"
+                [sorting]="{mode: 'none'}"
                 [showBorders]="true">
-    <dxo-remote-operations [paging]="true" [filtering]="true"/>
+
+    <dxo-remote-operations [paging]="true"
+                           [filtering]="true"
+                           [sorting]="false"
+    />
 
     <dxo-paging [pageSize]="10"/>
     <dxo-pager [showPageSizeSelector]="true"
@@ -43,11 +48,8 @@
     <dxi-column dataField="Identificacion"
                 caption="Identificación"
     />
-    <dxi-column dataField="Nombres"
-                caption="Nombres"
-    />
-    <dxi-column dataField="Apellidos"
-                caption="Apellidos"
+    <dxi-column dataField="EntidadRazonSocial"
+                caption="Razon Social"
     />
 
   </dx-data-grid>

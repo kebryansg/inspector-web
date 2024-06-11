@@ -7,6 +7,7 @@
                 [searchPanel]="{visible:true}"
                 [filterRow]="{visible:false}"
                 [loadPanel]="{enabled:true}"
+                [sorting]="{mode: 'none'}"
                 [syncLookupFilterValues]="false"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [showBorders]="true">
@@ -32,7 +33,8 @@
     />
     <dxi-column dataField="current_plate" caption="Placa Actual"/>
     <dxi-column dataField="previous_plate" caption="Placa Anterior"/>
-    <dxi-column dataField="entity" caption="Responsable"/>
+    <dxi-column dataField="identifier" caption="Identificación"/>
+    <dxi-column dataField="entity" caption="Propietario"/>
     <dxi-column dataField="year_manufacture" caption="Año Fabricación"/>
     <dxi-column dataField="type" caption="Tipo"/>
     <dxi-column dataField="brand" caption="Marca"/>
