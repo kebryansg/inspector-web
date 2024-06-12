@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, signal} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {filter, of} from 'rxjs';
@@ -45,7 +45,7 @@ import {Dialog} from "@angular/cdk/dialog";
   ],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NewInspeccionComponent implements OnInit {
+export class NewInspeccionComponent {
 
   private route: ActivatedRoute = inject(ActivatedRoute);
   private fb: FormBuilder = inject(FormBuilder);
@@ -54,11 +54,12 @@ export class NewInspeccionComponent implements OnInit {
 
   private inspectionService: InspectionService = inject(InspectionService);
   private notificationService: NotificationService = inject(NotificationService);
-  private empresaService: EmpresaService<Empresa> = inject(EmpresaService);
+  private companyService: EmpresaService<Empresa> = inject(EmpresaService);
+  private catalogService = inject(CatalogoService);
 
   registerForm: FormGroup = this.buildForm();
 
-  lsInspectors$ = inject(CatalogoService).obtenerInspector();
+  lsInspectors$ = this.catalogService.obtenerInspector();
   lsStatus = inject(ToolsService).status;
 
   itemEntity = signal<any>(null);
@@ -69,7 +70,7 @@ export class NewInspeccionComponent implements OnInit {
         tap(() => this.empresa.setValue(null)),
         switchMap(idEntidad => {
             if (idEntidad === null) return of([])
-            return this.empresaService.getItemsByEntidad(idEntidad)
+            return this.companyService.getItemsByEntidad(idEntidad)
           }
         )
       ),
@@ -87,10 +88,6 @@ export class NewInspeccionComponent implements OnInit {
       ),
     {initialValue: null}
   )
-
-
-  ngOnInit() {
-  }
 
   buildForm() {
     return this.fb.nonNullable.group({

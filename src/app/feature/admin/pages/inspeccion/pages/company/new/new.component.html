@@ -2,7 +2,7 @@
   <!-- Información de la Entidad solicitante -->
   <section class="row">
     <div class="col">
-      <dx-button [text]="'Buscar Entidad'"
+      <dx-button [text]="'Buscar Propietario'"
                  [icon]="'search'"
                  [type]="'success'"
                  (click)="loadModalEntity()"
@@ -14,7 +14,7 @@
     <div class="row mt-2">
       <div class="col-md-12">
         <h5 class="font-weight-bold">
-          Información de entidad
+          Información de Propietario
         </h5>
         <dx-form [formData]="itemEntity()"
                  style="background-color: rgba(191, 191, 191, 0.15); padding: 16px;"
@@ -40,7 +40,7 @@
     <div class="row ">
       <div class="col d-flex justify-content-end mt-2 mb-2">
         <div class="alert alert-danger" role="alert">
-          No hay entidad seleccionada.
+          No hay una propietario seleccionada.
         </div>
       </div>
     </div>
@@ -60,6 +60,7 @@
                       [showBorders]="true"
                       [rowAlternationEnabled]="true"
                       [hoverStateEnabled]="true"
+                      [allowColumnReordering]="true"
                       [columnAutoWidth]="true"
                       keyExpr="ID"
                       (selectedRowKeysChange)="empresa.setValue($event[0])"
@@ -81,10 +82,17 @@
                         valueExpr="value"
                         displayExpr="label"
             />
-          </dxi-column><dxi-column dataField="RUC"
+          </dxi-column>
+          <dxi-column dataField="RUC"
                       [allowHeaderFiltering]="false"
           />
-         <dxi-column dataField="NombreComercial"
+          <dxi-column dataField="LastAnnualOperatingPermit"
+                      [caption]="'Última Permiso de Funcionamiento'"
+                      dataType="date"
+                      format="yyyy-MM-dd"
+                      [allowHeaderFiltering]="false"
+          />
+          <dxi-column dataField="NombreComercial"
                       [allowHeaderFiltering]="false"
           />
           <dxi-column dataField="EntidadRazonSocial"
@@ -97,11 +105,12 @@
           <dxi-column dataField="Sector"
                       caption="Sector"
           />
-          <!--
-          <dxi-column dataField="idTipoEmpresa.Descripcion"
-                      caption="Tipo Empresa"
+          <dxi-column dataField="Grupo"
+                      caption="Sector"
           />
-          -->
+          <dxi-column dataField="Actividad"
+                      caption="Actividad Tarifario"
+          />
 
         </dx-data-grid>
       </div>
