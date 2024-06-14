@@ -1,8 +1,10 @@
-<div class="modal-header">
+<div class="modal-header d-flex justify-content-between">
   <h4 class="modal-title">
     {{titleModal}}
   </h4>
-  <button type="button" class="close" aria-label="Close"
+  <button type="button"
+          class="close"
+          aria-label="Close"
           (click)="activeModal.close()">
     <i class="feather icon-x-circle"></i>
   </button>
@@ -21,7 +23,6 @@
           <label class="col-sm-12 col-form-label">Nombre Segundo</label>
           <div class="col-sm-12">
             <dx-text-box formControlName="NombreSegundo"/>
-
           </div>
         </div>
         <div class="form-group form-default row">

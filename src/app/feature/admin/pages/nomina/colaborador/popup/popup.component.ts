@@ -53,7 +53,7 @@ export class PopupColaboradorComponent extends ModalTemplate implements OnInit, 
 
   buildForm() {
     return this.fb.group({
-      ID: [0],
+      ID: [null],
       NombrePrimero: [null, Validators.required],
       NombreSegundo: [null, Validators.required],
       ApellidoPaterno: [null, Validators.required],
@@ -72,6 +72,9 @@ export class PopupColaboradorComponent extends ModalTemplate implements OnInit, 
     this.form.patchValue({
       ...data
     })
+    setTimeout(
+      () => this.form.get('IDArea')?.setValue(data.IDArea)
+      , 500);
   }
 
   submit() {

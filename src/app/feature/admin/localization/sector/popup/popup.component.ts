@@ -10,6 +10,7 @@ import {tap} from "rxjs/operators";
 import {isEmpty} from "@utils/empty.util";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
+import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
   standalone: true,
@@ -31,10 +32,35 @@ export class PopupSectorComponent extends ModalTemplate implements OnInit, After
   private catalogoService: CatalogoService = inject(CatalogoService);
 
 
-  form!: FormGroup;
+  form: FormGroup = this.buildForm();
+
   lsProvincias$: Observable<any> = this.catalogoService.obtenerProvincia();
-  lsCanton$!: Observable<any>;
-  lsParroquia$!: Observable<any>;
+
+  lsCanton$ = this.provinciaControl.valueChanges
+    .pipe(
+      takeUntilDestroyed(),
+      tap(() =>
+        this.clearFormControl({
+          IDCanton: '',
+          IDParroquia: '',
+        })
+      ),
+      switchMap(idProvincia => {
+        return idProvincia ? this.catalogoService.obtenerCanton(idProvincia) : of([])
+      })
+    );
+
+  lsParroquia$ = this.cantonControl.valueChanges
+    .pipe(
+      takeUntilDestroyed(),
+      tap(() =>
+        this.parroquiaControl.setValue(null)
+      ),
+      switchMap(idCanton => {
+        return idCanton ? this.catalogoService.obtenerParroquia(idCanton) : of([])
+      })
+    );
+
   status$: Observable<any[]> = inject(ToolsService).status$;
 
   ngOnInit() {
@@ -50,7 +76,7 @@ export class PopupSectorComponent extends ModalTemplate implements OnInit, After
   }
 
   buildForm() {
-    this.form = this.fb.group({
+    return this.fb.group({
       ID: [0],
       Descripcion: [null, Validators.required],
       IDParroquia: ['', Validators.required],
@@ -58,7 +84,7 @@ export class PopupSectorComponent extends ModalTemplate implements OnInit, After
       IDProvincia: ['', Validators.required],
       Estado: ['ACT', Validators.required]
     });
-    this.registerEvents();
+    // this.registerEvents();
   }
 
   editData(data: any) {
@@ -67,61 +93,17 @@ export class PopupSectorComponent extends ModalTemplate implements OnInit, After
       Descripcion: data.Descripcion,
       IDProvincia: data.IDProvincia,
       IDCanton: data.IDCanton,
-      IDParroquia: data.IDParroquia,
       Estado: data.Estado,
     });
-  }
-
-  registerEvents() {
-
-    this.lsCanton$ = this.provinciaControl.valueChanges
-      .pipe(
-        tap(() =>
-          this.clearFormControl({
-            IDCanton: '',
-            IDParroquia: '',
-          })
-        ),
-        switchMap(idProvincia => {
-          return idProvincia ? this.catalogoService.obtenerCanton(idProvincia) : of([])
-        })
-      );
-
-    this.lsParroquia$ = this.cantonControl.valueChanges
-      .pipe(
-        tap(() =>
-          this.clearFormControl({
-            IDParroquia: '',
-          })
-        ),
-        switchMap(idCanton => {
-          return idCanton ? this.catalogoService.obtenerParroquia(idCanton) : of([])
-        })
-      );
+    setTimeout(() =>
+      this.parroquiaControl.setValue(data.IDParroquia), 1000
+    );
   }
 
   clearFormControl(values: any) {
     this.form.patchValue({
       ...values
-    }, {emitEvent: false})
-  }
-
-  loadCanton(IDProvincia: string) {
-    if (IDProvincia) {
-      this.form.patchValue({
-        IDCanton: '',
-        IDParroquia: '',
-      }, {emitEvent: false});
-      this.lsParroquia$ = of([]);
-      this.lsCanton$ = this.catalogoService.obtenerCanton(IDProvincia);
-    }
-  }
-
-  loadParroquia(IDCanton: string) {
-    this.parroquiaControl?.setValue('');
-    if (IDCanton) {
-      this.lsParroquia$ = this.catalogoService.obtenerParroquia(IDCanton);
-    }
+    }, {emitEvent: true})
   }
 
   submit() {
