@@ -117,7 +117,7 @@ export class OpcionPopupComponent extends ModalTemplate implements OnInit {
     return this.itemForm.get('name') as FormControl;
   }
 
-  get icon() {
+  get iconControl() {
     return this.itemForm.get('icon') as FormControl;
   }
 

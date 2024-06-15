@@ -27,10 +27,10 @@
                          [dataSource]="icons_feather"
                          [searchEnabled]="true">
             <div *dxTemplate="let data of 'dropDownButton'">
-              <i *ngIf="itemForm.controls['icon'].value"
-                 class="text-primary custom-icon feather {{ itemForm.controls['icon'].value }}"></i>
-              <div class="dx-dropdowneditor-icon"
-                   *ngIf="!itemForm.controls['icon'].value"
+              <i *ngIf="iconControl.value"
+                 class="text-primary custom-icon feather {{ iconControl.value }}"></i>
+              <div class="dx-dropdown editor-icon"
+                   *ngIf="!iconControl.value"
               ></div>
             </div>
 
