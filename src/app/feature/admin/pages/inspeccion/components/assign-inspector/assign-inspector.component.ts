@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angul
 import {Observable} from 'rxjs';
 import {FormControl, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ModalTemplate} from "@modal/modal-template";
-import {CatalogoService} from "../../../../../../services/catalogo.service";
+import {CatalogoService} from "../../../../services/catalogo.service";
 import {DxSelectBoxModule} from "devextreme-angular";
 import {AsyncPipe} from "@angular/common";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
@@ -15,10 +15,10 @@ import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
     ReactiveFormsModule,
     AsyncPipe
   ],
-  templateUrl: './asign.component.html',
+  templateUrl: './assign-inspector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AsignColaboradorComponent extends ModalTemplate implements OnInit {
+export class AssignInspectorComponent extends ModalTemplate implements OnInit {
 
   NombreComercial = signal<string>('');
 

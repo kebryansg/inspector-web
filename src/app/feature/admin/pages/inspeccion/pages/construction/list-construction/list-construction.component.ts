@@ -6,13 +6,17 @@ import {DxDataGridComponent, DxDataGridModule, DxDropDownButtonModule, DxTemplat
 import {DxiColumnModule, DxoLookupModule, DxoPagerModule, DxoPagingModule, DxoRemoteOperationsModule} from "devextreme-angular/ui/nested";
 import {StatusPipe} from "../../../../../../../pipes/status-inspection.pipe";
 import {ActivatedRoute, Router} from "@angular/router";
-import {lastValueFrom, Observable} from "rxjs";
+import {filter, lastValueFrom, Observable} from "rxjs";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import DataSource from "devextreme/data/data_source";
 import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 import {InspectionConstructionService} from "../../../services/inspection-construction.service";
-import {ItemAction, ItemActionConstruction} from "../../../const/item-action.const";
+import {ItemActionConstruction} from "../../../const/item-action.const";
+import {AssignInspectorComponent} from "../../../components/assign-inspector/assign-inspector.component";
+import {Dialog} from "@angular/cdk/dialog";
+import {NotificationService} from "@service-shared/notification.service";
+import {InspectionConstruction} from "../../../interfaces/inspection.interface";
 
 @Component({
   standalone: true,
@@ -36,11 +40,14 @@ import {ItemAction, ItemActionConstruction} from "../../../const/item-action.con
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListConstructionComponent implements OnInit {
+
   private readonly destroy: DestroyRef = inject(DestroyRef);
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private modalService: Dialog = inject(Dialog);
 
   private inspectionConstructionService = inject(InspectionConstructionService);
+  private notificationService: NotificationService = inject(NotificationService);
 
   @ViewChild('dataGridComponent', {static: true}) dataGridComponent!: DxDataGridComponent;
   gridDataSource: any;
@@ -68,6 +75,9 @@ export class ListConstructionComponent implements OnInit {
   onItemClick($event: any, dataRow: any) {
     const {itemData} = $event;
     switch (itemData.id) {
+      case 'assign_inspector':
+        this.changeInspector(dataRow);
+        break;
       case 'delete':
         this.delete(dataRow);
         break;
@@ -80,11 +90,46 @@ export class ListConstructionComponent implements OnInit {
         console.log(`No se encontro la acción seleccionada ${itemData.id}`)
         break;
     }
-
   }
 
-  delete(dataRow:any){
+  changeInspector(row: InspectionConstruction) {
+    const modalRef = this.modalService.open<number>(AssignInspectorComponent, {
+      data: {
+        titleModal: 'Asignar Colaborador'
+      }
+    });
 
+    modalRef.closed
+      .pipe(
+        filter<any>(result => !!result)
+      )
+      .subscribe((idInspector: number) => {
+        this.inspectionConstructionService.assigmentInspector(row.Id, idInspector)
+          .then((res) => {
+            this.notificationService.showSwalMessage({
+              title: 'Inspector Asignado',
+              icon: 'success',
+              text: 'Se asigno un inspector para esta inspección.'
+            });
+            this.dataGridComponent.instance.refresh();
+          });
+      });
+  }
+
+  delete(dataRow: InspectionConstruction) {
+    this.notificationService.showSwalConfirm({
+      title: 'Esta seguro?',
+      text: 'Esta seguro de eliminar esta inspección.',
+      confirmButtonText: 'Si, eliminar'
+    }).then(response => {
+      if (!response) {
+        return;
+      }
+      this.inspectionConstructionService.delete(dataRow.Id)
+        .then(data => {
+          this.dataGridComponent.instance.refresh();
+        });
+    });
   }
 
   onToolbarPreparing(e: any) {

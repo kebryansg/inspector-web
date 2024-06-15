@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal, ViewChild, ViewContainerRef} from '@angular/core';
-import {AsignColaboradorComponent} from './asign/asign.component';
+import {AssignInspectorComponent} from '../../../components/assign-inspector/assign-inspector.component';
 import {filter, lastValueFrom, Observable} from 'rxjs';
 import {ActivatedRoute, Router} from '@angular/router';
 import {debounceTime, map} from 'rxjs/operators';
@@ -82,7 +82,7 @@ export class ListComponent implements OnInit {
         this.delete(dataRow);
         break;
       case 'assign_inspector':
-        this.assign_colaborador(dataRow);
+        this.assignInspector(dataRow);
         break;
       case 'send_request':
         this.sendMailRequest(dataRow);
@@ -158,8 +158,8 @@ export class ListComponent implements OnInit {
       });
   }
 
-  assign_colaborador(row: Inspection) {
-    const modalRef = this.modalService.open<number>(AsignColaboradorComponent, {
+  assignInspector(row: Inspection) {
+    const modalRef = this.modalService.open<number>(AssignInspectorComponent, {
 
       data: {
         titleModal: 'Asignar Colaborador',
