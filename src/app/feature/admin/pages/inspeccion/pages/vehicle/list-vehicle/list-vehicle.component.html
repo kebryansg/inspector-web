@@ -85,8 +85,8 @@
 
     <ng-container *dxTemplate="let data of 'cellTemplate'">
       <div class="font-weight-bold"
-           [ngClass]="data.data.Estado | status: 'color' ">
-        {{ data.data.Estado | status : 'label' }}
+           [ngClass]="data.data.state | status: 'color' ">
+        {{ data.data.state | status : 'label' }}
       </div>
     </ng-container>
 
@@ -94,15 +94,14 @@
 
       <div class="btn-group-icons">
 
-        <dx-drop-down-button
-          [dropDownOptions]="{ width: 210 }"
-          [stylingMode]="'text'"
-          [showArrowIcon]="false"
-          icon="overflow"
-          [items]=" itemsAction() | actionsInspection: data.data.Estado"
-          displayExpr="name"
-          keyExpr="id"
-          (onItemClick)="onItemClick($event, data.data)"
+        <dx-drop-down-button [dropDownOptions]="{ width: 210 }"
+                             [stylingMode]="'text'"
+                             [showArrowIcon]="false"
+                             icon="overflow"
+                             [items]=" itemsAction() | actionsInspection: data.data.state"
+                             displayExpr="name"
+                             keyExpr="id"
+                             (onItemClick)="onItemClick($event, data.data)"
         />
       </div>
 
