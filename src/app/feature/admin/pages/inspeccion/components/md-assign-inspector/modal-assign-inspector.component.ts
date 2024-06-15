@@ -15,10 +15,10 @@ import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
     ReactiveFormsModule,
     AsyncPipe
   ],
-  templateUrl: './assign-inspector.component.html',
+  templateUrl: './modal-assign-inspector.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AssignInspectorComponent extends ModalTemplate implements OnInit {
+export class ModalAssignInspectorComponent extends ModalTemplate implements OnInit {
 
   NombreComercial = signal<string>('');
 

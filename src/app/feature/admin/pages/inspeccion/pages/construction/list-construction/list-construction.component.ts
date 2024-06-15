@@ -13,7 +13,7 @@ import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 import {InspectionConstructionService} from "../../../services/inspection-construction.service";
 import {ItemActionConstruction} from "../../../const/item-action.const";
-import {AssignInspectorComponent} from "../../../components/assign-inspector/assign-inspector.component";
+import {ModalAssignInspectorComponent} from "../../../components/md-assign-inspector/modal-assign-inspector.component";
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
 import {InspectionConstruction} from "../../../interfaces/inspection.interface";
@@ -93,7 +93,7 @@ export class ListConstructionComponent implements OnInit {
   }
 
   changeInspector(row: InspectionConstruction) {
-    const modalRef = this.modalService.open<number>(AssignInspectorComponent, {
+    const modalRef = this.modalService.open<number>(ModalAssignInspectorComponent, {
       data: {
         titleModal: 'Asignar Colaborador'
       }
