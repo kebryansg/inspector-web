@@ -13,7 +13,6 @@ import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 
 @Component({
-  selector: 'app-entidad',
   templateUrl: './entidad.component.html',
   styleUrls: []
 })
