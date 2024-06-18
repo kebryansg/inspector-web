@@ -70,7 +70,7 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
 
   buildForm() {
     return this.fb.group({
-      ID: [0],
+      ID: [],
       Identificacion: new FormControl(null, {
         validators: [
           Validators.required,

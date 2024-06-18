@@ -3,7 +3,7 @@ import {PopupEntidadComponent} from './popup/popup.component';
 import {switchMap} from 'rxjs/operators';
 import DataSource from 'devextreme/data/data_source';
 import {DxDataGridComponent} from 'devextreme-angular';
-import {filter, Observable, Subject} from 'rxjs';
+import {filter, Subject} from 'rxjs';
 import {ToolsService} from "../../../services/tools.service";
 import {typeEntitySignal} from "../../../const/type-entidad.const";
 import {Dialog} from "@angular/cdk/dialog";
