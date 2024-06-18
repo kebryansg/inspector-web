@@ -11,39 +11,39 @@ import {InspectionServiceBase} from "../interfaces/inspection-service.interface"
 })
 export class InspectionService implements InspectionServiceBase<Inspection> {
 
-  private http: HttpClient = inject(HttpClient);
+  private httpClient: HttpClient = inject(HttpClient);
   private urlBase: string = environment.apiUrl;
 
   status = signal([...STATUS_INSPECTION]).asReadonly()
 
   getById(id: number) {
-    return this.http.get<Inspection>(this.urlBase + 'inspeccion/' + id)
+    return this.httpClient.get<Inspection>(this.urlBase + 'inspeccion/' + id)
   }
 
   /**
    * Get items pending
    */
   getItemsPending() {
-    return this.http.get<Inspection[]>(this.urlBase + 'inspeccion/pending')
+    return this.httpClient.get<Inspection[]>(this.urlBase + 'inspeccion/pending')
   }
 
   getItemsPendingApproval() {
-    return this.http.get<any>(this.urlBase + 'inspeccion/pending-approval')
+    return this.httpClient.get<any>(this.urlBase + 'inspeccion/pending-approval')
   }
 
   create(data: any) {
-    return this.http.post<any>(this.urlBase + 'inspeccion', data)
+    return this.httpClient.post<any>(this.urlBase + 'inspeccion', data)
       .pipe(
         //concatMap(data => this.generateFile(data.ID))
       );
   }
 
   createMassive(data: any) {
-    return this.http.post<any>(this.urlBase + 'inspeccion/massive', data);
+    return this.httpClient.post<any>(this.urlBase + 'inspeccion/massive', data);
   }
 
   delete(idInspection: number) {
-    return this.http.delete(this.urlBase + `inspeccion/${idInspection}`);
+    return this.httpClient.delete(this.urlBase + `inspeccion/${idInspection}`);
   }
 
   /**
@@ -51,35 +51,35 @@ export class InspectionService implements InspectionServiceBase<Inspection> {
    * @param params
    */
   getItemsPaginate(params: any): Observable<PaginateInspection> {
-    return this.http.post<PaginateInspection>(this.urlBase + 'inspeccion/all', params);
+    return this.httpClient.post<PaginateInspection>(this.urlBase + 'inspeccion/all', params);
   }
 
   synchronize(idInspection: number) {
-    return this.http.get(this.urlBase + `inspeccion/${idInspection}/async`);
+    return this.httpClient.get(this.urlBase + `inspeccion/${idInspection}/async`);
   }
 
   generateFileRequest(idInspection: number) {
-    return this.http.get(this.urlBase + `inspeccion/generate/${idInspection}/solicitud_pdf`);
+    return this.httpClient.get(this.urlBase + `inspeccion/generate/${idInspection}/solicitud_pdf`);
   }
 
   generateFileReport(idInspection: number) {
-    return this.http.get(this.urlBase + `inspeccion/generate/${idInspection}/result_pdf`);
+    return this.httpClient.get(this.urlBase + `inspeccion/generate/${idInspection}/result_pdf`);
   }
 
   sendMailForm(idInspection: number) {
-    return this.http.get<any>(this.urlBase + `pdf_send/${idInspection}`);
+    return this.httpClient.get<any>(this.urlBase + `pdf_send/${idInspection}`);
   }
 
   sendMailRequest(idInspection: number) {
-    return this.http.get<any>(this.urlBase + `inspeccion/mail/${idInspection}/solicitud_pdf`);
+    return this.httpClient.get<any>(this.urlBase + `inspeccion/mail/${idInspection}/solicitud_pdf`);
   }
 
   viewWebSolicitud(idInspection: number) {
-    return this.http.get<any>(this.urlBase + `anexos/solicitud/${idInspection}`);
+    return this.httpClient.get<any>(this.urlBase + `anexos/solicitud/${idInspection}`);
   }
 
   getFileContentRequest(idInspection: number) {
-    return this.http.get(this.urlBase + `inspeccion/file/${idInspection}/request_pdf`, {
+    return this.httpClient.get(this.urlBase + `inspeccion/file/${idInspection}/request_pdf`, {
       responseType: 'blob' // This must be a Blob type
     }).pipe(
       timeout(7000)
@@ -87,7 +87,7 @@ export class InspectionService implements InspectionServiceBase<Inspection> {
   }
 
   getFileContentResult(idInspection: number) {
-    return this.http.get(this.urlBase + `inspeccion/file/${idInspection}/result-pdf`, {
+    return this.httpClient.get(this.urlBase + `inspeccion/file/${idInspection}/result-pdf`, {
       responseType: 'blob' // This must be a Blob type
     }).pipe(
       timeout(7000)
@@ -95,17 +95,17 @@ export class InspectionService implements InspectionServiceBase<Inspection> {
   }
 
   assigmentInspector(idInspect: number, idInspector: number) {
-    return this.http.put(this.urlBase + `inspeccion/${idInspect}/inspector/${idInspector}`, null);
+    return this.httpClient.put(this.urlBase + `inspeccion/${idInspect}/inspector/${idInspector}`, null);
   }
 
   assigmentInspectorByIds(idInspector: number, idsInspection: number[]) {
-    return this.http.put(this.urlBase + `inspeccion/inspector/${idInspector}`, {
+    return this.httpClient.put(this.urlBase + `inspeccion/inspector/${idInspector}`, {
       idsInspection
     });
   }
 
   downloadForm(idInspect: number) {
-    return this.http.get(this.urlBase + `pdf_download/${idInspect}`, {
+    return this.httpClient.get(this.urlBase + `pdf_download/${idInspect}`, {
       headers: {
         responseType: 'blob'
       }
@@ -118,10 +118,16 @@ export class InspectionService implements InspectionServiceBase<Inspection> {
    * @param idsInspectionOrder
    */
   createRuteInspection(idInspector: number, idsInspectionOrder: any[]) {
-    return this.http.post(this.urlBase + `inspeccion/rute`, {
+    return this.httpClient.post(this.urlBase + `inspeccion/rute`, {
       idInspector,
       idsInspectionOrder
     });
+  }
+
+
+  getResultForm(idInspection: number): Observable<any> {
+    return this.httpClient.get<any>(this.urlBase + 'inspeccion/result-form/' + idInspection);
+
   }
 
 }

@@ -33,5 +33,9 @@ export class InspectionVehicleService implements InspectionServiceBase<Inspectio
     throw new Error('Method not implemented.');
   }
 
+  getResultForm(idInspection: number): Observable<any> {
+    return this.httpClient.get<any>(this.urlBase + '/result-form/' + idInspection);
+
+  }
 
 }
