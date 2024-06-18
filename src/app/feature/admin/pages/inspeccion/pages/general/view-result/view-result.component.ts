@@ -103,7 +103,8 @@ export class ViewResultComponent {
   );
 
   itemInfoInspection = computedAsync(() =>
-    this.resultService.getInfoById(this.id(), this.typeInspection()),
+      this.inspectionService.getResultForm(this.id()),
+    //this.resultService.getInfoById(this.id(), this.typeInspection()),
   );
 
   annotationsInspection = computed(
