@@ -14,5 +14,6 @@ export const ItemAction = [
 export const ItemActionConstruction = [
   {name: 'Asignar Colaborador', id: 'assign_inspector', icon: 'group', state: ['PEN']},
   {name: 'Eliminar', id: 'delete', icon: 'trash', state: ['PEN']},
+  {name: 'Revisar resultados', id: 'view_result', icon: 'eyeopen', state: ['APR']},
   {name: 'Realizar en web', id: 'resolve', icon: 'box', state: ['PEN']},
 ]

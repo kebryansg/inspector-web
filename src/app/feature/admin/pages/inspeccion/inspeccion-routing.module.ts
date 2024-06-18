@@ -21,4 +21,13 @@ export const inspectionRoutes: Routes = [
     loadComponent: () => import('./pages/general/rute-inspection/rute-inspection.component')
       .then(m => m.RuteInspectionComponent),
   },
+  {
+    path: 'view-result/:typeInspection/:id',
+    canActivate: [
+      //approveInspectionGuard
+    ],
+    loadComponent: () => import('./pages/general/view-result/view-result.component')
+      .then(m => m.ViewResultComponent),
+
+  },
 ];

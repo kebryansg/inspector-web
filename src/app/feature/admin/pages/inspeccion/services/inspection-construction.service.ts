@@ -2,12 +2,12 @@ import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {STATUS_INSPECTION} from "../const/status-inspection.const";
 import {lastValueFrom, Observable} from "rxjs";
-import {PaginateInspectionConstruction} from "../interfaces/inspection.interface";
+import {InspectionConstruction, PaginateInspectionConstruction} from "../interfaces/inspection.interface";
 import {environment} from "@environments/environment";
+import {InspectionServiceBase} from "../interfaces/inspection-service.interface";
 
 @Injectable({providedIn: 'root'})
-export class InspectionConstructionService {
-
+export class InspectionConstructionService implements InspectionServiceBase<InspectionConstruction> {
   private httpClient: HttpClient = inject(HttpClient);
 
   private urlBase: string = environment.apiUrl + 'inspection/construction';
@@ -15,6 +15,10 @@ export class InspectionConstructionService {
 
   getItemsPaginate(params: any): Observable<PaginateInspectionConstruction> {
     return this.httpClient.get<PaginateInspectionConstruction>(this.urlBase + '/all', {params});
+  }
+
+  getById(id: number) {
+    return this.httpClient.get<InspectionConstruction>(this.urlBase + '/' + id);
   }
 
   createInspection(body: any, params?: any): Observable<boolean> {
@@ -32,5 +36,14 @@ export class InspectionConstructionService {
       this.httpClient.delete(this.urlBase + `/${idInspection}`)
     );
   }
+
+  generateFileReport(id: number): Observable<any> {
+    throw new Error('Method not implemented.');
+  }
+
+  getFileContentResult(id: number): Observable<any> {
+    throw new Error('Method not implemented.');
+  }
+
 
 }

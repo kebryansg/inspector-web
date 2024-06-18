@@ -22,6 +22,7 @@ import {ActionsInspectionPipe} from "../../../pipes/actions-inspection.pipe";
 import {AsyncPipe, NgClass} from "@angular/common";
 import {StatusPipe} from "../../../../../../../pipes/status-inspection.pipe";
 import {TypePermission} from "../../../../sociedad/empresa/const/type-permiso.const";
+import {TypeInspection} from "../../../enums/type-inspection.enum";
 
 type itemAction = {
   name: string;
@@ -94,9 +95,7 @@ export class ListComponent implements OnInit {
         this.printRequest(dataRow);
         break;
       case 'view_result':
-        this.router.navigate(['..', 'view-result', dataRow.ID], {
-          relativeTo: this.activatedRoute
-        });
+        this.router.navigate(['/inspeccion', 'view-result', TypeInspection.Commercial, dataRow.ID]);
         break;
       default:
         console.log(`No se encontro la acción seleccionada ${itemData.id}`)

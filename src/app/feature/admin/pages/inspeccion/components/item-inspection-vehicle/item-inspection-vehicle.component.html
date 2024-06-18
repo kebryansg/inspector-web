@@ -1,0 +1,23 @@
+<dx-form [formData]="itemInspection()"
+         [readOnly]="true"
+         labelLocation="top">
+  <dxi-item dataField="identifier"
+            [label]="{text:'Identificación'}"
+  />
+  <dxi-item dataField="entity"
+            [label]="{text:'Propietario'}"
+  />
+  <dxi-item dataField="current_plate"
+            [label]="{text:'Placa'}"
+  />
+  <dxi-item dataField="state"
+            [label]="{text:'Estado'}"
+            editorType="dxSelectBox"
+            [editorOptions]="{dataSource:status(), displayExpr:'label', valueExpr:'value'}"
+  />
+  <dxi-item dataField="created_at"
+            [label]="{text:'Fecha Registro'}"
+            editorType="dxDateBox"
+            [editorOptions]="{displayFormat: formatDxDateBox}"
+  />
+</dx-form>

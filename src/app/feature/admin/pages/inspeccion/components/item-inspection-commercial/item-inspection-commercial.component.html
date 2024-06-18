@@ -1,0 +1,35 @@
+<dx-form [formData]="itemInspection()"
+         [readOnly]="true">
+  <dxi-item [dataField]="'RUC'"
+            [label]="{text: 'RUC'}"
+  />
+  <dxi-item [dataField]="'NombreComercial'"
+            [label]="{text: 'Nombre Comercial'}"
+  />
+  <dxi-item [dataField]="'EntidadRazonSocial'"
+            [label]="{text: 'Razon Social'}"
+  />
+  <dxi-item [dataField]="'Sector'"
+            [label]="{text: 'Sector'}"
+  />
+  <dxi-item [dataField]="'Inspector'"
+            [label]="{text: 'Inspector'}"
+  />
+  <dxi-item [dataField]="'FechaInspeccion'"
+            editorType="dxDateBox"
+            [editorOptions]="{displayFormat:'MMMM dd, yyyy HH:mm'}"
+            [label]="{text: 'Fecha Inspección'}"
+  />
+  <dxi-item [dataField]="'FechaRegistro'"
+            editorType="dxDateBox"
+            [editorOptions]="{displayFormat:'MMMM dd, yyyy HH:mm'}"
+            [label]="{text: 'Fecha Registro'}"
+  />
+  <dxi-item [dataField]="'Estado'"
+            [label]="{text: 'Estado'}"
+            editorType="dxSelectBox"
+            [editorOptions]="{
+              items: status(), displayExpr:'label', valueExpr:'value'
+            }"
+  />
+</dx-form>

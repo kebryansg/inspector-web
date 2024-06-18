@@ -17,6 +17,7 @@ import {ModalAssignInspectorComponent} from "../../../components/md-assign-inspe
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
 import {InspectionConstruction} from "../../../interfaces/inspection.interface";
+import {TypeInspection} from "../../../enums/type-inspection.enum";
 
 @Component({
   standalone: true,
@@ -85,6 +86,9 @@ export class ListConstructionComponent implements OnInit {
         this.router.navigate(['..', 'resolve-inspection-construction', dataRow.Id], {
           relativeTo: this.activatedRoute
         });
+        break;
+      case 'view_result':
+        this.router.navigate(['/inspeccion', 'view-result', TypeInspection.Construction, dataRow.Id]);
         break;
       default:
         console.log(`No se encontro la acción seleccionada ${itemData.id}`)

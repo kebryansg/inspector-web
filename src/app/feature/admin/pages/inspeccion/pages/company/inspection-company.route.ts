@@ -1,5 +1,4 @@
 import {Routes} from "@angular/router";
-import {approveInspectionGuard} from "../../guards/inspection-approve.can-activate.guard";
 
 export const inspectionCompanyRoute: Routes = [
   {
@@ -28,17 +27,8 @@ export const inspectionCompanyRoute: Routes = [
       .then(m => m.MyInspectionsComponent),
     title: 'Mis Inspecciones',
   },
-
   {
     path: 'pending-approval',
     loadChildren: () => import('./pending-approval/pending-approval-route').then(m => m.routes),
-  },
-  {
-    path: 'view-result/:id',
-    canActivate: [
-      approveInspectionGuard
-    ],
-    loadComponent: () => import('./view-result/view-result.component')
-      .then(m => m.ViewResultComponent),
   },
 ]

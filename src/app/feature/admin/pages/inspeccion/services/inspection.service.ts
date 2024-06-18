@@ -4,11 +4,12 @@ import {environment} from '@environments/environment';
 import {Observable, timeout} from 'rxjs';
 import {Inspection, PaginateInspection} from '../interfaces/inspection.interface';
 import {STATUS_INSPECTION} from "../const/status-inspection.const";
+import {InspectionServiceBase} from "../interfaces/inspection-service.interface";
 
 @Injectable({
   providedIn: 'root'
 })
-export class InspectionService {
+export class InspectionService implements InspectionServiceBase<Inspection> {
 
   private http: HttpClient = inject(HttpClient);
   private urlBase: string = environment.apiUrl;

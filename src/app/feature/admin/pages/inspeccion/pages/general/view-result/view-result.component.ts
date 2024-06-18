@@ -1,10 +1,9 @@
-import {ChangeDetectionStrategy, Component, computed, inject, input, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, input as inputRoute, signal} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxCheckBoxModule, DxFormModule, DxMapModule, DxTabsModule} from "devextreme-angular";
-import {DecimalPipe, JsonPipe, KeyValuePipe} from "@angular/common";
-import {InspectionService} from "../../../services/inspection.service";
+import {DecimalPipe, JsonPipe, KeyValuePipe, NgOptimizedImage, PathLocationStrategy} from "@angular/common";
 import {InspectionResultService} from "../../../services/inspection-result.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute} from "@angular/router";
 import {computedAsync} from "ngxtension/computed-async";
 import {DomSanitizer} from '@angular/platform-browser';
 import {formatDate} from "devextreme/localization";
@@ -12,6 +11,15 @@ import {NotificationService} from "@service-shared/notification.service";
 import {FileSaverService} from "ngx-filesaver";
 import {DebounceClickDirective} from "@directives/debounce-click.directive";
 import {environment} from "@environments/environment";
+import {InspectionBaseService} from "../../../services/inspection-base.service";
+import {STATUS_INSPECTION} from "../../../const/status-inspection.const";
+import {TypeInspection} from "../../../enums/type-inspection.enum";
+import {InspectionService} from "../../../services/inspection.service";
+import {InspectionConstructionService} from "../../../services/inspection-construction.service";
+import {InspectionVehicleService} from "../../../services/inspection-vehicle.service";
+import {ItemInspectionCommercialComponent} from "../../../components/item-inspection-commercial/item-inspection-commercial.component";
+import {ItemInspectionVehicleComponent} from "../../../components/item-inspection-vehicle/item-inspection-vehicle.component";
+import {ItemInspectionConstructionComponent} from "../../../components/item-inspection-construction/item-inspection-construction.component";
 
 @Component({
   standalone: true,
@@ -25,22 +33,41 @@ import {environment} from "@environments/environment";
     DxTabsModule,
     DebounceClickDirective,
     DxMapModule,
+    ItemInspectionCommercialComponent,
+    ItemInspectionVehicleComponent,
+    ItemInspectionConstructionComponent,
+    NgOptimizedImage,
   ],
   templateUrl: './view-result.component.html',
   styleUrl: './view-result.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: InspectionBaseService,
+      useFactory: (acc: ActivatedRoute) => {
+        const typeInspection = acc.snapshot.paramMap.get('typeInspection')!
+
+        if (typeInspection == TypeInspection.Commercial)
+          return inject(InspectionService)
+        else if (typeInspection === TypeInspection.Construction)
+          return inject(InspectionConstructionService)
+        else
+          return inject(InspectionVehicleService)
+      },
+      deps: [ActivatedRoute]
+    }
+  ],
 })
 export class ViewResultComponent {
 
-  private inspectionService = inject(InspectionService);
+  private inspectionService = inject(InspectionBaseService);
   private notificationService: NotificationService = inject(NotificationService);
   private _fileSaverService: FileSaverService = inject(FileSaverService);
   private resultService = inject(InspectionResultService);
-  private router = inject(Router);
+  private pathLocationStrategy = inject(PathLocationStrategy);
   private domSanitizer = inject(DomSanitizer);
 
-
-  status = this.inspectionService.status
+  status = signal([...STATUS_INSPECTION]);
 
   tabsWithIconAndText = [
     {
@@ -67,14 +94,16 @@ export class ViewResultComponent {
 
   tabSelected = signal<string>('summary');
 
-  id = input.required<number>();
+  id = inputRoute.required<number>();
+  typeInspection = inputRoute.required<TypeInspection>();
+  TypeInspectionValue = TypeInspection
 
   itemInspection = computedAsync(() =>
     this.inspectionService.getById(this.id()),
   );
 
   itemInfoInspection = computedAsync(() =>
-    this.resultService.getInfoById(this.id()),
+    this.resultService.getInfoById(this.id(), this.typeInspection()),
   );
 
   annotationsInspection = computed(
@@ -84,6 +113,15 @@ export class ViewResultComponent {
   imagesInspection = computed(
     () => this.itemInfoInspection()?.images ?? []
   );
+
+  titleCard = computed(() => {
+    const keyType = {
+      [TypeInspection.Commercial]: 'Comercial',
+      [TypeInspection.Vehicle]: 'Vehicular',
+      [TypeInspection.Construction]: 'Construcción',
+    }
+    return `Inspección ${keyType[this.typeInspection()]}`
+  })
 
   zoomMap = 17;
   apiKey = {google: environment.googleMapsKey}
@@ -105,7 +143,8 @@ export class ViewResultComponent {
   }
 
   cancelReview() {
-    this.router.navigate(['/inspeccion', 'company', 'list']);
+    this.pathLocationStrategy.historyGo(-1);
+    // this.router.navigate(['/inspeccion', 'company', 'list']);
   }
 
   generateReport() {

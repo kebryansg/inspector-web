@@ -1,40 +1,17 @@
 <app-card cardClass="mb-4"
-          [cardTitle]="'Formulario - Inspección'">
-  <dx-form [formData]="itemInspection()"
-           [readOnly]="true">
-    <dxi-item [dataField]="'RUC'"
-              [label]="{text: 'RUC'}"
-    />
-    <dxi-item [dataField]="'NombreComercial'"
-              [label]="{text: 'Nombre Comercial'}"
-    />
-    <dxi-item [dataField]="'EntidadRazonSocial'"
-              [label]="{text: 'Razon Social'}"
-    />
-    <dxi-item [dataField]="'Sector'"
-              [label]="{text: 'Sector'}"
-    />
-    <dxi-item [dataField]="'Inspector'"
-              [label]="{text: 'Inspector'}"
-    />
-    <dxi-item [dataField]="'FechaInspeccion'"
-              editorType="dxDateBox"
-              [editorOptions]="{displayFormat:'MMMM dd, yyyy HH:mm'}"
-              [label]="{text: 'Fecha Inspección'}"
-    />
-    <dxi-item [dataField]="'FechaRegistro'"
-              editorType="dxDateBox"
-              [editorOptions]="{displayFormat:'MMMM dd, yyyy HH:mm'}"
-              [label]="{text: 'Fecha Registro'}"
-    />
-    <dxi-item [dataField]="'Estado'"
-              [label]="{text: 'Estado'}"
-              editorType="dxSelectBox"
-              [editorOptions]="{
-              items: status(), displayExpr:'label', valueExpr:'value'
-            }"
-    />
-  </dx-form>
+          [cardTitle]="titleCard()">
+
+  @switch (typeInspection()) {
+    @case (TypeInspectionValue.Commercial) {
+      <app-item-inspection-commercial [itemInspection]="itemInspection()"/>
+    }
+    @case (TypeInspectionValue.Vehicle) {
+      <app-item-inspection-vehicle [itemInspection]="itemInspection()"/>
+    }
+    @case (TypeInspectionValue.Construction) {
+      <app-item-inspection-construction [itemInspection]="itemInspection()"/>
+    }
+  }
 
   <div class="row mt-3">
     <div class="col-12 d-flex justify-content-end gap-2">
@@ -123,7 +100,7 @@
     <app-card cardClass="mt-4" [hidHeader]="true">
       <div class="container-image">
         @for (img of imagesInspection(); track img.id) {
-          <img [src]="img.srcURI"
+          <img [srcset]="img.srcURI"
                alt="Inspección">
         } @empty {
           <div class="d-flex justify-content-center">

@@ -13,8 +13,8 @@ export class InspectionResultService {
   private urlBase: string = environment.apiUrl;
 
 
-  getInfoById(id: number): Observable<InspectionDetail> {
-    return this.http.get<InspectionDetail>(this.urlBase + 'inspection-result/report/' + id)
+  getInfoById(id: number, typeInspection: string): Observable<InspectionDetail> {
+    return this.http.get<InspectionDetail>(this.urlBase + `inspection-result/report/${typeInspection}/${id}`)
   }
 
   getById(id: number): Observable<VWInspectionDetail[]> {

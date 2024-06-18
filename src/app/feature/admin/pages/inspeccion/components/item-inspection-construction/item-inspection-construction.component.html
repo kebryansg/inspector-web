@@ -1,0 +1,24 @@
+<dx-form [formData]="itemInspection()"
+         [readOnly]="true"
+         labelLocation="top">
+  <dxi-item dataField="identifier"
+            [label]="{text:'Identificación Propietario'}"
+  />
+  <dxi-item dataField="entity"
+            [label]="{text:'Propietario'}"
+  />
+  <dxi-item dataField="name_project"
+            [label]="{text:'Nombre Projecto'}"
+  />
+  <dxi-item dataField="area_m2"
+            [label]="{text:'Area M2'}"
+  />
+  <dxi-item dataField="address"
+            [label]="{text:'Dirección'}"
+  />
+  <dxi-item dataField="state"
+            [label]="{text:'Estado'}"
+            editorType="dxSelectBox"
+            [editorOptions]="{dataSource:status(), displayExpr:'label', valueExpr:'value'}"
+  />
+</dx-form>
