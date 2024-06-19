@@ -33,9 +33,8 @@ jobs:
       - name: Deploy to SmarterASP.NET
         uses: jahbenjah/SmarterASP.NET-web-deploy@1.0.0
         with:
-          website-name: ${{ secrets.WEBSITE_NAME }}
-          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
-          server-username: 'techlinkec-001'
-          server-password: ${{ secrets.SERVER_PASSWORD }}
+          website-name: ${{ vars.WEBSITE_NAME }}
+          server-computer-name: ${{ vars.SERVER_COMPUTER_NAME }}
+          server-username: ${{ vars.SERVER_PASSWORD }}
+          server-password: ${{ vars.SERVER_PASSWORD }}
           source-path: '\dist\inspector-web-frontend\'
-          target-delete: true
