@@ -35,6 +35,6 @@ jobs:
         with:
           website-name: ${{ vars.WEBSITE_NAME }}
           server-computer-name: ${{ vars.SERVER_COMPUTER_NAME }}
-          server-username: ${{ vars.SERVER_PASSWORD }}
+          server-username: ${{ vars.SERVER_USERNAME }}
           server-password: ${{ vars.SERVER_PASSWORD }}
           source-path: '\dist\inspector-web-frontend\'
