@@ -38,5 +38,5 @@ jobs:
           server-username: ${{ vars.SERVER_USERNAME }}
           server-password: ${{ vars.SERVER_PASSWORD }}
           source-path: '\dist\inspector-web-frontend\'
-          target-path: '/my-sub-directory/www/inspector-frontend/'
+          target-path: '/www/inspector-frontend/'
           target-delete: true
