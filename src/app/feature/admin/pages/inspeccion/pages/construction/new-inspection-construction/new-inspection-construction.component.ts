@@ -24,6 +24,8 @@ import {toSignal} from "@angular/core/rxjs-interop";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 import {switchMap, tap} from "rxjs/operators";
 import {Sector} from "../../../../../localization/interfaces/base.interface";
+import {ItemLocationCoordinateComponent} from "../../../../../components/item-location-coordinate/item-location-coordinate.component";
+import {NotificationService} from "@service-shared/notification.service";
 
 @Component({
   selector: 'app-new-inspection-construction',
@@ -42,6 +44,7 @@ import {Sector} from "../../../../../localization/interfaces/base.interface";
     DxTextAreaModule,
     DxSelectBoxModule,
     DxSelectErrorControlDirective,
+    ItemLocationCoordinateComponent,
   ],
   templateUrl: './new-inspection-construction.component.html',
   styleUrl: './new-inspection-construction.component.scss',
@@ -55,6 +58,7 @@ export class NewInspectionConstructionComponent {
   private dialogModal: Dialog = inject(Dialog);
 
   private inspectionConstructionService = inject(InspectionConstructionService);
+  private notificationService: NotificationService = inject(NotificationService);
   private catalogService = inject(CatalogoService);
 
   registerForm = this.fb.nonNullable.group({
@@ -66,8 +70,8 @@ export class NewInspectionConstructionComponent {
     IdParroquia: [null, Validators.required],
     IdSector: [null, Validators.required],
     area_m2: [null, Validators.required],
-    latitude: [null, Validators.required],
-    longitude: [null, Validators.required],
+    latitude: ['', Validators.required],
+    longitude: ['', Validators.required],
   });
 
   itemEntity = signal<any>(null);
@@ -113,6 +117,28 @@ export class NewInspectionConstructionComponent {
         this.itemEntity.set(data);
         this.registerForm.controls.IdOwner.setValue(data.ID)
       });
+  }
+
+  setLocation(location: { status: false } | { status: true, latitude: string, longitude: string }) {
+    if (location.status) {
+      const {latitude, longitude} = location
+      this.registerForm.patchValue({
+        latitude: latitude,
+        longitude: longitude,
+      });
+      this.addMarker({
+        location: {
+          lat: Number(latitude),
+          lng: Number(longitude)
+        }
+      });
+    } else {
+      this.notificationService.showSwalNotif({
+        title: 'Las coordenadas no son válidas.',
+        icon: 'error'
+      })
+    }
+
   }
 
   saveRegister() {

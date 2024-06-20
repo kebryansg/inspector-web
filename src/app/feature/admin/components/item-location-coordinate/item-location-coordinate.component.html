@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-5">
+    <app-item-control titleControl="Dirección General - Google Maps">
+      <dx-text-box #txtLocation
+                   placeholder="Ej: -1.0261201882393742, -79.46791115403283"
+                   [showClearButton]="true"
+      />
+    </app-item-control>
+  </div>
+  <div class="col align-content-end pb-3">
+    <button type="button"
+            (click)="setLocation(txtLocation.value)"
+            class="btn btn-primary btn-sm">
+      <i class="feather icon-map"></i>
+      Validar Ubicación
+    </button>
+  </div>
+</div>

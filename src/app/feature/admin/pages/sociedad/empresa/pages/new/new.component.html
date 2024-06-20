@@ -273,7 +273,9 @@
 
         </div>
 
-        <div class="row">
+        <app-item-location-coordinate (markerPositions)="setLocation($event)"  />
+
+        <section class="row">
 
           <div class="col-4">
             <app-item-control titleControl="Latitud">
@@ -288,15 +290,6 @@
                            [readOnly]="true"
               />
             </app-item-control>
-          </div>
-
-          <div class="col align-content-end pb-3">
-            <button type="button"
-                    (click)="pasteLocation()"
-                    class="btn btn-primary btn-sm">
-              <i class="feather icon-map"></i>
-              Pegar Ubicación
-            </button>
           </div>
 
 
@@ -322,7 +315,7 @@
             }
 
           </div>
-        </div>
+        </section>
 
       }
     }

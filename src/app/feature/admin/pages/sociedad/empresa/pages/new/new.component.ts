@@ -72,7 +72,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
-  selectTab = signal<string>('INFB');
+  selectTab = signal<string>('UBC');
   formatNumber = '#,##0.00';
   destroy$ = new Subject<void>()
   longTabs: any[] = longTabs;
@@ -201,6 +201,31 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       IDParroquia: [null, Validators.required],
       IDSector: [null, Validators.required],
     });
+  }
+
+  setLocation(location: { status: false } | { status: true, latitude: string, longitude: string }) {
+
+    if (location.status) {
+      const {latitude, longitude} = location
+      this.form.patchValue({
+        Latitud: latitude,
+        Longitud: longitude,
+      });
+      this.markerPositions.set([
+        {
+          location: {
+            lat: latitude,
+            lng: longitude
+          }
+        }
+      ]);
+    } else {
+      this.notificationService.showSwalNotif({
+        title: 'Las coordenadas no son válidas.',
+        icon: 'error'
+      })
+    }
+
   }
 
   async pasteLocation() {

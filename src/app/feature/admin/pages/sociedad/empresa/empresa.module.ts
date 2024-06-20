@@ -19,6 +19,9 @@ import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 import {StatusPipe} from "../../../../../pipes/status-inspection.pipe";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
+import {
+	ItemLocationCoordinateComponent
+} from "../../../components/item-location-coordinate/item-location-coordinate.component";
 
 @NgModule({
   declarations: [
@@ -41,12 +44,13 @@ import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-c
 		DxSelectBoxModule,
 		DxTextBoxModule,
 		DxFormModule,
-    DxTextAreaModule,
+		DxTextAreaModule,
 
 		StatusPipe,
 		ItemControlComponent,
 		DxMapModule,
-		DxNumberBoxModule
+		DxNumberBoxModule,
+		ItemLocationCoordinateComponent
 	]
 })
 export class EmpresaModule {
