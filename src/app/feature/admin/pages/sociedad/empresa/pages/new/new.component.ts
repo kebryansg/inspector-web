@@ -17,7 +17,6 @@ import {MdFindEntityComponent} from "../../../../../components/md-find-entity/md
 import {GroupCatalog} from "../../../../../interfaces/group-catalog.interface";
 import {MdFindGroupCategoryComponent} from "../../../../../components/md-find-group-category/md-find-group-category.component";
 import {tap} from "rxjs/operators";
-import {getCoordinatesFromUrl} from "@utils-app/coordinate-gps.util";
 
 
 const longTabs = [
@@ -72,7 +71,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
-  selectTab = signal<string>('UBC');
+  selectTab = signal<string>('INFB');
   formatNumber = '#,##0.00';
   destroy$ = new Subject<void>()
   longTabs: any[] = longTabs;
@@ -228,26 +227,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  async pasteLocation() {
-    const textRead = await navigator.clipboard.readText();
-    const coordinates = getCoordinatesFromUrl(textRead)
-    console.log('pasteLocation -> ', textRead)
-    console.log('pasteLocation -> ', getCoordinatesFromUrl(textRead))
-
-    this.form.patchValue({
-      Latitud: coordinates?.latitude,
-      Longitud: coordinates?.longitude,
-    });
-
-    this.markerPositions.set([
-      {
-        location: {
-          lat: coordinates?.latitude,
-          lng: coordinates?.longitude
-        }
-      }
-    ]);
-  }
 
   loadCompany(dataCompany: Empresa) {
     this.form.patchValue({
@@ -310,7 +289,15 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   submit() {
     this.form.markAllAsTouched()
-    if (this.form.invalid) return;
+    if (this.form.invalid) {
+
+      this.notificationService.showSwalMessage({
+        title: 'Complete los campos requeridos',
+        icon: 'warning'
+      })
+
+      return;
+    }
 
     const data = this.form.getRawValue();
 
@@ -389,7 +376,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
         filter(Boolean)
       )
       .subscribe((data: GroupCatalog) => {
-        console.log(data);
         this.infoGroup.set(data);
         this.form.patchValue({
           IDTarifaGrupo: data.IdGroup,
