@@ -23,6 +23,7 @@ import {StatusPipe} from "../../../../../pipes/status-inspection.pipe";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 import {ItemLocationCoordinateComponent} from "../../../components/item-location-coordinate/item-location-coordinate.component";
 import {DebounceClickDirective} from "@directives/debounce-click.directive";
+import {DxNumberErrorControlDirective} from "@directives/number-box.directive";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import {DebounceClickDirective} from "@directives/debounce-click.directive";
     EmpresaRoutingModule,
 
     DxTextErrorControlDirective,
+    DxNumberErrorControlDirective,
     DxSelectErrorControlDirective,
 
     DxDataGridModule,
