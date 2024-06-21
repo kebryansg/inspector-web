@@ -75,7 +75,7 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
         validators: [
           Validators.required,
           Validators.minLength(10),
-          Validators.pattern(/^[0-9]{10,13}$/)
+          Validators.pattern(/^\d{10}(\d{3})?$/)
         ],
         asyncValidators: [this.verifyExistByIdentifier()]
       }),

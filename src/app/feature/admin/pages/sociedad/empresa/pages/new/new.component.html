@@ -1,5 +1,5 @@
 <form [formGroup]="form"
-      (ngSubmit)="submit()"
+      (keydown.enter)="$event.preventDefault()"
       [autocomplete]="false">
   <app-card [hidHeader]="true">
     <div class="row">
@@ -7,16 +7,21 @@
         <h5 class="font-weight-bold">
           {{ edit() ? 'Editar' : 'Nueva' }}  Empresa
         </h5>
-        <section class="d-flex justify-content-end">
+        <section class="d-flex justify-content-end gap-2">
           <button type="reset" class="btn btn-danger"
                   (click)="cancel()">
             <i class="feather icon-toggle-left"></i>
             Cancelar
           </button>
-          <button type="submit" class="btn btn-primary ms-2">
+
+          <button type="button"
+                  appDebounceClick
+                  (debounceClick)="submit()"
+                  class="btn btn-primary">
             <i class="feather icon-save"></i>
             Guardar
           </button>
+
         </section>
       </div>
     </div>
@@ -58,6 +63,7 @@
 
             <app-item-control titleControl="Establecimiento">
               <dx-text-box formControlName="Establecimiento"
+                           mask="000"
                            [maxLength]="3"
               />
             </app-item-control>
@@ -91,11 +97,18 @@
             </app-item-control>
 
             <app-item-control titleControl="Teléfono">
-              <dx-text-box formControlName="Telefono"/>
+              <dx-text-box formControlName="Telefono"
+              />
             </app-item-control>
 
             <app-item-control titleControl="Celular">
-              <dx-text-box formControlName="Celular" [maxLength]="10"/>
+              <dx-text-box formControlName="Celular"
+                           mask="0900000000"
+                           [errorsMessageCustom]="{
+                           pattern: 'Formato de celular incorrecto',
+                           }"
+                           [maxLength]="10"
+              />
             </app-item-control>
 
             <app-item-control titleControl="Email">
@@ -273,7 +286,7 @@
 
         </div>
 
-        <app-item-location-coordinate (markerPositions)="setLocation($event)"  />
+        <app-item-location-coordinate (markerPositions)="setLocation($event)"/>
 
         <section class="row">
 

@@ -114,7 +114,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
         })
       ),
     {initialValue: []}
-  )
+  );
 
   apiKey = {google: environment.googleMapsKey}
   zoomMap = 17;
@@ -167,10 +167,19 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       RUC: [null, Validators.required],
       NombreComercial: ['', Validators.required],
       RazonSocial: ['', Validators.required],
-      Establecimiento: ['', [Validators.required, Validators.maxLength(3)]],
+      Establecimiento: ['', [
+        Validators.required,
+        Validators.maxLength(3)
+      ]
+      ],
       Direccion: ['', Validators.required],
       Telefono: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
-      Celular: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      Celular: ['',
+        [
+          Validators.required,
+          Validators.pattern(/^09\d{8}$/)
+        ]
+      ],
       Email: [null, [Validators.email]],
       Referencia: ['', Validators.required],
       Estado: ['ACT', Validators.required],
@@ -226,7 +235,6 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
   }
-
 
   loadCompany(dataCompany: Empresa) {
     this.form.patchValue({
@@ -288,14 +296,12 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   submit() {
-    this.form.markAllAsTouched()
+    this.form.markAllAsTouched();
     if (this.form.invalid) {
-
       this.notificationService.showSwalMessage({
         title: 'Complete los campos requeridos',
         icon: 'warning'
       })
-
       return;
     }
 
