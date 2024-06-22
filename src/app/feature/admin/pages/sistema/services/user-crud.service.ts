@@ -3,29 +3,30 @@ import {environment} from "@environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import {keyBase} from "../../../interfaces/base-catalog.interface";
+import {User} from "../interfaces/user.interface";
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserCrudService<T> {
+export class UserCrudService<T extends User> {
 
   private endpointUrl: string = environment.apiUrl + 'usuario';
   private http: HttpClient = inject(HttpClient);
 
-  getAll(): Observable<T[]> {
-    return this.http.get<T[]>(this.endpointUrl)
+  getAll(): Observable<User[]> {
+    return this.http.get<User[]>(this.endpointUrl)
   }
 
-  getById(idRow: string): Observable<T> {
-    return this.http.get<T>(`${this.endpointUrl}/${idRow}`)
+  getById(idRow: string): Observable<User> {
+    return this.http.get<User>(`${this.endpointUrl}/${idRow}`)
   }
 
-  create(row: T): Observable<any> {
-    return this.http.post(`${this.endpointUrl}/colaborador`, row)
+  create(row: any): Observable<any> {
+    return this.http.post<any>(`${this.endpointUrl}/colaborador`, row)
   }
 
-  update(idRow: keyBase, row: T): Observable<any> {
-    return this.http.put(`${this.endpointUrl}/colaborador/${idRow}`, row)
+  update(idRow: keyBase, row: any): Observable<any> {
+    return this.http.put<any>(`${this.endpointUrl}/colaborador/${idRow}`, row)
   }
 
   resetPassAdmin(idRow: keyBase): Observable<any> {

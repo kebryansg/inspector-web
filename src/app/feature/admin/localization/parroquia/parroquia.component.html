@@ -8,6 +8,7 @@
                 (onInitialized)="refreshTable$.next()"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [showBorders]="true"
+                [columnChooser]="{enabled: true, mode:'select'}"
                 [searchPanel]="{visible:true}"
                 [filterRow]="{visible:true}"
                 [headerFilter]="{visible:true}"

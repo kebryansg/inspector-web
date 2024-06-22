@@ -7,6 +7,7 @@
     [hoverStateEnabled]="true"
     [rowAlternationEnabled]="true"
     (onInitialized)="refreshTable$.next()"
+    [columnChooser]="{enabled: true, mode:'select'}"
     (onToolbarPreparing)="onToolbarPreparing($event)"
     [showBorders]="true">
 

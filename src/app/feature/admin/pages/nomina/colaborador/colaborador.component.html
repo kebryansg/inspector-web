@@ -5,6 +5,7 @@
                 [columnMinWidth]="80"
                 [hoverStateEnabled]="true"
                 [rowAlternationEnabled]="true"
+                [columnChooser]="{enabled: true, mode:'select'}"
                 (onInitialized)="refreshTable$.next()"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [showBorders]="true">

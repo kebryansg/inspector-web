@@ -1,10 +1,13 @@
 <app-card [cardTitle]="'Usuarios'">
   <dx-data-grid [dataSource]="lsRows()"
+                keyExpr="id"
                 [remoteOperations]="false"
                 [columnAutoWidth]="true"
                 [columnMinWidth]="80"
                 [hoverStateEnabled]="true"
                 [rowAlternationEnabled]="true"
+                [loadPanel]="{enabled:true}"
+                [columnChooser]="{enabled: true, mode:'select'}"
                 (onInitialized)="refreshTable$.next()"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [showBorders]="true">

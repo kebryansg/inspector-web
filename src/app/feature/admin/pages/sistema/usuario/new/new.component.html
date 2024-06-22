@@ -35,14 +35,14 @@
           <label class="col-sm-12 col-form-label">Colaborador</label>
           <div class="col-sm-12">
             @if (!isEdit) {
-              <dx-select-box [dataSource]="lsColaboradors()"
+              <dx-select-box [dataSource]="lsCollaborators()"
                              displayExpr="Nombres"
                              valueExpr="ID"
                              formControlName="IDColaborador"
               ></dx-select-box>
 
             } @else {
-              <dx-text-box [value]="nameColaborador()" [readOnly]="true" />
+              <dx-text-box [value]="nameCollaborator()" [readOnly]="true" />
             }
           </div>
         </div>

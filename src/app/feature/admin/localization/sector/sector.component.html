@@ -7,6 +7,7 @@
                 [rowAlternationEnabled]="true"
                 (onInitialized)="refreshTable$.next()"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
+                [columnChooser]="{enabled: true, mode:'select'}"
                 [showBorders]="true"
                 [searchPanel]="{visible:true}"
                 [filterRow]="{visible:true}"
