@@ -10,7 +10,7 @@ import {InspectionService} from "../../../services/inspection.service";
 import {map, switchMap} from "rxjs/operators";
 import {connect} from "ngxtension/connect";
 import {NotificationService} from "@service-shared/notification.service";
-import {Subject} from "rxjs";
+import {startWith, Subject} from "rxjs";
 
 @Component({
   standalone: true,
@@ -39,6 +39,7 @@ export class RuteInspectionComponent {
   refreshInfo = new Subject<void>();
   listInspections = toSignal<any[], any[]>(
     this.refreshInfo.pipe(
+      startWith(),
       switchMap(() => this.inspectionService.getItemsPending())
     ),
     {initialValue: []}
