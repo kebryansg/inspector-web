@@ -7,9 +7,10 @@ import {CatalogoService} from "../../../../../services/catalogo.service";
 import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {InspectionService} from "../../../services/inspection.service";
-import {map} from "rxjs/operators";
+import {map, switchMap} from "rxjs/operators";
 import {connect} from "ngxtension/connect";
 import {NotificationService} from "@service-shared/notification.service";
+import {Subject} from "rxjs";
 
 @Component({
   standalone: true,
@@ -35,8 +36,11 @@ export class RuteInspectionComponent {
 
   inspectorControl = new FormControl<string>('', {nonNullable: true, validators: [Validators.required]});
 
+  refreshInfo = new Subject<void>();
   listInspections = toSignal<any[], any[]>(
-    this.inspectionService.getItemsPending(),
+    this.refreshInfo.pipe(
+      switchMap(() => this.inspectionService.getItemsPending())
+    ),
     {initialValue: []}
   );
 
@@ -68,10 +72,12 @@ export class RuteInspectionComponent {
     ).subscribe({
       next: () => {
 
+        this.refreshInfo.next();
+
         this.notificationService.showSwalNotif({
           title: 'Creación de ruta exitosa',
           icon: 'success',
-        })
+        });
 
         this.inspectorControl.reset();
         this.lsInspectionsFilter.set([]);
@@ -90,7 +96,6 @@ export class RuteInspectionComponent {
     this.lsInspectionsFilter.update(items => {
       items.splice(fromIndex, 1);
       items.splice(toIndex, 0, e.itemData);
-      console.log([...items]);
       return [...items];
     })
 
