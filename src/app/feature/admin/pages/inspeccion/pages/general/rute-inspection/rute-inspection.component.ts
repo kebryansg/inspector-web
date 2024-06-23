@@ -7,10 +7,10 @@ import {CatalogoService} from "../../../../../services/catalogo.service";
 import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {InspectionService} from "../../../services/inspection.service";
-import {map, switchMap} from "rxjs/operators";
+import {map, startWith, switchMap} from "rxjs/operators";
 import {connect} from "ngxtension/connect";
 import {NotificationService} from "@service-shared/notification.service";
-import {startWith, Subject} from "rxjs";
+import {Subject} from "rxjs";
 
 @Component({
   standalone: true,
