@@ -38,10 +38,11 @@ export class RuteInspectionComponent {
 
   refreshInfo = new Subject<void>();
   listInspections = toSignal<any[], any[]>(
-    this.refreshInfo.pipe(
-      startWith(),
-      switchMap(() => this.inspectionService.getItemsPending())
-    ),
+    this.refreshInfo.asObservable()
+      .pipe(
+        startWith(),
+        switchMap(() => this.inspectionService.getItemsPending())
+      ),
     {initialValue: []}
   );
 
