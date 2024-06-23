@@ -7,10 +7,10 @@ import {CatalogoService} from "../../../../../services/catalogo.service";
 import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {InspectionService} from "../../../services/inspection.service";
-import {map, startWith, switchMap} from "rxjs/operators";
+import {map, switchMap} from "rxjs/operators";
 import {connect} from "ngxtension/connect";
 import {NotificationService} from "@service-shared/notification.service";
-import {Subject} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 
 @Component({
   standalone: true,
@@ -36,11 +36,10 @@ export class RuteInspectionComponent {
 
   inspectorControl = new FormControl<string>('', {nonNullable: true, validators: [Validators.required]});
 
-  refreshInfo = new Subject<void>();
+  refreshInfo = new BehaviorSubject<void>(null as unknown as void);
   listInspections = toSignal<any[], any[]>(
     this.refreshInfo.asObservable()
       .pipe(
-        startWith(),
         switchMap(() => this.inspectionService.getItemsPending())
       ),
     {initialValue: []}
@@ -86,7 +85,6 @@ export class RuteInspectionComponent {
       }
     })
   }
-
 
   // @ts-ignore
   onReorder = (e: Parameters<DxDataGridTypes.RowDragging['onReorder']>[0]) => {
