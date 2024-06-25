@@ -142,36 +142,51 @@
     </app-card>
   }
   @case ('maps') {
-    <section class="my-3 py-2">
+    <app-card cardClass="my-3" [hidHeader]="true">
+      <section class="py-2">
 
-      @defer (on timer(1s)) {
-        <dx-map
-          [center]="centerMap()"
-          [zoom]="zoomMap"
-          [height]="400"
-          width="100%"
-          provider="google"
-          [controls]="true"
-          [apiKey]="apiKey"
-          [type]="'roadmap'"
-          [markers]="markerPositions()"
-        />
-        <!--
-        <google-map [zoom]="zoomMap"
-                    [center]="centerMap()"
-                    [width]="'100%'">
-          @for (position of markerPositions(); track position) {
-            <map-marker [position]="position"
-                        [options]="markerOptions"/>
-          }
-        </google-map>
-        -->
-      } @placeholder {
-        <h3>
-          Cargando mapa...
-        </h3>
-      }
-    </section>
+        <div class="row">
+          <div class="col">
+            <app-item-control [titleControl]="'Latitud'">
+              <dx-text-box [value]="this.itemInspection()?.latitude" [readOnly]="true" />
+            </app-item-control>
+          </div>
+          <div class="col">
+            <app-item-control [titleControl]="'Longitud'">
+              <dx-text-box [value]="this.itemInspection()?.longitude" [readOnly]="true" />
+            </app-item-control>
+          </div>
+        </div>
+
+        @defer (on timer(1s)) {
+          <dx-map
+            [center]="centerMap()"
+            [zoom]="zoomMap"
+            [height]="400"
+            width="100%"
+            provider="google"
+            [controls]="true"
+            [apiKey]="apiKey"
+            [type]="'roadmap'"
+            [markers]="markerPositions()"
+          />
+          <!--
+          <google-map [zoom]="zoomMap"
+                      [center]="centerMap()"
+                      [width]="'100%'">
+            @for (position of markerPositions(); track position) {
+              <map-marker [position]="position"
+                          [options]="markerOptions"/>
+            }
+          </google-map>
+          -->
+        } @placeholder {
+          <h3>
+            Cargando mapa...
+          </h3>
+        }
+      </section>
+    </app-card>
   }
 }
 

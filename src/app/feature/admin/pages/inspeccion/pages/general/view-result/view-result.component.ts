@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input as inputRoute, signal} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
-import {DxCheckBoxModule, DxFormModule, DxMapModule, DxTabsModule} from "devextreme-angular";
+import {DxCheckBoxModule, DxFormModule, DxMapModule, DxTabsModule, DxTextBoxModule} from "devextreme-angular";
 import {DecimalPipe, JsonPipe, KeyValuePipe, NgOptimizedImage, PathLocationStrategy} from "@angular/common";
 import {InspectionResultService} from "../../../services/inspection-result.service";
 import {ActivatedRoute} from "@angular/router";
@@ -20,6 +20,7 @@ import {InspectionVehicleService} from "../../../services/inspection-vehicle.ser
 import {ItemInspectionCommercialComponent} from "../../../components/item-inspection-commercial/item-inspection-commercial.component";
 import {ItemInspectionVehicleComponent} from "../../../components/item-inspection-vehicle/item-inspection-vehicle.component";
 import {ItemInspectionConstructionComponent} from "../../../components/item-inspection-construction/item-inspection-construction.component";
+import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 
 @Component({
   standalone: true,
@@ -37,6 +38,8 @@ import {ItemInspectionConstructionComponent} from "../../../components/item-insp
     ItemInspectionVehicleComponent,
     ItemInspectionConstructionComponent,
     NgOptimizedImage,
+    ItemControlComponent,
+    DxTextBoxModule,
   ],
   templateUrl: './view-result.component.html',
   styleUrl: './view-result.component.scss',
