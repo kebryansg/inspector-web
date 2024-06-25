@@ -44,7 +44,7 @@ export class PopupFormularioComponent extends ModalTemplate implements OnInit {
     this.formService.getAll(),
     {initialValue: []}
   );
-  forms$ = this.form.get('IDTipoInspeccion')!.valueChanges
+  forms$ = this.typeInspectionControl!.valueChanges
     .pipe(
       map(idTypeInspection =>
         this.forms().filter(form => form.IDTipoInspeccion === idTypeInspection)
@@ -92,6 +92,10 @@ export class PopupFormularioComponent extends ModalTemplate implements OnInit {
       isCloneForm: this.cloneForm(),
       idForm: this.idForm()
     });
+  }
+
+  get typeInspectionControl() {
+    return this.form.get('IDTipoInspeccion')
   }
 
 }

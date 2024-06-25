@@ -1,4 +1,4 @@
-<div class="modal-header">
+<div class="modal-header d-flex justify-content-between">
   <h4 class="modal-title">
     {{ titleModal }}
   </h4>
@@ -79,15 +79,20 @@
         </div>
 
         @if (cloneForm()) {
-          <div class="col">
-            <app-item-control [titleControl]="'Formularios'">
-              <dx-select-box [dataSource]="forms$ | async"
-                             displayExpr="Descripcion"
-                             valueExpr="ID"
-                             (valueChange)="idForm.set($event)"
-                             [searchEnabled]="true"
-              />
-            </app-item-control>
+
+          <div class="col d-flex align-items-center">
+            @if (typeInspectionControl?.valid) {
+              <app-item-control [titleControl]="'Formularios'">
+                <dx-select-box [dataSource]="forms$ | async"
+                               displayExpr="Descripcion"
+                               valueExpr="ID"
+                               (valueChange)="idForm.set($event)"
+                               [searchEnabled]="true"
+                />
+              </app-item-control>
+            } @else {
+              <span>Debe seleccionar un tipo de inspección.</span>
+            }
           </div>
         }
       </div>
