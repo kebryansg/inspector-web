@@ -1,6 +1,6 @@
 <app-card cardTitle="Listado Inspección - Vehículos">
   <dx-data-grid #dataGridComponent
-                id="gridContainer"
+                id="gridInspectionVehicle"
                 [dataSource]="gridDataSource"
                 [showBorders]="true"
                 [rowAlternationEnabled]="true"
@@ -15,7 +15,11 @@
     <dxo-remote-operations [paging]="true"
                            [filtering]="true"
     />
-
+    <dxo-state-storing
+      [enabled]="true"
+      type="localStorage"
+      storageKey="gridInspectionVehicle"
+    />
     <dxo-paging [pageSize]="10"/>
     <dxo-pager [showPageSizeSelector]="true"
                [allowedPageSizes]="[10, 20, 30]"

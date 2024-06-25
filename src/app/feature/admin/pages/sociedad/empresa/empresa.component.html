@@ -1,5 +1,6 @@
 <app-card [cardTitle]="'Empresa'">
-  <dx-data-grid [dataSource]="gridDataSource"
+  <dx-data-grid id="gridCompanyList"
+                [dataSource]="gridDataSource"
                 [columnAutoWidth]="true"
                 [columnMinWidth]="80"
                 [hoverStateEnabled]="true"
@@ -16,7 +17,11 @@
     <dxo-remote-operations [paging]="true"
                            [filtering]="true"
     />
-
+    <dxo-state-storing
+      [enabled]="true"
+      type="localStorage"
+      storageKey="storage"
+    />
     <dxo-paging [pageSize]="10"/>
     <dxo-pager [showPageSizeSelector]="true"
                [allowedPageSizes]="[10, 20, 40, 60]"

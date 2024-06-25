@@ -16,7 +16,11 @@
     <dxo-remote-operations [paging]="true"
                            [filtering]="true"
     />
-
+    <dxo-state-storing
+      [enabled]="true"
+      type="localStorage"
+      storageKey="gridItemVehicleList"
+    />
     <dxo-paging [pageSize]="10"/>
     <dxo-pager [showPageSizeSelector]="true"
                [allowedPageSizes]="[10, 20, 40, 60]"

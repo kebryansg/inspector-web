@@ -148,6 +148,16 @@ export class ListComponent implements OnInit {
       }, {
         location: 'after',
         widget: 'dxButton',
+        locateInMenu: 'auto',
+        options: {
+          icon: 'filter',
+          hint: 'Limpiar filtros',
+          onClick: () =>
+            this.dataGridComponent.instance.clearFilter()
+        }
+      }, {
+        location: 'after',
+        widget: 'dxButton',
         options: {
           icon: 'plus',
           text: 'Nueva Inspección',

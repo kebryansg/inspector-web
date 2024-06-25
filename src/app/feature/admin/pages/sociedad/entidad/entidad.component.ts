@@ -66,6 +66,17 @@ export class EntidadComponent implements OnInit, OnDestroy {
       {
         location: 'after',
         widget: 'dxButton',
+        locateInMenu: 'auto',
+        options: {
+          icon: 'filter',
+          hint: 'Limpiar filtros',
+          onClick: () =>
+            this.dataGrid.instance.clearFilter()
+        }
+      },
+      {
+        location: 'after',
+        widget: 'dxButton',
         options: {
           icon: 'add',
           text: 'Agregar Registro',

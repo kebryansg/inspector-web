@@ -1,5 +1,6 @@
 <app-card [cardTitle]="'Entidad'">
-  <dx-data-grid [dataSource]="gridDataSource"
+  <dx-data-grid id="gridEntityList"
+                [dataSource]="gridDataSource"
                 [columnAutoWidth]="true"
                 [columnMinWidth]="80"
                 [hoverStateEnabled]="true"
@@ -15,13 +16,16 @@
     <dxo-remote-operations [paging]="true"
                            [filtering]="true"
     />
-
-    <dxo-paging [pageSize]="10"></dxo-paging>
-    <dxo-pager
-      [showPageSizeSelector]="true"
-      [allowedPageSizes]="[10, 20, 40, 60]"
-      [showInfo]="true">
-    </dxo-pager>
+    <dxo-state-storing
+      [enabled]="true"
+      type="localStorage"
+      storageKey="gridEntityList"
+    />
+    <dxo-paging [pageSize]="10"/>
+    <dxo-pager [showPageSizeSelector]="true"
+               [allowedPageSizes]="[10, 20, 40, 60]"
+               [showInfo]="true"
+    />
 
     <dxo-load-panel [enabled]="true"></dxo-load-panel>
 

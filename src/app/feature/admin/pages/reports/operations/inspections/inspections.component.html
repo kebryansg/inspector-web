@@ -27,9 +27,13 @@
 <app-card [cardTitle]="'Reporte de inspecciones'"
           cardClass="my-3">
 
-  <dx-pivot-grid
-    [showBorders]="true"
-    [dataSource]="dataSource"
-  />
+  <dx-pivot-grid [showBorders]="true"
+                 [dataSource]="dataSource">
+    <dxo-state-storing
+      [enabled]="true"
+      type="localStorage"
+      storageKey="dx-report-inspections"
+    />
+  </dx-pivot-grid>
 
 </app-card>

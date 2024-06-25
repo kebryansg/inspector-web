@@ -94,6 +94,16 @@ export class ListVehicleComponent implements OnInit {
           onClick: () =>
             this.dataGridComponent.instance.refresh()
         }
+      },{
+        location: 'after',
+        widget: 'dxButton',
+        locateInMenu: 'auto',
+        options: {
+          icon: 'filter',
+          hint: 'Limpiar filtros',
+          onClick: () =>
+            this.dataGridComponent.instance.clearFilter()
+        }
       }, {
         location: 'after',
         widget: 'dxButton',
