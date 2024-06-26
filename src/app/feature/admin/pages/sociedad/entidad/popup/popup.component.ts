@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ModalTemplate} from "@modal/modal-template";
-import {AsyncPipe, NgClass, NgIf} from "@angular/common";
+import {AsyncPipe, JsonPipe, NgClass, NgIf} from "@angular/common";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {Observable, of} from "rxjs";
 import {ToolsService} from "../../../../services/tools.service";
@@ -25,6 +25,7 @@ import {EntidadService} from "../../services";
     DxSelectErrorControlDirective,
     DxTextErrorControlDirective,
     ItemControlComponent,
+    JsonPipe,
   ],
   templateUrl: './popup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -84,8 +85,8 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
       Email: [null, [Validators.email]],
       Tipo: ['P', Validators.required],
       Direccion: [null, Validators.required],
-      Telefono: [null, [Validators.pattern(/^[0-9]{9}$/)]],
-      Celular: [null, [Validators.pattern(/^[0-9]{10}$/)]],
+      Telefono: [null, [Validators.pattern(/^[0-9]*$/)]],
+      Celular: [null, [Validators.pattern(/^[0-9]*$/)]],
       Estado: ['ACT', Validators.required],
     });
   }
@@ -119,7 +120,6 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
 
   submit() {
     this.form.markAllAsTouched();
-    console.log(this.form.errors)
     if (this.form.invalid)
       return;
     this.activeModal.close(this.form.getRawValue());

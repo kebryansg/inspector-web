@@ -177,20 +177,23 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       RazonSocial: ['', Validators.required],
       Establecimiento: ['', [
         Validators.required,
-        Validators.maxLength(3)
+        Validators.maxLength(3),
+        Validators.pattern(/^[0-9]*$/)
       ]
       ],
       Direccion: ['', Validators.required],
       Telefono: ['',
         [
           Validators.required,
-          Validators.pattern(/^[0-9]{10}$/)
+          Validators.maxLength(10),
+          Validators.pattern(/^[0-9]*$/)
         ]
       ],
       Celular: ['',
         [
           Validators.required,
-          Validators.pattern(/^09\d{8}$/)
+          Validators.maxLength(10),
+          Validators.pattern(/^[0-9]*$/)
         ]
       ],
       Email: [null, [Validators.email]],
@@ -279,8 +282,14 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.edit.set(true);
     this.entidad.set(dataCompany.idEntidad);
 
-    if (dataCompany.groupCatalog)
-      this.infoGroup.set(dataCompany.groupCatalog);
+    const {groupCatalog} = dataCompany;
+    if (groupCatalog) {
+      this.infoGroup.set(groupCatalog);
+      this.form.patchValue({
+        IDTarifaActividad: groupCatalog.IdActivityTar,
+        IDTarifaCategoria: groupCatalog.IdCategory
+      })
+    }
 
     if (dataCompany.Latitud) {
       this.centerMap = {
@@ -311,6 +320,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   submit() {
     this.form.markAllAsTouched();
     if (this.form.invalid) {
+
       this.notificationService.showSwalMessage({
         title: 'Complete los campos requeridos',
         icon: 'warning'

@@ -64,6 +64,9 @@
             <app-item-control titleControl="Establecimiento">
               <dx-text-box formControlName="Establecimiento"
                            mask="000"
+                           [errorsMessageCustom]="{
+                              pattern: 'Solo permite números'
+                           }"
                            [maxLength]="3"
               />
             </app-item-control>
@@ -98,15 +101,21 @@
 
             <app-item-control titleControl="Teléfono">
               <dx-text-box formControlName="Telefono"
+                           [errorsMessageCustom]="{
+                              pattern: 'Solo permite números',
+                              maxlength: 'Longitud máxima de 10 caracteres'
+                             }"
+                           [maxLength]="10"
               />
             </app-item-control>
 
             <app-item-control titleControl="Celular">
               <dx-text-box formControlName="Celular"
-                             [errorsMessageCustom]="{
-                              pattern: 'Formato de celular incorrecto',
-                             }"
-                             [maxlength]="10"
+                           [errorsMessageCustom]="{
+                              pattern: 'Solo permite números',
+                              maxlength: 'Longitud máxima de 10 caracteres'
+                           }"
+                           [maxLength]="10"
               />
             </app-item-control>
 
@@ -162,7 +171,7 @@
                        [type]="'success'"
                        (click)="loadModalEntity()"
             />
-            @if(entityControl.valid){
+            @if (entityControl.valid) {
               <dx-button [text]="'Editar Entidad'"
                          [icon]="'edit'"
                          [type]="'normal'"

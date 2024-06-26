@@ -40,7 +40,11 @@
         }
 
         <app-item-control titleControl="Email">
-          <dx-text-box formControlName="Email"/>
+          <dx-text-box formControlName="Email"
+                       [errorsMessageCustom]="{
+              email: 'El email no es valido',
+          }"
+          />
         </app-item-control>
 
       </div>
@@ -53,12 +57,18 @@
         <app-item-control titleControl="Teléfono">
           <dx-text-box formControlName="Telefono"
                        [maxLength]="10"
+                       [errorsMessageCustom]="{
+                       pattern: 'El teléfono solo permite numeros',
+                       }"
           />
         </app-item-control>
 
         <app-item-control titleControl="Celular">
           <dx-text-box formControlName="Celular"
                        [maxLength]="10"
+                       [errorsMessageCustom]="{
+                       pattern: 'El Celular solo permite numeros',
+                       }"
           />
         </app-item-control>
 
