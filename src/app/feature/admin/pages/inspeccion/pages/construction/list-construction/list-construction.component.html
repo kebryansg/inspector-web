@@ -4,6 +4,7 @@
                 [dataSource]="gridDataSource"
                 [showBorders]="true"
                 [rowAlternationEnabled]="true"
+                [allowColumnReordering]="true"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [columnAutoWidth]="true"
                 [searchPanel]="{visible:true}"
@@ -40,6 +41,7 @@
     <dxi-column dataField="Id"
                 caption="Cód."
                 alignment="center"
+                [allowSearch]="false"
                 [allowHeaderFiltering]="false"
     />
     <dxi-column dataField="Estado"

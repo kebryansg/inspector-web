@@ -5,6 +5,7 @@
                 [showBorders]="true"
                 [rowAlternationEnabled]="true"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
+                [allowColumnReordering]="true"
                 [columnAutoWidth]="true"
                 [searchPanel]="{visible:true}"
                 [headerFilter]="{visible:true}"
@@ -45,6 +46,7 @@
     <dxi-column dataField="Id"
                 caption="Cód."
                 alignment="center"
+                [allowSearch]="false"
                 [allowHeaderFiltering]="false"
     />
     <dxi-column dataField="entity"
