@@ -394,13 +394,12 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
     modalRef.closed
       .pipe(
-        filter(Boolean)
+        switchMap(data => {
+          return data ? this.entityService.update(this.entidad().ID, data) : of(null);
+        })
       )
       .subscribe((data: any) => {
-        console.log({entity: data})
-
-        this.entityService.update(this.entidad().ID, data);
-
+        if (!data) return;
 
         this.entidad.set(data);
         this.form.patchValue({
