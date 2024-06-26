@@ -10,13 +10,14 @@ import {Empresa} from "../../../interfaces";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {TypePermission} from "../../const/type-permiso.const";
 import {Dialog} from "@angular/cdk/dialog";
-import {EmpresaService} from "../../../services";
+import {EmpresaService, EntidadService} from "../../../services";
 import {environment} from "@environments/environment";
 import {GeoLocationDefault} from "../../../../../const/geo-location.const";
 import {MdFindEntityComponent} from "../../../../../components/md-find-entity/md-find-entity.component";
 import {GroupCatalog} from "../../../../../interfaces/group-catalog.interface";
 import {MdFindGroupCategoryComponent} from "../../../../../components/md-find-group-category/md-find-group-category.component";
 import {tap} from "rxjs/operators";
+import {PopupEntidadComponent} from "../../../entidad/popup/popup.component";
 
 
 const longTabs = [
@@ -64,14 +65,16 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private destroyRef: DestroyRef = inject(DestroyRef);
   private fb: FormBuilder = inject(FormBuilder);
+  private router: Router = inject(Router);
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+
   private empresaService: EmpresaService<any> = inject(EmpresaService);
   private notificationService: NotificationService = inject(NotificationService);
   private modalService: Dialog = inject(Dialog);
   private catalogoService: CatalogoService = inject(CatalogoService);
-  private router: Router = inject(Router);
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private entityService: EntidadService<any> = inject(EntidadService);
 
-  selectTab = signal<string>('INFB');
+  selectTab = signal<string>('ENT');
   formatNumber = '#,##0.00';
   destroy$ = new Subject<void>()
   longTabs: any[] = longTabs;
@@ -173,7 +176,12 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       ]
       ],
       Direccion: ['', Validators.required],
-      Telefono: ['', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]],
+      Telefono: ['',
+        [
+          Validators.required,
+          Validators.pattern(/^[0-9]{10}$/)
+        ]
+      ],
       Celular: ['',
         [
           Validators.required,
@@ -369,6 +377,38 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
+  loadModalEditEntity() {
+    const modalRef = this.modalService.open(PopupEntidadComponent, {
+      data: {
+        data: this.entidad(),
+        titleModal: 'Editar Entidad'
+      },
+      panelClass: 'modal-lg'
+    });
+
+
+    modalRef.closed
+      .pipe(
+        filter(Boolean)
+      )
+      .subscribe((data: any) => {
+        console.log({entity: data})
+
+        this.entityService.update(this.entidad().ID, data);
+
+
+        this.entidad.set(data);
+        this.form.patchValue({
+          RUC: data.Identificacion,
+          IDEntidad: data.ID,
+          Telefono: data.Telefono,
+          Celular: data.Celular,
+          RazonSocial: `${data.Apellidos} ${data.Nombres}`.toUpperCase()
+        });
+
+      });
+  }
+
   loadModalGroup() {
     const modalRef = this.modalService.open<GroupCatalog>(MdFindGroupCategoryComponent, {
       data: {
@@ -400,6 +440,10 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   get sectorControl() {
     return this.form.controls['IDSector'] as FormControl
+  }
+
+  get entityControl() {
+    return this.form.controls['IDEntidad'] as FormControl
   }
 
   //#endregion

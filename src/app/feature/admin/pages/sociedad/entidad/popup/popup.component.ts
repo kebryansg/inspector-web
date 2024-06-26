@@ -84,7 +84,7 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
       Email: [null, [Validators.email]],
       Tipo: ['P', Validators.required],
       Direccion: [null, Validators.required],
-      Telefono: [null, [Validators.pattern(/^[0-9]{10}$/)]],
+      Telefono: [null, [Validators.pattern(/^[0-9]{9}$/)]],
       Celular: [null, [Validators.pattern(/^[0-9]{10}$/)]],
       Estado: ['ACT', Validators.required],
     });
@@ -119,6 +119,7 @@ export class PopupEntidadComponent extends ModalTemplate implements OnInit {
 
   submit() {
     this.form.markAllAsTouched();
+    console.log(this.form.errors)
     if (this.form.invalid)
       return;
     this.activeModal.close(this.form.getRawValue());

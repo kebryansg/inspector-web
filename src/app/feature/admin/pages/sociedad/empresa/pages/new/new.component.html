@@ -156,12 +156,19 @@
       }
       @case ('ENT') {
         <section class="row mb-5">
-          <div class="col">
+          <div class="col d-flex gap-2">
             <dx-button [text]="'Buscar Entidad'"
                        [icon]="'search'"
                        [type]="'success'"
                        (click)="loadModalEntity()"
             />
+            @if(entityControl.valid){
+              <dx-button [text]="'Editar Entidad'"
+                         [icon]="'edit'"
+                         [type]="'normal'"
+                         (click)="loadModalEditEntity()"
+              />
+            }
           </div>
         </section>
 

@@ -51,7 +51,9 @@
         </app-item-control>
 
         <app-item-control titleControl="Teléfono">
-          <dx-text-box formControlName="Telefono"/>
+          <dx-text-box formControlName="Telefono"
+                       [maxLength]="10"
+          />
         </app-item-control>
 
         <app-item-control titleControl="Celular">
