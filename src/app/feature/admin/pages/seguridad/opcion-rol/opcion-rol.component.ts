@@ -6,7 +6,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {NotificationService} from "@service-shared/notification.service";
 import {MenuService} from "../services/menu.service";
 import {CatalogoService} from "../../../services/catalogo.service";
-import {toSignal} from "@angular/core/rxjs-interop";
+import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
   selector: 'app-opcion-rol',
@@ -37,21 +37,25 @@ export class OpcionRolComponent implements OnInit, OnDestroy {
   lsRoles$: Observable<any[]> = this.catalogoService.getRole();
   bTreeExpanded: boolean = false;
 
-  itemForm!: FormGroup;
+  itemForm: FormGroup = this.buildForm();
+
+  rolValueChange$ = this.itemForm.controls['IdRol'].valueChanges
+    .pipe(
+      tap(() => this.clearSelection()),
+      filter(Boolean),
+      takeUntilDestroyed(),
+      switchMap(IdRol => this.changeRol(IdRol))
+    )
 
   buildForm() {
-    this.itemForm = this.fb.group({
+    return this.fb.group({
       IdRol: [null, Validators.required],
     });
-    this.itemForm.controls['IdRol'].valueChanges
-      .pipe(
-        tap(() => this.clearSelection()),
-        filter(Boolean),
-      ).subscribe(IdRol => this.changeRol(IdRol));
   }
 
   ngOnInit() {
     this.buildForm();
+    this.rolValueChange$.subscribe();
   }
 
   ngOnDestroy() {
@@ -90,16 +94,18 @@ export class OpcionRolComponent implements OnInit, OnDestroy {
   }
 
   changeRol(idRol: string) {
-    this.menuService.getMenuByRol(idRol)
+    return this.menuService.getMenuByRol(idRol)
       .pipe(
-        takeUntil(this.destroy$)
-      )
-      .subscribe({
-        next: (rows: any) => {
-          this.treeList.instance.selectRows(rows, false);
-        },
-        complete: () => this.notificationService.showSwalNotif({title: 'Cargada las opciones.', icon: 'success'})
-      });
+        takeUntil(this.destroy$),
+        tap(
+          {
+            next: (rows: any) => {
+              this.treeList.instance.selectRows(rows, false);
+            },
+            complete: () => this.notificationService.showSwalNotif({title: 'Cargada las opciones.', icon: 'success'})
+          }
+        )
+      );
   }
 
   saveModuleInRol() {
@@ -112,7 +118,6 @@ export class OpcionRolComponent implements OnInit, OnDestroy {
       if (!result) {
         return;
       }
-
       this.menuService.update(IdRol, {
         lstNodes: this.getAllSelectedKeys(),
       }).subscribe({
@@ -121,6 +126,7 @@ export class OpcionRolComponent implements OnInit, OnDestroy {
           this.notificationService.showSwalNotif({title: 'Asignación Exitosa', icon: 'success'});
         }
       });
+
     });
   }
 
