@@ -113,6 +113,10 @@ export class CreateInspectionGroupComponent implements OnInit {
       return;
     }
 
+    this.notificationService.showLoader({
+      title: 'Buscando registros...'
+    })
+
     this.disabledConsultRegister.set(true);
 
     this.empresaService.getPendingInspection({
@@ -128,7 +132,10 @@ export class CreateInspectionGroupComponent implements OnInit {
             icon: 'warning'
           })
       }
-    ).finally(() => this.disabledConsultRegister.set(false))
+    ).finally(() => {
+      this.disabledConsultRegister.set(false);
+      this.notificationService.closeLoader();
+    })
   }
 
   generateInspections() {
