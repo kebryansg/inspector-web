@@ -8,11 +8,20 @@
                 [columnAutoWidth]="true"
                 [searchPanel]="{visible:true}"
                 [syncLookupFilterValues]="false"
+                [columnChooser]="{mode:'select', enabled:true }"
+                [allowColumnReordering]="true"
+                [sorting]="{mode: 'none'}"
                 [headerFilter]="{visible:true}"
                 [filterRow]="{visible:true, applyFilter: 'auto'}">
 
-    <dxo-remote-operations [paging]="true"/>
-
+    <dxo-remote-operations [paging]="true"
+                           [filtering]="true"
+    />
+    <dxo-state-storing
+      [enabled]="true"
+      type="localStorage"
+      storageKey="gridSessionInspectionsCommercial"
+    />
     <dxo-paging [pageSize]="10"/>
     <dxo-pager [showPageSizeSelector]="true"
                [allowedPageSizes]="[10, 20, 30]"
@@ -30,9 +39,10 @@
                 [allowSorting]="false"
                 cellTemplate="cellOptionsTemplate"
     />
-    <dxi-column dataField="Id"
+    <dxi-column dataField="ID"
                 caption="Cód."
                 alignment="center"
+                [allowSearch]="false"
                 [allowHeaderFiltering]="false"
     />
     <dxi-column dataField="FechaRegistro"
@@ -55,7 +65,7 @@
                 [allowHeaderFiltering]="false"
                 caption="RUC"
     />
-    <dxi-column dataField="RazonSocial"
+    <dxi-column dataField="EntidadRazonSocial"
                 [allowHeaderFiltering]="false"
                 caption="Razón Social"
     />

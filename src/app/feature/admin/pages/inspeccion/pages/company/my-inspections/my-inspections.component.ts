@@ -38,7 +38,7 @@ export class MyInspectionsComponent implements OnInit {
 
 
     this.gridDataSource = new DataSource({
-      key: 'Id',
+      key: 'ID',
       load: (loadOptions: any) => {
         let params: any = headersParams.filter(i => isNotEmpty(loadOptions[i]))
           .reduce((a, b) => ({...a, [b]: loadOptions[b]}), {});
