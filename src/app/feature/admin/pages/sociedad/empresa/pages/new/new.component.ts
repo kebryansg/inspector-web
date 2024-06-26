@@ -19,8 +19,13 @@ import {MdFindGroupCategoryComponent} from "../../../../../components/md-find-gr
 import {tap} from "rxjs/operators";
 import {PopupEntidadComponent} from "../../../entidad/popup/popup.component";
 
+type OptionTab = 'INFB' | 'ENT' | 'ACTE' | 'UBC';
 
-const longTabs = [
+const longTabs: {
+  text: string;
+  icon: string;
+  option: OptionTab;
+}[] = [
   {
     text: 'Información Básica',
     option: 'INFB',
@@ -74,7 +79,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   private catalogoService: CatalogoService = inject(CatalogoService);
   private entityService: EntidadService<any> = inject(EntidadService);
 
-  selectTab = signal<string>('ENT');
+  selectTab = signal<OptionTab>('INFB');
   formatNumber = '#,##0.00';
   destroy$ = new Subject<void>()
   longTabs: any[] = longTabs;

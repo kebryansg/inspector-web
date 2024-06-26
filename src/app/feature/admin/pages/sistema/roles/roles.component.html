@@ -10,7 +10,7 @@
                 [columnChooser]="{enabled: true, mode:'select'}"
                 [showBorders]="true">
 
-    <dxo-search-panel [visible]="true"></dxo-search-panel>
+    <dxo-search-panel [visible]="true"/>
 
     <dxo-export [enabled]="true"
                 [fileName]="'Roles'"
@@ -36,7 +36,21 @@
     ></dxi-column>
     <dxi-column dataField="Observacion"
                 caption="Observación"
-    ></dxi-column>
+    />
+    <dxi-column dataField="allowInspection"
+                caption="Permitir inspección"
+                dataType="boolean"
+    />
+    <dxi-column dataField="created_at"
+                caption="Fecha Creación"
+                dataType="datetime"
+                [format]="'yyyy-MM-dd HH:mm:ss'"
+    />
+    <dxi-column dataField="updated_at"
+                caption="Fecha Actualización"
+                dataType="datetime"
+                [format]="'yyyy-MM-dd HH:mm:ss'"
+    />
     <dxi-column dataField="Estado"
                 [width]="150"
                 alignment="center">

@@ -84,8 +84,8 @@ export class CatalogoService {
     return this.httpClient.get<GrupoTarifario>(this.url + 'combo/grupo/' + idGrupo);
   }
 
-  obtenerInspector(): Observable<{ Colaborador: string, ID: string }[]> {
-    return this.httpClient.get<{ Colaborador: string, ID: string }[]>(this.url + 'combo/inspector');
+  obtenerInspector(): Observable<{ Colaborador: string, ID: number, IDRol: number, IDUser: string }[]> {
+    return this.httpClient.get<{ Colaborador: string, ID: number, IDRol: number, IDUser: string }[]>(this.url + 'combo/inspector');
   }
 
   getRole(): Observable<any[]> {

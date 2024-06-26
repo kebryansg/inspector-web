@@ -1,6 +1,6 @@
 <div class="modal-header">
   <h4 class="modal-title">
-    {{titleModal}}
+    {{ titleModal }}
   </h4>
   <button type="button" class="close" aria-label="Close"
           (click)="activeModal.close()">
@@ -10,30 +10,25 @@
 <form [formGroup]="itemForm" (ngSubmit)="submit()">
   <div class="modal-body">
     <div class="row">
-      <div class="col-md-12">
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label">Descripción</label>
-          <div class="col-sm-12">
-            <dx-text-box formControlName="Descripcion"/>
-          </div>
-        </div>
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label">Observación</label>
-          <div class="col-sm-12">
-            <dx-text-box formControlName="Observacion"/>
-          </div>
-        </div>
-        <div class="form-group form-default row">
-          <label class="col-sm-12 col-form-label">Estado</label>
-          <div class="col-sm-12">
-            <dx-select-box [dataSource]="status$ | async"
-                           displayExpr="label"
-                           valueExpr="value"
-                           formControlName="Estado"
-                           [searchEnabled]="true"
-            ></dx-select-box>
-          </div>
-        </div>
+      <div class="col">
+        <app-item-control titleControl="Descripción">
+          <dx-text-box formControlName="Descripcion"/>
+        </app-item-control>
+        <app-item-control titleControl="">
+          <dx-check-box formControlName="allowInspection"
+                        [text]="'Permitir realizar inspección?'"/>
+        </app-item-control>
+        <app-item-control titleControl="Observación">
+          <dx-text-box formControlName="Observacion"/>
+        </app-item-control>
+        <app-item-control titleControl="Estado">
+          <dx-select-box [dataSource]="status$ | async"
+                         displayExpr="label"
+                         valueExpr="value"
+                         formControlName="Estado"
+                         [searchEnabled]="true"
+          />
+        </app-item-control>
       </div>
 
     </div>
