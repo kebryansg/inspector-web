@@ -1,1 +1,63 @@
-<app-card cardTitle="Perfil"></app-card>
+<section class="d-flex flex-column gap-2">
+
+  <app-card cardTitle="Perfil">
+
+    <dx-form [formData]="profile()"
+             [readOnly]="true">
+      <dxi-item dataField="Nombres">
+        <dxo-label text="Nombres"/>
+      </dxi-item>
+      <dxi-item dataField="Cargo">
+        <dxo-label text="Cargo"/>
+      </dxi-item>
+      <dxi-item dataField="Email">
+        <dxo-label text="Correo electrónico"/>
+      </dxi-item>
+    </dx-form>
+
+  </app-card>
+
+  <app-card cardTitle="Seguridad">
+
+    <form [formGroup]="passForm" (ngSubmit)="submitForm()">
+      <app-item-control titleControl="Contraseña actual">
+        <dx-text-box [mode]="passwordMode()"
+                     formControlName="pass">
+          <dxi-button name="password"
+                      location="after"
+                      [options]="passwordButton"
+          />
+
+        </dx-text-box>
+      </app-item-control>
+      <app-item-control titleControl="Nueva contraseña">
+        <dx-text-box [mode]="confirmPasswordMode()"
+                     formControlName="newPass"
+                     [errorsMessageCustom]="{
+                        pattern: patternPassMessage
+                      }">
+          <dxi-button name="confirmPassword"
+                      location="after"
+                      [options]="confirmPasswordButton"
+          />
+        </dx-text-box>
+      </app-item-control>
+      <app-item-control titleControl="Repetir contraseña">
+        <dx-text-box [mode]="repeatPasswordMode()"
+                     formControlName="repeatPass">
+          <dxi-button name="repeatPassword"
+                      location="after"
+                      [options]="repeatPasswordButton"
+          />
+        </dx-text-box>
+      </app-item-control>
+      <section class="w-100 d-flex justify-content-end ">
+        <button type="submit" class="btn btn-primary">
+          Guardar
+        </button>
+      </section>
+    </form>
+
+  </app-card>
+</section>
+

@@ -1,6 +1,6 @@
-import {inject, Injectable, signal} from '@angular/core';
+import {inject, Injectable} from '@angular/core';
 import {HttpClient, HttpErrorResponse} from "@angular/common/http";
-import {catchError, Observable, of, tap} from "rxjs";
+import {catchError, lastValueFrom, Observable, of, tap} from "rxjs";
 import {KeyLocalStorage} from "../feature/auth/enums/key-storage.enum";
 import {environment} from "@environments/environment";
 import {LoginResponse, LoginToken, Profile} from "../feature/auth/interfaces/login.interface";
@@ -42,6 +42,14 @@ export class LoginService {
 
   userLogged() {
     return this.httpClient.get<Profile>(environment.apiUrl + 'profile');
+  }
+
+  resetPassword(body: any) {
+    return lastValueFrom(
+      this.httpClient.put<any>(environment.apiUrl + 'profile/changePass', {
+        ...body
+      })
+    );
   }
 
   logout() {
