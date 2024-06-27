@@ -7,7 +7,7 @@ import {NotificationService} from "@service-shared/notification.service";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import {ToolsService} from "../../../../../services/tools.service";
 import {Empresa} from "../../../interfaces";
-import {toSignal} from "@angular/core/rxjs-interop";
+import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
 import {TypePermission} from "../../const/type-permiso.const";
 import {Dialog} from "@angular/cdk/dialog";
 import {EmpresaService, EntidadService} from "../../../services";
@@ -124,6 +124,22 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
     {initialValue: []}
   );
 
+  sectorValueChange$ = this.sectorControl.valueChanges
+    .pipe(
+      filter(Boolean),
+      tap((idSector) => {
+        const itemSector = this.sectors().find(item => item.ID == idSector)
+
+        if (!itemSector) return;
+
+        this.form.patchValue({
+          IDProvincia: itemSector.IDProvincia,
+          IDCanton: itemSector.IDCanton
+        }, {emitEvent: false});
+      }),
+      takeUntilDestroyed(),
+    );
+
   apiKey = {google: environment.googleMapsKey}
   zoomMap = 17;
   centerMap: any = {lat: GeoLocationDefault.lat, lng: GeoLocationDefault.lng};
@@ -151,6 +167,8 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.sectorValueChange$
+      .subscribe()
   }
 
   ngOnDestroy() {
@@ -322,6 +340,11 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
     this.form.markAllAsTouched();
     if (this.form.invalid) {
 
+      // for (let control in this.form.controls) {
+      //   if (!!this.form.controls[control].errors)
+      //     console.log(control, this.form.controls[control].errors)
+      // }
+
       this.notificationService.showSwalMessage({
         title: 'Complete los campos requeridos',
         icon: 'warning'
@@ -339,7 +362,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
         return;
       }
 
-      const obs$ = data.ID == 0 ? this.empresaService.create(data)
+      const obs$ = !this.edit() ? this.empresaService.create(data)
         : this.empresaService.update(data.ID, data);
 
       // Show Loader

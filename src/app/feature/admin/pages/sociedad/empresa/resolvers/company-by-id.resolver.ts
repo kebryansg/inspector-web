@@ -4,7 +4,6 @@ import {EmpresaService} from "../../services";
 import {Empresa} from "../../interfaces";
 import {combineLatest, of, switchMap} from "rxjs";
 import {CatalogoService} from "../../../../services/catalogo.service";
-import {tap} from "rxjs/operators";
 
 export const companyByIdResolver: ResolveFn<Empresa> = (route, state) => {
   const {id} = route.params;
@@ -25,10 +24,9 @@ export const companyByIdResolver: ResolveFn<Empresa> = (route, state) => {
             return {
               ...company,
               groupCatalog
-            }
+            } as Empresa
           })
         }
       ),
-      tap(console.log)
     );
 };
