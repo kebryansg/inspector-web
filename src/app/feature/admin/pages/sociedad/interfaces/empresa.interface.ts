@@ -7,6 +7,7 @@ export interface Empresa {
   IDSector: number;
   IDExterno: null;
   RUC: string;
+  Establecimiento: string;
   RazonSocial: string;
   NombreComercial: string;
   TipoPermiso: string;

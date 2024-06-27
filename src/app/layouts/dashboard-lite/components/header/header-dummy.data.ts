@@ -18,7 +18,7 @@ export const notifications = [
 
 export const userItemsMenu: UserItemAction[] = [
   {icon: 'far fa-user', label: 'Perfil', action: UserAction.profile},
-  {icon: 'far fa-cog ', label: 'Configuracion', action: UserAction.settings},
-  {icon: 'far fa-unlock-alt ', label: 'Bloquear pantalla', action: UserAction.lockScreen},
+  //{icon: 'far fa-cog ', label: 'Configuracion', action: UserAction.settings},
+  //{icon: 'far fa-unlock-alt ', label: 'Bloquear pantalla', action: UserAction.lockScreen},
   {icon: 'far fa-power-off ', label: 'Cerrar sesión', action: UserAction.logout},
 ]

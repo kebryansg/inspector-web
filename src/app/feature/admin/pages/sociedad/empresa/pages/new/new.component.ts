@@ -272,6 +272,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       IDActEconomica: dataCompany.IDActEconomica,
       IDTipoEmpresa: dataCompany.IDTipoEmpresa,
       IDTarifaGrupo: dataCompany.IDTarifaGrupo,
+      Establecimiento: dataCompany.Establecimiento,
 
 
       AreaTerreno: dataCompany.AreaTerreno,

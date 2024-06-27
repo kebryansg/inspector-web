@@ -1,6 +1,8 @@
 <div class="head" [ngClass]="getHeadClass()">
   <div class="head-content">
     <div class="head-content-left">
+
+      <!--
       <div class="search-container">
         <div *ngIf="!canShowSearchAsOverlay" class="normal-search">
           <input type="text"
@@ -15,6 +17,7 @@
           </button>
         </div>
       </div>
+      -->
 
     </div>
 
@@ -32,6 +35,7 @@
         </div>
         -->
 
+        <!--
         <div class="head-menu-item">
           <button class="head-menu-item-btn ripple">
             <i class="far fa-expand menu-icon"></i>
@@ -50,6 +54,7 @@
             <i class="far fa-comment-alt menu-icon"></i>
           </button>
         </div>
+        -->
 
 
       </div>
@@ -93,10 +98,10 @@
         <i [class]="notification.icon"></i>
         <div>
           <div class="notification-subject">
-            {{notification.subject}}
+            {{ notification.subject }}
           </div>
           <div class="notification-desc">
-            {{notification.description}}
+            {{ notification.description }}
           </div>
         </div>
       </li>
@@ -107,15 +112,16 @@
 <ng-template #userOverlay>
   <div class="overlay overlay-user overlay-fall" cdkMenu>
     <ul>
-      <li *ngFor="let item of userItemsMenu"
-          cdkMenuItem
-          (cdkMenuItemTriggered)="itemEvent(item)"
-      >
-        <a>
-          <i class="icon" [class]="item.icon"></i>
-          <span>{{item.label}}</span>
-        </a>
-      </li>
+      @for (item of userItemsMenu; track item.action) {
+        <li cdkMenuItem
+            (cdkMenuItemTriggered)="itemEvent(item)">
+          <a>
+            <i class="icon" [class]="item.icon"></i>
+            <span>{{ item.label }}</span>
+          </a>
+        </li>
+      }
+
     </ul>
   </div>
 </ng-template>
