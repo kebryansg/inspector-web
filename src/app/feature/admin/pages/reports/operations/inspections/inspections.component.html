@@ -24,16 +24,59 @@
 
 </app-card>
 
-<app-card [cardTitle]="'Reporte de inspecciones'"
-          cardClass="my-3">
+<dx-tabs class="my-3"
+         [dataSource]="dataSourceTabs"
+         [itemTemplate]="'tabItem'"
+         [selectedIndex]="0"
+         (onItemClick)="onItemClick($event)">
 
-  <dx-pivot-grid [showBorders]="true"
-                 [dataSource]="dataSource">
-    <dxo-state-storing
-      [enabled]="true"
-      type="localStorage"
-      storageKey="dx-report-inspections"
-    />
-  </dx-pivot-grid>
+  <div *dxTemplate="let itemData of 'tabItem'">
+    <i class="feather {{ itemData.icon }} mx-2"></i>
+    {{ itemData.title }}
+  </div>
+</dx-tabs>
 
-</app-card>
+@switch (selectTab()) {
+  @case (TypeInspection.Commercial) {
+    <app-card [cardTitle]="'Reporte de inspecciones'"
+              cardClass="my-3">
+
+      <dx-pivot-grid [showBorders]="true"
+                     [dataSource]="dataSource">
+        <dxo-state-storing
+          [enabled]="true"
+          type="localStorage"
+          storageKey="dx-report-inspections"
+        />
+      </dx-pivot-grid>
+
+    </app-card>
+  }
+  @case (TypeInspection.Vehicle) {
+  }
+  @case (TypeInspection.Construction) {
+  }
+}
+
+
+<!--
+<dx-tab-panel
+  width="100%"
+  [height]="'auto'"
+  [animationEnabled]="true"
+  [swipeEnabled]="true"
+  [dataSource]="dataSourceTabs"
+  [tabsPosition]="'top'"
+  [stylingMode]="'primary'"
+  [iconPosition]="'start'"
+>
+  <div *dxTemplate="let tabPanelItem of 'item'">
+
+    <div class="tabpanel-item">
+
+    </div>
+  </div>
+</dx-tab-panel>
+-->
+
+

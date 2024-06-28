@@ -6,6 +6,8 @@
                 [hoverStateEnabled]="true"
                 [rowAlternationEnabled]="true"
                 [allowColumnReordering]="true"
+                [loadPanel]="{enabled:true}"
+                [filterPanel]="{visible:true}"
                 [syncLookupFilterValues]="false"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [searchPanel]="{visible:true}"
@@ -46,6 +48,19 @@
     <dxi-column dataField="EntidadRazonSocial"
                 caption="Razon Social"
     />
+
+    <dxi-column dataField="Email"
+                caption="Correo Electrónico"
+    />
+
+    <dxi-column dataField="Telefono"
+                caption="Teléfono"
+    />
+
+    <dxi-column dataField="Celular"
+                caption="Celular"
+    />
+
     <dxi-column dataField="Tipo"
                 caption="Tipo Entidad"
                 alignment="center">
