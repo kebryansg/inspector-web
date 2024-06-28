@@ -1,26 +1,37 @@
 <app-card [cardTitle]="'Filtros'">
 
-  <div class="row">
-    <div class="col">
-      <app-item-control titleControl="Fecha Inicial">
-        <dx-date-box></dx-date-box>
-      </app-item-control>
+  <form [formGroup]="filterForm" (ngSubmit)="getData()">
+    <div class="row">
+      <div class="col">
+        <app-item-control titleControl="Fecha Inicial">
+          <dx-date-box formControlName="startDate"
+                       type="date"
+                       [displayFormat]="customFormatDate"
+                       [useMaskBehavior]="true"
+                       [inputAttr]="{ 'aria-label': 'Date' }"
+          />
+        </app-item-control>
 
+      </div>
+      <div class="col">
+        <app-item-control titleControl="Fecha Final">
+          <dx-date-box formControlName="endDate"
+                       type="date"
+                       [displayFormat]="customFormatDate"
+                       [inputAttr]="{ 'aria-label': 'Date'}"
+                       [useMaskBehavior]="true"
+          />
+        </app-item-control>
+      </div>
     </div>
-    <div class="col">
-      <app-item-control titleControl="Fecha Final">
-        <dx-date-box></dx-date-box>
-      </app-item-control>
+    <div class="my-2 row">
+      <div class="col d-flex flex-row justify-content-end">
+        <button class="btn btn-primary">
+          Filtrar
+        </button>
+      </div>
     </div>
-  </div>
-  <div class="my-2 row">
-    <div class="col d-flex flex-row justify-content-end">
-      <button class="btn btn-primary">
-        Filtrar
-      </button>
-    </div>
-  </div>
-
+  </form>
 
 </app-card>
 
@@ -41,12 +52,13 @@
     <app-card [cardTitle]="'Reporte de inspecciones'"
               cardClass="my-3">
 
-      <dx-pivot-grid [showBorders]="true"
+      <dx-pivot-grid #pivotGridComponent
+                     [showBorders]="true"
+                     [loadPanel]="{enabled:true}"
                      [dataSource]="dataSource">
-        <dxo-state-storing
-          [enabled]="true"
-          type="localStorage"
-          storageKey="dx-report-inspections"
+        <dxo-state-storing [enabled]="true"
+                           type="localStorage"
+                           storageKey="dx-report-inspections"
         />
       </dx-pivot-grid>
 
