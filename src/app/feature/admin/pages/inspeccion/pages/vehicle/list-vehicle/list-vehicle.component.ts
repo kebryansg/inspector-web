@@ -3,13 +3,7 @@ import {ActionsInspectionPipe} from "../../../pipes/actions-inspection.pipe";
 import {AsyncPipe, NgClass} from "@angular/common";
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxDataGridComponent, DxDataGridModule, DxDropDownButtonModule, DxTemplateModule} from "devextreme-angular";
-import {
-  DxiColumnModule,
-  DxoLookupModule,
-  DxoPagerModule,
-  DxoPagingModule,
-  DxoRemoteOperationsModule
-} from "devextreme-angular/ui/nested";
+import {DxiColumnModule, DxoLookupModule, DxoPagerModule, DxoPagingModule, DxoRemoteOperationsModule} from "devextreme-angular/ui/nested";
 import {StatusPipe} from "../../../../../../../pipes/status-inspection.pipe";
 import {lastValueFrom, Observable} from "rxjs";
 import {CatalogoService} from "../../../../../services/catalogo.service";
@@ -20,6 +14,7 @@ import DataSource from "devextreme/data/data_source";
 import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 import {debounceTime, map} from "rxjs/operators";
+import {TypeInspection} from "../../../enums/type-inspection.enum";
 
 @Component({
   selector: 'app-list-vehicle',
@@ -94,7 +89,7 @@ export class ListVehicleComponent implements OnInit {
           onClick: () =>
             this.dataGridComponent.instance.refresh()
         }
-      },{
+      }, {
         location: 'after',
         widget: 'dxButton',
         locateInMenu: 'auto',
@@ -120,9 +115,8 @@ export class ListVehicleComponent implements OnInit {
     const {itemData} = $event;
     switch (itemData.id) {
       case 'view_result':
-        this.router.navigate(['..', 'view-result', dataRow.Id], {
-          relativeTo: this.activatedRoute
-        });
+        // ['/inspeccion', 'view-result', TypeInspection.Commercial, dataRow.ID]
+        this.router.navigate(['/inspeccion', 'view-result', TypeInspection.Vehicle, dataRow.Id]);
         break;
       default:
         console.log(`No se encontro la acción seleccionada ${itemData.id}`)

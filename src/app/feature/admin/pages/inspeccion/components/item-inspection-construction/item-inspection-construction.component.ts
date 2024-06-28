@@ -15,5 +15,6 @@ import {DxFormModule} from "devextreme-angular";
 })
 export class ItemInspectionConstructionComponent {
   itemInspection = input.required<InspectionConstruction>();
+  formatDxDateBox: string = 'yyyy-MM-dd HH:mm';
   status = signal([...STATUS_INSPECTION]);
 }

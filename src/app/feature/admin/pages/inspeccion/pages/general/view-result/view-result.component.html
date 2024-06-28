@@ -49,7 +49,7 @@
   [keyExpr]="'id'"
   [selectedIndex]="0"
   (onItemClick)="onSelectionChanged($event)"
-  [dataSource]="tabsWithIconAndText"
+  [dataSource]="tabsWithIconAndText()"
   [orientation]="'horizontal'"
   [stylingMode]="'primary'"
   [iconPosition]="'start'"
@@ -170,16 +170,6 @@
             [type]="'roadmap'"
             [markers]="markerPositions()"
           />
-          <!--
-          <google-map [zoom]="zoomMap"
-                      [center]="centerMap()"
-                      [width]="'100%'">
-            @for (position of markerPositions(); track position) {
-              <map-marker [position]="position"
-                          [options]="markerOptions"/>
-            }
-          </google-map>
-          -->
         } @placeholder {
           <h3>
             Cargando mapa...

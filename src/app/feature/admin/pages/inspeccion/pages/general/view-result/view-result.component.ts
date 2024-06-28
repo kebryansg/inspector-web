@@ -22,6 +22,29 @@ import {ItemInspectionVehicleComponent} from "../../../components/item-inspectio
 import {ItemInspectionConstructionComponent} from "../../../components/item-inspection-construction/item-inspection-construction.component";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 
+const TabsWithIconAndText = [
+  {
+    id: 'summary',
+    text: 'Resumen',
+    icon: 'chart',
+  },
+  {
+    id: 'annotations',
+    text: 'Anotaciones',
+    icon: 'chart',
+  },
+  {
+    id: 'images',
+    text: 'Evidencia imagenes',
+    icon: 'image',
+  },
+  {
+    id: 'maps',
+    text: 'Ubicar mapa',
+    icon: 'map',
+  },
+]
+
 @Component({
   standalone: true,
   imports: [
@@ -66,40 +89,26 @@ export class ViewResultComponent {
   private inspectionService = inject(InspectionBaseService);
   private notificationService: NotificationService = inject(NotificationService);
   private _fileSaverService: FileSaverService = inject(FileSaverService);
-  private resultService = inject(InspectionResultService);
   private pathLocationStrategy = inject(PathLocationStrategy);
+  private resultService = inject(InspectionResultService);
   private domSanitizer = inject(DomSanitizer);
 
-  status = signal([...STATUS_INSPECTION]);
 
-  tabsWithIconAndText = [
-    {
-      id: 'summary',
-      text: 'Resumen',
-      icon: 'chart',
-    },
-    {
-      id: 'annotations',
-      text: 'Anotaciones',
-      icon: 'chart',
-    },
-    {
-      id: 'images',
-      text: 'Evidencia imagenes',
-      icon: 'image',
-    },
-    {
-      id: 'maps',
-      text: 'Ubicar mapa',
-      icon: 'map',
-    },
-  ]
+  status = signal([...STATUS_INSPECTION]);
 
   tabSelected = signal<string>('summary');
 
   id = inputRoute.required<number>();
   typeInspection = inputRoute.required<TypeInspection>();
   TypeInspectionValue = TypeInspection
+
+
+  tabsWithIconAndText = computed(() => {
+    if (this.typeInspection() === TypeInspection.Vehicle)
+      return TabsWithIconAndText.filter(i => i.id !== 'maps')
+
+    return TabsWithIconAndText
+  })
 
   itemInspection = computedAsync(() =>
     this.inspectionService.getById(this.id()),

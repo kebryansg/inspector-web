@@ -18,7 +18,7 @@ export class InspectionVehicleService implements InspectionServiceBase<Inspectio
   }
 
   getById(id: number) {
-    return Promise.resolve({} as InspectionVehicle)
+    return this.httpClient.get<InspectionVehicle>(this.urlBase + `/${id}`)
   }
 
   createInspection(body: any, params?: any): Observable<boolean> {
