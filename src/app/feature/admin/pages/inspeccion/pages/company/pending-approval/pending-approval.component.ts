@@ -1,9 +1,10 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
-import {CardComponent} from "../../../../../../../shared/components/card/card.component";
+import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxButtonModule, DxDataGridModule} from "devextreme-angular";
 import {InspectionService} from "../../../services/inspection.service";
 import {AsyncPipe} from "@angular/common";
-import {ActivatedRoute, Router} from "@angular/router";
+import {Router} from "@angular/router";
+import {TypeInspection} from "../../../enums/type-inspection.enum";
 
 @Component({
   standalone: true,
@@ -20,16 +21,12 @@ import {ActivatedRoute, Router} from "@angular/router";
 export class PendingApprovalComponent {
 
   private router: Router = inject(Router);
-  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private inspectionService = inject(InspectionService);
-
 
   $dataSource = this.inspectionService.getItemsPendingApproval();
 
   goToReview(id: number) {
-    this.router.navigate(['review', id], {
-      relativeTo: this.activatedRoute
-    });
+    this.router.navigate(['/inspeccion', 'view-result', TypeInspection.Commercial, id]);
   }
 
 }

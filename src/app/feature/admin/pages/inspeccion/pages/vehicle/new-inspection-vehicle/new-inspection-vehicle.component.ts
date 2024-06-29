@@ -102,10 +102,16 @@ export class NewInspectionVehicleComponent implements OnInit {
       this.registerForm.markAllAsTouched();
       return;
     }
+    this.notificationService.showLoader({
+      title: 'Ingresando nueva solicitud de inspección'
+    });
+
     const payload = this.registerForm.getRawValue();
+
     this.inspectionVehicleService.createInspection(payload)
       .subscribe({
         next: () => {
+          this.notificationService.closeLoader();
           this.notificationService.showSwalMessage({
             title: 'Registro Exitoso',
             icon: 'success'

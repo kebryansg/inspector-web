@@ -145,14 +145,31 @@ export class NewInspectionConstructionComponent {
     this.registerForm.markAllAsTouched();
     if (this.registerForm.invalid) return;
 
+    this.notificationService.showLoader({
+      title: 'Ingresando nueva solicitud de inspección'
+    });
+
     const payload = this.registerForm.getRawValue();
 
     this.inspectionConstructionService.createInspection(payload)
       .subscribe({
         next: value => {
-          this.router.navigate(['..', 'list-construction'], {relativeTo: this.activatedRoute});
+          this.notificationService.closeLoader()
+          this.notificationService.showSwalMessage({
+            title: 'Registro Correcto - Inspección',
+            icon: 'success',
+            didClose: () => {
+              this.router.navigate(['..', 'list-construction'], {relativeTo: this.activatedRoute});
+            }
+          });
         },
         error: err => {
+          this.notificationService.closeLoader()
+          this.notificationService.showSwalMessage({
+            title: 'Problemas',
+            text: err.error.message,
+            icon: 'error'
+          })
         },
       })
 

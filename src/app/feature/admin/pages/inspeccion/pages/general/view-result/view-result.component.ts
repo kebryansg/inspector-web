@@ -21,6 +21,7 @@ import {ItemInspectionCommercialComponent} from "../../../components/item-inspec
 import {ItemInspectionVehicleComponent} from "../../../components/item-inspection-vehicle/item-inspection-vehicle.component";
 import {ItemInspectionConstructionComponent} from "../../../components/item-inspection-construction/item-inspection-construction.component";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
+import {lastValueFrom} from "rxjs";
 
 const TabsWithIconAndText = [
   {
@@ -161,17 +162,27 @@ export class ViewResultComponent {
   }
 
   generateReport() {
-    this.inspectionService.generateFileReport(this.id())
-      .subscribe({
-        next: (res) => {
-          this.notificationService.showSwalMessage({
-            title: 'Operación exitosa.',
-            text: 'El archivo se ha generado correctamente.',
-            icon: 'success',
-          })
-          window.location.reload();
-        }
-      })
+    this.notificationService.showLoader({
+      title: 'Generando reporte de la inspección'
+    });
+
+    lastValueFrom(
+      this.inspectionService.generateFileReport(this.id())
+    ).then(
+      (res) => {
+        this.notificationService.closeLoader();
+        this.notificationService.showSwalMessage({
+          title: 'Operación exitosa.',
+          text: 'El archivo se ha generado correctamente.',
+          icon: 'success',
+        })
+        window.location.reload();
+      }
+    ).catch(
+      () => {
+        this.notificationService.closeLoader();
+      }
+    )
   }
 
   downloadResultFile() {

@@ -66,9 +66,13 @@ $color-sublevel: #898989;
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
-    padding: 0.938rem 0.938rem 0 0.938rem;
-    width: 100%;
+    margin: 0.938rem 0.938rem;
+    padding: 1.2rem;
+    background-color: #7b7c7d;
     min-height: 3.5rem;
+    border-radius: 10px;
+    //padding: 0.938rem 0.938rem 0 0.938rem;
+    //width: 100%;
 
     p {
       color: #ffffff;
