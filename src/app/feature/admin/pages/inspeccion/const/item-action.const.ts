@@ -5,7 +5,7 @@ export const ItemAction = [
   {name: 'Eliminar', id: 'delete', icon: 'trash', state: ['PEN']},
   {name: 'Asignar Colaborador', id: 'assign_inspector', icon: 'group', state: ['PEN']},
   {name: 'Obtener solicitud', id: 'view_request', icon: 'eyeopen', state: ['PEN']},
-  {name: 'Reimprimir solicitud', id: 'print_request', icon: 'print', state: ['PEN']},
+  {name: 'Generar solicitud', id: 'print_request', icon: 'print', state: ['PEN']},
   {name: 'Enviar solicitud', id: 'send_request', icon: 'email', state: ['PEN']},
   {name: 'Realizar en web', id: 'make_web', icon: 'box', state: ['PEN']},
 ];
@@ -13,6 +13,7 @@ export const ItemAction = [
 
 export const ItemActionConstruction = [
   {name: 'Asignar Colaborador', id: 'assign_inspector', icon: 'group', state: ['PEN']},
+  {name: 'Generar solicitud', id: 'print_request', icon: 'print', state: ['PEN']},
   {name: 'Eliminar', id: 'delete', icon: 'trash', state: ['PEN']},
   {name: 'Revisar resultados', id: 'view_result', icon: 'eyeopen', state: ['APR']},
   {name: 'Realizar en web', id: 'resolve', icon: 'box', state: ['PEN']},

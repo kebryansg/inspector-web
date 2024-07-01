@@ -15,6 +15,8 @@ import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 import {debounceTime, map} from "rxjs/operators";
 import {TypeInspection} from "../../../enums/type-inspection.enum";
+import {InspectionVehicle} from "../../../interfaces/inspection.interface";
+import {NotificationService} from "@service-shared/notification.service";
 
 @Component({
   selector: 'app-list-vehicle',
@@ -45,6 +47,7 @@ export class ListVehicleComponent implements OnInit {
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
   private readonly inspectionVehicleService: InspectionVehicleService = inject(InspectionVehicleService);
+  private notificationService: NotificationService = inject(NotificationService);
 
   @ViewChild('dataGridComponent', {static: true}) dataGridComponent!: DxDataGridComponent;
   gridDataSource: any;
@@ -114,8 +117,10 @@ export class ListVehicleComponent implements OnInit {
   onItemClick($event: any, dataRow: any) {
     const {itemData} = $event;
     switch (itemData.id) {
+      case 'print_request':
+        this.printRequest(dataRow)
+        break;
       case 'view_result':
-        // ['/inspeccion', 'view-result', TypeInspection.Commercial, dataRow.ID]
         this.router.navigate(['/inspeccion', 'view-result', TypeInspection.Vehicle, dataRow.Id]);
         break;
       default:
@@ -123,6 +128,32 @@ export class ListVehicleComponent implements OnInit {
         break;
     }
 
+  }
+
+  printRequest(row: InspectionVehicle) {
+    this.notificationService.showLoader({
+      title: 'Generando solicitud de inspección.'
+    });
+    this.inspectionVehicleService.generateRequestFile(row.Id)
+      .then(
+        () => {
+          this.dataGridComponent.instance.refresh();
+          this.notificationService.closeLoader();
+          this.notificationService.showSwalMessage({
+            title: 'La solicitud fue generada con éxito',
+            icon: 'success',
+          });
+        }
+      )
+      .catch(
+        err => {
+          this.notificationService.closeLoader();
+          this.notificationService.showSwalMessage({
+            title: 'Problemas con la operación',
+            icon: 'error',
+          })
+        }
+      );
   }
 
 

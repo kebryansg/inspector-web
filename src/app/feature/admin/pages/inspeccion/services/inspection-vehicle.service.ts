@@ -1,7 +1,7 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {STATUS_INSPECTION} from "../const/status-inspection.const";
-import {Observable} from "rxjs";
+import {lastValueFrom, Observable} from "rxjs";
 import {InspectionVehicle, PaginateInspectionVehicle} from "../interfaces/inspection.interface";
 import {environment} from "@environments/environment";
 import {InspectionServiceBase} from "../interfaces/inspection-service.interface";
@@ -23,6 +23,12 @@ export class InspectionVehicleService implements InspectionServiceBase<Inspectio
 
   createInspection(body: any, params?: any): Observable<boolean> {
     return this.httpClient.post<boolean>(this.urlBase, body, {params});
+  }
+
+  generateRequestFile(id: number): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.get(this.urlBase + `/generate/${id}/solicitud_pdf`)
+    )
   }
 
   generateFileReport(id: number): Observable<any> {

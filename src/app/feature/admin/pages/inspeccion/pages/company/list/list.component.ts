@@ -262,7 +262,7 @@ export class ListComponent implements OnInit {
 
   printRequest(row: Inspection) {
     this.notificationService.showLoader({
-      title: 'Reimprimiendo solicitud de inspección.'
+      title: 'Generando solicitud de inspección.'
     });
     this.inspectionService.generateFileRequest(row.ID)
       .pipe(takeUntilDestroyed(this.destroy))

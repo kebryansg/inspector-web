@@ -82,6 +82,9 @@ export class ListConstructionComponent implements OnInit {
       case 'delete':
         this.delete(dataRow);
         break;
+      case 'print_request':
+        this.printRequest(dataRow);
+        break;
       case 'resolve':
         this.router.navigate(['..', 'resolve-inspection-construction', dataRow.Id], {
           relativeTo: this.activatedRoute
@@ -136,6 +139,32 @@ export class ListConstructionComponent implements OnInit {
     });
   }
 
+  printRequest(row: InspectionConstruction) {
+    this.notificationService.showLoader({
+      title: 'Generando solicitud de inspección.'
+    });
+    this.inspectionConstructionService.generateRequestFile(row.Id)
+      .then(
+        () => {
+          this.dataGridComponent.instance.refresh();
+          this.notificationService.closeLoader();
+          this.notificationService.showSwalMessage({
+            title: 'La solicitud fue generada con éxito',
+            icon: 'success',
+          });
+        }
+      )
+      .catch(
+        err => {
+          this.notificationService.closeLoader();
+          this.notificationService.showSwalMessage({
+            title: 'Problemas con la operación',
+            icon: 'error',
+          })
+        }
+      );
+  }
+
   onToolbarPreparing(e: any) {
     e.toolbarOptions.items.unshift(
       {
@@ -148,7 +177,7 @@ export class ListConstructionComponent implements OnInit {
           onClick: () =>
             this.dataGridComponent.instance.refresh()
         }
-      },{
+      }, {
         location: 'after',
         widget: 'dxButton',
         locateInMenu: 'auto',

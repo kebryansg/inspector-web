@@ -37,6 +37,12 @@ export class InspectionConstructionService implements InspectionServiceBase<Insp
     );
   }
 
+  generateRequestFile(id: number): Promise<any> {
+    return lastValueFrom(
+      this.httpClient.get(this.urlBase + `/generate/${id}/solicitud_pdf`)
+    )
+  }
+
   generateFileReport(id: number): Observable<any> {
     throw new Error('Method not implemented.');
   }
