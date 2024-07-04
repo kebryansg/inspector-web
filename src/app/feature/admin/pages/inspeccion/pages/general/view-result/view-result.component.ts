@@ -22,6 +22,8 @@ import {ItemInspectionVehicleComponent} from "../../../components/item-inspectio
 import {ItemInspectionConstructionComponent} from "../../../components/item-inspection-construction/item-inspection-construction.component";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 import {lastValueFrom} from "rxjs";
+import {TypeFile} from "../../../enums/type-file.const";
+import {AttachmentService} from "../../../services/attachment.service";
 
 const TabsWithIconAndText = [
   {
@@ -45,6 +47,11 @@ const TabsWithIconAndText = [
     icon: 'map',
   },
 ]
+
+const labelBtnDownload: any = {
+  [TypeFile.Result]: 'Resultado',
+  [TypeFile.Request]: 'Solicitud',
+}
 
 @Component({
   standalone: true,
@@ -91,6 +98,7 @@ export class ViewResultComponent {
   private notificationService: NotificationService = inject(NotificationService);
   private _fileSaverService: FileSaverService = inject(FileSaverService);
   private pathLocationStrategy = inject(PathLocationStrategy);
+  private attachmentService = inject(AttachmentService);
   private resultService = inject(InspectionResultService);
   private domSanitizer = inject(DomSanitizer);
 
@@ -128,6 +136,11 @@ export class ViewResultComponent {
     () => this.itemInfoInspection()?.images ?? []
   );
 
+  reportPDF = computed(
+    () => (this.itemInfoInspection()?.report ?? [])
+      .map((item: any) => ({...item, label: labelBtnDownload[item.type]}))
+  );
+
   titleCard = computed(() => {
     const keyType = {
       [TypeInspection.Commercial]: 'Comercial',
@@ -154,6 +167,16 @@ export class ViewResultComponent {
 
   onSelectionChanged(evt: any) {
     this.tabSelected.set(evt.itemData.id)
+  }
+
+  downloadFile(downloadFile: any) {
+    const {path, type, id, label} = downloadFile;
+    const nameFile = `Archivo ${label}.pdf`
+
+    this.attachmentService.getPDF(path)
+      .then(response => {
+        this._fileSaverService.save((<any>response), nameFile);
+      });
   }
 
   cancelReview() {

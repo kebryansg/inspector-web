@@ -14,7 +14,18 @@
   }
 
   <div class="row mt-3">
-    <div class="col-12 d-flex justify-content-end gap-2">
+    <div class="col d-flex justify-content-start gap-2">
+      @for (item of reportPDF(); track item.id) {
+        <button type="button"
+                appDebounceClick
+                class="btn btn-outline-secondary"
+                (debounceClick)="downloadFile(item)">
+          <i class="fa fa-download"></i>
+          {{ item.label }}
+        </button>
+      }
+    </div>
+    <div class="col d-flex justify-content-end gap-2">
 
       <button type="button"
               class="btn btn-danger"
@@ -148,12 +159,12 @@
         <div class="row">
           <div class="col">
             <app-item-control [titleControl]="'Latitud'">
-              <dx-text-box [value]="this.itemInspection()?.latitude" [readOnly]="true" />
+              <dx-text-box [value]="this.itemInspection()?.latitude" [readOnly]="true"/>
             </app-item-control>
           </div>
           <div class="col">
             <app-item-control [titleControl]="'Longitud'">
-              <dx-text-box [value]="this.itemInspection()?.longitude" [readOnly]="true" />
+              <dx-text-box [value]="this.itemInspection()?.longitude" [readOnly]="true"/>
             </app-item-control>
           </div>
         </div>

@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
-import {lastValueFrom, Observable} from "rxjs";
+import {lastValueFrom, timeout} from "rxjs";
 
 type ResponseExistFile = {
   exist: boolean,
@@ -9,13 +9,17 @@ type ResponseExistFile = {
 }
 
 @Injectable({providedIn: 'root'})
-export class AnexoService {
+export class AttachmentService {
   private readonly http: HttpClient = inject(HttpClient);
-  private readonly url = environment.apiUrl + '/anexos';
+  private readonly url = environment.apiUrl + 'attachments';
 
-  existFile(idInspection: number): Promise<ResponseExistFile> {
+  getPDF(idCloud: string) {
     return lastValueFrom(
-      this.http.get<ResponseExistFile>(`${this.url}/file/solicitud/${idInspection}`)
+      this.http.get(`${this.url}/pdf/${idCloud}`, {
+        responseType: 'blob'
+      }).pipe(
+        timeout(7000)
+      )
     );
   }
 }
