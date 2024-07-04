@@ -19,4 +19,8 @@ export class InspectionBaseService implements InspectionServiceBase<any> {
   getResultForm(idInspection: number): Observable<any> {
     throw new Error('Method not implemented.');
   }
+
+  updateChangeState(idInspection: number, body: { state: string, observation: string }): Observable<any> {
+    throw new Error('Method not implemented.');
+  }
 }

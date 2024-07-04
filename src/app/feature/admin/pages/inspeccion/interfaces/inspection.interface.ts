@@ -6,7 +6,9 @@ export interface Inspection {
   FechaRegistro: string;
   FechaInspeccion: string;
   Estado: string;
+  EstadoResultado: string;
   Sector: string;
+  isPendingReview: boolean;
   Direccion: string;
   RUC: string;
   EntidadRazonSocial: string;
@@ -26,6 +28,8 @@ export interface InspectionVehicle {
   current_plate: string;
   created_at: Date;
   state: string;
+  stateResult: string;
+  isPendingReview: boolean;
 }
 
 export interface InspectionConstruction {
@@ -43,6 +47,8 @@ export interface InspectionConstruction {
   collaborator: string;
   created_at: Date;
   state: string;
+  stateResult: string;
+  isPendingReview: boolean;
 }
 
 export interface BaseInspection<T> {

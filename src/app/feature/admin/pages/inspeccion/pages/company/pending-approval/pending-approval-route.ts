@@ -3,8 +3,8 @@ import {Route} from "@angular/router";
 export const routes: Route[] = [
   {
     path: '',
-    loadComponent: () => import('./pending-approval.component')
-      .then(m => m.PendingApprovalComponent),
+    loadComponent: () => import('./pending-review-approval.component')
+      .then(m => m.PendingReviewApprovalComponent),
     title: 'Pendiente de Aprobación',
   },
   {

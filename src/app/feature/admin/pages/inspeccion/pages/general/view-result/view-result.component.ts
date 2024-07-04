@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input as inputRoute, signal} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
-import {DxCheckBoxModule, DxFormModule, DxMapModule, DxTabsModule, DxTextBoxModule} from "devextreme-angular";
+import {DxCheckBoxModule, DxFormModule, DxMapModule, DxSelectBoxModule, DxTabsModule, DxTextBoxModule} from "devextreme-angular";
 import {DecimalPipe, JsonPipe, KeyValuePipe, NgOptimizedImage, PathLocationStrategy} from "@angular/common";
 import {InspectionResultService} from "../../../services/inspection-result.service";
 import {ActivatedRoute} from "@angular/router";
@@ -21,9 +21,13 @@ import {ItemInspectionCommercialComponent} from "../../../components/item-inspec
 import {ItemInspectionVehicleComponent} from "../../../components/item-inspection-vehicle/item-inspection-vehicle.component";
 import {ItemInspectionConstructionComponent} from "../../../components/item-inspection-construction/item-inspection-construction.component";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
-import {lastValueFrom} from "rxjs";
+import {lastValueFrom, switchMap} from "rxjs";
+import {filter, tap} from "rxjs/operators";
 import {TypeFile} from "../../../enums/type-file.const";
 import {AttachmentService} from "../../../services/attachment.service";
+import {Dialog} from "@angular/cdk/dialog";
+import {ReactiveFormsModule} from "@angular/forms";
+import {MdChangeStateComponent} from "../components/md-change-state/md-change-state.component";
 
 const TabsWithIconAndText = [
   {
@@ -71,6 +75,8 @@ const labelBtnDownload: any = {
     NgOptimizedImage,
     ItemControlComponent,
     DxTextBoxModule,
+    ReactiveFormsModule,
+    DxSelectBoxModule,
   ],
   templateUrl: './view-result.component.html',
   styleUrl: './view-result.component.scss',
@@ -99,6 +105,7 @@ export class ViewResultComponent {
   private _fileSaverService: FileSaverService = inject(FileSaverService);
   private pathLocationStrategy = inject(PathLocationStrategy);
   private attachmentService = inject(AttachmentService);
+  private dialog = inject(Dialog);
   private resultService = inject(InspectionResultService);
   private domSanitizer = inject(DomSanitizer);
 
@@ -109,7 +116,7 @@ export class ViewResultComponent {
 
   id = inputRoute.required<number>();
   typeInspection = inputRoute.required<TypeInspection>();
-  TypeInspectionValue = TypeInspection
+  TypeInspectionValue = TypeInspection;
 
 
   tabsWithIconAndText = computed(() => {
@@ -124,8 +131,7 @@ export class ViewResultComponent {
   );
 
   itemInfoInspection = computedAsync(() =>
-      this.inspectionService.getResultForm(this.id()),
-    //this.resultService.getInfoById(this.id(), this.typeInspection()),
+    this.inspectionService.getResultForm(this.id()),
   );
 
   annotationsInspection = computed(
@@ -148,7 +154,9 @@ export class ViewResultComponent {
       [TypeInspection.Construction]: 'Construcción',
     }
     return `Inspección ${keyType[this.typeInspection()]}`
-  })
+  });
+
+  showPanelReview = computed<boolean>(() => this.itemInspection()?.isPendingReview);
 
   zoomMap = 17;
   apiKey = {google: environment.googleMapsKey}
@@ -173,8 +181,13 @@ export class ViewResultComponent {
     const {path, type, id, label} = downloadFile;
     const nameFile = `Archivo ${label}.pdf`
 
+    this.notificationService.showLoader({
+      title: 'Obteniendo archivo...!'
+    })
+
     this.attachmentService.getPDF(path)
       .then(response => {
+        this.notificationService.closeLoader();
         this._fileSaverService.save((<any>response), nameFile);
       });
   }
@@ -182,6 +195,38 @@ export class ViewResultComponent {
   cancelReview() {
     this.pathLocationStrategy.historyGo(-1);
     // this.router.navigate(['/inspeccion', 'company', 'list']);
+  }
+
+  changeStateInspection() {
+    const modalForm = this.dialog.open<{ state: string, observation: string }>(MdChangeStateComponent, {
+      data: {
+        titleModal: 'Cambiar estado de la inspección',
+      }
+    })
+
+    modalForm.closed
+      .pipe(
+        filter(Boolean),
+        tap(() => this.notificationService.showLoader()),
+        switchMap((dataForm) =>
+          this.inspectionService.updateChangeState(this.id(), dataForm)
+        )
+      )
+      .subscribe(
+        {
+          next: ({status}) => {
+            this.notificationService.closeLoader()
+            if (status) {
+              this.notificationService.showSwalMessage({
+                title: 'Operación exitosa.',
+                text: 'El estado de la inspección ha sido cambiado correctamente.',
+                icon: 'success',
+              })
+              window.location.reload();
+            }
+          }
+        }
+      )
   }
 
   generateReport() {

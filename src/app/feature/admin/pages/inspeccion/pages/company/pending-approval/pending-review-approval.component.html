@@ -1,11 +1,12 @@
-<app-card [cardTitle]="'Pendiente de aprobaciones'">
+<app-card [cardTitle]="'Pendiente de revisión aprobaciones'">
 
-  <dx-data-grid [dataSource]="$dataSource | async"
+  <dx-data-grid [dataSource]="$dataSource()"
                 [rowAlternationEnabled]="true"
                 keyExpr="ID"
                 [columnAutoWidth]="true"
                 [headerFilter]="{visible:true}"
                 [columnChooser]="{enabled: true, mode:'select'}"
+                (onToolbarPreparing)="onToolbarPreparing($event)"
                 [showBorders]="true">
 
     <dxo-search-panel [visible]="true"/>
@@ -17,21 +18,7 @@
     <dxo-load-panel [enabled]="true"/>
 
     <dxo-group-panel [visible]="true"/>
-    <!--
-    <dxo-grouping #expand [autoExpandAll]="true"></dxo-grouping>
-    -->
-
     <dxo-toolbar>
-      <!--
-      <dxi-item location="after">
-        <div *dxTemplate>
-          <dx-button icon="refresh"
-                     hint="Recargar datos de la tabla"
-                     (onClick)="refreshTable$.next()"
-          />
-        </div>
-      </dxi-item>
-      -->
       <dxi-item name="searchPanel"/>
       <dxi-item name="columnChooserButton"/>
       <dxi-item name="groupPanel"/>

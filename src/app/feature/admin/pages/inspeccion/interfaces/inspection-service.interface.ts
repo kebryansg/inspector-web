@@ -8,4 +8,6 @@ export interface InspectionServiceBase<T> {
   generateFileReport(id: number): Observable<any>;
 
   getFileContentResult(id: number): Observable<any>;
+
+  updateChangeState(idInspection: number, body: { state: string, observation: string }): Observable<any>;
 }

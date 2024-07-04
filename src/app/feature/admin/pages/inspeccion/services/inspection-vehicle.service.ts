@@ -41,7 +41,10 @@ export class InspectionVehicleService implements InspectionServiceBase<Inspectio
 
   getResultForm(idInspection: number): Observable<any> {
     return this.httpClient.get<any>(this.urlBase + '/result-form/' + idInspection);
+  }
 
+  updateChangeState(idInspection: number, body: { state: string, observation: string }): Observable<any> {
+    return this.httpClient.put<any>(this.urlBase + '/review/' + idInspection, body);
   }
 
 }

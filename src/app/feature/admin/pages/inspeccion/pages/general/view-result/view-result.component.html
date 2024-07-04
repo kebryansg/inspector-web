@@ -1,6 +1,29 @@
 <app-card cardClass="mb-4"
           [cardTitle]="titleCard()">
 
+  <section class="row">
+    <div class="col d-flex justify-content-start">
+      <button type="button"
+              class="btn btn-danger"
+              (click)="cancelReview()">
+        <i class="far fa-arrow-left"></i>
+        Regresar
+      </button>
+    </div>
+    @if (showPanelReview()) {
+      <div class="col d-flex justify-content-end">
+        <button type="button"
+                class="btn btn-secondary"
+                (click)="changeStateInspection()">
+          <i class="far fa-edit"></i>
+          Cambiar aprobación
+        </button>
+      </div>
+    }
+  </section>
+
+  <hr class="my-3">
+
   @switch (typeInspection()) {
     @case (TypeInspectionValue.Commercial) {
       <app-item-inspection-commercial [itemInspection]="itemInspection()"/>
@@ -27,20 +50,7 @@
     </div>
     <div class="col d-flex justify-content-end gap-2">
 
-      <button type="button"
-              class="btn btn-danger"
-              (click)="cancelReview()">
-        Cancelar
-      </button>
-      @if (itemInfoInspection()?.attachmentResult) {
-        <button type="button"
-                appDebounceClick
-                (debounceClick)="downloadResultFile()"
-                class="btn btn-primary">
-          <i class="far fa-download"></i>
-          Descargar resultados
-        </button>
-      } @else {
+      @if (!itemInspection()?.attachmentResult) {
         <button type="button"
                 appDebounceClick
                 (debounceClick)="generateReport()"
@@ -54,16 +64,15 @@
 
 </app-card>
 
-<dx-tabs
-  #withIconAndText
-  [width]="'auto'"
-  [keyExpr]="'id'"
-  [selectedIndex]="0"
-  (onItemClick)="onSelectionChanged($event)"
-  [dataSource]="tabsWithIconAndText()"
-  [orientation]="'horizontal'"
-  [stylingMode]="'primary'"
-  [iconPosition]="'start'"
+<dx-tabs #withIconAndText
+         [width]="'auto'"
+         [keyExpr]="'id'"
+         [selectedIndex]="0"
+         (onItemClick)="onSelectionChanged($event)"
+         [dataSource]="tabsWithIconAndText()"
+         [orientation]="'horizontal'"
+         [stylingMode]="'primary'"
+         [iconPosition]="'start'"
 />
 
 @switch (tabSelected()) {
@@ -190,7 +199,3 @@
     </app-card>
   }
 }
-
-
-
-
