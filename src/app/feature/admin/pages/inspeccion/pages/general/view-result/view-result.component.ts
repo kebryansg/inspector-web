@@ -27,7 +27,6 @@ import {TypeFile} from "../../../enums/type-file.const";
 import {AttachmentService} from "../../../services/attachment.service";
 import {Dialog} from "@angular/cdk/dialog";
 import {ReactiveFormsModule} from "@angular/forms";
-import {MdChangeStateComponent} from "../components/md-change-state/md-change-state.component";
 
 const TabsWithIconAndText = [
   {
@@ -198,6 +197,7 @@ export class ViewResultComponent {
   }
 
   changeStateInspection() {
+    /*
     const modalForm = this.dialog.open<{ state: string, observation: string }>(MdChangeStateComponent, {
       data: {
         titleModal: 'Cambiar estado de la inspección',
@@ -227,6 +227,7 @@ export class ViewResultComponent {
           }
         }
       )
+    */
   }
 
   generateReport() {
