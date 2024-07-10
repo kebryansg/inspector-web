@@ -1,0 +1,36 @@
+<div class="modal-header d-flex justify-content-between">
+  <h4 class="modal-title">
+    Confirmar estado de inspección
+  </h4>
+  <button type="button" class="close" aria-label="Close"
+          (click)="activeModal.close()">
+    <i class="feather icon-x-circle"></i>
+  </button>
+</div>
+<form [formGroup]="formChangeState">
+  <div class="modal-body">
+    <app-item-control titleControl="Estado">
+      <dx-select-box formControlName="state"
+                     [dataSource]="statesForm()"
+                     displayExpr="label"
+                     valueExpr="value"
+                     [placeholder]="'Seleccione un estado'"
+      />
+    </app-item-control>
+    <app-item-control titleControl="Observación">
+      <dx-text-box formControlName="observation"/>
+    </app-item-control>
+  </div>
+  <div class="modal-footer">
+    <button type="button"
+            (click)="activeModal.close()"
+            class="btn btn-outline-danger">
+      Cancelar
+    </button>
+    <button type="button"
+            (click)="closeModal()"
+            class="btn btn-primary">
+      Confirmar
+    </button>
+  </div>
+</form>
