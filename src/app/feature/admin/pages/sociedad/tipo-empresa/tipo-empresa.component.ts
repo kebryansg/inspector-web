@@ -6,6 +6,8 @@ import {ToolsService} from "../../../services/tools.service";
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
 import {TipoEmpresaService} from "../services/tipo-empresa.service";
+import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
+import {exportExcelDataGrid} from "../../../utils/export-excel.util";
 
 @Component({
   selector: 'app-tipo-empresa',
@@ -104,5 +106,12 @@ export class TipoEmpresaComponent implements OnInit, OnDestroy {
           this.refreshTable$.next();
         });
     });
+  }
+
+  onExporting(e: DxDataGridTypes.ExportingEvent) {
+    exportExcelDataGrid(
+      e,
+      'Tipo Empresa'
+    );
   }
 }
