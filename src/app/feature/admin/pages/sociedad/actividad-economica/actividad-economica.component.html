@@ -36,6 +36,9 @@
     <dxi-column dataField="Descripcion"
                 caption="Descripción"
     />
+    <dxi-column dataField="CIIU"
+                caption="CIIU"
+    />
     <dxi-column dataField="Estado" alignment="center">
       <dxo-lookup [dataSource]="lsEstados$ | async"
                   valueExpr="value"
