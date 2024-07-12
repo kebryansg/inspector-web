@@ -20,6 +20,15 @@
     <app-item-control titleControl="Observación">
       <dx-text-box formControlName="observation"/>
     </app-item-control>
+
+    @if (isAllowReInspection()) {
+      <app-item-control titleControl="Fecha Re-inspección">
+        <dx-date-box formControlName="dateInspection"
+                     [displayFormat]="'yyyy-MM-dd'"
+        />
+      </app-item-control>
+    }
+
   </div>
   <div class="modal-footer">
     <button type="button"
