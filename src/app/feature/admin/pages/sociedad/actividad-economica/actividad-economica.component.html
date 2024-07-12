@@ -9,6 +9,7 @@
                 (onInitialized)="refreshTable$.next()"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [showBorders]="true"
+                [loadPanel]="{enabled:true}"
                 [searchPanel]="{visible:true}">
 
     <dxo-grouping [autoExpandAll]="true"></dxo-grouping>
