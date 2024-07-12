@@ -54,11 +54,26 @@
 
       <dx-pivot-grid #pivotGridComponent
                      [showBorders]="true"
+                     rowHeaderLayout="tree"
+                     [allowFiltering]="true"
+
                      [loadPanel]="{enabled:true}"
+                     (onExporting)="onExporting($event)"
                      [dataSource]="dataSource">
+
+        <dxo-export
+          [enabled]="true"
+        />
+
         <dxo-state-storing [enabled]="true"
                            type="localStorage"
                            storageKey="dx-report-inspections"
+        />
+        <dxo-field-chooser
+          [allowSearch]="true"
+        />
+        <dxo-field-panel
+          [visible]="true"
         />
       </dx-pivot-grid>
 

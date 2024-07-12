@@ -23,6 +23,7 @@
     "@angular/router": "~17.3.10",
     "devextreme": "23.2.4",
     "devextreme-angular": "23.2.4",
+    "exceljs": "^4.4.0",
     "file-saver": "^2.0.5",
     "ngx-filesaver": "^17.0.0",
     "ngxtension": "^1.12.0",

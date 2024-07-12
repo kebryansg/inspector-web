@@ -14,6 +14,12 @@ import {debounceTime, tap} from "rxjs/operators";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {TypePermission} from "../../../sociedad/empresa/const/type-permiso.const";
 
+import {Workbook} from 'exceljs';
+import saveAs from 'file-saver';
+import {exportPivotGrid} from 'devextreme/excel_exporter';
+import {DxPivotGridTypes} from "devextreme-angular/ui/pivot-grid";
+import {NotificationService} from "@service-shared/notification.service";
+
 @Component({
   standalone: true,
   imports: [
@@ -34,6 +40,7 @@ export class InspectionsComponent implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);
   private reportService: InspectionReportService = inject(InspectionReportService);
   private inspectionService: InspectionService = inject(InspectionService);
+  private notificationService = inject(NotificationService);
   lsStatus = this.inspectionService.status;
   customFormatDate = 'yyyy-MM-dd';
 
@@ -76,6 +83,9 @@ export class InspectionsComponent implements OnInit {
   dataPivot$ = this.refreshDataPivot.asObservable()
     .pipe(
       debounceTime(500),
+      tap(() =>
+        this.notificationService.showLoader({title: 'Cargando...'})
+      ),
       switchMap(() => {
         const {startDate, endDate} = this.filterForm.getRawValue();
         return this.reportService.getReportsCommercial({
@@ -83,9 +93,10 @@ export class InspectionsComponent implements OnInit {
           endDate: formatDate(endDate, this.customFormatDate),
         })
       }),
-      tap(() =>
+      tap(() => {
+        this.notificationService.closeLoader();
         this.dataSource.reload()
-      )
+      })
     );
 
   constructor() {
@@ -103,8 +114,9 @@ export class InspectionsComponent implements OnInit {
         {
           caption: 'Tipo Permiso',
           dataField: 'TipoPermiso',
-          width: 150,
+          width: 350,
           area: 'row',
+          expanded: true,
           selector: (data: any) => TypePermission.find(item => item.type === data.TipoPermiso)?.name,
         },
         {
@@ -129,7 +141,20 @@ export class InspectionsComponent implements OnInit {
           dataField: 'FechaInspeccion',
           dataType: 'date',
           format: this.customFormatDate,
+        },
+        {
+          dataField: 'yearInspection',
+          caption: 'Año',
+          dataType: 'number',
           area: 'column',
+          expanded: true,
+        },
+        {
+          dataField: 'monthInspection',
+          caption: 'Mes',
+          dataType: 'number',
+          area: 'column',
+          selector: (data: any) => this.monthSelector(data),
         },
         {
           dataField: 'ID',
@@ -149,12 +174,44 @@ export class InspectionsComponent implements OnInit {
     this.refreshDataPivot.next();
   }
 
+  onExporting(e: DxPivotGridTypes.ExportingEvent) {
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Inspecciones Comerciales');
+
+    exportPivotGrid({
+      component: e.component,
+      worksheet,
+    }).then(() => {
+      workbook.xlsx.writeBuffer().then((buffer) => {
+        saveAs(new Blob([buffer], {type: 'application/octet-stream'}), 'Sales.xlsx');
+      });
+    });
+  }
+
   onItemClick(e: any) {
     this.selectTab.set(this.dataSourceTabs[e.itemIndex].key);
   }
 
   stateSelector(data: any) {
     return this.lsStatus().find((status) => status.value === data.Estado)?.label;
+  }
+
+  monthSelector(data: any) {
+    const months: any = {
+      1: 'Enero',
+      2: 'Febrero',
+      3: 'Marzo',
+      4: 'Abril',
+      5: 'Mayo',
+      6: 'Junio',
+      7: 'Julio',
+      8: 'Agosto',
+      9: 'Septiembre',
+      10: 'Octubre',
+      11: 'Noviembre',
+      12: 'Diciembre',
+    }
+    return months[data.monthInspection];
   }
 
   protected readonly TypeInspection = TypeInspection;
