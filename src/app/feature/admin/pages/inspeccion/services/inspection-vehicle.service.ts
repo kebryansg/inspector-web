@@ -25,6 +25,18 @@ export class InspectionVehicleService implements InspectionServiceBase<Inspectio
     return this.httpClient.post<boolean>(this.urlBase, body, {params});
   }
 
+  getFilesAttachment(id: number): Observable<{
+    id: string,
+    path: string,
+    type: string,
+  }[]> {
+    return this.httpClient.get<{
+      id: string,
+      path: string,
+      type: string,
+    }[]>(this.urlBase + `/attachment/${id}`)
+  }
+
   generateRequestFile(id: number): Promise<any> {
     return lastValueFrom(
       this.httpClient.get(this.urlBase + `/generate/${id}/solicitud_pdf`)

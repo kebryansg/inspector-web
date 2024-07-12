@@ -6,7 +6,7 @@ import {DxDataGridComponent, DxDataGridModule, DxDropDownButtonModule, DxTemplat
 import {DxiColumnModule, DxoLookupModule, DxoPagerModule, DxoPagingModule, DxoRemoteOperationsModule} from "devextreme-angular/ui/nested";
 import {StatusPipe} from "../../../../../../../pipes/status-inspection.pipe";
 import {ActivatedRoute, Router} from "@angular/router";
-import {filter, lastValueFrom, Observable} from "rxjs";
+import {filter, lastValueFrom, Observable, switchMap, throwError} from "rxjs";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import DataSource from "devextreme/data/data_source";
 import {headersParams} from "@utils/data-grid.util";
@@ -18,6 +18,10 @@ import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
 import {InspectionConstruction} from "../../../interfaces/inspection.interface";
 import {TypeInspection} from "../../../enums/type-inspection.enum";
+import {formatDate} from "devextreme/localization";
+import {TypeFile} from "../../../enums/type-file.const";
+import {FileSaverService} from "ngx-filesaver";
+import {AttachmentService} from "../../../services/attachment.service";
 
 @Component({
   standalone: true,
@@ -49,6 +53,8 @@ export class ListConstructionComponent implements OnInit {
 
   private inspectionConstructionService = inject(InspectionConstructionService);
   private notificationService: NotificationService = inject(NotificationService);
+  private _fileSaverService: FileSaverService = inject(FileSaverService);
+  private attachmentService: AttachmentService = inject(AttachmentService);
 
   @ViewChild('dataGridComponent', {static: true}) dataGridComponent!: DxDataGridComponent;
   gridDataSource: any;
@@ -84,6 +90,9 @@ export class ListConstructionComponent implements OnInit {
         break;
       case 'print_request':
         this.printRequest(dataRow);
+        break;
+      case 'view_request':
+        this.getRequest(dataRow);
         break;
       case 'resolve':
         this.router.navigate(['..', 'resolve-inspection-construction', dataRow.Id], {
@@ -163,6 +172,38 @@ export class ListConstructionComponent implements OnInit {
           })
         }
       );
+  }
+
+  getRequest(row: InspectionConstruction) {
+    this.notificationService.showLoader({
+      title: 'Recuperando solicitud de inspección'
+    });
+
+    const nameFile = `Solicitud ${row.name_project} ${formatDate(new Date(row.created_at), 'yyyyMMdd-hhmm')}.pdf`
+
+    this.inspectionConstructionService.getFilesAttachment(row.Id)
+      .pipe(
+        switchMap(items => {
+          const itemRequest = items.find(file => file.type === TypeFile.Request);
+          if (!itemRequest)
+            return throwError('No existe archivo.')
+          return this.attachmentService.getPDF(itemRequest?.path)
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          this.notificationService.closeLoader();
+          this._fileSaverService.save((<any>res), nameFile);
+        },
+        error: (err) => {
+          this.notificationService.closeLoader();
+          this.notificationService.showSwalMessage({
+            title: 'Operación fallida.',
+            text: 'No se pudo descargar el archivo.',
+            icon: 'error',
+          })
+        }
+      })
   }
 
   onToolbarPreparing(e: any) {
