@@ -8,6 +8,8 @@ import {ToolsService} from "../../services/tools.service";
 import {ParroquiaService} from "../services/parroquia.service";
 import {Parroquia} from "../interfaces/base.interface";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
+import {ExcelExportService} from "../../services/excel-export.service";
 
 @Component({
   selector: 'app-parroquia',
@@ -19,6 +21,7 @@ export class ParroquiaComponent {
   private parroquiaService: ParroquiaService<Parroquia> = inject(ParroquiaService);
   private modalService: Dialog = inject(Dialog);
   private notificationService: NotificationService = inject(NotificationService);
+  private excelExportService = inject(ExcelExportService);
 
   refreshTable$: Subject<void> = new Subject<void>();
 
@@ -103,4 +106,10 @@ export class ParroquiaComponent {
     });
   }
 
+  onExporting(e: DxDataGridTypes.ExportingEvent) {
+    this.excelExportService.exportExcelDataGrid(
+      e,
+      'Provincias'
+    );
+  }
 }

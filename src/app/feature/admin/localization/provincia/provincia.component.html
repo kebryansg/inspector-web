@@ -8,6 +8,7 @@
                 [rowAlternationEnabled]="true"
                 [columnChooser]="{enabled: true, mode:'select'}"
                 (onInitialized)="refreshTable$.next()"
+                (onExporting)="onExporting($event)"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [showBorders]="true">
 
