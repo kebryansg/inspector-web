@@ -7,6 +7,8 @@ import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
 import {CargoService} from "../services/cargo.service";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
+import {exportExcelDataGrid} from "../../../utils/export-excel.util";
 
 @Component({
   selector: 'app-cargo',
@@ -18,7 +20,7 @@ export class CargoComponent implements OnDestroy {
   private cargoService: CargoService = inject(CargoService);
   private modalService: Dialog = inject(Dialog);
   private notificationService: NotificationService = inject(NotificationService);
-
+  //private excelExportService = inject(ExcelExportService);
 
   refreshTable$: Subject<void> = new Subject<void>();
 
@@ -102,6 +104,13 @@ export class CargoComponent implements OnDestroy {
           this.refreshTable$.next();
         });
     });
+  }
+
+  onExporting(e: DxDataGridTypes.ExportingEvent) {
+    exportExcelDataGrid(
+      e,
+      'Cargo'
+    );
   }
 
 }

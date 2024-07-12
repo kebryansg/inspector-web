@@ -8,6 +8,7 @@
                 [columnChooser]="{enabled: true, mode:'select'}"
                 (onInitialized)="refreshTable$.next()"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
+                (onExporting)="onExporting($event)"
                 [showBorders]="true">
 
     <dxo-search-panel [visible]="true"
