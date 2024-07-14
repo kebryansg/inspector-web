@@ -5,8 +5,10 @@ import {PopupCategoriaComponent} from './popup/popup.component';
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
-import {CategoriaService} from "../services/categoria.service";
+import {CategoriaService} from "../services";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
+import {exportExcelDataGrid} from "../../../utils/export-excel.util";
 
 @Component({
   selector: 'app-categoria',
@@ -51,6 +53,13 @@ export class CategoriaComponent {
           onClick: () => this.edit()
         }
       });
+  }
+
+  onExporting(e: DxDataGridTypes.ExportingEvent) {
+    exportExcelDataGrid(
+      e,
+      'Categoria'
+    );
   }
 
   edit(row?: any) {

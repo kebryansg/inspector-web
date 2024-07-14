@@ -2,11 +2,13 @@
   <dx-data-grid [dataSource]="lsRows()"
                 [remoteOperations]="false"
                 [columnAutoWidth]="true"
+                [loadPanel]="{enabled:true}"
                 [columnMinWidth]="80"
                 [hoverStateEnabled]="true"
                 [rowAlternationEnabled]="true"
                 [columnChooser]="{enabled: true, mode:'select'}"
                 (onInitialized)="refreshTable$.next()"
+                (onExporting)="onExporting($event)"
                 (onToolbarPreparing)="onToolbarPreparing($event)"
                 [showBorders]="true">
 

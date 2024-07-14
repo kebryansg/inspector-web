@@ -7,6 +7,8 @@ import {ToolsService} from "../../../services/tools.service";
 import {PopupActividadEconomicaComponent} from "./popup/popup.component";
 import {ActividadEconomicaService} from "../services";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
+import {exportExcelDataGrid} from "../../../utils/export-excel.util";
 
 @Component({
   selector: 'app-categoria',
@@ -53,6 +55,13 @@ export class ActividadEconomicaComponent {
           onClick: () => this.edit()
         }
       });
+  }
+
+  onExporting(e: DxDataGridTypes.ExportingEvent) {
+    exportExcelDataGrid(
+      e,
+      'Actividad Economica'
+    );
   }
 
   edit(row?: any) {

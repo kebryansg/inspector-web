@@ -5,7 +5,7 @@ import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxDataGridComponent, DxDataGridModule, DxDropDownButtonModule, DxTemplateModule} from "devextreme-angular";
 import {DxiColumnModule, DxoLookupModule, DxoPagerModule, DxoPagingModule, DxoRemoteOperationsModule} from "devextreme-angular/ui/nested";
 import {StatusPipe} from "../../../../../../../pipes/status-inspection.pipe";
-import {lastValueFrom, Observable} from "rxjs";
+import {lastValueFrom, Observable, switchMap, throwError} from "rxjs";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import {ItemAction} from "../../../const/item-action.const";
 import {InspectionVehicleService} from "../../../services/inspection-vehicle.service";
@@ -15,8 +15,12 @@ import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 import {debounceTime, map} from "rxjs/operators";
 import {TypeInspection} from "../../../enums/type-inspection.enum";
-import {InspectionVehicle} from "../../../interfaces/inspection.interface";
+import {Inspection, InspectionVehicle} from "../../../interfaces/inspection.interface";
 import {NotificationService} from "@service-shared/notification.service";
+import {formatDate} from "devextreme/localization";
+import {FileSaverService} from "ngx-filesaver";
+import {TypeFile} from "../../../enums/type-file.const";
+import {AttachmentService} from "../../../services/attachment.service";
 
 @Component({
   selector: 'app-list-vehicle',
@@ -48,6 +52,8 @@ export class ListVehicleComponent implements OnInit {
 
   private readonly inspectionVehicleService: InspectionVehicleService = inject(InspectionVehicleService);
   private notificationService: NotificationService = inject(NotificationService);
+  private _fileSaverService: FileSaverService = inject(FileSaverService);
+  private attachmentService: AttachmentService = inject(AttachmentService);
 
   @ViewChild('dataGridComponent', {static: true}) dataGridComponent!: DxDataGridComponent;
   gridDataSource: any;
@@ -120,6 +126,9 @@ export class ListVehicleComponent implements OnInit {
       case 'print_request':
         this.printRequest(dataRow)
         break;
+      case 'view_request':
+        this.getRequest(dataRow);
+        break;
       case 'view_result':
         this.router.navigate(['/inspeccion', 'view-result', TypeInspection.Vehicle, dataRow.Id]);
         break;
@@ -128,6 +137,38 @@ export class ListVehicleComponent implements OnInit {
         break;
     }
 
+  }
+
+  getRequest(row: InspectionVehicle) {
+    this.notificationService.showLoader({
+      title: 'Recuperando solicitud de inspección'
+    });
+
+    const nameFile = `Solicitud ${row.current_plate} ${formatDate(new Date(row.created_at), 'yyyyMMdd-hhmm')}.pdf`
+
+    this.inspectionVehicleService.getFilesAttachment(row.Id)
+      .pipe(
+        switchMap(items => {
+          const itemRequest = items.find(file => file.type === TypeFile.Request);
+          if (!itemRequest)
+            return throwError('No existe archivo.')
+          return this.attachmentService.getPDF(itemRequest?.path)
+        })
+      )
+      .subscribe({
+        next: (res) => {
+          this.notificationService.closeLoader();
+          this._fileSaverService.save((<any>res), nameFile);
+        },
+        error: (err) => {
+          this.notificationService.closeLoader();
+          this.notificationService.showSwalMessage({
+            title: 'Operación fallida.',
+            text: 'No se pudo descargar el archivo.',
+            icon: 'error',
+          })
+        }
+      })
   }
 
   printRequest(row: InspectionVehicle) {

@@ -8,6 +8,8 @@ import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
 import {ColaboradorService} from "../services/colaborador.service";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
+import {exportExcelDataGrid} from "../../../utils/export-excel.util";
 
 @Component({
   selector: 'app-colaborador',
@@ -20,7 +22,6 @@ export class ColaboradorComponent {
   private catalogoService: CatalogoService = inject(CatalogoService);
   private modalService: Dialog = inject(Dialog);
   private notificationService: NotificationService = inject(NotificationService);
-
 
   refreshTable$: Subject<void> = new Subject<void>();
 
@@ -125,6 +126,13 @@ export class ColaboradorComponent {
         });
     });
 
+  }
+
+  onExporting(e: DxDataGridTypes.ExportingEvent) {
+    exportExcelDataGrid(
+      e,
+      'Colaboradores'
+    );
   }
 
 }

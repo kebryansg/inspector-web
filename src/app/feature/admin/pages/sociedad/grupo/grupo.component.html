@@ -7,6 +7,7 @@
                   [rowAlternationEnabled]="true"
                   (onInitialized)="refreshTable$.next()"
                   (onToolbarPreparing)="onToolbarPreparing($event)"
+                  (onExporting)="onExporting($event)"
                   [searchPanel]="{visible:true}"
                   [showBorders]="true">
 

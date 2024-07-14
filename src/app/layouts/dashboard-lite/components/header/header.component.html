@@ -56,6 +56,14 @@
         </div>
         -->
 
+        <section class="head-menu-item">
+          <span class="font-weight-bold" >
+            {{ userLogged().Nombres }}
+            |
+            {{ userLogged().Cargo }}
+          </span>
+        </section>
+
 
       </div>
 
@@ -80,7 +88,6 @@
     </button>
   </div>
 </ng-template>
-
 
 <ng-template #notificationOverlay>
   <div class="overlay overlay-notification overlay-fall" cdkMenu>

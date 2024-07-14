@@ -8,6 +8,8 @@ import {ToolsService} from "../../services/tools.service";
 import {SectorService} from "../services/sector.service";
 import {Sector} from "../interfaces/base.interface";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {ExcelExportService} from "../../services/excel-export.service";
+import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 
 @Component({
   selector: 'app-sector',
@@ -19,6 +21,7 @@ export class SectorComponent {
   private sectorService: SectorService<Sector> = inject(SectorService);
   private modalService: Dialog = inject(Dialog);
   private notificationService: NotificationService = inject(NotificationService);
+  private excelExportService = inject(ExcelExportService);
 
   refreshTable$: Subject<void> = new Subject<void>();
 
@@ -100,6 +103,13 @@ export class SectorComponent {
           this.refreshTable$.next();
         });
     });
+  }
+
+  onExporting(e: DxDataGridTypes.ExportingEvent) {
+    this.excelExportService.exportExcelDataGrid(
+      e,
+      'Sector'
+    );
   }
 
 }

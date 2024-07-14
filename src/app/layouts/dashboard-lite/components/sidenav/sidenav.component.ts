@@ -7,8 +7,6 @@ import {SublevelMenuComponent} from "./sublevel-menu.component";
 import {MenuService} from "../../../../services/menu.service";
 import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
 import {SideNavService} from "../../services/side-nav.service";
-import {LoginService} from "../../../../services/login.service";
-import {Profile} from "../../../../feature/auth/interfaces/login.interface";
 import {fromEvent} from "rxjs";
 import {map} from "rxjs/operators";
 
@@ -41,15 +39,12 @@ interface SideNavToggle {
 export class SidenavComponent implements OnInit {
   public router: Router = inject(Router);
   private readonly menuService: MenuService = inject(MenuService);
-  private readonly loginService: LoginService = inject(LoginService);
   private readonly sideNavService: SideNavService = inject(SideNavService);
   @Output() onToggleSideNav: EventEmitter<SideNavToggle> = new EventEmitter();
-
 
   collapsed = this.sideNavService.collapsed$;
   screenWidth = this.sideNavService.innerWidth$;
   navData = toSignal<any[], any[]>(this.menuService.getMenu$, {initialValue: []});
-  userLogged = toSignal<Profile, Profile>(this.loginService.userLogged(), {initialValue: {} as Profile});
   multiple: boolean = false;
 
   resize$ = fromEvent(window, 'resize')

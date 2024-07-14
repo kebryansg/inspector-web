@@ -8,6 +8,8 @@ import {NotificationService} from "@service-shared/notification.service";
 import {ProvinciaService} from "../services/provincia.service";
 import {Provincia} from "../interfaces/base.interface";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
+import {ExcelExportService} from "../../services/excel-export.service";
 
 @Component({
   selector: 'app-provincia',
@@ -19,7 +21,7 @@ export class ProvinciaComponent {
   private provinciaService: ProvinciaService<Provincia> = inject(ProvinciaService);
   private modalService: Dialog = inject(Dialog);
   private notificationService: NotificationService = inject(NotificationService);
-
+  private excelExportService = inject(ExcelExportService);
 
   refreshTable$: Subject<void> = new Subject<void>();
 
@@ -103,4 +105,10 @@ export class ProvinciaComponent {
     });
   }
 
+  onExporting(e: DxDataGridTypes.ExportingEvent) {
+    this.excelExportService.exportExcelDataGrid(
+      e,
+      'Provincias'
+    );
+  }
 }

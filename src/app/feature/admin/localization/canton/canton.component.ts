@@ -8,6 +8,8 @@ import {NotificationService} from "@service-shared/notification.service";
 import {Dialog} from "@angular/cdk/dialog";
 import {Canton} from "../interfaces/base.interface";
 import {toSignal} from "@angular/core/rxjs-interop";
+import {ExcelExportService} from "../../services/excel-export.service";
+import {DxDataGridTypes} from 'devextreme-angular/ui/data-grid';
 
 @Component({
   selector: 'app-canton',
@@ -19,6 +21,7 @@ export class CantonComponent {
   private cantonService: CantonService<Canton> = inject(CantonService);
   private modalService: Dialog = inject(Dialog);
   private notificationService: NotificationService = inject(NotificationService);
+  private excelExportService = inject(ExcelExportService);
 
   refreshTable$: Subject<void> = new Subject<void>();
 
@@ -100,6 +103,13 @@ export class CantonComponent {
           this.refreshTable$.next();
         });
     });
+  }
+
+  onExporting(e: DxDataGridTypes.ExportingEvent) {
+    this.excelExportService.exportExcelDataGrid(
+      e,
+      'Canton'
+    );
   }
 
 }

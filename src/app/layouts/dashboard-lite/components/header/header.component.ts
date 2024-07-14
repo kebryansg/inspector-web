@@ -5,6 +5,9 @@ import {CdkMenuModule} from "@angular/cdk/menu";
 import {OverlayModule} from "@angular/cdk/overlay";
 import {notifications, userItemsMenu} from "./header-dummy.data";
 import {UserItemAction} from "../../interfaces/user-item.interface";
+import {toSignal} from "@angular/core/rxjs-interop";
+import {Profile} from "../../../../feature/auth/interfaces/login.interface";
+import {LoginService} from "../../../../services/login.service";
 
 @Component({
   selector: 'app-header',
@@ -21,11 +24,13 @@ import {UserItemAction} from "../../interfaces/user-item.interface";
 export class HeaderComponent implements OnInit {
 
   private readonly sideNavService: SideNavService = inject(SideNavService);
+  private readonly loginService = inject(LoginService);
 
   @Output() actionItemMenu: EventEmitter<UserItemAction> = new EventEmitter<UserItemAction>();
 
   collapsed = this.sideNavService.collapsed$;
-  screenWidth = this.sideNavService.innerWidth$
+  screenWidth = this.sideNavService.innerWidth$;
+  userLogged = toSignal<Profile, Profile>(this.loginService.userLogged(), {initialValue: {} as Profile});
 
   canShowSearchAsOverlay = false;
 

@@ -6,6 +6,8 @@ import {GrupoService} from "../services";
 import {NotificationService} from "@service-shared/notification.service";
 import {ToolsService} from "../../../services/tools.service";
 import {TipoPermisoService} from "../services/tipo-permiso.service";
+import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
+import {exportExcelDataGrid} from "../../../utils/export-excel.util";
 
 @Component({
   templateUrl: './grupo.component.html',
@@ -40,6 +42,13 @@ export class GrupoComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     this.destroy$.next();
     this.destroy$.unsubscribe();
+  }
+
+  onExporting(e: DxDataGridTypes.ExportingEvent) {
+    exportExcelDataGrid(
+      e,
+      'Grupo Economico'
+    );
   }
 
   onToolbarPreparing(e: any) {
