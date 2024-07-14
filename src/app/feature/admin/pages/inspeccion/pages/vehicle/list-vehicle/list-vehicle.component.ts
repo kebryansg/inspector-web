@@ -156,5 +156,4 @@ export class ListVehicleComponent implements OnInit {
       );
   }
 
-
 }
