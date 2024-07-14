@@ -77,7 +77,7 @@ export class EmpresaComponent implements OnInit {
     if (!row.LocationGPS) return;
 
     const link = document.createElement('a');
-    link.href = `http://www.google.com/maps/place${row.LocationGPS}`;
+    link.href = `http://www.google.com/maps/place/${row.LocationGPS}`;
     link.target = '_blank';
     link.click();
   }
