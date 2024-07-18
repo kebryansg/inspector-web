@@ -94,6 +94,9 @@ export class ListComponent implements OnInit {
       case 'print_request':
         this.printRequest(dataRow);
         break;
+      case 'resolved':
+        this.router.navigate(['/inspeccion', 'form-inspection', TypeInspection.Commercial, dataRow.ID]);
+        break;
       case 'view_result':
         this.router.navigate(['/inspeccion', 'view-result', TypeInspection.Commercial, dataRow.ID]);
         break;

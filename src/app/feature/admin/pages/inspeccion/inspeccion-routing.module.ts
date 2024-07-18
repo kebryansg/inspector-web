@@ -22,6 +22,11 @@ export const inspectionRoutes: Routes = [
       .then(m => m.RuteInspectionComponent),
   },
   {
+    path: 'form-inspection/:typeInspection/:id',
+    loadComponent: () => import('./pages/general/form-inspection/form-inspection.component')
+      .then(m => m.FormInspectionComponent),
+  },
+  {
     path: 'view-result/:typeInspection/:id',
     canActivate: [
       //approveInspectionGuard

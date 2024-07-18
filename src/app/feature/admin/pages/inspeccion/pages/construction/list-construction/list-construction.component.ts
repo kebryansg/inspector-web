@@ -94,10 +94,8 @@ export class ListConstructionComponent implements OnInit {
       case 'view_request':
         this.getRequest(dataRow);
         break;
-      case 'resolve':
-        this.router.navigate(['..', 'resolve-inspection-construction', dataRow.Id], {
-          relativeTo: this.activatedRoute
-        });
+      case 'resolved':
+        this.router.navigate(['/inspeccion', 'form-inspection', TypeInspection.Construction, dataRow.Id]);
         break;
       case 'view_result':
         this.router.navigate(['/inspeccion', 'view-result', TypeInspection.Construction, dataRow.Id]);

@@ -15,7 +15,7 @@ import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 import {debounceTime, map} from "rxjs/operators";
 import {TypeInspection} from "../../../enums/type-inspection.enum";
-import {Inspection, InspectionVehicle} from "../../../interfaces/inspection.interface";
+import {InspectionVehicle} from "../../../interfaces/inspection.interface";
 import {NotificationService} from "@service-shared/notification.service";
 import {formatDate} from "devextreme/localization";
 import {FileSaverService} from "ngx-filesaver";
@@ -128,6 +128,9 @@ export class ListVehicleComponent implements OnInit {
         break;
       case 'view_request':
         this.getRequest(dataRow);
+        break;
+      case 'resolved':
+        this.router.navigate(['/inspeccion', 'form-inspection', TypeInspection.Vehicle, dataRow.Id]);
         break;
       case 'view_result':
         this.router.navigate(['/inspeccion', 'view-result', TypeInspection.Vehicle, dataRow.Id]);
