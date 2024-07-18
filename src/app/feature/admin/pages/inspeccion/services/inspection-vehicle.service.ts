@@ -44,7 +44,7 @@ export class InspectionVehicleService implements InspectionServiceBase<Inspectio
   }
 
   generateFileReport(id: number): Observable<any> {
-    throw new Error('Method not implemented.');
+    return this.httpClient.get(this.urlBase + `/generate/${id}/result_pdf`)
   }
 
   getFileContentResult(id: number): Observable<any> {
