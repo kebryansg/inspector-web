@@ -2,10 +2,8 @@ import {ChangeDetectionStrategy, Component, computed, inject, input as inputRout
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxCheckBoxModule, DxFormModule, DxMapModule, DxSelectBoxModule, DxTabsModule, DxTextBoxModule} from "devextreme-angular";
 import {DecimalPipe, JsonPipe, KeyValuePipe, NgOptimizedImage, PathLocationStrategy} from "@angular/common";
-import {InspectionResultService} from "../../../services/inspection-result.service";
 import {ActivatedRoute} from "@angular/router";
 import {computedAsync} from "ngxtension/computed-async";
-import {DomSanitizer} from '@angular/platform-browser';
 import {formatDate} from "devextreme/localization";
 import {NotificationService} from "@service-shared/notification.service";
 import {FileSaverService} from "ngx-filesaver";
@@ -106,8 +104,6 @@ export class ViewResultComponent {
   private pathLocationStrategy = inject(PathLocationStrategy);
   private attachmentService = inject(AttachmentService);
   private dialog = inject(Dialog);
-  private resultService = inject(InspectionResultService);
-  private domSanitizer = inject(DomSanitizer);
 
 
   status = signal([...STATUS_INSPECTION]);

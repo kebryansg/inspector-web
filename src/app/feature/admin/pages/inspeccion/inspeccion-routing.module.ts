@@ -1,4 +1,6 @@
 import {Routes} from '@angular/router';
+import {FormEditService} from "./services/form-edit.service";
+import {inspectionFormCanDeactivateGuard} from "./guards/inspection-form.can-deactivate.guard";
 
 export const inspectionRoutes: Routes = [
   {
@@ -23,6 +25,12 @@ export const inspectionRoutes: Routes = [
   },
   {
     path: 'form-inspection/:typeInspection/:id',
+    canDeactivate: [
+      inspectionFormCanDeactivateGuard
+    ],
+    providers: [
+      FormEditService
+    ],
     loadComponent: () => import('./pages/general/form-inspection/form-inspection.component')
       .then(m => m.FormInspectionComponent),
   },

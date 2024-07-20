@@ -1,1 +1,199 @@
-<p>form-inspection works!</p>
+<section class="d-flex flex-column gap-2">
+
+  <app-card cardTitle="Formulario Inspección">
+
+  </app-card>
+
+  <section>
+    <dx-tabs [width]="'auto'"
+             [keyExpr]="'id'"
+             [selectedIndex]="0"
+             (onItemClick)="onSelectionChanged($event)"
+             [dataSource]="tabsWithIconAndText()"
+             [orientation]="'horizontal'"
+             [stylingMode]="'primary'"
+             [iconPosition]="'start'"
+             style="position: sticky; top: 92px; z-index: 1;"
+    />
+
+    <!--#region summary -->
+    <app-card [hidHeader]="true"
+              [hidden]="tabSelected() !== 'summary'">
+
+      <dx-accordion [dataSource]="toSections()"
+                    [collapsible]="true"
+                    [multiple]="false"
+                    noDataText="Cargando Formulario..."
+                    [animationDuration]="300">
+        <div *dxTemplate="let section of 'title'">
+      <span class="text-carmine">
+        {{ section.Descripcion | titlecase }}
+      </span>
+        </div>
+        <div class="content-components" *dxTemplate="let section of 'item'">
+
+          @for (_component of section.components; track _component.ID) {
+            @switch (_component.typeComponent) {
+              @case ('QUA') {
+                <div class="dx-field dx-field-top-label">
+                  <div class="dx-field-label">
+                    {{ _component.description }}
+                  </div>
+                  <div class="dx-field-value">
+                    <dx-select-box [items]="_component.attribute"
+                                   valueExpr="code"
+                                   displayExpr="display"
+                                   (valueChange)="changeValueComponent(_component.ID, $event)"
+                                   placeholder="Opción"
+                    />
+                  </div>
+                </div>
+              }
+              @case ('QUN') {
+                <div class="dx-field dx-field-top-label">
+                  <div class="dx-field-label">
+                    {{ _component.description }}
+                  </div>
+                  <div class="dx-field-value d-flex gap-1">
+                    <dx-number-box class="flex-fill"
+                                   placeholder="Opción"
+                                   [showSpinButtons]="true"
+                                   [min]="0"
+                                   [format]="'fixedPoint'"
+                                   (onValueChanged)="changeValueComponent(_component.ID, $event.value)"
+
+                    />
+                    <!--
+                    <dx-button icon="arrowdown"/>
+                    <dx-button icon="arrowup"/>
+                    -->
+                  </div>
+                </div>
+              }
+              @case ('TEX') {
+                <div class="dx-field dx-field-top-label">
+                  <div class="dx-field-label">
+                    {{ _component.description }}
+                  </div>
+                  <div class="dx-field-value">
+                    <dx-text-box [showClearButton]="true"
+                                 (valueChange)="changeValueComponent(_component.ID, $event)"
+                                 placeholder="..."
+                    />
+                  </div>
+                </div>
+              }
+              @case ('DEC') {
+                <dx-check-box class="dx-field-checkbox bold"
+                              [width]="'100%'"
+                              [text]="_component.description"
+                              (valueChange)="changeValueComponent(_component.ID, $event)"
+                />
+              }
+              @case ('CAT') {
+                <!--
+                <app-item-component-catalog [_component]="_component"
+                                            [itemCatalog]="getDataByCode(_component.Atributo['code'])"
+                />
+                -->
+              }
+
+            }
+          }
+        </div>
+      </dx-accordion>
+    </app-card>
+    <!--#endregion -->
+
+    <!--#region annotations -->
+    <app-card [hidHeader]="true"
+              [hidden]="tabSelected() !== 'annotations'">
+
+      <p class="title-annotation">
+        Observaciones
+      </p>
+      <section class="container-annotations">
+        @for (annotation of listObservations(); track annotation.id) {
+          <ng-container [ngTemplateOutlet]="tmplAnnotation"
+                        [ngTemplateOutletContext]="{ $implicit: annotation, description: annotation.description, id: annotation.id, section: annotation.section }"
+          />
+        }
+
+      </section>
+      <p class="title-annotation">
+        Recomendaciones
+      </p>
+      <section class="container-annotations">
+
+        @for (annotation of listRecommendations(); track annotation.id) {
+          <ng-container [ngTemplateOutlet]="tmplAnnotation"
+                        [ngTemplateOutletContext]="{ $implicit: annotation, description: annotation.description, id: annotation.id, section: annotation.section }"
+          />
+        }
+
+      </section>
+
+      <p class="title-annotation">
+        Disposiciones
+      </p>
+
+      <section class="container-annotations">
+
+        @for (annotation of listDisposition(); track annotation.id) {
+          <ng-container [ngTemplateOutlet]="tmplAnnotation"
+                        [ngTemplateOutletContext]="{ $implicit: annotation, description: annotation.description, id: annotation.id, section: annotation.section }"
+          />
+        }
+
+      </section>
+
+    </app-card>
+    <!--#endregion -->
+
+    <!--#region Images -->
+    <app-card [hidHeader]="true"
+              [hidden]="tabSelected() !== 'images'">
+      <dx-file-uploader
+        uploadUrl="https://js.devexpress.com/Demos/NetCore/FileUploader/Upload"
+        [multiple]="true"
+        accept="image/*"
+        [showFileList]="true"
+        (onValueChanged)="prepareViewImages($event)"
+        uploadMode="useButtons"
+      />
+
+      <section class="container-img">
+        @for (file of imagesPrepared(); track file.id) {
+          <picture>
+            <img [src]="file.imageSource" alt="image">
+          </picture>
+        }
+      </section>
+
+    </app-card>
+    <!--#endregion -->
+
+    <!--#region maps -->
+    <!--#endregion -->
+
+  </section>
+
+</section>
+
+
+<ng-template #tmplAnnotation let-data let-description="description" let-section="section" let-id="id">
+  <section class="item-annotation">
+    <section class="item-annotation__body">
+      <p>Sección</p>
+      <label>{{ section }}</label>
+      <p>Descripción</p>
+      <label>{{ description }}</label>
+    </section>
+    <section class="d-flex gap-10">
+      <dx-button icon="trash"
+                 (onClick)="deleteItemAnnotation(id)"/>
+      <dx-button icon="edit"
+                 (onClick)="editItemAnnotation(data)"/>
+    </section>
+  </section>
+</ng-template>
