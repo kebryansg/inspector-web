@@ -17,6 +17,9 @@ import {toSignal} from "@angular/core/rxjs-interop";
 import {OnExit} from "../../../guards/inspection-form.can-deactivate.guard";
 import {NotificationService} from "@service-shared/notification.service";
 import {Annotation} from "../../../interfaces/annotation.interface";
+import {Dialog} from "@angular/cdk/dialog";
+import {MdEditAnnotationComponent} from "../components/md-edit-annotation/md-edit-annotation.component";
+import {filter} from "rxjs";
 
 
 const TabsWithIconAndText: TabFormEdit[] = [
@@ -65,6 +68,8 @@ const TabsWithIconAndText: TabFormEdit[] = [
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FormInspectionComponent implements OnExit {
+
+  private dialog = inject(Dialog);
 
   private notificationService = inject(NotificationService);
   private formEditService: FormEditService = inject(FormEditService);
@@ -121,6 +126,32 @@ export class FormInspectionComponent implements OnExit {
     this.formEditService.changeValueComponent(id, value);
   }
 
+  showFormRegister(itemAnnotation?: Annotation) {
+    const isEditAnnotation = !!itemAnnotation;
+    const modalRef = this.dialog.open<Annotation>(MdEditAnnotationComponent, {
+      data: {
+        title: '',
+        sections: [...this.formEditService._sections.values()],
+        dataForm: itemAnnotation ?? null
+      }
+    })
+    modalRef.closed
+      .pipe(
+        filter(Boolean)
+      ).subscribe(
+      dataForm => {
+        if (isEditAnnotation) {
+          this.formEditService.editAnnotation(dataForm);
+        } else {
+          this.formEditService.addAnnotations({
+            ...dataForm,
+            id: (new Date()).getTime().toString(),
+          });
+        }
+      }
+    )
+  }
+
   mapAnnotation = (annotation: Annotation) => {
     return {
       ...annotation,
@@ -129,10 +160,24 @@ export class FormInspectionComponent implements OnExit {
   }
 
   deleteItemAnnotation(idAnnotation: any) {
-    this.formEditService.deleteAnnotations(idAnnotation);
+    this.notificationService.showSwalConfirm({
+      title: '¿Estás seguro de eliminar?',
+      text: 'Si eliminas, no podrás recuperar la información',
+      confirmButtonText: 'Eliminar',
+      cancelButtonText: 'Cancelar',
+      confirmButtonColor: '#dc3545',
+      cancelButtonColor: '#007bff',
+    }).then(
+      result => {
+        if (result) {
+          this.formEditService.deleteAnnotations(idAnnotation);
+        }
+      }
+    )
   }
 
   editItemAnnotation(dataAnnotation: any) {
+    this.showFormRegister(dataAnnotation);
   }
 
   async prepareViewImages($event: any) {

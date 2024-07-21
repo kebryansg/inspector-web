@@ -48,11 +48,11 @@
 .item-annotation {
   background-color: #ffffff;
   border-radius: 10px;
+  border: 1px solid #5c5a5a45;
   padding: 8px 15px;
 
   display: grid;
   place-items: end;
-
 
   &__body {
     display: grid;

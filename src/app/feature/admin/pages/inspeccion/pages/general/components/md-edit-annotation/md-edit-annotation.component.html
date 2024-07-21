@@ -1,0 +1,51 @@
+<div class="modal-header d-flex justify-content-between">
+  <h4 class="modal-title">
+    Editar Anotación
+  </h4>
+  <button type="button" class="close" aria-label="Close"
+          (click)="activeModal.close()">
+    <i class="feather icon-x-circle"></i>
+  </button>
+</div>
+
+<form [formGroup]="formEditAnnotation">
+  <section class="modal-body d-flex flex-column gap-10">
+
+    <app-item-control [titleControl]="'Tipo de anotaciones'">
+      <dx-select-box [dataSource]="typeAnnotations()"
+                     displayExpr="display"
+                     valueExpr="code"
+                     formControlName="type"
+      />
+    </app-item-control>
+
+    <app-item-control [titleControl]="'Sección'">
+      <dx-select-box [dataSource]="sections()"
+                     displayExpr="Descripcion"
+                     valueExpr="ID"
+                     formControlName="idSection"
+                     [searchEnabled]="true"
+      />
+    </app-item-control>
+
+    <app-item-control [titleControl]="'Redacción'">
+      <dx-text-box placeholder="...."
+                   formControlName="description"
+      />
+    </app-item-control>
+  </section>
+
+  <div class="modal-footer">
+    <button type="button"
+            (click)="activeModal.close()"
+            class="btn btn-outline-danger">
+      Cancelar
+    </button>
+    <button type="button"
+            (click)="closeModal()"
+            class="btn btn-primary">
+      Confirmar
+    </button>
+  </div>
+
+</form>

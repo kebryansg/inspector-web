@@ -109,7 +109,16 @@
     <app-card [hidHeader]="true"
               [hidden]="tabSelected() !== 'annotations'">
 
-      <p class="title-annotation">
+      <div class="row">
+        <div class="col">
+          <dx-button text="Agregar Anotación"
+                     icon="plus"
+                     (onClick)="showFormRegister()"
+          />
+        </div>
+      </div>
+
+      <p class="title-annotation text-carmine">
         Observaciones
       </p>
       <section class="container-annotations">
@@ -120,7 +129,7 @@
         }
 
       </section>
-      <p class="title-annotation">
+      <p class="title-annotation text-carmine">
         Recomendaciones
       </p>
       <section class="container-annotations">
@@ -133,7 +142,7 @@
 
       </section>
 
-      <p class="title-annotation">
+      <p class="title-annotation text-carmine">
         Disposiciones
       </p>
 
@@ -189,7 +198,7 @@
       <p>Descripción</p>
       <label>{{ description }}</label>
     </section>
-    <section class="d-flex gap-10">
+    <section class="d-flex gap-1">
       <dx-button icon="trash"
                  (onClick)="deleteItemAnnotation(id)"/>
       <dx-button icon="edit"
