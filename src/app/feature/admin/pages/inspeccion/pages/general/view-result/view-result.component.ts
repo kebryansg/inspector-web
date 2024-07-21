@@ -3,7 +3,6 @@ import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxCheckBoxModule, DxFormModule, DxMapModule, DxSelectBoxModule, DxTabsModule, DxTextBoxModule} from "devextreme-angular";
 import {DecimalPipe, JsonPipe, KeyValuePipe, NgOptimizedImage, PathLocationStrategy} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
-import {computedAsync} from "ngxtension/computed-async";
 import {formatDate} from "devextreme/localization";
 import {NotificationService} from "@service-shared/notification.service";
 import {FileSaverService} from "ngx-filesaver";
@@ -26,6 +25,7 @@ import {AttachmentService} from "../../../services/attachment.service";
 import {Dialog} from "@angular/cdk/dialog";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MdChangeStateComponent} from "../components/md-change-state/md-change-state.component";
+import {derivedAsync} from "ngxtension/derived-async";
 
 const TabsWithIconAndText = [
   {
@@ -122,11 +122,11 @@ export class ViewResultComponent {
     return TabsWithIconAndText
   })
 
-  itemInspection = computedAsync(() =>
+  itemInspection = derivedAsync(() =>
     this.inspectionService.getById(this.id()),
   );
 
-  itemInfoInspection = computedAsync(() =>
+  itemInfoInspection = derivedAsync(() =>
     this.inspectionService.getResultForm(this.id()),
   );
 

@@ -1,7 +1,17 @@
 <section class="d-flex flex-column gap-2">
 
-  <app-card cardTitle="Formulario Inspección">
-
+  <app-card [cardTitle]="titleCard()">
+    @switch (typeInspection()) {
+      @case (TypeInspectionValue.Commercial) {
+        <app-item-inspection-commercial [itemInspection]="itemInspection()"/>
+      }
+      @case (TypeInspectionValue.Vehicle) {
+        <app-item-inspection-vehicle [itemInspection]="itemInspection()"/>
+      }
+      @case (TypeInspectionValue.Construction) {
+        <app-item-inspection-construction [itemInspection]="itemInspection()"/>
+      }
+    }
   </app-card>
 
   <section>

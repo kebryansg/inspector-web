@@ -1,10 +1,11 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {Annotation, TAnnotation} from "../interfaces/annotation.interface";
+import {Annotation} from "../interfaces/annotation.interface";
 import {ComponentForm, ComponentView, ImageEdit} from "../interfaces/form-edit.interface";
 import {TypeInspection} from "../enums/type-inspection.enum";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
 import {map} from "rxjs/operators";
+import {of} from "rxjs";
 
 @Injectable()
 export class FormEditService {
@@ -17,11 +18,6 @@ export class FormEditService {
   _components = signal<ComponentView[]>([]);
   #idForm = signal<number>(1);
 
-  typeAnnotations: { code: TAnnotation, display: string }[] = [
-    {code: 'observation', display: 'Observación'},
-    {code: 'recommendation', display: 'Recomendación'},
-    {code: 'disposition', display: 'Disposición'},
-  ];
   private _images = signal<ImageEdit[]>([]);
   _listAnnotations = signal<Annotation[]>([]);
 
@@ -118,8 +114,11 @@ export class FormEditService {
     this.#idForm.set(id);
   }
 
-  getConfigForm() {
-    return this.httpClient.get<any>(`${this.endpointBaseForm}/${this.#idForm()}/seccion/config`)
+  getConfigForm(idForm?: number) {
+    //console.log(idForm)
+    if(!idForm) return of([])
+
+    return this.httpClient.get<any>(`${this.endpointBaseForm}/${idForm}/seccion/config`)
       .pipe(
         map<{ sections: any[], components: ComponentForm[] }, any>(({sections, components}) => {
             const componentsView = components.map(mapComponentView);

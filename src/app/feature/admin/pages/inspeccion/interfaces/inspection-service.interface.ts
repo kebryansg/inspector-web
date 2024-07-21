@@ -1,7 +1,7 @@
 import {Observable} from "rxjs";
 
 export interface InspectionServiceBase<T> {
-  getById(id: number): Observable<T> | Promise<T>;
+  getById(id: number): Observable<T>;
 
   getResultForm(idInspection: number): Observable<any>;
 

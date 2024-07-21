@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, input as inputRoute, signal} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {
   DxAccordionModule,
@@ -13,13 +13,22 @@ import {
 import {ImageEdit, TabForm, TabFormEdit} from "../../../interfaces/form-edit.interface";
 import {JsonPipe, NgTemplateOutlet, TitleCasePipe} from "@angular/common";
 import {FormEditService} from "../../../services/form-edit.service";
-import {toSignal} from "@angular/core/rxjs-interop";
 import {OnExit} from "../../../guards/inspection-form.can-deactivate.guard";
 import {NotificationService} from "@service-shared/notification.service";
 import {Annotation} from "../../../interfaces/annotation.interface";
 import {Dialog} from "@angular/cdk/dialog";
 import {MdEditAnnotationComponent} from "../components/md-edit-annotation/md-edit-annotation.component";
 import {filter} from "rxjs";
+import {TypeInspection} from "../../../enums/type-inspection.enum";
+import {ItemInspectionCommercialComponent} from "../../../components/item-inspection-commercial/item-inspection-commercial.component";
+import {ItemInspectionConstructionComponent} from "../../../components/item-inspection-construction/item-inspection-construction.component";
+import {ItemInspectionVehicleComponent} from "../../../components/item-inspection-vehicle/item-inspection-vehicle.component";
+import {InspectionBaseService} from "../../../services/inspection-base.service";
+import {ActivatedRoute} from "@angular/router";
+import {InspectionService} from "../../../services/inspection.service";
+import {InspectionConstructionService} from "../../../services/inspection-construction.service";
+import {InspectionVehicleService} from "../../../services/inspection-vehicle.service";
+import {derivedAsync} from "ngxtension/derived-async";
 
 
 const TabsWithIconAndText: TabFormEdit[] = [
@@ -61,29 +70,64 @@ const TabsWithIconAndText: TabFormEdit[] = [
     //ItemComponentCatalogComponent,
     TitleCasePipe,
     JsonPipe,
-    NgTemplateOutlet
+    NgTemplateOutlet,
+    ItemInspectionCommercialComponent,
+    ItemInspectionConstructionComponent,
+    ItemInspectionVehicleComponent
   ],
   templateUrl: './form-inspection.component.html',
   styleUrl: './form-inspection.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: InspectionBaseService,
+      useFactory: (acc: ActivatedRoute) => {
+        const typeInspection = acc.snapshot.paramMap.get('typeInspection')!
+
+        if (typeInspection == TypeInspection.Commercial)
+          return inject(InspectionService)
+        else if (typeInspection === TypeInspection.Construction)
+          return inject(InspectionConstructionService)
+        else
+          return inject(InspectionVehicleService)
+      },
+      deps: [ActivatedRoute]
+    }
+  ],
 })
 export class FormInspectionComponent implements OnExit {
 
   private dialog = inject(Dialog);
 
+  private inspectionService = inject(InspectionBaseService);
   private notificationService = inject(NotificationService);
   private formEditService: FormEditService = inject(FormEditService);
+
+  id = inputRoute.required<number>();
+  typeInspection = inputRoute.required<TypeInspection>();
 
   tabsWithIconAndText = signal(TabsWithIconAndText);
   tabSelected = signal<TabForm>('summary');
 
+  titleCard = computed(() => {
+    const keyType = {
+      [TypeInspection.Commercial]: 'Comercial',
+      [TypeInspection.Vehicle]: 'Vehicular',
+      [TypeInspection.Construction]: 'Construcción',
+    }
+    return `Formulario Inspección ${keyType[this.typeInspection()]}`
+  });
+
+  itemInspection = derivedAsync(() =>
+    this.inspectionService.getById(this.id())
+  );
+
   /*
   Sections
    */
-  sections = signal<any[]>([]);
-  toSections = toSignal(
-    this.formEditService.getConfigForm(),
-    {initialValue: []}
+  toSections = derivedAsync(
+    () => this.formEditService.getConfigForm(this.itemInspection()?.IdForm),
+    {requireSync: true}
   )
 
   /*
@@ -106,6 +150,9 @@ export class FormInspectionComponent implements OnExit {
   FileUploader
    */
   imagesPrepared = this.formEditService.images;
+
+  constructor() {
+  }
 
   onExit() {
     return this.notificationService.showSwalConfirm({
@@ -196,6 +243,8 @@ export class FormInspectionComponent implements OnExit {
     //this.imagesPrepared.update(ls => [...imageMap])
     this.formEditService.updateImages(imageMap);
   }
+
+  protected readonly TypeInspectionValue = TypeInspection;
 }
 
 
