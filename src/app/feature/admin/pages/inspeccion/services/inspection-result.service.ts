@@ -24,4 +24,27 @@ export class InspectionResultService {
   getAttachmentById(id: number): Observable<Attachment[]> {
     return this.http.get<Attachment[]>(this.urlBase + 'inspection-result/attachment/' + id)
   }
+
+  //#region CRUD
+  resolved(headerForm: {
+    idInspection: number, typeInspection: string, state: string,
+  }, details: any[], annotations: any[]): Observable<any> {
+    const {idInspection, typeInspection} = headerForm
+    return this.http.post(`${this.urlBase}/inspection-resolved/form/${typeInspection}/${idInspection}`, {
+      headerForm: {
+        IDInspection: idInspection,
+        state: headerForm.state,
+      },
+      details,
+      annotations,
+    })
+    //return of({})
+  }
+
+  uploadedImages(idInspection: number, typeInspection: string, image: any): Observable<any> {
+    throw new Error('Method not implemented.');
+  }
+
+  //#endregion
+
 }

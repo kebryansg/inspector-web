@@ -1,9 +1,10 @@
-import {ChangeDetectionStrategy, Component, computed, inject, input as inputRoute, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, computed, inject, input as inputRoute, OnInit, signal, viewChild} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {
   DxAccordionModule,
   DxButtonModule,
   DxCheckBoxModule,
+  DxFileUploaderComponent,
   DxFileUploaderModule,
   DxNumberBoxModule,
   DxSelectBoxModule,
@@ -18,17 +19,19 @@ import {NotificationService} from "@service-shared/notification.service";
 import {Annotation} from "../../../interfaces/annotation.interface";
 import {Dialog} from "@angular/cdk/dialog";
 import {MdEditAnnotationComponent} from "../components/md-edit-annotation/md-edit-annotation.component";
-import {filter} from "rxjs";
+import {concat, filter, Subject} from "rxjs";
 import {TypeInspection} from "../../../enums/type-inspection.enum";
 import {ItemInspectionCommercialComponent} from "../../../components/item-inspection-commercial/item-inspection-commercial.component";
 import {ItemInspectionConstructionComponent} from "../../../components/item-inspection-construction/item-inspection-construction.component";
 import {ItemInspectionVehicleComponent} from "../../../components/item-inspection-vehicle/item-inspection-vehicle.component";
 import {InspectionBaseService} from "../../../services/inspection-base.service";
-import {ActivatedRoute} from "@angular/router";
-import {InspectionService} from "../../../services/inspection.service";
-import {InspectionConstructionService} from "../../../services/inspection-construction.service";
-import {InspectionVehicleService} from "../../../services/inspection-vehicle.service";
 import {derivedAsync} from "ngxtension/derived-async";
+import {injectServiceInspection} from "../utils/inject-service.util";
+import {DebounceClickDirective} from "@directives/debounce-click.directive";
+import {InspectionResultService} from "../../../services/inspection-result.service";
+import {KeyLocalStorage} from "../../../../../../auth/enums/key-storage.enum";
+import {tap} from "rxjs/operators";
+import {environment} from "@environments/environment";
 
 
 const TabsWithIconAndText: TabFormEdit[] = [
@@ -47,11 +50,11 @@ const TabsWithIconAndText: TabFormEdit[] = [
     text: 'Evidencia imagenes',
     icon: 'image',
   },
-  {
-    id: 'maps',
-    text: 'Ubicar mapa',
-    icon: 'map',
-  },
+  //{
+  //  id: 'maps',
+  //  text: 'Ubicar mapa',
+  //  icon: 'map',
+  //},
 ]
 
 @Component({
@@ -73,7 +76,8 @@ const TabsWithIconAndText: TabFormEdit[] = [
     NgTemplateOutlet,
     ItemInspectionCommercialComponent,
     ItemInspectionConstructionComponent,
-    ItemInspectionVehicleComponent
+    ItemInspectionVehicleComponent,
+    DebounceClickDirective
   ],
   templateUrl: './form-inspection.component.html',
   styleUrl: './form-inspection.component.scss',
@@ -81,30 +85,25 @@ const TabsWithIconAndText: TabFormEdit[] = [
   providers: [
     {
       provide: InspectionBaseService,
-      useFactory: (acc: ActivatedRoute) => {
-        const typeInspection = acc.snapshot.paramMap.get('typeInspection')!
-
-        if (typeInspection == TypeInspection.Commercial)
-          return inject(InspectionService)
-        else if (typeInspection === TypeInspection.Construction)
-          return inject(InspectionConstructionService)
-        else
-          return inject(InspectionVehicleService)
-      },
-      deps: [ActivatedRoute]
+      useFactory: injectServiceInspection,
     }
   ],
 })
-export class FormInspectionComponent implements OnExit {
+export class FormInspectionComponent implements OnExit, OnInit {
 
   private dialog = inject(Dialog);
 
   private inspectionService = inject(InspectionBaseService);
   private notificationService = inject(NotificationService);
   private formEditService: FormEditService = inject(FormEditService);
+  private inspectionResultService: InspectionResultService = inject(InspectionResultService);
 
   id = inputRoute.required<number>();
   typeInspection = inputRoute.required<TypeInspection>();
+  fileUploader = viewChild.required<DxFileUploaderComponent>('fileUploader')
+  urlUploader = computed(() =>
+    environment.apiUrl + `inspection-resolved/upload/images/${this.typeInspection()}/${this.id()}`
+  )
 
   tabsWithIconAndText = signal(TabsWithIconAndText);
   tabSelected = signal<TabForm>('summary');
@@ -151,7 +150,15 @@ export class FormInspectionComponent implements OnExit {
    */
   imagesPrepared = this.formEditService.images;
 
+  onFilesUploaded$ = new Subject<void>();
+
   constructor() {
+  }
+
+  ngOnInit() {
+    this.fileUploader().uploadHeaders = {
+      Authorization: 'Bearer ' + localStorage.getItem(KeyLocalStorage.Token)
+    }
   }
 
   onExit() {
@@ -163,6 +170,59 @@ export class FormInspectionComponent implements OnExit {
       confirmButtonColor: '#dc3545',
       cancelButtonColor: '#007bff',
     })
+  }
+
+  onFilesUploaded(evt: any) {
+    console.log(evt)
+    this.onFilesUploaded$.next();
+  }
+
+  submitInspection() {
+
+    const getState = () => {
+      const existsDisposition = this.formEditService._listAnnotations().some(annotation => annotation.type === 'disposition')
+      return existsDisposition ? 'REP' : 'APR';
+    }
+
+    this.notificationService.showSwalConfirm({
+      title: '¿Estás seguro de terminar la inspección?',
+      text: 'Si, completar la inspección',
+      confirmButtonText: 'Completar',
+      cancelButtonText: 'Cancelar',
+    }).then(
+      result => {
+        if (!result) return;
+
+        this.notificationService.showLoader({
+          title: 'Guardando inspección...',
+        })
+
+        concat(
+          this.inspectionResultService.resolved(
+            {
+              idInspection: this.id(),
+              typeInspection: this.typeInspection(),
+              state: getState(),
+            },
+            this.formEditService.components(),
+            this.formEditService.listAnnotations()
+          ).pipe(
+            tap(
+              () => {
+                console.log('resolved inspection')
+                this.fileUploader().instance.upload()
+              }
+            )
+          ),
+          this.onFilesUploaded$.asObservable(),
+        ).subscribe({
+          error: (err) => this.notificationService.closeLoader(),
+          complete: () => this.notificationService.closeLoader(),
+        })
+
+      }
+    )
+
   }
 
   onSelectionChanged($event: any) {

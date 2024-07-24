@@ -2,7 +2,6 @@ import {ChangeDetectionStrategy, Component, computed, inject, input as inputRout
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxCheckBoxModule, DxFormModule, DxMapModule, DxSelectBoxModule, DxTabsModule, DxTextBoxModule} from "devextreme-angular";
 import {DecimalPipe, JsonPipe, KeyValuePipe, NgOptimizedImage, PathLocationStrategy} from "@angular/common";
-import {ActivatedRoute} from "@angular/router";
 import {formatDate} from "devextreme/localization";
 import {NotificationService} from "@service-shared/notification.service";
 import {FileSaverService} from "ngx-filesaver";
@@ -11,9 +10,6 @@ import {environment} from "@environments/environment";
 import {InspectionBaseService} from "../../../services/inspection-base.service";
 import {STATUS_INSPECTION} from "../../../const/status-inspection.const";
 import {TypeInspection} from "../../../enums/type-inspection.enum";
-import {InspectionService} from "../../../services/inspection.service";
-import {InspectionConstructionService} from "../../../services/inspection-construction.service";
-import {InspectionVehicleService} from "../../../services/inspection-vehicle.service";
 import {ItemInspectionCommercialComponent} from "../../../components/item-inspection-commercial/item-inspection-commercial.component";
 import {ItemInspectionVehicleComponent} from "../../../components/item-inspection-vehicle/item-inspection-vehicle.component";
 import {ItemInspectionConstructionComponent} from "../../../components/item-inspection-construction/item-inspection-construction.component";
@@ -26,6 +22,7 @@ import {Dialog} from "@angular/cdk/dialog";
 import {ReactiveFormsModule} from "@angular/forms";
 import {MdChangeStateComponent} from "../components/md-change-state/md-change-state.component";
 import {derivedAsync} from "ngxtension/derived-async";
+import {injectServiceInspection} from "../utils/inject-service.util";
 
 const TabsWithIconAndText = [
   {
@@ -82,17 +79,7 @@ const labelBtnDownload: any = {
   providers: [
     {
       provide: InspectionBaseService,
-      useFactory: (acc: ActivatedRoute) => {
-        const typeInspection = acc.snapshot.paramMap.get('typeInspection')!
-
-        if (typeInspection == TypeInspection.Commercial)
-          return inject(InspectionService)
-        else if (typeInspection === TypeInspection.Construction)
-          return inject(InspectionConstructionService)
-        else
-          return inject(InspectionVehicleService)
-      },
-      deps: [ActivatedRoute]
+      useFactory: injectServiceInspection,
     }
   ],
 })

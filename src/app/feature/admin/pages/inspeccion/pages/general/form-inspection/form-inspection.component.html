@@ -1,6 +1,7 @@
 <section class="d-flex flex-column gap-2">
 
-  <app-card [cardTitle]="titleCard()">
+  <app-card [cardTitle]="titleCard()"
+            [blockClass]="'d-flex flex-column gap-2'">
     @switch (typeInspection()) {
       @case (TypeInspectionValue.Commercial) {
         <app-item-inspection-commercial [itemInspection]="itemInspection()"/>
@@ -12,6 +13,16 @@
         <app-item-inspection-construction [itemInspection]="itemInspection()"/>
       }
     }
+
+    <section class="row">
+      <div class="col d-flex gap-2 justify-content-end">
+        <button class="btn btn-success" appDebounceClick
+                (debounceClick)="submitInspection()">
+          Guardar Inspección
+        </button>
+      </div>
+    </section>
+
   </app-card>
 
   <section>
@@ -173,8 +184,12 @@
     <app-card [hidHeader]="true"
               [hidden]="tabSelected() !== 'images'">
       <dx-file-uploader
-        uploadUrl="https://js.devexpress.com/Demos/NetCore/FileUploader/Upload"
+        #fileUploader
+        [uploadUrl]="urlUploader()"
+        [name]="'fileName'"
+        uploadMethod="PUT"
         [multiple]="true"
+        (onFilesUploaded)="onFilesUploaded($event)"
         accept="image/*"
         [showFileList]="true"
         (onValueChanged)="prepareViewImages($event)"
