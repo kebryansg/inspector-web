@@ -107,6 +107,7 @@ export class FormInspectionComponent implements OnExit, OnInit {
 
   tabsWithIconAndText = signal(TabsWithIconAndText);
   tabSelected = signal<TabForm>('summary');
+  permittedExitForm = signal<boolean>(false);
 
   titleCard = computed(() => {
     const keyType = {
@@ -162,13 +163,14 @@ export class FormInspectionComponent implements OnExit, OnInit {
   }
 
   onExit() {
+
+    if (this.permittedExitForm()) return true;
+
     return this.notificationService.showSwalConfirm({
       title: '¿Estás seguro de salir?',
       text: 'Si sales, perderás los cambios no guardados',
       confirmButtonText: 'Salir',
       cancelButtonText: 'Cancelar',
-      confirmButtonColor: '#dc3545',
-      cancelButtonColor: '#007bff',
     })
   }
 
@@ -204,8 +206,8 @@ export class FormInspectionComponent implements OnExit, OnInit {
               typeInspection: this.typeInspection(),
               state: getState(),
             },
-            this.formEditService.components(),
-            this.formEditService.listAnnotations()
+            this.formEditService.getComponentsToDetails(),
+            this.formEditService.getMapAnnotations()
           ).pipe(
             tap(
               () => {

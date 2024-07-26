@@ -6,6 +6,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
 import {map} from "rxjs/operators";
 import {of} from "rxjs";
+import {TypeComponentEnum} from "../enums/type-component.enum";
 
 @Injectable()
 export class FormEditService {
@@ -79,6 +80,29 @@ export class FormEditService {
     });
   }
 
+  getComponentsToDetails() {
+    return this._components().map(
+      (component) => this.mapComponentToDetail(component)
+    )
+  }
+
+  private mapComponentToDetail = (component: ComponentView) => {
+    return {
+      idSection: component.idSection,
+      idComponent: component.ID,
+      typeComponent: component.typeComponent,
+      Result: component.typeComponent == TypeComponentEnum.Qualitative ?
+        this.findAttr(component.attribute, component.result ?? '')
+        : component.result,
+      descriptionComponent: component.description,
+      descriptionSection: this._sections.get(component.idSection) ?? '',
+    }
+  }
+
+  private findAttr = (attrs: any, code: string) => {
+    return attrs.find((attr: any) => attr.code == code)!
+  }
+
   //#endregion
 
   //#region Annotations
@@ -107,6 +131,18 @@ export class FormEditService {
     return this._listAnnotations.asReadonly();
   }
 
+  getMapAnnotations() {
+    return this._listAnnotations()
+      .map(annotation => {
+        return {
+          Observation: annotation.description,
+          IdSection: annotation.idSection,
+          TypeAnnotation: annotation.type,
+          state: 'ACT',
+        }
+      })
+  }
+
   //#endregion
 
   //#region Form
@@ -116,7 +152,7 @@ export class FormEditService {
 
   getConfigForm(idForm?: number) {
     //console.log(idForm)
-    if(!idForm) return of([])
+    if (!idForm) return of([])
 
     return this.httpClient.get<any>(`${this.endpointBaseForm}/${idForm}/seccion/config`)
       .pipe(

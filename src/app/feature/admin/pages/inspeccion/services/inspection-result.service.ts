@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
 import {Attachment, InspectionDetail, VWInspectionDetail} from "../interfaces/inspection-result.interface";
 import {Observable} from "rxjs";
+import {TypeComponentEnum} from "../enums/type-component.enum";
 
 @Injectable({
   providedIn: 'root'
@@ -40,6 +41,10 @@ export class InspectionResultService {
     })
     //return of({})
   }
+
+
+
+
 
   uploadedImages(idInspection: number, typeInspection: string, image: any): Observable<any> {
     throw new Error('Method not implemented.');
