@@ -180,9 +180,15 @@ export class FormInspectionComponent implements OnExit, OnInit {
     })
   }
 
-  onFilesUploaded(evt: any) {
-    console.log(evt)
-    this.onFilesUploaded$.next();
+  inValidateForm() {
+    if (this.imagesPrepared().length <= 0) {
+      this.notificationService.showSwalNotif({
+        title: 'Debes subir al menos una imagen',
+        icon: 'error',
+      })
+      return true;
+    }
+    return false;
   }
 
   submitInspection() {
@@ -191,6 +197,8 @@ export class FormInspectionComponent implements OnExit, OnInit {
       const existsDisposition = this.formEditService._listAnnotations().some(annotation => annotation.type === 'disposition')
       return existsDisposition ? 'REP' : 'APR';
     }
+
+    if (this.inValidateForm()) return;
 
     this.notificationService.showSwalConfirm({
       title: '¿Estás seguro de terminar la inspección?',
@@ -267,6 +275,7 @@ export class FormInspectionComponent implements OnExit, OnInit {
     )
   }
 
+  //#region Annotation
   mapAnnotation = (annotation: Annotation) => {
     return {
       ...annotation,
@@ -295,6 +304,9 @@ export class FormInspectionComponent implements OnExit, OnInit {
     this.showFormRegister(dataAnnotation);
   }
 
+  //#endregion
+
+  //#region Images
   async prepareViewImages($event: any) {
     const imageMap: any[] = []
     let idx = 0;
@@ -311,6 +323,13 @@ export class FormInspectionComponent implements OnExit, OnInit {
     //this.imagesPrepared.update(ls => [...imageMap])
     this.formEditService.updateImages(imageMap);
   }
+
+  onFilesUploaded(evt: any) {
+    console.log(evt)
+    this.onFilesUploaded$.next();
+  }
+
+  //#endregion
 
   protected readonly TypeInspectionValue = TypeInspection;
 }
