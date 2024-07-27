@@ -11,6 +11,10 @@
   }
 }
 
+.content-components {
+  display: grid;
+  row-gap: 16px;
+}
 
 .container-component {
   display: flex;

@@ -1,6 +1,6 @@
 import {inject, Injectable, signal} from '@angular/core';
 import {Annotation} from "../interfaces/annotation.interface";
-import {ComponentForm, ComponentView, ImageEdit} from "../interfaces/form-edit.interface";
+import {ComponentForm, ComponentView, ImageEdit, ItemCatalog} from "../interfaces/form-edit.interface";
 import {TypeInspection} from "../enums/type-inspection.enum";
 import {HttpClient} from "@angular/common/http";
 import {environment} from "@environments/environment";
@@ -17,6 +17,7 @@ export class FormEditService {
 
   _sections = new Map<number, any>();
   _components = signal<ComponentView[]>([]);
+  private _itemCatalog = signal<ItemCatalog[]>([]);
   #idForm = signal<number>(1);
 
   private _images = signal<ImageEdit[]>([]);
@@ -105,6 +106,17 @@ export class FormEditService {
 
   //#endregion
 
+  //#region ItemCatalog
+  setInitCatalog(values: any[]) {
+    this._itemCatalog.set(values);
+  }
+
+  get itemCatalog() {
+    return this._itemCatalog.asReadonly();
+  }
+
+  //#endregion
+
   //#region Annotations
 
   setAnnotations(annotations: Annotation[]) {
@@ -156,9 +168,10 @@ export class FormEditService {
 
     return this.httpClient.get<any>(`${this.endpointBaseForm}/${idForm}/seccion/config`)
       .pipe(
-        map<{ sections: any[], components: ComponentForm[] }, any>(({sections, components}) => {
+        map<{ sections: any[], components: ComponentForm[], itemsCatalog: any[] }, any>(({sections, components, itemsCatalog}) => {
             const componentsView = components.map(mapComponentView);
             this.setInitComponents(componentsView);
+            this.setInitCatalog(itemsCatalog);
             return sections.map(section => {
               this._sections.set(section.ID, section);
               return {

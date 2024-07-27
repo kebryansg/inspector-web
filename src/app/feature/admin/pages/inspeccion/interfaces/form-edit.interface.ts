@@ -52,3 +52,12 @@ export interface IDTipoComp {
   Code: string;
   Configuracion: number;
 }
+
+
+export interface ItemCatalog {
+  id: number;
+  idComponent: number;
+  code: string;
+  value: string;
+  display: string;
+}

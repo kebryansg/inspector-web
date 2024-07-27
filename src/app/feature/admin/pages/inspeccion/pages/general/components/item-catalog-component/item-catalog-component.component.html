@@ -1,0 +1,38 @@
+<div class="dx-field dx-field-top-label">
+  <div class="dx-field-label">
+    {{ description() }}
+  </div>
+  <div class="dx-field-value">
+
+    <dx-tag-box [items]="itemsCatalog()"
+                [displayExpr]="displayExpr"
+                [valueExpr]="valueExpr"
+                [showSelectionControls]="true"
+
+                [maxDisplayedTags]="0"
+                (selectedItemsChange)="logValues($event)"
+    />
+    <!-- (onMultiTagPreparing)="onMultiTagPreparing($event)" -->
+
+    <section class="container-rows gap-2 mt-4">
+      @for (_item of itemsSelected(); track _item.value) {
+        <section class="container-items-row">
+          <label class="font-weight-400">
+            {{ _item.display }}
+          </label>
+
+          <div class="d-flex g-1">
+            <dx-number-box #numberBoxComponent
+                           [min]="0"
+                           [value]="_item.data"
+                           [showSpinButtons]="true"
+                           (onValueChanged)="valueChange(_item.value, $event.value)"
+            />
+          </div>
+
+        </section>
+      }
+    </section>
+
+  </div>
+</div>

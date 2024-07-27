@@ -32,6 +32,10 @@ import {InspectionResultService} from "../../../services/inspection-result.servi
 import {KeyLocalStorage} from "../../../../../../auth/enums/key-storage.enum";
 import {tap} from "rxjs/operators";
 import {environment} from "@environments/environment";
+import {
+  ItemComponentCatalogComponent
+} from "../../../../formulario/pages/configuration/components/item-component-catalog/item-component-catalog.component";
+import {ItemCatalogComponentComponent} from "../components/item-catalog-component/item-catalog-component.component";
 
 
 const TabsWithIconAndText: TabFormEdit[] = [
@@ -77,7 +81,9 @@ const TabsWithIconAndText: TabFormEdit[] = [
     ItemInspectionCommercialComponent,
     ItemInspectionConstructionComponent,
     ItemInspectionVehicleComponent,
-    DebounceClickDirective
+    DebounceClickDirective,
+    ItemComponentCatalogComponent,
+    ItemCatalogComponentComponent
   ],
   templateUrl: './form-inspection.component.html',
   styleUrl: './form-inspection.component.scss',
