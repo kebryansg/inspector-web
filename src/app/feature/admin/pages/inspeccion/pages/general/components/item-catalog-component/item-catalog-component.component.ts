@@ -54,9 +54,14 @@ export class ItemCatalogComponentComponent implements OnInit {
   }
 
   logValues($event: any[]) {
-    this.itemsSelected.set([
-      ...$event.map((item: any) => ({...item, data: 0}))
-    ])
+    this.itemsSelected.update(ls => {
+      return [
+        ...$event.map((item: any) => {
+          const idxItem = ls.findIndex(itemSelected => itemSelected.value === item.value)
+          return idxItem < 0 ? {...item, data: 0} : ls[idxItem]
+        })
+      ]
+    })
   }
 
   valueChange(key: string, value: any) {
