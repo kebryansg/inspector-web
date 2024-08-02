@@ -18,6 +18,7 @@ export interface Empresa {
   Telefono: string;
   Celular: string;
   Email: string;
+  FechaInicioActividad: Date;
   Estado: string;
   Referencia: string;
   Latitud: string;

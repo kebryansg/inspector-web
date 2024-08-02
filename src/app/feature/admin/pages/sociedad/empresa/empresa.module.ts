@@ -8,6 +8,7 @@ import {NewEmpresaComponent} from './pages/new/new.component';
 import {
   DxButtonModule,
   DxDataGridModule,
+  DxDateBoxModule,
   DxFormModule,
   DxMapModule,
   DxNumberBoxModule,
@@ -24,6 +25,7 @@ import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-c
 import {ItemLocationCoordinateComponent} from "../../../components/item-location-coordinate/item-location-coordinate.component";
 import {DebounceClickDirective} from "@directives/debounce-click.directive";
 import {DxNumberErrorControlDirective} from "@directives/number-box.directive";
+import {DxDateErrorControlDirective} from "@directives/date-box.directive";
 
 @NgModule({
   declarations: [
@@ -39,6 +41,7 @@ import {DxNumberErrorControlDirective} from "@directives/number-box.directive";
     DxTextErrorControlDirective,
     DxNumberErrorControlDirective,
     DxSelectErrorControlDirective,
+    DxDateErrorControlDirective,
 
     DxDataGridModule,
     CardComponent,
@@ -54,7 +57,8 @@ import {DxNumberErrorControlDirective} from "@directives/number-box.directive";
     DxMapModule,
     DxNumberBoxModule,
     ItemLocationCoordinateComponent,
-    DebounceClickDirective
+    DebounceClickDirective,
+    DxDateBoxModule
   ]
 })
 export class EmpresaModule {

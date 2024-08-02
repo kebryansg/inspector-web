@@ -71,6 +71,12 @@
               />
             </app-item-control>
 
+            <app-item-control titleControl="Fecha Inicio Actividad">
+              <dx-date-box formControlName="FechaInicioActividad"
+                           displayFormat="yyyy-mm-dd"
+              />
+            </app-item-control>
+
             <app-item-control titleControl="Tipo Permiso">
               <dx-select-box [dataSource]="lsTypePerm()"
                              displayExpr="name"

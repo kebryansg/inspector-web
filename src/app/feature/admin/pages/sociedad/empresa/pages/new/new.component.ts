@@ -200,6 +200,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       ]
       ],
       Direccion: ['', Validators.required],
+      FechaInicioActividad: [null, Validators.required],
       Telefono: ['',
         [
           Validators.required,
@@ -280,6 +281,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       Telefono: dataCompany.Telefono,
       Celular: dataCompany.Celular,
       Email: dataCompany.Email,
+      FechaInicioActividad: dataCompany.FechaInicioActividad,
       Referencia: dataCompany.Referencia,
       Estado: dataCompany.Estado,
       EstadoAplicacion: dataCompany.EstadoAplicacion,
