@@ -232,7 +232,13 @@ export class FormInspectionComponent implements OnExit, OnInit {
           ),
           this.onFilesUploaded$.asObservable(),
         ).subscribe({
-          error: (err) => this.notificationService.closeLoader(),
+          error: (err) => {
+            this.notificationService.closeLoader()
+            this.notificationService.showSwalNotif({
+              title: err.error.message,
+              icon: 'error'
+            })
+          },
           complete: () => this.notificationService.closeLoader(),
         })
 

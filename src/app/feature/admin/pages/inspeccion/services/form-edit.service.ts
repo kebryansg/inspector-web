@@ -84,7 +84,7 @@ export class FormEditService {
   getComponentsToDetails() {
     return this._components().map(
       (component) => this.mapComponentToDetail(component)
-    )
+    ).filter(component => !!component.Result)
   }
 
   private mapComponentToDetail = (component: ComponentView) => {

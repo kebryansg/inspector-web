@@ -7,6 +7,7 @@ import {LoginService} from "../../../services/login.service";
 import {Router} from "@angular/router";
 import {tap} from "rxjs/operators";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
+import {AppToolService} from "../../admin/services/app.service";
 
 @Component({
   selector: 'app-login',
@@ -25,7 +26,9 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 })
 export class LoginComponent implements OnInit {
 
-  private loginService = inject(LoginService)
+  private loginService = inject(LoginService);
+  private appToolService = inject(AppToolService);
+
   router = inject(Router)
 
   loadingVisible = signal(false);
@@ -57,6 +60,7 @@ export class LoginComponent implements OnInit {
     )
 
   ngOnInit() {
+    this.appToolService.changeExitTokenExpired(false);
     this.login$
       .subscribe({
         next: (response) => {

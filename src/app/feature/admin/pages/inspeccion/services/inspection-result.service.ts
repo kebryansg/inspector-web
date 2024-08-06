@@ -31,7 +31,7 @@ export class InspectionResultService {
     idInspection: number, typeInspection: string, state: string,
   }, details: any[], annotations: any[]): Observable<any> {
     const {idInspection, typeInspection} = headerForm
-    return this.http.post(`${this.urlBase}/inspection-resolved/form/${typeInspection}/${idInspection}`, {
+    return this.http.post(`${this.urlBase}inspection-resolved/form/${typeInspection}/${idInspection}`, {
       headerForm: {
         IDInspection: idInspection,
         state: headerForm.state,
