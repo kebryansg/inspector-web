@@ -43,4 +43,8 @@ export const inspectionRoutes: Routes = [
       .then(m => m.ViewResultComponent),
 
   },
+  {
+    path: 'pending-approval',
+    loadChildren: () => import('./pages/general/pending-approval/pending-approval-route').then(m => m.routes),
+  },
 ];

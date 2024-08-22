@@ -10,4 +10,7 @@ export interface InspectionServiceBase<T> {
   getFileContentResult(id: number): Observable<any>;
 
   updateChangeState(idInspection: number, body: { state: string, observation: string }): Observable<any>;
+
+  getItemsPendingApproval(): Observable<any[]>;
+
 }

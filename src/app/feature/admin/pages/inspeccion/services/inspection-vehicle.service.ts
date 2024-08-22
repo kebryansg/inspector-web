@@ -59,4 +59,8 @@ export class InspectionVehicleService implements InspectionServiceBase<Inspectio
     return this.httpClient.put<any>(this.urlBase + '/review/' + idInspection, body);
   }
 
+  getItemsPendingApproval() {
+    return this.httpClient.get<any>(this.urlBase + '/pending-approval')
+  }
+
 }

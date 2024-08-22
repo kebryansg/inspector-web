@@ -23,4 +23,9 @@ export class InspectionBaseService implements InspectionServiceBase<any> {
   updateChangeState(idInspection: number, body: { state: string, observation: string }): Observable<any> {
     throw new Error('Method not implemented.');
   }
+
+  getItemsPendingApproval(): Observable<any> {
+    throw new Error('Method not implemented.');
+  }
+
 }

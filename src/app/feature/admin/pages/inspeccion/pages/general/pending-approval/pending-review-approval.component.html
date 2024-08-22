@@ -1,0 +1,124 @@
+<app-card [cardTitle]="'Pendiente de revisión aprobaciones'"
+          cardClass="d-flex flex-column gap-2">
+
+  <div class="row">
+    <div class="col-4">
+      <app-item-control titleControl="Tipo de inspección" >
+        <dx-select-box
+          [value]="typeInspection()"
+          (valueChange)="typeInspection.set($event)"
+          [dataSource]="typeInspectionList()"
+          valueExpr="id"
+          displayExpr="name"
+        />
+      </app-item-control>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+      <dx-data-grid [dataSource]="$dataSource()"
+                    [rowAlternationEnabled]="true"
+                    keyExpr="ID"
+                    [columnAutoWidth]="true"
+                    [headerFilter]="{visible:true}"
+                    [columnChooser]="{enabled: true, mode:'select'}"
+                    (onToolbarPreparing)="onToolbarPreparing($event)"
+                    [showBorders]="true">
+
+        <dxo-search-panel [visible]="true"/>
+        <dxo-paging [pageSize]="10"/>
+        <dxo-pager [showPageSizeSelector]="true"
+                   [allowedPageSizes]="[10, 20, 30]"
+                   [showInfo]="true"
+        />
+        <dxo-load-panel [enabled]="true"/>
+
+        <dxo-group-panel [visible]="true"/>
+        <dxo-toolbar>
+          <dxi-item name="searchPanel"/>
+          <dxi-item name="columnChooserButton"/>
+          <dxi-item name="groupPanel"/>
+        </dxo-toolbar>
+
+        <!--#region Columns -->
+        <dxi-column caption="..."
+                    [width]="50"
+                    alignment="center"
+                    [allowFiltering]="false"
+                    [allowExporting]="false"
+                    [fixed]="true"
+                    [allowSorting]="false"
+                    cellTemplate="cellOptionsTemplate"
+        />
+        <!--#endregion -->
+
+        @for (column of columnsDisplay(); track column.dataField) {
+          <dxi-column [dataField]="column.dataField"
+                      [caption]="column.caption"
+                      [allowSearch]="column.allowSearch"
+                      [dataType]="$any(column.dataType)"
+                      [format]="column.format ?? ''"
+                      [alignment]="column.alignment"
+                      [allowHeaderFiltering]="column.allowHeaderFiltering"
+          />
+        }
+
+        <!--
+
+        <dxi-column dataField="ID"
+                    caption="Cód."
+                    [allowSearch]="false"
+                    alignment="center"
+                    [allowHeaderFiltering]="false"
+        />
+        <dxi-column dataField="FechaRegistro"
+                    caption="Fecha Registro"
+                    dataType="date"
+                    format="yyyy, MMMM dd"
+                    [allowHeaderFiltering]="false"
+        />
+        <dxi-column dataField="FechaInspeccion"
+                    caption="Fecha Inspeccion"
+                    dataType="date"
+                    format="yyyy, MMMM dd"
+                    [allowHeaderFiltering]="false"
+        />
+        <dxi-column dataField="Sector"
+                    [allowHeaderFiltering]="true"
+                    caption="Sector"
+        />
+        <dxi-column dataField="Inspector"
+                    [allowHeaderFiltering]="false"
+                    caption="Inspector"
+        />
+        <dxi-column dataField="RUC"
+                    [allowHeaderFiltering]="false"
+                    caption="RUC"
+        />
+        <dxi-column dataField="RazonSocial"
+                    [allowHeaderFiltering]="false"
+                    caption="Razón Social"
+        />
+        <dxi-column dataField="NombreComercial"
+                    [allowHeaderFiltering]="false"
+                    caption="Nombre Comercial"
+        />
+        -->
+
+        <div *dxTemplate="let data of 'cellOptionsTemplate'">
+          <div class="btn-group-icons">
+            <dx-button (onClick)="goToReview(data.data.ID)"
+                       icon="edit"
+            />
+          </div>
+        </div>
+
+
+      </dx-data-grid>
+    </div>
+  </div>
+
+
+</app-card>

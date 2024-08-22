@@ -27,8 +27,4 @@ export const inspectionCompanyRoute: Routes = [
       .then(m => m.MyInspectionsComponent),
     title: 'Mis Inspecciones',
   },
-  {
-    path: 'pending-approval',
-    loadChildren: () => import('./pending-approval/pending-approval-route').then(m => m.routes),
-  },
 ]
