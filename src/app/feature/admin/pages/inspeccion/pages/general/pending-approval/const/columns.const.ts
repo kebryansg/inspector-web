@@ -47,3 +47,116 @@ export const ColumnsCommercial = [
   },
 
 ]
+
+
+export const ColumnsConstruction = [
+  {
+    dataField: "Id",
+    caption: "Cód.",
+    alignment: "center",
+    allowSearch: false,
+    allowHeaderFiltering: false,
+  },
+  {
+    dataField: "created_at",
+    caption: "Fecha Registro",
+    dataType: "date",
+    format: "yyyy, MMMM dd",
+    allowHeaderFiltering: false,
+  },
+  {
+    dataField: "inspection_at",
+    caption: "Fecha Inspección",
+    dataType: "date",
+    format: "yyyy, MMMM dd",
+    allowHeaderFiltering: false,
+  },
+  {
+    dataField: "collaborator",
+    caption: "Inspector Asignado",
+    allowHeaderFiltering: false,
+  },
+  {
+    dataField: "identifier",
+    caption: "Identificación Responsable",
+    allowHeaderFiltering: true,
+    alignment: "center",
+  },
+  {
+    dataField: "entity",
+    caption: "Responsable",
+    allowHeaderFiltering: true,
+    alignment: "center",
+  },
+  {
+    dataField: "name_project",
+    caption: "Nombre de Proyecto",
+    allowHeaderFiltering: true,
+    alignment: "center",
+  },
+  {
+    dataField: "address",
+    caption: "Dirección",
+    allowHeaderFiltering: true,
+    alignment: "center",
+  },
+  {
+    dataField: "parroquia",
+    caption: "Parroquia",
+    allowHeaderFiltering: true,
+    alignment: "center",
+  },
+  {
+    dataField: "sector",
+    caption: "Sector",
+    allowHeaderFiltering: true,
+    alignment: "center",
+  },
+  {
+    dataField: "area_m2",
+    caption: "Área M2",
+    allowHeaderFiltering: true,
+    alignment: "right",
+  },
+]
+
+export const ColumnsVehicle = [
+  {
+    dataField: "Id",
+    caption: "Cód.",
+    alignment: "center",
+    allowSearch: false,
+    allowHeaderFiltering: false,
+  },
+  {
+    dataField: "created_at",
+    caption: "Fecha Registro",
+    dataType: "date",
+    format: "yyyy, MMMM dd",
+    allowHeaderFiltering: false,
+  },
+  {
+    dataField: "inspection_at",
+    caption: "Fecha Inspección",
+    dataType: "date",
+    format: "yyyy, MMMM dd",
+    allowHeaderFiltering: false,
+  },
+  {
+    dataField: "collaborator",
+    caption: "Inspector Asignado",
+    allowHeaderFiltering: false,
+  },
+  {
+    dataField: "entity",
+    caption: "Propietario",
+    allowHeaderFiltering: true,
+    alignment: "center",
+  },
+  {
+    dataField: "current_plate",
+    caption: "Placa",
+    allowHeaderFiltering: true,
+    alignment: "center",
+  },
+]

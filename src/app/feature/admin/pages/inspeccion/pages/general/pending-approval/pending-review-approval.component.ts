@@ -10,7 +10,7 @@ import {connect} from "ngxtension/connect";
 import {InspectionService} from "../../../services/inspection.service";
 import {InspectionConstructionService} from "../../../services/inspection-construction.service";
 import {InspectionVehicleService} from "../../../services/inspection-vehicle.service";
-import {ColumnsCommercial} from "./const/columns.const";
+import {ColumnsCommercial, ColumnsConstruction, ColumnsVehicle} from "./const/columns.const";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 import {toObservableSignal} from "ngxtension/to-observable-signal";
 
@@ -61,6 +61,10 @@ export class PendingReviewApprovalComponent {
   columnsDisplay = computed(() => {
     if (this.typeInspection() == TypeInspection.Commercial)
       return [...ColumnsCommercial]
+    if (this.typeInspection() == TypeInspection.Construction)
+      return [...ColumnsConstruction]
+    if (this.typeInspection() == TypeInspection.Vehicle)
+      return [...ColumnsVehicle]
     return []
   })
 
