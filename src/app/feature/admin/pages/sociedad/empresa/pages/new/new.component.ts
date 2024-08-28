@@ -82,7 +82,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   private catalogoService: CatalogoService = inject(CatalogoService);
   private entityService: EntidadService<any> = inject(EntidadService);
 
-  selectTab = signal<OptionTab>('ACTE');
+  selectTab = signal<OptionTab>('INFB');
   formatNumber = '#,##0.00';
   destroy$ = new Subject<void>()
   longTabs: any[] = longTabs;
