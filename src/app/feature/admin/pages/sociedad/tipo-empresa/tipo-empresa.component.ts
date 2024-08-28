@@ -5,7 +5,7 @@ import {debounceTime, switchMap, takeUntil, tap} from 'rxjs/operators';
 import {ToolsService} from "../../../services/tools.service";
 import {Dialog} from "@angular/cdk/dialog";
 import {NotificationService} from "@service-shared/notification.service";
-import {TipoEmpresaService} from "../services/tipo-empresa.service";
+import {TipoEmpresaService} from "../services";
 import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 import {exportExcelDataGrid} from "../../../utils/export-excel.util";
 

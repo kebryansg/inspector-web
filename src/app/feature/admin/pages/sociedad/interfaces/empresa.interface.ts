@@ -37,7 +37,9 @@ export interface Empresa {
   AforoFijo: number;
   AforoFlotante: number;
 
-  groupCatalog?: GroupCatalog
+  groupCatalog?: GroupCatalog;
+  idTipoEmpresa?: any;
+  idActEconomica?: any;
 }
 
 export interface IDSector {

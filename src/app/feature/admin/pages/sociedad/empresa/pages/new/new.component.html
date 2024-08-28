@@ -189,7 +189,7 @@
 
         <div class="row">
           <div class="col-md-12">
-            <dx-form [formData]="entidad()"
+            <dx-form [formData]="ownerCompany()"
                      [readOnly]="true"
                      [colCount]="2"
                      labelLocation="top">
@@ -250,25 +250,63 @@
         </section>
         <!--#endregion  -->
 
-        <h3 class="sub-title text-c-blue font-weight-bold">
-          Organización
-        </h3>
 
         <section class="row">
           <div class="col-md-6 col-sm">
 
-            <app-item-control titleControl="Actividad Económica">
-              <dx-select-box [dataSource]="lsActEconomica()"
-                             displayExpr="Descripcion"
-                             [wrapItemText]="true"
-                             valueExpr="ID"
-                             formControlName="IDActEconomica"
-                             [searchEnabled]="true"
+            <section class="d-flex flex-column gap-1">
+              <span class="section-title">
+                Actividad Económica
+              </span>
+              <dx-button class="align-self-end"
+                         [text]="'Asignar'"
+                         [icon]="'group'"
+                         [type]="'success'"
+                         width="130px"
+                         (click)="loadModalActivityEconomic()"
               />
-            </app-item-control>
+
+              <dx-form [formData]="infoActivityEconomic()"
+                       [readOnly]="true"
+                       labelLocation="top">
+
+                <dxi-item dataField="Descripcion"
+                          [label]="{text:'Descripción'}"
+                />
+                <dxi-item dataField="CIIU"
+                          [label]="{text:'CIIU'}"
+                />
+              </dx-form>
+
+            </section>
 
           </div>
           <div class="col-md-6 col-sm">
+
+            <section class="d-flex flex-column gap-1">
+              <span class="section-title">
+                Tipo Empresa
+              </span>
+              <dx-button class="align-self-end"
+                         [text]="'Asignar'"
+                         [icon]="'group'"
+                         [type]="'success'"
+                         width="130px"
+                         (click)="loadModalTypeCompany()"
+              />
+
+              <dx-form [formData]="infoTypeCompany()"
+                       [readOnly]="true"
+                       labelLocation="top">
+
+                <dxi-item dataField="Nombre"
+                          [label]="{text:'Descripción'}"
+                />
+              </dx-form>
+
+            </section>
+
+            <!--
             <app-item-control titleControl="Tipo Empresa">
               <dx-select-box [dataSource]="lsTipoEmpresa()"
                              displayExpr="Nombre"
@@ -278,6 +316,7 @@
                              [searchEnabled]="true"
               />
             </app-item-control>
+            -->
           </div>
         </section>
       }

@@ -1,0 +1,59 @@
+<div class="modal-header">
+  <h4 class="modal-title">
+    {{ titleModal }}
+  </h4>
+  <button type="button"
+          class="close"
+          aria-label="Close"
+          (click)="activeModal.close()">
+  </button>
+</div>
+
+<div class="modal-body">
+  <dx-data-grid [dataSource]="lsRows()"
+                [columnAutoWidth]="true"
+                [columnMinWidth]="80"
+                [hoverStateEnabled]="true"
+                [rowAlternationEnabled]="true"
+                [syncLookupFilterValues]="false"
+                height="450px"
+                keyExpr="ID"
+                (onRowDblClick)="submit()"
+                [(selectedRowKeys)]="selected"
+                [searchPanel]="{visible:true}"
+                [filterRow]="{visible:true}"
+                [headerFilter]="{visible:true}"
+                [showBorders]="true">
+
+    <dxo-paging [pageSize]="10"/>
+    <dxo-pager [showPageSizeSelector]="true"
+               [allowedPageSizes]="[10, 20, 40, 60]"
+               [showInfo]="true"
+    />
+    <dxo-selection mode="single"/>
+
+    <dxi-column dataField="Nombre"
+                caption="Nombre"
+    />
+
+    <dxi-column dataField="Descripcion"
+                caption="Descripción"
+    />
+
+  </dx-data-grid>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-outline-danger mr-2"
+          (click)="activeModal.close()">
+    Cancelar
+  </button>
+  <button type="button"
+          class="btn btn-primary"
+          [class.btn-disabled]="selected.length == 0"
+          [disabled]="selected.length == 0"
+          (click)="submit()">
+    Seleccionar
+  </button>
+</div>
+

@@ -2,7 +2,7 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, O
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {animate, style, transition, trigger} from '@angular/animations';
-import {filter, of, Subject, switchMap} from 'rxjs';
+import {filter, lastValueFrom, of, Subject, switchMap} from 'rxjs';
 import {NotificationService} from "@service-shared/notification.service";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import {ToolsService} from "../../../../../services/tools.service";
@@ -18,6 +18,9 @@ import {GroupCatalog} from "../../../../../interfaces/group-catalog.interface";
 import {MdFindGroupCategoryComponent} from "../../../../../components/md-find-group-category/md-find-group-category.component";
 import {tap} from "rxjs/operators";
 import {PopupEntidadComponent} from "../../../entidad/popup/popup.component";
+import DataSource from "devextreme/data/data_source";
+import {MfFindActivityEconomicComponent} from "../../../../../components/mf-find-activity-economic/mf-find-activity-economic.component";
+import {MfFindTypeCompanyComponent} from "../../../../../components/mf-find-type-company/mf-find-type-company.component";
 
 type OptionTab = 'INFB' | 'ENT' | 'ACTE' | 'UBC';
 
@@ -79,7 +82,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   private catalogoService: CatalogoService = inject(CatalogoService);
   private entityService: EntidadService<any> = inject(EntidadService);
 
-  selectTab = signal<OptionTab>('INFB');
+  selectTab = signal<OptionTab>('ACTE');
   formatNumber = '#,##0.00';
   destroy$ = new Subject<void>()
   longTabs: any[] = longTabs;
@@ -100,9 +103,11 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 
   datos: any;
   titleModal: string = '';
-  entidad = signal<any | null>(null);
+  ownerCompany = signal<any | null>(null);
   edit = signal<boolean>(false);
   infoGroup = signal<any>({});
+  infoActivityEconomic = signal<{ CIIU: string, Descripcion: string, ID: number } | null>(null);
+  infoTypeCompany = signal<{ Descripcion: string, Nombre: string, ID: number } | null>(null);
 
   parroquies = toSignal(
     this.catalogoService.obtenerParroquia(),
@@ -140,6 +145,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       takeUntilDestroyed(),
     );
 
+  //#region Maps
   apiKey = {google: environment.googleMapsKey}
   zoomMap = 17;
   centerMap: any = {lat: GeoLocationDefault.lat, lng: GeoLocationDefault.lng};
@@ -161,6 +167,8 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       Longitud: location.lng,
     });
   }
+
+  //#endregion
 
   onItemClick(e: any) {
     this.selectTab.set(this.longTabs[e.itemIndex].option);
@@ -301,9 +309,17 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
       AforoFlotante: dataCompany.AforoFlotante,
     });
     this.edit.set(true);
-    this.entidad.set(dataCompany.idEntidad);
+    this.ownerCompany.set(dataCompany.idEntidad);
+    this.ownerCompany.set(dataCompany.idEntidad);
 
-    const {groupCatalog} = dataCompany;
+
+    const {groupCatalog, idTipoEmpresa, idActEconomica} = dataCompany;
+
+    if (idActEconomica)
+      this.infoActivityEconomic.set(idActEconomica);
+    if (idTipoEmpresa)
+      this.infoTypeCompany.set(idTipoEmpresa);
+
     if (groupCatalog) {
       this.infoGroup.set(groupCatalog);
       this.form.patchValue({
@@ -407,7 +423,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!data) {
           return;
         }
-        this.entidad.set(data);
+        this.ownerCompany.set(data);
         this.form.patchValue({
           RUC: data.Identificacion,
           IDEntidad: data.ID,
@@ -421,7 +437,7 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   loadModalEditEntity() {
     const modalRef = this.modalService.open(PopupEntidadComponent, {
       data: {
-        data: this.entidad(),
+        data: this.ownerCompany(),
         titleModal: 'Editar Entidad'
       },
       panelClass: 'modal-lg'
@@ -431,13 +447,13 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
     modalRef.closed
       .pipe(
         switchMap(data => {
-          return data ? this.entityService.update(this.entidad().ID, data) : of(null);
+          return data ? this.entityService.update(this.ownerCompany().ID, data) : of(null);
         })
       )
       .subscribe((data: any) => {
         if (!data) return;
 
-        this.entidad.set(data);
+        this.ownerCompany.set(data);
         this.form.patchValue({
           RUC: data.Identificacion,
           IDEntidad: data.ID,
@@ -467,6 +483,46 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
           IDTarifaGrupo: data.IdGroup,
           IDTarifaActividad: data.IdActivityTar,
           IDTarifaCategoria: data.IdCategory,
+        })
+      });
+  }
+
+  loadModalActivityEconomic() {
+    const modalRef = this.modalService.open<any>(MfFindActivityEconomicComponent, {
+      data: {
+        titleModal: 'Buscar Actividad Económica'
+      },
+      panelClass: 'modal-lg'
+    });
+
+    modalRef.closed
+      .pipe(
+        filter(Boolean)
+      )
+      .subscribe((data) => {
+        this.infoActivityEconomic.set(data);
+        this.form.patchValue({
+          IDActEconomica: data.ID
+        })
+      });
+  }
+
+  loadModalTypeCompany() {
+    const modalRef = this.modalService.open<any>(MfFindTypeCompanyComponent, {
+      data: {
+        titleModal: 'Buscar Tipo Establecimiento'
+      },
+      panelClass: 'modal-lg'
+    });
+
+    modalRef.closed
+      .pipe(
+        filter(Boolean)
+      )
+      .subscribe((data) => {
+        this.infoTypeCompany.set(data);
+        this.form.patchValue({
+          IDTipoEmpresa: data.ID
         })
       });
   }
