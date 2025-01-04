@@ -54,7 +54,6 @@
           },
           "configurations": {
             "production": {
-              "deployUrl": "/inspector/",
               "optimization": true,
               "buildOptimizer": true,
               "vendorChunk": false,
