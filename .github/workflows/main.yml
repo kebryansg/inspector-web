@@ -57,9 +57,7 @@ jobs:
             docker stop web_inspect_bbf && docker rm web_inspect_bbf
             docker run -d \
               --name web_inspect_bbf \
-              -p 3000:3000 \
               --restart always \
-              --env-file .env \
               ghcr.io/kebryansg/web-inspect-bbf:latest
           EOF
 
