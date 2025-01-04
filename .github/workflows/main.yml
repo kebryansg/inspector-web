@@ -27,7 +27,7 @@ jobs:
       - name: Build application
         run: |
           npm install --no-audit
-          npx ng build --configuration production --output-path=dist --deployUrl=/inspector/
+          npx ng build --configuration production --output-path=dist --deploy-url=/inspector/
 
       - name: Login to Github Container Registry
         uses: docker/login-action@v2
