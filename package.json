@@ -7,6 +7,7 @@
     "build": "ng build",
     "build:development": "ng build --configuration production",
     "build:prod": "ng build --configuration production",
+    "build:prod:vps": "ng build --configuration production-vps",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
