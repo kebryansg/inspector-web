@@ -1,8 +1,8 @@
-import {AfterViewInit, ChangeDetectionStrategy, Component, DestroyRef, inject, OnDestroy, OnInit, signal,} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, computed, DestroyRef, inject, OnDestroy, OnInit, signal,} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {animate, style, transition, trigger} from '@angular/animations';
-import {filter, lastValueFrom, of, Subject, switchMap} from 'rxjs';
+import {filter, of, Subject, switchMap} from 'rxjs';
 import {NotificationService} from "@service-shared/notification.service";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import {ToolsService} from "../../../../../services/tools.service";
@@ -18,7 +18,6 @@ import {GroupCatalog} from "../../../../../interfaces/group-catalog.interface";
 import {MdFindGroupCategoryComponent} from "../../../../../components/md-find-group-category/md-find-group-category.component";
 import {tap} from "rxjs/operators";
 import {PopupEntidadComponent} from "../../../entidad/popup/popup.component";
-import DataSource from "devextreme/data/data_source";
 import {MfFindActivityEconomicComponent} from "../../../../../components/mf-find-activity-economic/mf-find-activity-economic.component";
 import {MfFindTypeCompanyComponent} from "../../../../../components/mf-find-type-company/mf-find-type-company.component";
 
@@ -90,21 +89,13 @@ export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
   form: FormGroup = this.buildForm();
   status$ = inject(ToolsService).status$
 
-  lsActEconomica = toSignal(
-    this.catalogoService.obtenerActividadEconomica(),
-    {initialValue: []}
-  );
-  lsTipoEmpresa = toSignal(
-    this.catalogoService.obtenerTipoEmpresa(),
-    {initialValue: []}
-  )
-
   lsTypePerm = signal<any[]>(TypePermission);
 
   datos: any;
   titleModal: string = '';
   ownerCompany = signal<any | null>(null);
   edit = signal<boolean>(false);
+  titlePage = computed(() => `${this.edit() ? 'Editar' : 'Nuevo'} establecimiento`)
   infoGroup = signal<any>({});
   infoActivityEconomic = signal<{ CIIU: string, Descripcion: string, ID: number } | null>(null);
   infoTypeCompany = signal<{ Descripcion: string, Nombre: string, ID: number } | null>(null);

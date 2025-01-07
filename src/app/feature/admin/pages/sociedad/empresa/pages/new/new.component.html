@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-md-12 d-flex flex-row flex-nowrap justify-content-between align-items-center ">
         <h5 class="font-weight-bold">
-          {{ edit() ? 'Editar' : 'Nueva' }}  Empresa
+          {{ titlePage() }}
         </h5>
         <section class="d-flex justify-content-end gap-2">
           <button type="reset" class="btn btn-danger"
@@ -73,7 +73,7 @@
 
             <app-item-control titleControl="Fecha Inicio Actividad">
               <dx-date-box formControlName="FechaInicioActividad"
-                           displayFormat="yyyy-mm-dd"
+                           displayFormat="yyyy-MM-dd"
               />
             </app-item-control>
 

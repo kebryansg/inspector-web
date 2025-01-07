@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, ViewChild} from '@angular/core';
+import {Component, inject, OnInit, signal, ViewChild} from '@angular/core';
 import {DxDataGridComponent} from 'devextreme-angular';
 import CustomStore from 'devextreme/data/custom_store';
 import {ActivatedRoute, Router} from '@angular/router';
@@ -7,9 +7,9 @@ import {isNotEmpty} from "@utils/empty.util";
 import {NotificationService} from "@service-shared/notification.service";
 import {EmpresaService} from "../services";
 import {ToolsService} from "../../../services/tools.service";
+import {TypePermission} from "./const/type-permiso.const";
 
 @Component({
-  selector: 'app-empresa',
   templateUrl: './empresa.component.html',
   styleUrls: []
 })
@@ -23,6 +23,7 @@ export class EmpresaComponent implements OnInit {
   @ViewChild(DxDataGridComponent) dataGrid!: DxDataGridComponent;
   gridDataSource: any;
   lsStatus = inject(ToolsService).status;
+  lsTypePerm = signal<any[]>(TypePermission);
 
   ngOnInit() {
     this.gridDataSource = new CustomStore({
@@ -92,7 +93,7 @@ export class EmpresaComponent implements OnInit {
         return;
       }
       this.companyService.delete(row.ID)
-        .subscribe(data => {
+        .subscribe(_data => {
           this.dataGrid.instance.refresh();
         });
     });
@@ -109,7 +110,7 @@ export class EmpresaComponent implements OnInit {
       }
 
       this.companyService.activateRegister(row.ID)
-        .subscribe(data => {
+        .subscribe(_data => {
           this.dataGrid.instance.refresh();
         });
     });

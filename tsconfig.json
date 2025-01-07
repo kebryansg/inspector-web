@@ -39,6 +39,12 @@
       "@utils-app/*": [
         "src/app/utils/*"
       ],
+      "@standalone-shared/*": [
+        "src/app/shared/components/*"
+      ],
+      "@utils/*": [
+        "src/app/shared/utils/*"
+      ],
       "jszip": [
         "node_modules/jszip/dist/jszip.min.js"
       ],

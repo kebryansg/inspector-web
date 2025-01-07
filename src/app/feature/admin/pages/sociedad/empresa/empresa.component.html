@@ -40,7 +40,13 @@
                 alignment="center"
                 cellTemplate="cellOptionsTemplate"
     />
-    <dxi-column dataField="RUC"/>
+    <dxi-column dataField="TipoPermiso"
+                alignment="center">
+      <dxo-lookup [dataSource]="lsTypePerm()"
+                  valueExpr="type"
+                  displayExpr="name"
+      />
+    </dxi-column><dxi-column dataField="RUC"/>
     <dxi-column dataField="NombreComercial"/>
     <dxi-column dataField="EntidadRazonSocial"
                 caption="Razon Social"
