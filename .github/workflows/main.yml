@@ -20,7 +20,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t ghcr.io/kebryansg/web-inspect-bbf:latest .
+          docker build --build-arg devextreme_key=${{ secrets.DEVEXTREME_TOKEN }} -t ghcr.io/kebryansg/web-inspect-bbf:latest .
           docker push ghcr.io/kebryansg/web-inspect-bbf:latest
 
   deploy-vps:

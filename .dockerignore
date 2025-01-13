@@ -1,0 +1,11 @@
+/node_modules
+.angular
+.idea
+
+.git
+.gitignore
+*.md
+bun.lockb
+package-lock.json
+.vscode
+.editorconfig

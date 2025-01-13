@@ -12,6 +12,7 @@ import config from 'devextreme/core/config';
 import {loadMessages, locale} from 'devextreme/localization';
 // @ts-ignore
 import esMessages from 'devextreme/localization/messages/es.json';
+import {licenseKey} from "../devextreme-license";
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -36,7 +37,10 @@ export const appConfig: ApplicationConfig = {
       useFactory: () => {
         loadMessages(esMessages);
         locale(navigator.language);
-        config({defaultCurrency: 'USD'});
+        config({
+          licenseKey,
+          defaultCurrency: 'USD'
+        });
       }
     }
   ]
