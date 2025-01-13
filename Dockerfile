@@ -4,7 +4,7 @@ WORKDIR /app
 ARG configuration=production
 ARG DEVEXTREME_KEY
 COPY ./ /app/
-RUN npm install
+RUN npm install --no-audit
 RUN DEVEXTREME_KEY=$DEVEXTREME_KEY node add-devextreme-license
 RUN npm run build:prod:vps
 
