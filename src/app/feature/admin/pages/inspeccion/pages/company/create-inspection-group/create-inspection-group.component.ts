@@ -17,7 +17,7 @@ import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-c
 import {InspectionService} from "../../../services/inspection.service";
 import {NotificationService} from "@service-shared/notification.service";
 import {DebounceClickDirective} from "@directives/debounce-click.directive";
-import {HttpErrorResponse} from "@angular/common/http";
+import { HttpErrorResponse } from "@angular/common/http";
 import {of} from "rxjs";
 
 @Component({

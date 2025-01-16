@@ -1,5 +1,5 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {environment} from '@environments/environment';
 import {Observable, timeout} from 'rxjs';
 import {Inspection, PaginateInspection} from '../interfaces/inspection.interface';

@@ -3,7 +3,7 @@
 import {inject, Injectable, signal} from "@angular/core";
 import {environment} from "@environments/environment";
 import {STATUS_INSPECTION} from "../const/status-inspection.const";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {Observable} from "rxjs";
 import {PaginateInspection} from "../interfaces/inspection.interface";
 

@@ -1,5 +1,5 @@
 import {inject, Injectable, signal} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {STATUS_INSPECTION} from "../const/status-inspection.const";
 import {lastValueFrom, Observable} from "rxjs";
 import {InspectionVehicle, PaginateInspectionVehicle} from "../interfaces/inspection.interface";

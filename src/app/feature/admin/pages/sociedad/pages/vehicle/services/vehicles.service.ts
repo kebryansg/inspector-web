@@ -1,5 +1,5 @@
 import {inject, Injectable} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {Paginate} from "../../../../../../../interfaces/paginate.interface";
 import {VehicleEntity, VehicleView} from "../interfaces/vehicle.interface";
 import {map} from "rxjs/operators";

@@ -1,4 +1,4 @@
-import {HttpErrorResponse, HttpHandlerFn, HttpHeaders, HttpInterceptorFn, HttpRequest} from '@angular/common/http';
+import { HttpErrorResponse, HttpHandlerFn, HttpHeaders, HttpInterceptorFn, HttpRequest } from '@angular/common/http';
 import {KeyLocalStorage} from "../../auth/enums/key-storage.enum";
 import {catchError, throwError} from "rxjs";
 import {Router} from "@angular/router";

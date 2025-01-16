@@ -1,6 +1,6 @@
 import {APP_INITIALIZER, ApplicationConfig, importProvidersFrom} from "@angular/core";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {provideHttpClient, withInterceptors} from "@angular/common/http";
+import { provideHttpClient, withInterceptors } from "@angular/common/http";
 import {TokenInterceptor} from "./feature/admin/interceptors/token.interceptor";
 import {provideRouter, withComponentInputBinding} from "@angular/router";
 import {routes} from "./app-routing";

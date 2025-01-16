@@ -2,7 +2,7 @@ import {inject, Injectable, signal} from '@angular/core';
 import {Annotation} from "../interfaces/annotation.interface";
 import {ComponentForm, ComponentView, ImageEdit, ItemCatalog} from "../interfaces/form-edit.interface";
 import {TypeInspection} from "../enums/type-inspection.enum";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {environment} from "@environments/environment";
 import {map} from "rxjs/operators";
 import {of} from "rxjs";

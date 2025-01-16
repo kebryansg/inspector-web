@@ -1,7 +1,7 @@
 import {inject, Injectable} from '@angular/core';
 import {catchError, EMPTY, map} from "rxjs";
 import {ItemNavigation, NavigationStore} from "../layouts/dashboard/navigation/navigation.interface";
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {environment} from "@environments/environment";
 import {unFlat} from "../utils/array-fn.util";
 import {Router} from "@angular/router";
