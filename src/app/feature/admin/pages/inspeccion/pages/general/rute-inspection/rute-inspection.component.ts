@@ -13,18 +13,17 @@ import {NotificationService} from "@service-shared/notification.service";
 import {BehaviorSubject} from "rxjs";
 
 @Component({
-  standalone: true,
-  imports: [
-    CardComponent,
-    DxDataGridModule,
-    DxTreeListModule,
-    AsyncPipe,
-    DxSelectBoxModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './rute-inspection.component.html',
-  styleUrl: './rute-inspection.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    imports: [
+        CardComponent,
+        DxDataGridModule,
+        DxTreeListModule,
+        AsyncPipe,
+        DxSelectBoxModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './rute-inspection.component.html',
+    styleUrl: './rute-inspection.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RuteInspectionComponent {
 

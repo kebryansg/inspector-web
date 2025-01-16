@@ -4,14 +4,13 @@ import {STATUS_INSPECTION} from "../../const/status-inspection.const";
 import {DxFormModule} from "devextreme-angular";
 
 @Component({
-  selector: 'app-item-inspection-construction',
-  standalone: true,
-  imports: [
-    DxFormModule
-  ],
-  templateUrl: './item-inspection-construction.component.html',
-  styleUrl: './item-inspection-construction.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-item-inspection-construction',
+    imports: [
+        DxFormModule
+    ],
+    templateUrl: './item-inspection-construction.component.html',
+    styleUrl: './item-inspection-construction.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemInspectionConstructionComponent {
   itemInspection = input.required<InspectionConstruction>();

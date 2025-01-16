@@ -10,17 +10,16 @@ import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 
 @Component({
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    AsyncPipe,
-    DxSelectBoxModule,
-    DxTextBoxModule,
-    DxTextErrorControlDirective,
-    DxSelectErrorControlDirective,
-  ],
-  templateUrl: './popup.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    imports: [
+        ReactiveFormsModule,
+        AsyncPipe,
+        DxSelectBoxModule,
+        DxTextBoxModule,
+        DxTextErrorControlDirective,
+        DxSelectErrorControlDirective,
+    ],
+    templateUrl: './popup.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupProvinciaComponent extends ModalTemplate implements OnInit {
 

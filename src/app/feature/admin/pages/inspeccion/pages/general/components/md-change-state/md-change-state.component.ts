@@ -11,21 +11,20 @@ import {filter} from "rxjs";
 import {DxDateErrorControlDirective} from "@directives/date-box.directive";
 
 @Component({
-  selector: 'app-md-change-state',
-  standalone: true,
-  imports: [
-    ItemControlComponent,
-    ReactiveFormsModule,
-    DxSelectBoxModule,
-    DxTextBoxModule,
-    DxSelectErrorControlDirective,
-    DxTextErrorControlDirective,
-    DxDateBoxModule,
-    DxDateErrorControlDirective,
-  ],
-  templateUrl: './md-change-state.component.html',
-  styleUrl: './md-change-state.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-md-change-state',
+    imports: [
+        ItemControlComponent,
+        ReactiveFormsModule,
+        DxSelectBoxModule,
+        DxTextBoxModule,
+        DxSelectErrorControlDirective,
+        DxTextErrorControlDirective,
+        DxDateBoxModule,
+        DxDateErrorControlDirective,
+    ],
+    templateUrl: './md-change-state.component.html',
+    styleUrl: './md-change-state.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MdChangeStateComponent extends ModalTemplate {
   private fb = inject(FormBuilder);

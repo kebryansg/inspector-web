@@ -10,9 +10,10 @@ import {UserCrudService} from "../../services/user-crud.service";
 import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: 'app-new',
-  templateUrl: './new.component.html',
-  styleUrls: []
+    selector: 'app-new',
+    templateUrl: './new.component.html',
+    styleUrls: [],
+    standalone: false
 })
 export class NewUsuarioComponent implements OnInit {
 

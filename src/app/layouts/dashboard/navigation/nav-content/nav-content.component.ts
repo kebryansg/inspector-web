@@ -9,24 +9,23 @@ import {IProfile} from "../../interfaces/profile.interface";
 import {layoutConfig} from "../../layout.config";
 
 @Component({
-  selector: 'app-nav-content',
-  standalone: true,
-  imports: [
-    RouterModule,
-    NgClass,
-    UpperCasePipe,
-    NgFor,
-    NgIf,
-    AsyncPipe,
-    // forwardRef(() => NavGroupComponent),
-    // forwardRef(() => NavCollapseComponent),
-    // forwardRef(() => NavItemComponent),
-    // NavGroupComponent,
-    NavCollapseComponent,
-    NavItemComponent,
-  ],
-  templateUrl: './nav-content.component.html',
-  styleUrls: ['./nav-content.component.scss']
+    selector: 'app-nav-content',
+    imports: [
+        RouterModule,
+        NgClass,
+        UpperCasePipe,
+        NgFor,
+        NgIf,
+        AsyncPipe,
+        // forwardRef(() => NavGroupComponent),
+        // forwardRef(() => NavCollapseComponent),
+        // forwardRef(() => NavItemComponent),
+        // NavGroupComponent,
+        NavCollapseComponent,
+        NavItemComponent,
+    ],
+    templateUrl: './nav-content.component.html',
+    styleUrls: ['./nav-content.component.scss']
 })
 export class NavContentComponent implements OnInit {
   public nextConfig: any;

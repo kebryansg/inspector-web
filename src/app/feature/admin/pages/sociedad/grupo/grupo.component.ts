@@ -10,8 +10,9 @@ import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 import {exportExcelDataGrid} from "../../../utils/export-excel.util";
 
 @Component({
-  templateUrl: './grupo.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './grupo.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class GrupoComponent implements OnInit, OnDestroy {
 

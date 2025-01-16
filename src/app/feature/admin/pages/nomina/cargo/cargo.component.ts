@@ -11,9 +11,10 @@ import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 import {exportExcelDataGrid} from "../../../utils/export-excel.util";
 
 @Component({
-  selector: 'app-cargo',
-  templateUrl: './cargo.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-cargo',
+    templateUrl: './cargo.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CargoComponent implements OnDestroy {
 

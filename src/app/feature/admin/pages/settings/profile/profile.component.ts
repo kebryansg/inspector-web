@@ -10,23 +10,20 @@ import {DxTextBoxTypes} from "devextreme-angular/ui/text-box";
 import {DxButtonTypes} from "devextreme-angular/ui/button";
 import {toSignal} from "@angular/core/rxjs-interop";
 import {Profile} from "../../../../auth/interfaces/login.interface";
-import {JsonPipe} from "@angular/common";
 
 @Component({
-  selector: 'app-profile',
-  standalone: true,
+    selector: 'app-profile',
   imports: [
     CardComponent,
     ItemControlComponent,
     DxTextBoxModule,
     ReactiveFormsModule,
     DxTextErrorControlDirective,
-    JsonPipe,
     DxFormModule,
   ],
-  templateUrl: './profile.component.html',
-  styleUrl: './profile.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './profile.component.html',
+    styleUrl: './profile.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent {
 

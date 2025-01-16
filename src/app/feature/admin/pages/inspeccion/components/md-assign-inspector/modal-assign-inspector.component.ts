@@ -8,15 +8,14 @@ import {AsyncPipe} from "@angular/common";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
-  standalone: true,
-  imports: [
-    DxSelectBoxModule,
-    DxSelectErrorControlDirective,
-    ReactiveFormsModule,
-    AsyncPipe
-  ],
-  templateUrl: './modal-assign-inspector.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    imports: [
+        DxSelectBoxModule,
+        DxSelectErrorControlDirective,
+        ReactiveFormsModule,
+        AsyncPipe
+    ],
+    templateUrl: './modal-assign-inspector.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ModalAssignInspectorComponent extends ModalTemplate implements OnInit {
 

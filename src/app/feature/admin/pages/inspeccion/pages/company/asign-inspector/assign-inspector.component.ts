@@ -12,19 +12,18 @@ import {debounceTime} from "rxjs/operators";
 import {itemsCodeApplication} from "../../../const/code-application.const";
 
 @Component({
-  standalone: true,
-  imports: [
-    CardComponent,
-    AsyncPipe,
-    DxSelectBoxModule,
-    FormsModule,
-    ReactiveFormsModule,
-    DxDataGridModule,
-    DxButtonModule,
-  ],
-  templateUrl: './assign-inspector.component.html',
-  styleUrls: ['./assign-inspector.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    imports: [
+        CardComponent,
+        AsyncPipe,
+        DxSelectBoxModule,
+        FormsModule,
+        ReactiveFormsModule,
+        DxDataGridModule,
+        DxButtonModule,
+    ],
+    templateUrl: './assign-inspector.component.html',
+    styleUrls: ['./assign-inspector.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AssignInspectorComponent {
   private readonly fb: FormBuilder = inject(FormBuilder);

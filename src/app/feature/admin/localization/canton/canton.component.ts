@@ -12,9 +12,10 @@ import {ExcelExportService} from "../../services/excel-export.service";
 import {DxDataGridTypes} from 'devextreme-angular/ui/data-grid';
 
 @Component({
-  selector: 'app-canton',
-  templateUrl: './canton.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-canton',
+    templateUrl: './canton.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CantonComponent {
 

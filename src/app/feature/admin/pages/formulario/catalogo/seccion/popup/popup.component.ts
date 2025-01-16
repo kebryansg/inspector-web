@@ -7,15 +7,14 @@ import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {AsyncPipe} from "@angular/common";
 
 @Component({
-  standalone: true,
-  templateUrl: './popup.component.html',
-  imports: [
-    ReactiveFormsModule,
-    DxTextBoxModule,
-    AsyncPipe,
-    DxSelectBoxModule
-  ],
-  styles: []
+    templateUrl: './popup.component.html',
+    imports: [
+        ReactiveFormsModule,
+        DxTextBoxModule,
+        AsyncPipe,
+        DxSelectBoxModule
+    ],
+    styles: []
 })
 export class PopupSeccionComponent extends ModalTemplate implements OnInit {
   private readonly fb: FormBuilder = inject(FormBuilder);

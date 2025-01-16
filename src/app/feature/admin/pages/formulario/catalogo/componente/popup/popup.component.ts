@@ -12,19 +12,18 @@ import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 import {CatalogFormService} from "../../../services/catalog-form.service";
 
 @Component({
-  standalone: true,
-  templateUrl: './popup.component.html',
-  imports: [
-    ReactiveFormsModule,
-    DxTextBoxModule,
-    DxSelectBoxModule,
-    AsyncPipe,
-    DxTagBoxModule,
-    DxTextErrorControlDirective,
-    DxSelectErrorControlDirective,
-    DxDataGridModule
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './popup.component.html',
+    imports: [
+        ReactiveFormsModule,
+        DxTextBoxModule,
+        DxSelectBoxModule,
+        AsyncPipe,
+        DxTagBoxModule,
+        DxTextErrorControlDirective,
+        DxSelectErrorControlDirective,
+        DxDataGridModule
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupItemComponentComponent extends ModalTemplate implements OnInit {
 

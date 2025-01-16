@@ -9,9 +9,10 @@ import {Dialog} from "@angular/cdk/dialog";
 import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: 'app-roles',
-  templateUrl: './roles.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-roles',
+    templateUrl: './roles.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class RolesComponent {
 

@@ -2,7 +2,7 @@ import {AfterViewInit, ChangeDetectionStrategy, Component, inject, OnInit} from 
 import {FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Observable, of, switchMap} from 'rxjs';
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
-import {AsyncPipe, NgClass} from "@angular/common";
+import {AsyncPipe} from "@angular/common";
 import {CatalogoService} from "../../../services/catalogo.service";
 import {ModalTemplate} from "@modal/modal-template";
 import {ToolsService} from "../../../services/tools.service";
@@ -13,18 +13,16 @@ import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 
 @Component({
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     DxSelectBoxModule,
     AsyncPipe,
-    NgClass,
     DxTextBoxModule,
     DxTextErrorControlDirective,
     DxSelectErrorControlDirective
   ],
-  templateUrl: './popup.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './popup.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupSectorComponent extends ModalTemplate implements OnInit, AfterViewInit {
 

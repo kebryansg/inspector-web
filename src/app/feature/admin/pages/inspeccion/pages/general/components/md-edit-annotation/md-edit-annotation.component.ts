@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {ModalTemplate} from "@modal/modal-template";
 import {DxDateBoxModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
-import {DxDateErrorControlDirective} from "@directives/date-box.directive";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
@@ -9,11 +8,9 @@ import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {TAnnotation} from "../../../../interfaces/annotation.interface";
 
 @Component({
-  selector: 'app-md-edit-annotation',
-  standalone: true,
+    selector: 'app-md-edit-annotation',
   imports: [
     DxDateBoxModule,
-    DxDateErrorControlDirective,
     DxSelectBoxModule,
     DxSelectErrorControlDirective,
     DxTextBoxModule,
@@ -21,9 +18,9 @@ import {TAnnotation} from "../../../../interfaces/annotation.interface";
     ItemControlComponent,
     ReactiveFormsModule
   ],
-  templateUrl: './md-edit-annotation.component.html',
-  styleUrl: './md-edit-annotation.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './md-edit-annotation.component.html',
+    styleUrl: './md-edit-annotation.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MdEditAnnotationComponent extends ModalTemplate implements OnInit {
 

@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input as inputRoute, signal} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxCheckBoxModule, DxFormModule, DxMapModule, DxSelectBoxModule, DxTabsModule, DxTextBoxModule} from "devextreme-angular";
-import {DecimalPipe, JsonPipe, KeyValuePipe, NgOptimizedImage, PathLocationStrategy} from "@angular/common";
+import {PathLocationStrategy} from "@angular/common";
 import {formatDate} from "devextreme/localization";
 import {NotificationService} from "@service-shared/notification.service";
 import {FileSaverService} from "ngx-filesaver";
@@ -53,35 +53,30 @@ const labelBtnDownload: any = {
 }
 
 @Component({
-  standalone: true,
   imports: [
     CardComponent,
     DxFormModule,
     DxCheckBoxModule,
-    KeyValuePipe,
-    JsonPipe,
-    DecimalPipe,
     DxTabsModule,
     DebounceClickDirective,
     DxMapModule,
     ItemInspectionCommercialComponent,
     ItemInspectionVehicleComponent,
     ItemInspectionConstructionComponent,
-    NgOptimizedImage,
     ItemControlComponent,
     DxTextBoxModule,
     ReactiveFormsModule,
     DxSelectBoxModule,
   ],
-  templateUrl: './view-result.component.html',
-  styleUrl: './view-result.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: InspectionBaseService,
-      useFactory: injectServiceInspection,
-    }
-  ],
+    templateUrl: './view-result.component.html',
+    styleUrl: './view-result.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: InspectionBaseService,
+            useFactory: injectServiceInspection,
+        }
+    ]
 })
 export class ViewResultComponent {
 

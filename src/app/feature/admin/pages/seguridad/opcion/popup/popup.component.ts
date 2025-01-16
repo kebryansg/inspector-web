@@ -10,23 +10,21 @@ import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 
 @Component({
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    AsyncPipe,
-    NgIf,
-    DxSelectBoxModule,
-    DxDropDownBoxModule,
-    DxTreeViewModule,
-    DxTextBoxModule,
-
-    DxTextErrorControlDirective,
-    DxSelectErrorControlDirective,
-    ItemControlComponent
-  ],
-  templateUrl: './popup.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: [`
+    imports: [
+        ReactiveFormsModule,
+        AsyncPipe,
+        NgIf,
+        DxSelectBoxModule,
+        DxDropDownBoxModule,
+        DxTreeViewModule,
+        DxTextBoxModule,
+        DxTextErrorControlDirective,
+        DxSelectErrorControlDirective,
+        ItemControlComponent
+    ],
+    templateUrl: './popup.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: [`
     .custom-item {
       position: relative;
       min-height: 30px;

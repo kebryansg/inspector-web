@@ -10,16 +10,15 @@ import {Profile} from "../../../../feature/auth/interfaces/login.interface";
 import {LoginService} from "../../../../services/login.service";
 
 @Component({
-  selector: 'app-header',
-  standalone: true,
-  imports: [
-    CommonModule,
-    OverlayModule,
-    CdkMenuModule
-  ],
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-header',
+    imports: [
+        CommonModule,
+        OverlayModule,
+        CdkMenuModule
+    ],
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
 

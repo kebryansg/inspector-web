@@ -1,22 +1,18 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input, OnInit, Output, signal} from '@angular/core';
 import {DxButtonModule, DxNumberBoxModule, DxTagBoxModule} from "devextreme-angular";
-import {AsyncPipe, JsonPipe} from "@angular/common";
 import {toObservable} from "@angular/core/rxjs-interop";
 import {FormEditService} from "../../../../services/form-edit.service";
 
 @Component({
-  selector: 'app-item-catalog-component',
-  standalone: true,
+    selector: 'app-item-catalog-component',
   imports: [
     DxTagBoxModule,
     DxNumberBoxModule,
-    AsyncPipe,
     DxButtonModule,
-    JsonPipe,
   ],
-  templateUrl: './item-catalog-component.component.html',
-  styleUrls: ['./item-catalog-component.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './item-catalog-component.component.html',
+    styleUrls: ['./item-catalog-component.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemCatalogComponentComponent implements OnInit {
 

@@ -6,18 +6,17 @@ import {toSignal} from "@angular/core/rxjs-interop";
 import {ActividadEconomicaService} from "../../pages/sociedad/services";
 
 @Component({
-  selector: 'app-mf-find-activity-economic',
-  standalone: true,
-  imports: [
-    DxDataGridModule,
-    DxiColumnModule,
-    DxoPagerModule,
-    DxoPagingModule,
-    DxoSelectionModule
-  ],
-  templateUrl: './mf-find-activity-economic.component.html',
-  styleUrl: './mf-find-activity-economic.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-mf-find-activity-economic',
+    imports: [
+        DxDataGridModule,
+        DxiColumnModule,
+        DxoPagerModule,
+        DxoPagingModule,
+        DxoSelectionModule
+    ],
+    templateUrl: './mf-find-activity-economic.component.html',
+    styleUrl: './mf-find-activity-economic.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MfFindActivityEconomicComponent extends ModalTemplate implements OnInit {
 

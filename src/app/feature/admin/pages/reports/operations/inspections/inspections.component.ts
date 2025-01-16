@@ -20,19 +20,18 @@ import {Dialog} from "@angular/cdk/dialog";
 import {MdNamingReportComponent} from "../../components/md-naming-report/md-naming-report.component";
 
 @Component({
-  standalone: true,
-  imports: [
-    CardComponent,
-    ItemControlComponent,
-    DxDateBoxModule,
-    DxPivotGridModule,
-    DxTabPanelModule,
-    DxTabsModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './inspections.component.html',
-  styleUrl: './inspections.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    imports: [
+        CardComponent,
+        ItemControlComponent,
+        DxDateBoxModule,
+        DxPivotGridModule,
+        DxTabPanelModule,
+        DxTabsModule,
+        ReactiveFormsModule
+    ],
+    templateUrl: './inspections.component.html',
+    styleUrl: './inspections.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InspectionsComponent implements OnInit {
 

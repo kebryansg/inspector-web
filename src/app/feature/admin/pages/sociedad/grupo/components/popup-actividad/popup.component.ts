@@ -4,25 +4,22 @@ import {ModalTemplate} from "@modal/modal-template";
 import {Observable} from "rxjs";
 import {ToolsService} from "../../../../../services/tools.service";
 import {DxCheckBoxModule, DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
-import {AsyncPipe, NgClass} from "@angular/common";
+import {AsyncPipe} from "@angular/common";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
-  standalone: true,
   imports: [
     AsyncPipe,
-    NgClass,
     ReactiveFormsModule,
     DxTextBoxModule,
     DxSelectBoxModule,
-
     DxTextErrorControlDirective,
     DxSelectErrorControlDirective,
     DxCheckBoxModule
   ],
-  templateUrl: './popup.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './popup.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupGrupoActividadComponent extends ModalTemplate implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);

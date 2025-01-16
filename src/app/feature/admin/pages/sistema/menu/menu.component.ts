@@ -7,8 +7,9 @@ import {RolService} from "../services/rol.service";
 import {MenuCrudService} from "../services/menu-crud.service";
 
 @Component({
-  selector: 'app-menu',
-  templateUrl: './menu.component.html',
+    selector: 'app-menu',
+    templateUrl: './menu.component.html',
+    standalone: false
 })
 export class MenuComponent implements OnInit, OnDestroy {
   @ViewChild('dxTreeData') treeList!: DxTreeListComponent;

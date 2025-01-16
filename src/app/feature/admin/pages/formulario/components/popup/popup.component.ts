@@ -12,19 +12,18 @@ import {toSignal} from "@angular/core/rxjs-interop";
 import {map} from "rxjs/operators";
 
 @Component({
-  standalone: true,
-  templateUrl: './popup.component.html',
-  imports: [
-    DxTextBoxModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AsyncPipe,
-    NgClass,
-    DxSelectBoxModule,
-    DxCheckBoxModule,
-    ItemControlComponent,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './popup.component.html',
+    imports: [
+        DxTextBoxModule,
+        FormsModule,
+        ReactiveFormsModule,
+        AsyncPipe,
+        NgClass,
+        DxSelectBoxModule,
+        DxCheckBoxModule,
+        ItemControlComponent,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupFormularioComponent extends ModalTemplate implements OnInit {
   private readonly fb: FormBuilder = inject(FormBuilder);

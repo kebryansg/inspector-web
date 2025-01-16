@@ -9,16 +9,15 @@ import {filter, switchMap} from "rxjs";
 import {map} from "rxjs/operators";
 
 @Component({
-  selector: 'app-item-component-catalog',
-  standalone: true,
-  imports: [
-    DxTagBoxModule,
-    DxNumberBoxModule,
-    AsyncPipe
-  ],
-  templateUrl: './item-component-catalog.component.html',
-  styleUrl: './item-component-catalog.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-item-component-catalog',
+    imports: [
+        DxTagBoxModule,
+        DxNumberBoxModule,
+        AsyncPipe
+    ],
+    templateUrl: './item-component-catalog.component.html',
+    styleUrl: './item-component-catalog.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemComponentCatalogComponent {
 

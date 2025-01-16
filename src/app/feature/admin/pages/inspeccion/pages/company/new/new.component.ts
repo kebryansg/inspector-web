@@ -26,24 +26,23 @@ import {MdFindEntityComponent} from "../../../../../components/md-find-entity/md
 import {Dialog} from "@angular/cdk/dialog";
 
 @Component({
-  standalone: true,
-  templateUrl: './new.component.html',
-  styleUrls: ['./new.component.css',],
-  imports: [
-    CardComponent,
-    DxDropDownBoxModule,
-    DxDataGridModule,
-    DxFormModule,
-    ReactiveFormsModule,
-    DxSelectBoxModule,
-    DxTextAreaModule,
-    DxSelectErrorControlDirective,
-    AsyncPipe,
-    DxDateBoxModule,
-    RouterLink,
-    DxButtonModule
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './new.component.html',
+    styleUrls: ['./new.component.css',],
+    imports: [
+        CardComponent,
+        DxDropDownBoxModule,
+        DxDataGridModule,
+        DxFormModule,
+        ReactiveFormsModule,
+        DxSelectBoxModule,
+        DxTextAreaModule,
+        DxSelectErrorControlDirective,
+        AsyncPipe,
+        DxDateBoxModule,
+        RouterLink,
+        DxButtonModule
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewInspeccionComponent {
 

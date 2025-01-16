@@ -10,9 +10,10 @@ import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 import {exportExcelDataGrid} from "../../../utils/export-excel.util";
 
 @Component({
-  selector: 'app-tipo-empresa',
-  templateUrl: './tipo-empresa.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-tipo-empresa',
+    templateUrl: './tipo-empresa.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class TipoEmpresaComponent implements OnInit, OnDestroy {
 

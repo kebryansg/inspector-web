@@ -2,7 +2,7 @@ import {animate, keyframes, style, transition, trigger} from '@angular/animation
 import {ChangeDetectionStrategy, Component, EventEmitter, inject, OnInit, Output} from '@angular/core';
 import {Router, RouterLink, RouterLinkActive} from '@angular/router';
 import {fadeInOut, INavbarData} from './helper';
-import {NgClass, NgFor, NgIf, TitleCasePipe} from "@angular/common";
+import {NgClass, NgIf, TitleCasePipe} from "@angular/common";
 import {SublevelMenuComponent} from "./sublevel-menu.component";
 import {MenuService} from "../../../../services/menu.service";
 import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
@@ -16,25 +16,22 @@ interface SideNavToggle {
 }
 
 @Component({
-  selector: 'app-sidenav',
-  standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NgClass, RouterLink, RouterLinkActive, NgIf, NgFor, SublevelMenuComponent, TitleCasePipe],
-  templateUrl: './sidenav.component.html',
-  styleUrls: ['./sidenav.component.scss'],
-  animations: [
-    fadeInOut,
-    trigger('rotate', [
-      transition(':enter', [
-        animate('1000ms',
-          keyframes([
-            style({transform: 'rotate(0deg)', offset: '0'}),
-            style({transform: 'rotate(2turn)', offset: '1'})
-          ])
-        )
-      ])
-    ])
-  ]
+    selector: 'app-sidenav',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [NgClass, RouterLink, RouterLinkActive, NgIf, SublevelMenuComponent, TitleCasePipe],
+    templateUrl: './sidenav.component.html',
+    styleUrls: ['./sidenav.component.scss'],
+    animations: [
+        fadeInOut,
+        trigger('rotate', [
+            transition(':enter', [
+                animate('1000ms', keyframes([
+                    style({ transform: 'rotate(0deg)', offset: '0' }),
+                    style({ transform: 'rotate(2turn)', offset: '1' })
+                ]))
+            ])
+        ])
+    ]
 })
 export class SidenavComponent implements OnInit {
   public router: Router = inject(Router);

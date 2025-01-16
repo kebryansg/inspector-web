@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component, computed, inject, signal} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxButtonModule, DxDataGridModule, DxSelectBoxModule} from "devextreme-angular";
-import {AsyncPipe} from "@angular/common";
 import {Router} from "@angular/router";
 import {TypeInspection} from "../../../enums/type-inspection.enum";
 import {catchError, of, Subject} from "rxjs";
@@ -15,18 +14,16 @@ import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-c
 import {toObservableSignal} from "ngxtension/to-observable-signal";
 
 @Component({
-  standalone: true,
   imports: [
     CardComponent,
     DxDataGridModule,
-    AsyncPipe,
     DxButtonModule,
     DxSelectBoxModule,
     ItemControlComponent
   ],
-  templateUrl: './pending-review-approval.component.html',
-  styleUrl: './pending-review-approval.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './pending-review-approval.component.html',
+    styleUrl: './pending-review-approval.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PendingReviewApprovalComponent {
 

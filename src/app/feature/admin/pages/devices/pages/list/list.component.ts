@@ -11,16 +11,15 @@ import {DevicesService} from "../../services/devices.service";
 import {Device} from "../../interfaces/device.interface";
 
 @Component({
-  selector: 'app-list',
-  standalone: true,
-  imports: [
-    DxDataGridModule,
-    CardComponent,
-    DxButtonModule,
-  ],
-  templateUrl: './list.component.html',
-  styleUrl: './list.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-list',
+    imports: [
+        DxDataGridModule,
+        CardComponent,
+        DxButtonModule,
+    ],
+    templateUrl: './list.component.html',
+    styleUrl: './list.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListDevicesComponent implements OnDestroy {
 

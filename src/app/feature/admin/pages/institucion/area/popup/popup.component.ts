@@ -5,19 +5,17 @@ import {ModalTemplate} from "@modal/modal-template";
 import {ToolsService} from "../../../../services/tools.service";
 import {CatalogoService} from "../../../../services/catalogo.service";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
-import {AsyncPipe, NgClass} from "@angular/common";
+import {AsyncPipe} from "@angular/common";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
-  standalone: true,
-  templateUrl: './popup.component.html',
+    templateUrl: './popup.component.html',
   imports: [
     ReactiveFormsModule,
     DxSelectBoxModule,
     DxTextBoxModule,
     AsyncPipe,
-    NgClass,
     DxTextErrorControlDirective,
     DxSelectErrorControlDirective
   ]

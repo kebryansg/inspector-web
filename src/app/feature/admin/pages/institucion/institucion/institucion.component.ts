@@ -3,9 +3,10 @@ import {InstitutionService} from "../services/institution.service";
 import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: 'app-institucion',
-  templateUrl: './institucion.component.html',
-  styleUrls: [],
+    selector: 'app-institucion',
+    templateUrl: './institucion.component.html',
+    styleUrls: [],
+    standalone: false
 })
 export class InstitucionComponent {
 

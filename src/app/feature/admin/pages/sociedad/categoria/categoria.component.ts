@@ -11,9 +11,10 @@ import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 import {exportExcelDataGrid} from "../../../utils/export-excel.util";
 
 @Component({
-  selector: 'app-categoria',
-  templateUrl: './categoria.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-categoria',
+    templateUrl: './categoria.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CategoriaComponent {
   private categoryService: CategoriaService<any> = inject(CategoriaService);

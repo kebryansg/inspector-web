@@ -10,12 +10,11 @@ import {NotificationService} from "@service-shared/notification.service";
 import {Router} from "@angular/router";
 
 @Component({
-  selector: 'app-index',
-  standalone: true,
-  imports: [CommonModule, SidenavComponent, BodyComponent, HeaderComponent],
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-index',
+    imports: [CommonModule, SidenavComponent, BodyComponent, HeaderComponent],
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardLiteComponent implements OnInit {
 

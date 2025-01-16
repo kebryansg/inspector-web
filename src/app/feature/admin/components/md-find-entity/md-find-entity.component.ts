@@ -8,13 +8,12 @@ import {headersParams} from "../../../../shared/utils/data-grid.util";
 import {isNotEmpty} from "../../../../shared/utils/empty.util";
 
 @Component({
-  templateUrl: './md-find-entity.component.html',
-  standalone: true,
-  styleUrls: [],
-  imports: [
-    DxDataGridModule
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './md-find-entity.component.html',
+    styleUrls: [],
+    imports: [
+        DxDataGridModule
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MdFindEntityComponent extends ModalTemplate implements OnInit {
 

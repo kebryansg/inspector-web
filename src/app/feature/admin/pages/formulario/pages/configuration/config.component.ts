@@ -18,20 +18,19 @@ import {PreviewConfigComponent} from "./components/preview-config/preview-config
 import {DxSwitchModule} from "devextreme-angular";
 
 @Component({
-  selector: 'app-config',
-  standalone: true,
-  imports: [
-    CdkDropList, CdkDrag,
-    CardComponent,
-    DetailsFormComponent,
-    ItemSectionComponent,
-    ItemComponentComponent, DxSwitchModule,
-  ],
-  templateUrl: './config.component.html',
-  styleUrls: ['./config.component.scss',],
-  providers: [
-    ConfigFormService
-  ]
+    selector: 'app-config',
+    imports: [
+        CdkDropList, CdkDrag,
+        CardComponent,
+        DetailsFormComponent,
+        ItemSectionComponent,
+        ItemComponentComponent, DxSwitchModule,
+    ],
+    templateUrl: './config.component.html',
+    styleUrls: ['./config.component.scss',],
+    providers: [
+        ConfigFormService
+    ]
 })
 export class ConfigFormularioComponent implements OnInit, OnDestroy {
 

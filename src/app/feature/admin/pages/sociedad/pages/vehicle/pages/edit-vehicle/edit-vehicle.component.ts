@@ -5,11 +5,9 @@ import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angula
 import {DxButtonModule, DxFormModule, DxSelectBoxModule, DxTextAreaModule, DxTextBoxModule} from "devextreme-angular";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {CatalogVehicleService} from "../../services/catalog-vechicle";
-import {AsyncPipe, JsonPipe} from "@angular/common";
+import {AsyncPipe} from "@angular/common";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 import {Dialog} from "@angular/cdk/dialog";
-import {toSignal} from "@angular/core/rxjs-interop";
-import {ActividadTarifario, CategoriaGrupo, GrupoTarifario} from "../../../../interfaces";
 import {CatalogoService} from "../../../../../../services/catalogo.service";
 import {shareReplay} from "rxjs/operators";
 import {filter} from "rxjs";
@@ -21,29 +19,24 @@ import {MdFindGroupCategoryComponent} from "../../../../../../components/md-find
 import {GroupCatalog} from "../../../../../../interfaces/group-catalog.interface";
 
 @Component({
-  selector: 'app-edit-vehicle',
-  standalone: true,
+    selector: 'app-edit-vehicle',
   imports: [
     CardComponent,
     ItemControlComponent,
-
     ReactiveFormsModule,
     FormsModule,
     DxTextBoxModule,
     DxSelectBoxModule,
     DxTextAreaModule,
-
     DxTextErrorControlDirective,
     DxSelectErrorControlDirective,
     AsyncPipe,
-    JsonPipe,
     DxFormModule,
     DxButtonModule,
-
   ],
-  templateUrl: './edit-vehicle.component.html',
-  styleUrl: './edit-vehicle.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './edit-vehicle.component.html',
+    styleUrl: './edit-vehicle.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditVehicleComponent implements OnInit {
   router = inject(Router)

@@ -14,23 +14,22 @@ import {AsyncPipe} from "@angular/common";
 import {shareReplay} from "rxjs/operators";
 
 @Component({
-  selector: 'app-list-vehicles',
-  standalone: true,
-  imports: [
-    CardComponent,
-    DxButtonModule,
-    DxDataGridModule,
-    DxTemplateModule,
-    DxiColumnModule,
-    DxoLookupModule,
-    DxoPagerModule,
-    DxoPagingModule,
-    DxoRemoteOperationsModule,
-    AsyncPipe
-  ],
-  templateUrl: './list-vehicles.component.html',
-  styleUrl: './list-vehicles.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-list-vehicles',
+    imports: [
+        CardComponent,
+        DxButtonModule,
+        DxDataGridModule,
+        DxTemplateModule,
+        DxiColumnModule,
+        DxoLookupModule,
+        DxoPagerModule,
+        DxoPagingModule,
+        DxoRemoteOperationsModule,
+        AsyncPipe
+    ],
+    templateUrl: './list-vehicles.component.html',
+    styleUrl: './list-vehicles.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListVehiclesComponent implements OnInit {
 

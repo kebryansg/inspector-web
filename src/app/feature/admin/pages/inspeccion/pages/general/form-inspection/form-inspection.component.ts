@@ -12,7 +12,7 @@ import {
   DxTextBoxModule
 } from "devextreme-angular";
 import {ImageEdit, TabForm, TabFormEdit} from "../../../interfaces/form-edit.interface";
-import {JsonPipe, NgTemplateOutlet, TitleCasePipe} from "@angular/common";
+import {NgTemplateOutlet, TitleCasePipe} from "@angular/common";
 import {FormEditService} from "../../../services/form-edit.service";
 import {OnExit} from "../../../guards/inspection-form.can-deactivate.guard";
 import {NotificationService} from "@service-shared/notification.service";
@@ -32,9 +32,6 @@ import {InspectionResultService} from "../../../services/inspection-result.servi
 import {KeyLocalStorage} from "../../../../../../auth/enums/key-storage.enum";
 import {tap} from "rxjs/operators";
 import {environment} from "@environments/environment";
-import {
-  ItemComponentCatalogComponent
-} from "../../../../formulario/pages/configuration/components/item-component-catalog/item-component-catalog.component";
 import {ItemCatalogComponentComponent} from "../components/item-catalog-component/item-catalog-component.component";
 
 
@@ -62,8 +59,7 @@ const TabsWithIconAndText: TabFormEdit[] = [
 ]
 
 @Component({
-  selector: 'app-form-inspection',
-  standalone: true,
+    selector: 'app-form-inspection',
   imports: [
     CardComponent,
     DxTabsModule,
@@ -74,26 +70,23 @@ const TabsWithIconAndText: TabFormEdit[] = [
     DxNumberBoxModule,
     DxSelectBoxModule,
     DxTextBoxModule,
-    //ItemComponentCatalogComponent,
     TitleCasePipe,
-    JsonPipe,
     NgTemplateOutlet,
     ItemInspectionCommercialComponent,
     ItemInspectionConstructionComponent,
     ItemInspectionVehicleComponent,
     DebounceClickDirective,
-    ItemComponentCatalogComponent,
     ItemCatalogComponentComponent
   ],
-  templateUrl: './form-inspection.component.html',
-  styleUrl: './form-inspection.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: InspectionBaseService,
-      useFactory: injectServiceInspection,
-    }
-  ],
+    templateUrl: './form-inspection.component.html',
+    styleUrl: './form-inspection.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: InspectionBaseService,
+            useFactory: injectServiceInspection,
+        }
+    ]
 })
 export class FormInspectionComponent implements OnExit, OnInit {
 

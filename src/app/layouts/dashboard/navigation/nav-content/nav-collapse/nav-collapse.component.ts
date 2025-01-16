@@ -8,31 +8,29 @@ import {NavGroupComponent} from "../nav-group/nav-group.component";
 import {NavItemComponent} from "../nav-item/nav-item.component";
 
 @Component({
-  selector: 'app-nav-collapse',
-  standalone: true,
-  imports: [
-    RouterModule,
-    NgIf,
-    NgClass,
-    NgForOf,
-    NgTemplateOutlet,
-    // NavGroupComponent,
-    NavItemComponent,
-
-  ],
-  templateUrl: './nav-collapse.component.html',
-  styleUrls: ['./nav-collapse.component.scss'],
-  animations: [
-    trigger('slideInOut', [
-      transition(':enter', [
-        style({transform: 'translateY(-100%)', display: 'block'}),
-        animate('250ms ease-in', style({transform: 'translateY(0%)'}))
-      ]),
-      transition(':leave', [
-        animate('250ms ease-in', style({transform: 'translateY(-100%)'}))
-      ])
-    ])
-  ],
+    selector: 'app-nav-collapse',
+    imports: [
+        RouterModule,
+        NgIf,
+        NgClass,
+        NgForOf,
+        NgTemplateOutlet,
+        // NavGroupComponent,
+        NavItemComponent,
+    ],
+    templateUrl: './nav-collapse.component.html',
+    styleUrls: ['./nav-collapse.component.scss'],
+    animations: [
+        trigger('slideInOut', [
+            transition(':enter', [
+                style({ transform: 'translateY(-100%)', display: 'block' }),
+                animate('250ms ease-in', style({ transform: 'translateY(0%)' }))
+            ]),
+            transition(':leave', [
+                animate('250ms ease-in', style({ transform: 'translateY(-100%)' }))
+            ])
+        ])
+    ]
 })
 export class NavCollapseComponent implements OnInit {
   public visible;

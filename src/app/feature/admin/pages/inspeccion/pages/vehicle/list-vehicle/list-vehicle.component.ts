@@ -23,26 +23,25 @@ import {TypeFile} from "../../../enums/type-file.const";
 import {AttachmentService} from "../../../services/attachment.service";
 
 @Component({
-  selector: 'app-list-vehicle',
-  standalone: true,
-  imports: [
-    ActionsInspectionPipe,
-    AsyncPipe,
-    CardComponent,
-    DxDataGridModule,
-    DxDropDownButtonModule,
-    DxTemplateModule,
-    DxiColumnModule,
-    DxoLookupModule,
-    DxoPagerModule,
-    DxoPagingModule,
-    DxoRemoteOperationsModule,
-    StatusPipe,
-    NgClass
-  ],
-  templateUrl: './list-vehicle.component.html',
-  styleUrl: './list-vehicle.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-list-vehicle',
+    imports: [
+        ActionsInspectionPipe,
+        AsyncPipe,
+        CardComponent,
+        DxDataGridModule,
+        DxDropDownButtonModule,
+        DxTemplateModule,
+        DxiColumnModule,
+        DxoLookupModule,
+        DxoPagerModule,
+        DxoPagingModule,
+        DxoRemoteOperationsModule,
+        StatusPipe,
+        NgClass
+    ],
+    templateUrl: './list-vehicle.component.html',
+    styleUrl: './list-vehicle.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListVehicleComponent implements OnInit {
 

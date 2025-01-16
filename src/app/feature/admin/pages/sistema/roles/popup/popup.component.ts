@@ -7,17 +7,16 @@ import {ToolsService} from "../../../../services/tools.service";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 
 @Component({
-  standalone: true,
-  imports: [
-    ReactiveFormsModule,
-    AsyncPipe,
-    NgClass,
-    DxSelectBoxModule,
-    DxTextBoxModule,
-    ItemControlComponent,
-    DxCheckBoxModule
-  ],
-  templateUrl: './popup.component.html',
+    imports: [
+        ReactiveFormsModule,
+        AsyncPipe,
+        NgClass,
+        DxSelectBoxModule,
+        DxTextBoxModule,
+        ItemControlComponent,
+        DxCheckBoxModule
+    ],
+    templateUrl: './popup.component.html'
 })
 export class PopupRolComponent extends ModalTemplate implements OnInit {
   private fb: FormBuilder = inject(FormBuilder);

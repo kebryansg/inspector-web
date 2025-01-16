@@ -13,8 +13,9 @@ import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 
 @Component({
-  templateUrl: './entidad.component.html',
-  styleUrls: []
+    templateUrl: './entidad.component.html',
+    styleUrls: [],
+    standalone: false
 })
 export class EntidadComponent implements OnInit, OnDestroy {
 

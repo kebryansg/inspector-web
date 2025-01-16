@@ -4,25 +4,22 @@ import {DxButtonModule, DxSwitchModule} from "devextreme-angular";
 import {CdkAccordionModule} from '@angular/cdk/accordion';
 import {filter} from "rxjs";
 import {Dialog} from "@angular/cdk/dialog";
-import {ItemComponentComponent} from "../item-component/item-component.component";
 import {ISeccion} from "../../interfaces/config.interfaces";
 import {ConfigFormService} from "../../services/config-form.service";
 import {PopupItemComponentComponent} from "../../../../catalogo/componente/popup/popup.component";
 import {PopupSeccionComponent} from "../../../../catalogo/seccion/popup/popup.component";
 
 @Component({
-  selector: 'app-item-section',
-  standalone: true,
+    selector: 'app-item-section',
   imports: [
     TitleCasePipe,
     DxButtonModule,
-    ItemComponentComponent,
     DxSwitchModule,
     CdkAccordionModule
   ],
-  templateUrl: './item-section.component.html',
-  styleUrls: ['./item-section.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './item-section.component.html',
+    styleUrls: ['./item-section.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemSectionComponent {
   private modalService: Dialog = inject(Dialog);

@@ -17,24 +17,23 @@ import {toSignal} from "@angular/core/rxjs-interop";
 import {CatalogPreviewService} from "../../services/catalog-form.service";
 
 @Component({
-  standalone: true,
-  imports: [
-    DxAccordionModule,
-    TitleCasePipe,
-    DxSelectBoxModule,
-    DxNumberBoxModule,
-    DxTextBoxModule,
-    DxCheckBoxModule,
-    DxTagBoxModule,
-    ItemComponentCatalogComponent,
-    DxScrollViewModule,
-    DxButtonModule,
-  ],
-  providers: [CatalogPreviewService],
-  templateUrl: './preview-config.component.html',
-  styleUrl: './preview-config.component.scss',
-  encapsulation: ViewEncapsulation.None,
-  changeDetection: ChangeDetectionStrategy.OnPush
+    imports: [
+        DxAccordionModule,
+        TitleCasePipe,
+        DxSelectBoxModule,
+        DxNumberBoxModule,
+        DxTextBoxModule,
+        DxCheckBoxModule,
+        DxTagBoxModule,
+        ItemComponentCatalogComponent,
+        DxScrollViewModule,
+        DxButtonModule,
+    ],
+    providers: [CatalogPreviewService],
+    templateUrl: './preview-config.component.html',
+    styleUrl: './preview-config.component.scss',
+    encapsulation: ViewEncapsulation.None,
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PreviewConfigComponent extends ModalTemplate implements OnInit {
 

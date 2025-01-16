@@ -12,9 +12,10 @@ import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 import {ExcelExportService} from "../../services/excel-export.service";
 
 @Component({
-  selector: 'app-provincia',
-  templateUrl: './provincia.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-provincia',
+    templateUrl: './provincia.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class ProvinciaComponent {
 

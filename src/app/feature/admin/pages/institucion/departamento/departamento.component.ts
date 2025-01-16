@@ -9,9 +9,10 @@ import {DepartamentoService} from "../services/departamento.service";
 import {PopupDepartamentoComponent} from "./popup/popup.component";
 
 @Component({
-  selector: 'app-departamento',
-  templateUrl: './departamento.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-departamento',
+    templateUrl: './departamento.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class DepartamentoComponent implements OnDestroy {
 

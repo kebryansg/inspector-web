@@ -12,9 +12,10 @@ import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 import {ExcelExportService} from "../../services/excel-export.service";
 
 @Component({
-  selector: 'app-parroquia',
-  templateUrl: './parroquia.component.html',
-  styleUrls: []
+    selector: 'app-parroquia',
+    templateUrl: './parroquia.component.html',
+    styleUrls: [],
+    standalone: false
 })
 export class ParroquiaComponent {
 

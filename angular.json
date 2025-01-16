@@ -21,11 +21,12 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser-esbuild",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/inspector-web-frontend",
+            "outputPath": {
+              "base": "dist/inspector-web-frontend"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
             "allowedCommonJsDependencies": [
               "devextreme",
               "devextreme-angular",
@@ -50,13 +51,17 @@
               "node_modules/devextreme/dist/css/dx.carmine.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "stylePreprocessorOptions": {
+              "sass": {
+                "silenceDeprecations": ["color-functions", "global-builtin", "import", "mixed-decls"]
+              }
+            },
+            "scripts": [],
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
               "optimization": true,
-              "buildOptimizer": true,
-              "vendorChunk": false,
               "namedChunks": false,
               "extractLicenses": true,
               "fileReplacements": [
@@ -81,10 +86,8 @@
             },
             "production-vps": {
               "optimization": true,
-              "buildOptimizer": true,
               "deployUrl": "/inspector/",
               "baseHref": "/inspector/",
-              "vendorChunk": false,
               "namedChunks": false,
               "extractLicenses": true,
               "fileReplacements": [
@@ -108,9 +111,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": true,
               "sourceMap": true,
               "namedChunks": true

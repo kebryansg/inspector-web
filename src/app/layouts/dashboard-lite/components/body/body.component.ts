@@ -4,14 +4,13 @@ import {NgClass} from "@angular/common";
 import {SideNavService} from "../../services/side-nav.service";
 
 @Component({
-  selector: 'app-body',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    NgClass
-  ],
-  templateUrl: './body.component.html',
-  styleUrls: ['./body.component.scss']
+    selector: 'app-body',
+    imports: [
+        RouterOutlet,
+        NgClass
+    ],
+    templateUrl: './body.component.html',
+    styleUrls: ['./body.component.scss']
 })
 export class BodyComponent {
   private readonly sideNavService: SideNavService = inject(SideNavService);

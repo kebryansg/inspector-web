@@ -7,12 +7,11 @@ import {NotificationService} from "@service-shared/notification.service";
 import {LoginService} from "../../../../services/login.service";
 
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
-  imports: [RouterModule, NgClass, DxDropDownButtonModule],
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-navbar',
+    imports: [RouterModule, NgClass, DxDropDownButtonModule],
+    templateUrl: './navbar.component.html',
+    styleUrls: ['./navbar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
   private readonly router: Router = inject(Router);

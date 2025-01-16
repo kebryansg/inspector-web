@@ -12,9 +12,10 @@ import {ExcelExportService} from "../../services/excel-export.service";
 import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 
 @Component({
-  selector: 'app-sector',
-  templateUrl: './sector.component.html',
-  styleUrls: []
+    selector: 'app-sector',
+    templateUrl: './sector.component.html',
+    styleUrls: [],
+    standalone: false
 })
 export class SectorComponent {
 

@@ -9,9 +9,10 @@ import {of, switchMap} from "rxjs";
 import {map} from "rxjs/operators";
 
 @Component({
-  templateUrl: './asign.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: []
+    templateUrl: './asign.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrls: [],
+    standalone: false
 })
 export class AssignFormComponent implements OnInit {
 

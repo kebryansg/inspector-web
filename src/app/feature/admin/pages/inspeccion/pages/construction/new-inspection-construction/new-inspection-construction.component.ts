@@ -28,27 +28,26 @@ import {ItemLocationCoordinateComponent} from "../../../../../components/item-lo
 import {NotificationService} from "@service-shared/notification.service";
 
 @Component({
-  selector: 'app-new-inspection-construction',
-  standalone: true,
-  imports: [
-    CardComponent,
-    DxButtonModule,
-    DxFormModule,
-    ReactiveFormsModule,
-    RouterLink,
-    ItemControlComponent,
-    DxTextBoxModule,
-    DxTextErrorControlDirective,
-    DxMapModule,
-    DxNumberBoxModule,
-    DxTextAreaModule,
-    DxSelectBoxModule,
-    DxSelectErrorControlDirective,
-    ItemLocationCoordinateComponent,
-  ],
-  templateUrl: './new-inspection-construction.component.html',
-  styleUrl: './new-inspection-construction.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-new-inspection-construction',
+    imports: [
+        CardComponent,
+        DxButtonModule,
+        DxFormModule,
+        ReactiveFormsModule,
+        RouterLink,
+        ItemControlComponent,
+        DxTextBoxModule,
+        DxTextErrorControlDirective,
+        DxMapModule,
+        DxNumberBoxModule,
+        DxTextAreaModule,
+        DxSelectBoxModule,
+        DxSelectErrorControlDirective,
+        ItemLocationCoordinateComponent,
+    ],
+    templateUrl: './new-inspection-construction.component.html',
+    styleUrl: './new-inspection-construction.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewInspectionConstructionComponent {
 

@@ -10,12 +10,10 @@ import {
   DxoRemoteOperationsModule,
   DxoSelectionModule
 } from "devextreme-angular/ui/nested";
-import {AsyncPipe} from "@angular/common";
 import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: 'app-md-find-group-category',
-  standalone: true,
+    selector: 'app-md-find-group-category',
   imports: [
     DxDataGridModule,
     DxiColumnModule,
@@ -23,12 +21,11 @@ import {toSignal} from "@angular/core/rxjs-interop";
     DxoPagerModule,
     DxoPagingModule,
     DxoRemoteOperationsModule,
-    DxoSelectionModule,
-    AsyncPipe
+    DxoSelectionModule
   ],
-  templateUrl: './md-find-group-category.component.html',
-  styleUrl: './md-find-group-category.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './md-find-group-category.component.html',
+    styleUrl: './md-find-group-category.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MdFindGroupCategoryComponent extends ModalTemplate implements OnInit {
 

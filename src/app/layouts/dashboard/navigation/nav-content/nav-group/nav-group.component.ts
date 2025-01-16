@@ -6,16 +6,15 @@ import {NavCollapseComponent} from "../nav-collapse/nav-collapse.component";
 import {NavItemComponent} from "../nav-item/nav-item.component";
 
 @Component({
-  selector: 'app-nav-group',
-  standalone: true,
-  imports: [
-    NgIf,
-    NgFor,
-    NavCollapseComponent,
-    NavItemComponent
-  ],
-  templateUrl: './nav-group.component.html',
-  styleUrls: ['./nav-group.component.scss']
+    selector: 'app-nav-group',
+    imports: [
+        NgIf,
+        NgFor,
+        NavCollapseComponent,
+        NavItemComponent
+    ],
+    templateUrl: './nav-group.component.html',
+    styleUrls: ['./nav-group.component.scss']
 })
 export class NavGroupComponent implements OnInit {
   @Input() item!: NavigationItem;

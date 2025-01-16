@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {DxFormModule, DxLoadPanelModule} from "devextreme-angular";
-import {DatePipe, NgIf, NgOptimizedImage} from "@angular/common";
+import {DatePipe, NgOptimizedImage} from "@angular/common";
 import {FormsModule} from "@angular/forms";
 import {debounceTime, map, Subject, switchMap} from "rxjs";
 import {LoginService} from "../../../services/login.service";
@@ -10,19 +10,17 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {AppToolService} from "../../admin/services/app.service";
 
 @Component({
-  selector: 'app-login',
-  standalone: true,
+    selector: 'app-login',
   imports: [
     FormsModule,
-    NgIf,
     DxFormModule,
     NgOptimizedImage,
     DatePipe,
     DxLoadPanelModule
   ],
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './login.component.html',
+    styleUrls: ['./login.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent implements OnInit {
 

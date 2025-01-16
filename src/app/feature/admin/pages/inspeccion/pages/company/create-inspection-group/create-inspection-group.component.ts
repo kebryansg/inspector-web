@@ -11,24 +11,21 @@ import {CatalogoService} from "../../../../../services/catalogo.service";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
 import {map, switchMap} from "rxjs/operators";
-import {IcofontComponent} from "@standalone-shared/icofont/icofont.component";
 import {AsyncPipe} from "@angular/common";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 import {InspectionService} from "../../../services/inspection.service";
 import {NotificationService} from "@service-shared/notification.service";
 import {DebounceClickDirective} from "@directives/debounce-click.directive";
-import { HttpErrorResponse } from "@angular/common/http";
+import {HttpErrorResponse} from "@angular/common/http";
 import {of} from "rxjs";
 
 @Component({
-  standalone: true,
   imports: [
     CardComponent,
     DxButtonModule,
     DxDataGridModule,
     DxSelectBoxModule,
     ReactiveFormsModule,
-    IcofontComponent,
     AsyncPipe,
     ItemControlComponent,
     DxDateBoxModule,
@@ -36,9 +33,9 @@ import {of} from "rxjs";
     DebounceClickDirective,
     DxTextBoxModule,
   ],
-  templateUrl: './create-inspection-group.component.html',
-  styleUrl: './create-inspection-group.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './create-inspection-group.component.html',
+    styleUrl: './create-inspection-group.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateInspectionGroupComponent implements OnInit {
 

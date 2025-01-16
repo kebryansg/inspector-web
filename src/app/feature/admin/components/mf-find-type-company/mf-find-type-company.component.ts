@@ -6,18 +6,17 @@ import {DxDataGridComponent, DxDataGridModule} from "devextreme-angular";
 import {DxiColumnModule, DxoPagerModule, DxoPagingModule, DxoSelectionModule} from "devextreme-angular/ui/nested";
 
 @Component({
-  selector: 'app-mf-find-type-company',
-  standalone: true,
-  imports: [
-    DxDataGridModule,
-    DxiColumnModule,
-    DxoPagerModule,
-    DxoPagingModule,
-    DxoSelectionModule
-  ],
-  templateUrl: './mf-find-type-company.component.html',
-  styleUrl: './mf-find-type-company.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-mf-find-type-company',
+    imports: [
+        DxDataGridModule,
+        DxiColumnModule,
+        DxoPagerModule,
+        DxoPagingModule,
+        DxoSelectionModule
+    ],
+    templateUrl: './mf-find-type-company.component.html',
+    styleUrl: './mf-find-type-company.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MfFindTypeCompanyComponent extends ModalTemplate implements OnInit {
 

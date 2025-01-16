@@ -4,24 +4,22 @@ import {Observable} from 'rxjs';
 import {CatalogoService} from "../../../services/catalogo.service";
 import {ToolsService} from "../../../services/tools.service";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
-import {AsyncPipe, NgClass} from "@angular/common";
+import {AsyncPipe} from "@angular/common";
 import {ModalTemplate} from "@modal/modal-template";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
-  standalone: true,
   imports: [
     ReactiveFormsModule,
     DxSelectBoxModule,
     AsyncPipe,
-    NgClass,
     DxTextBoxModule,
     DxTextErrorControlDirective,
     DxSelectErrorControlDirective
   ],
-  templateUrl: './popup.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './popup.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupCantonComponent extends ModalTemplate implements OnInit {
 

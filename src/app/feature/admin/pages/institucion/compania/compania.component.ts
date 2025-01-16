@@ -9,9 +9,10 @@ import {toSignal} from "@angular/core/rxjs-interop";
 import {ToolsService} from "../../../services/tools.service";
 
 @Component({
-  selector: 'app-compania',
-  templateUrl: './compania.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-compania',
+    templateUrl: './compania.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CompaniaComponent implements OnDestroy {
 

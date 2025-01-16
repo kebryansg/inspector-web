@@ -51,22 +51,23 @@ const longTabs: {
 ]
 
 @Component({
-  selector: 'app-new',
-  templateUrl: './new.component.html',
-  styles: [],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [
-    trigger('fadeInOutTranslate', [
-      transition(':enter', [
-        style({opacity: 0}),
-        animate('400ms ease-in-out', style({opacity: 1}))
-      ]),
-      transition(':leave', [
-        style({transform: 'translate(0)'}),
-        animate('400ms ease-in-out', style({opacity: 0}))
-      ])
-    ])
-  ]
+    selector: 'app-new',
+    templateUrl: './new.component.html',
+    styles: [],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    animations: [
+        trigger('fadeInOutTranslate', [
+            transition(':enter', [
+                style({ opacity: 0 }),
+                animate('400ms ease-in-out', style({ opacity: 1 }))
+            ]),
+            transition(':leave', [
+                style({ transform: 'translate(0)' }),
+                animate('400ms ease-in-out', style({ opacity: 0 }))
+            ])
+        ])
+    ],
+    standalone: false
 })
 export class NewEmpresaComponent implements OnInit, AfterViewInit, OnDestroy {
 

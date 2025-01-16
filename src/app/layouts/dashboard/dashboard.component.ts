@@ -5,16 +5,15 @@ import {NgClass} from "@angular/common";
 import {NavbarComponent} from "./components/navbar/navbar.component";
 
 @Component({
-  selector: 'app-dashboard',
-  standalone: true,
-  imports: [
-    RouterOutlet,
-    NavigationComponent,
-    NgClass,
-    NavbarComponent,
-  ],
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+    selector: 'app-dashboard',
+    imports: [
+        RouterOutlet,
+        NavigationComponent,
+        NgClass,
+        NavbarComponent,
+    ],
+    templateUrl: './dashboard.component.html',
+    styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
   public navCollapsed: boolean = false;

@@ -4,14 +4,13 @@ import {STATUS_INSPECTION} from "../../const/status-inspection.const";
 import {DxFormModule} from "devextreme-angular";
 
 @Component({
-  selector: 'app-item-inspection-vehicle',
-  standalone: true,
-  imports: [
-    DxFormModule
-  ],
-  templateUrl: './item-inspection-vehicle.component.html',
-  styleUrl: './item-inspection-vehicle.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-item-inspection-vehicle',
+    imports: [
+        DxFormModule
+    ],
+    templateUrl: './item-inspection-vehicle.component.html',
+    styleUrl: './item-inspection-vehicle.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemInspectionVehicleComponent {
   itemInspection = input.required<InspectionVehicle>();

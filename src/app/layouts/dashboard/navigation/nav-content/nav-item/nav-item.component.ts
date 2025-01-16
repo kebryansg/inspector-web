@@ -5,17 +5,16 @@ import {layoutConfig} from "../../../layout.config";
 import {RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
-  selector: 'app-nav-item',
-  standalone: true,
-  imports: [
-    NgClass,
-    NgIf,
-    RouterLink,
-    NgTemplateOutlet,
-    RouterLinkActive,
-  ],
-  templateUrl: './nav-item.component.html',
-  styleUrls: ['./nav-item.component.scss']
+    selector: 'app-nav-item',
+    imports: [
+        NgClass,
+        NgIf,
+        RouterLink,
+        NgTemplateOutlet,
+        RouterLinkActive,
+    ],
+    templateUrl: './nav-item.component.html',
+    styleUrls: ['./nav-item.component.scss']
 })
 export class NavItemComponent implements OnInit {
   @Input() item!: NavigationItem;

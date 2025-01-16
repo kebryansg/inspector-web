@@ -2,12 +2,11 @@ import {Component, ViewEncapsulation} from '@angular/core';
 import {CdkDialogContainer, DialogModule} from "@angular/cdk/dialog";
 
 @Component({
-  selector: 'app-modal-container',
-  standalone: true,
-  imports: [DialogModule],
-  templateUrl: './modal-container.component.html',
-  styleUrls: ['./modal-container.component.scss'],
-  encapsulation: ViewEncapsulation.None
+    selector: 'app-modal-container',
+    imports: [DialogModule],
+    templateUrl: './modal-container.component.html',
+    styleUrls: ['./modal-container.component.scss'],
+    encapsulation: ViewEncapsulation.None
 })
 export class ModalContainerComponent extends CdkDialogContainer {
 

@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, signal, ViewChild} from '@angular/core';
 import {ActionsInspectionPipe} from "../../../pipes/actions-inspection.pipe";
-import {AsyncPipe, NgClass} from "@angular/common";
+import {NgClass} from "@angular/common";
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxDataGridComponent, DxDataGridModule, DxDropDownButtonModule, DxTemplateModule} from "devextreme-angular";
 import {DxiColumnModule, DxoLookupModule, DxoPagerModule, DxoPagingModule, DxoRemoteOperationsModule} from "devextreme-angular/ui/nested";
@@ -24,10 +24,8 @@ import {FileSaverService} from "ngx-filesaver";
 import {AttachmentService} from "../../../services/attachment.service";
 
 @Component({
-  standalone: true,
   imports: [
     ActionsInspectionPipe,
-    AsyncPipe,
     CardComponent,
     DxDataGridModule,
     DxDropDownButtonModule,
@@ -40,9 +38,9 @@ import {AttachmentService} from "../../../services/attachment.service";
     StatusPipe,
     NgClass
   ],
-  templateUrl: './list-construction.component.html',
-  styleUrl: './list-construction.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './list-construction.component.html',
+    styleUrl: './list-construction.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListConstructionComponent implements OnInit {
 

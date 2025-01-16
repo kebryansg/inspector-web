@@ -1,5 +1,4 @@
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
-import {NgTemplateOutlet} from '@angular/common';
 import {DxButtonModule, DxSwitchModule, DxTagBoxModule} from "devextreme-angular";
 import {IComponente} from "../../interfaces/config.interfaces";
 import {ConfigFormService} from "../../services/config-form.service";
@@ -8,17 +7,15 @@ import {Dialog} from "@angular/cdk/dialog";
 import {PopupItemComponentComponent} from "../../../../catalogo/componente/popup/popup.component";
 
 @Component({
-  selector: 'app-item-component',
-  standalone: true,
+    selector: 'app-item-component',
   imports: [
-    NgTemplateOutlet,
     DxTagBoxModule,
     DxButtonModule,
     DxSwitchModule
   ],
-  templateUrl: './item-component.component.html',
-  styleUrls: ['./item-component.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './item-component.component.html',
+    styleUrls: ['./item-component.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemComponentComponent {
   private modalService: Dialog = inject(Dialog);

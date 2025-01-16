@@ -10,9 +10,10 @@ import {ModuloApiService} from "../services/modulo-api.service";
 import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: 'app-opcion',
-  templateUrl: './opcion.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-opcion',
+    templateUrl: './opcion.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class OpcionComponent implements OnInit {
   @ViewChild('dxTreeData') treeList!: DxTreeListComponent;

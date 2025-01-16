@@ -11,17 +11,16 @@ import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
-  standalone: true,
-  templateUrl: './popup.component.html',
-  imports: [
-    ReactiveFormsModule,
-    AsyncPipe,
-    DxTextBoxModule,
-    DxSelectBoxModule,
-    DxTextErrorControlDirective,
-    DxSelectErrorControlDirective,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './popup.component.html',
+    imports: [
+        ReactiveFormsModule,
+        AsyncPipe,
+        DxTextBoxModule,
+        DxSelectBoxModule,
+        DxTextErrorControlDirective,
+        DxSelectErrorControlDirective,
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupColaboradorComponent extends ModalTemplate implements OnInit, AfterViewInit {
 

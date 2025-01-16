@@ -10,8 +10,9 @@ import {ToolsService} from "../../../services/tools.service";
 import {TypePermission} from "./const/type-permiso.const";
 
 @Component({
-  templateUrl: './empresa.component.html',
-  styleUrls: []
+    templateUrl: './empresa.component.html',
+    styleUrls: [],
+    standalone: false
 })
 export class EmpresaComponent implements OnInit {
 

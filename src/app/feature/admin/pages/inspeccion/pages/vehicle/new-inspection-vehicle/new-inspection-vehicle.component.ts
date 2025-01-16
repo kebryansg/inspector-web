@@ -23,25 +23,24 @@ import {toSignal} from "@angular/core/rxjs-interop";
 import {InspectionVehicleService} from "../../../services/inspection-vehicle.service";
 
 @Component({
-  selector: 'app-new-inspection-vehicle',
-  standalone: true,
-  imports: [
-    CardComponent,
-    DxDropDownBoxModule,
-    DxDataGridModule,
-    DxSelectBoxModule,
-    DxTextAreaModule,
-    DxSelectErrorControlDirective,
-    DxFormModule,
-    ReactiveFormsModule,
-    AsyncPipe,
-    DxDateBoxModule,
-    RouterLink,
-    DxButtonModule,
-  ],
-  templateUrl: './new-inspection-vehicle.component.html',
-  styleUrl: './new-inspection-vehicle.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-new-inspection-vehicle',
+    imports: [
+        CardComponent,
+        DxDropDownBoxModule,
+        DxDataGridModule,
+        DxSelectBoxModule,
+        DxTextAreaModule,
+        DxSelectErrorControlDirective,
+        DxFormModule,
+        ReactiveFormsModule,
+        AsyncPipe,
+        DxDateBoxModule,
+        RouterLink,
+        DxButtonModule,
+    ],
+    templateUrl: './new-inspection-vehicle.component.html',
+    styleUrl: './new-inspection-vehicle.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NewInspectionVehicleComponent implements OnInit {
 

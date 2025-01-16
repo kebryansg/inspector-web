@@ -4,12 +4,13 @@ import {MenuCrudService} from "../../services/menu-crud.service";
 import {Observable} from "rxjs";
 
 @Component({
-  selector: 'app-new',
-  templateUrl: './new.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: [
-    './new.component.scss',
-  ]
+    selector: 'app-new',
+    templateUrl: './new.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styleUrls: [
+        './new.component.scss',
+    ],
+    standalone: false
 })
 export class NewRolComponent {
 

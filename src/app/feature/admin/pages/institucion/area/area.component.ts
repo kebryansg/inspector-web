@@ -10,9 +10,10 @@ import {toSignal} from "@angular/core/rxjs-interop";
 import {PopupAreaComponent} from "./popup/popup.component";
 
 @Component({
-  selector: 'app-area',
-  templateUrl: './area.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'app-area',
+    templateUrl: './area.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class AreaComponent implements OnDestroy {
 

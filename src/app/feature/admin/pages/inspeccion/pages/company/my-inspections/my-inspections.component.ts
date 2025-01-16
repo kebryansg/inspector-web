@@ -1,8 +1,6 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, ViewChild} from '@angular/core';
 import {CardComponent} from "../../../../../../../shared/components/card/card.component";
-import {AsyncPipe} from "@angular/common";
 import {DxDataGridComponent, DxDataGridModule} from "devextreme-angular";
-import {InspectionService} from "../../../services/inspection.service";
 import {lastValueFrom, Observable} from "rxjs";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import DataSource from "devextreme/data/data_source";
@@ -12,16 +10,14 @@ import {debounceTime, map} from "rxjs/operators";
 import {MyInspectionService} from "../../../services/my-inspection.service";
 
 @Component({
-  selector: 'app-my-inspections',
-  standalone: true,
+    selector: 'app-my-inspections',
   imports: [
     CardComponent,
-    AsyncPipe,
     DxDataGridModule,
   ],
-  templateUrl: './my-inspections.component.html',
-  styleUrl: './my-inspections.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './my-inspections.component.html',
+    styleUrl: './my-inspections.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MyInspectionsComponent implements OnInit {
 

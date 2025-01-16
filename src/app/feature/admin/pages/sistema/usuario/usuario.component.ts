@@ -8,9 +8,10 @@ import {ToolsService} from "../../../services/tools.service";
 import {toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: 'app-usuario',
-  templateUrl: './usuario.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-usuario',
+    templateUrl: './usuario.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class UsuarioComponent {
 

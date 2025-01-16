@@ -5,25 +5,23 @@ import {ModalTemplate} from "@modal/modal-template";
 import {CatalogoService} from "../../../services/catalogo.service";
 import {ToolsService} from "../../../services/tools.service";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
-import {AsyncPipe, NgClass} from "@angular/common";
+import {AsyncPipe} from "@angular/common";
 import {tap} from "rxjs/operators";
 import {isEmpty} from "@utils/empty.util";
 import {DxTextErrorControlDirective} from "@directives/text-box.directive";
 import {DxSelectErrorControlDirective} from "@directives/select-box.directive";
 
 @Component({
-  standalone: true,
-  templateUrl: './popup.component.html',
+    templateUrl: './popup.component.html',
   imports: [
     ReactiveFormsModule,
     DxTextBoxModule,
     DxSelectBoxModule,
-    NgClass,
     AsyncPipe,
     DxTextErrorControlDirective,
     DxSelectErrorControlDirective
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupParroquiaComponent extends ModalTemplate implements OnInit, AfterViewInit {
 

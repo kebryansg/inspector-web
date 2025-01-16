@@ -3,15 +3,14 @@ import {DxTextBoxModule} from "devextreme-angular";
 import {ItemControlComponent} from "@standalone-shared/forms/item-control/item-control.component";
 
 @Component({
-  selector: 'app-item-location-coordinate',
-  standalone: true,
-  imports: [
-    DxTextBoxModule,
-    ItemControlComponent
-  ],
-  templateUrl: './item-location-coordinate.component.html',
-  styleUrl: './item-location-coordinate.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-item-location-coordinate',
+    imports: [
+        DxTextBoxModule,
+        ItemControlComponent
+    ],
+    templateUrl: './item-location-coordinate.component.html',
+    styleUrl: './item-location-coordinate.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ItemLocationCoordinateComponent {
 

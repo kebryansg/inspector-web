@@ -12,9 +12,10 @@ import {DxDataGridTypes} from "devextreme-angular/ui/data-grid";
 import {exportExcelDataGrid} from "../../../utils/export-excel.util";
 
 @Component({
-  selector: 'app-colaborador',
-  templateUrl: './colaborador.component.html',
-  styleUrls: []
+    selector: 'app-colaborador',
+    templateUrl: './colaborador.component.html',
+    styleUrls: [],
+    standalone: false
 })
 export class ColaboradorComponent {
 

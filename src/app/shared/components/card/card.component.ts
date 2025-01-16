@@ -3,44 +3,39 @@ import {animate, AUTO_STYLE, state, style, transition, trigger} from '@angular/a
 import {NgClass, NgIf, NgTemplateOutlet} from "@angular/common";
 
 @Component({
-  selector: 'app-card',
-  standalone: true,
-  imports: [
-    NgIf,
-    NgClass,
-    NgTemplateOutlet
-  ],
-  templateUrl: './card.component.html',
-  styleUrls: ['./card.component.scss'],
-  animations: [
-    trigger('collapsedCard', [
-      state('collapsed, void',
-        style({
-          overflow: 'hidden',
-          height: '0px',
-        })
-      ),
-      state('expanded',
-        style({
-          overflow: 'hidden',
-          height: AUTO_STYLE,
-        })
-      ),
-      transition('collapsed <=> expanded', [
-        animate('400ms ease-in-out')
-      ])
-    ]),
-    trigger('cardRemove', [
-      state('open', style({
-        opacity: 1
-      })),
-      state('closed', style({
-        opacity: 0,
-        display: 'none'
-      })),
-      transition('open <=> closed', animate('400ms')),
-    ])
-  ]
+    selector: 'app-card',
+    imports: [
+        NgIf,
+        NgClass,
+        NgTemplateOutlet
+    ],
+    templateUrl: './card.component.html',
+    styleUrls: ['./card.component.scss'],
+    animations: [
+        trigger('collapsedCard', [
+            state('collapsed, void', style({
+                overflow: 'hidden',
+                height: '0px',
+            })),
+            state('expanded', style({
+                overflow: 'hidden',
+                height: AUTO_STYLE,
+            })),
+            transition('collapsed <=> expanded', [
+                animate('400ms ease-in-out')
+            ])
+        ]),
+        trigger('cardRemove', [
+            state('open', style({
+                opacity: 1
+            })),
+            state('closed', style({
+                opacity: 0,
+                display: 'none'
+            })),
+            transition('open <=> closed', animate('400ms')),
+        ])
+    ]
 })
 
 export class CardComponent implements OnInit {

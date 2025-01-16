@@ -9,8 +9,9 @@ import {NotificationService} from "@service-shared/notification.service";
 import {FormService} from "../../services/form.service";
 
 @Component({
-  templateUrl: './lista-formulario.component.html',
-  styleUrls: []
+    templateUrl: './lista-formulario.component.html',
+    styleUrls: [],
+    standalone: false
 })
 export class ListaFormularioComponent implements OnDestroy {
   private formService: FormService = inject(FormService);

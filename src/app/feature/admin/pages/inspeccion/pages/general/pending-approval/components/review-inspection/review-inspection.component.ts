@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, computed, inject, input} from '@angular/core';
 import {CardComponent} from "@standalone-shared/card/card.component";
 import {InspectionService} from "../../../../../services/inspection.service";
-import {JsonPipe, KeyValuePipe} from "@angular/common";
+import {KeyValuePipe} from "@angular/common";
 import {DxFormModule} from "devextreme-angular";
 import {InspectionResultService} from "../../../../../services/inspection-result.service";
 import {groupBy} from "@utils-app/array-fn.util";
@@ -9,16 +9,14 @@ import {Router} from "@angular/router";
 import {derivedAsync} from "ngxtension/derived-async";
 
 @Component({
-  standalone: true,
   imports: [
     CardComponent,
-    JsonPipe,
     DxFormModule,
     KeyValuePipe
   ],
-  templateUrl: './review-inspection.component.html',
-  styleUrl: './review-inspection.component.scss',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './review-inspection.component.html',
+    styleUrl: './review-inspection.component.scss',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReviewInspectionComponent {
   private inspectionService = inject(InspectionService);

@@ -9,10 +9,11 @@ import {CatalogoService} from "../../../services/catalogo.service";
 import {takeUntilDestroyed, toSignal} from "@angular/core/rxjs-interop";
 
 @Component({
-  selector: 'app-opcion-rol',
-  templateUrl: './opcion-rol.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  styles: []
+    selector: 'app-opcion-rol',
+    templateUrl: './opcion-rol.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    styles: [],
+    standalone: false
 })
 export class OpcionRolComponent implements OnInit, OnDestroy {
   @ViewChild('dxTreeData') treeList!: DxTreeListComponent;

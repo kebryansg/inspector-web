@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, signal} from '@angular/core';
 import {AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {ModalTemplate} from "@modal/modal-template";
-import {AsyncPipe, JsonPipe, NgClass, NgIf} from "@angular/common";
+import {AsyncPipe, NgClass} from "@angular/common";
 import {DxSelectBoxModule, DxTextBoxModule} from "devextreme-angular";
 import {Observable, of} from "rxjs";
 import {ToolsService} from "../../../../services/tools.service";
@@ -14,21 +14,18 @@ import {takeUntilDestroyed} from "@angular/core/rxjs-interop";
 import {EntidadService} from "../../services";
 
 @Component({
-  standalone: true,
   imports: [
     AsyncPipe,
     NgClass,
     ReactiveFormsModule,
     DxSelectBoxModule,
     DxTextBoxModule,
-    NgIf,
     DxSelectErrorControlDirective,
     DxTextErrorControlDirective,
     ItemControlComponent,
-    JsonPipe,
   ],
-  templateUrl: './popup.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './popup.component.html',
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PopupEntidadComponent extends ModalTemplate implements OnInit {
 

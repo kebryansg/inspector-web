@@ -6,11 +6,10 @@ import {DxScrollViewModule} from "devextreme-angular";
 
 
 @Component({
-  selector: 'app-navigation',
-  standalone: true,
-  imports: [NgClass, NavContentComponent, DxScrollViewModule],
-  templateUrl: './navigation.component.html',
-  styleUrls: ['./navigation.component.scss']
+    selector: 'app-navigation',
+    imports: [NgClass, NavContentComponent, DxScrollViewModule],
+    templateUrl: './navigation.component.html',
+    styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
   public windowWidth: number;

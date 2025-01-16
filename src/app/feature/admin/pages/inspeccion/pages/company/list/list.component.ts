@@ -34,18 +34,17 @@ type action = 'download' | 'send_result' | 'view_result' | 'delete' | 'assign_in
 
 
 @Component({
-  standalone: true,
-  templateUrl: './list.component.html',
-  imports: [
-    CardComponent,
-    DxDataGridModule,
-    DxDropDownButtonModule,
-    ActionsInspectionPipe,
-    AsyncPipe,
-    StatusPipe,
-    NgClass
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    templateUrl: './list.component.html',
+    imports: [
+        CardComponent,
+        DxDataGridModule,
+        DxDropDownButtonModule,
+        ActionsInspectionPipe,
+        AsyncPipe,
+        StatusPipe,
+        NgClass
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListComponent implements OnInit {
 
