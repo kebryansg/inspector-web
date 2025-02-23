@@ -5,7 +5,7 @@ ARG configuration=production
 ARG DEVEXTREME_KEY
 COPY ./ /app/
 RUN npm install --no-audit
-# RUN DEVEXTREME_KEY=$DEVEXTREME_KEY node add-devextreme-license
+RUN DEVEXTREME_KEY=$DEVEXTREME_KEY node add-devextreme-license
 RUN npm run build:prod:vps
 
 # Stage 1, based on Nginx, to have only the compiled app, ready for production with Nginx
