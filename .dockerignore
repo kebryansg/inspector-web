@@ -1,6 +1,7 @@
 /node_modules
 .angular
 .idea
+/dist
 
 .git
 .gitignore
@@ -9,3 +10,5 @@ bun.lockb
 package-lock.json
 .vscode
 .editorconfig
+Dockerfile
+README.md
