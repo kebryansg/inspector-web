@@ -9,10 +9,11 @@ RUN npm install -g pnpm
 FROM base AS dependencies
 WORKDIR /app
 COPY package.json /app
-RUN pnpm install
+RUN pnpm install --no-audit
 
 FROM dependencies AS builder
 WORKDIR /app
+ARG DEVEXTREME_KEY
 COPY . /app
 RUN DEVEXTREME_KEY=$DEVEXTREME_KEY node add-devextreme-license
 RUN pnpm run build:prod:vps
