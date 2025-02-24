@@ -9,7 +9,7 @@ RUN npm install -g pnpm
 FROM base AS dependencies
 WORKDIR /app
 COPY package.json /app
-RUN pnpm install --no-audit
+RUN pnpm install --no-lockfile
 
 FROM dependencies AS builder
 WORKDIR /app
