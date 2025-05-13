@@ -86,7 +86,20 @@
                                             [itemCatalog]="getDataByCode(_component.Atributo['code'])"
                 />
               }
-
+              @case (8) {
+                <div class="dx-field dx-field-top-label">
+                  <div class="dx-field-label">
+                    {{ _component.Descripcion }}
+                  </div>
+                  <div class="dx-field-value">
+                    <dx-date-box [width]="'100%'"
+                                 type="date"
+                                 displayFormat="yyyy-MM-dd"
+                                 [inputAttr]="{ 'aria-label': 'Date' }"
+                    />
+                  </div>
+                </div>
+              }
             }
           }
         }

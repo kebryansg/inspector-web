@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject, OnInit, signal, ViewEncapsul
 import {ModalTemplate} from "@modal/modal-template";
 import {
   DxAccordionModule, DxButtonModule,
-  DxCheckBoxModule,
+  DxCheckBoxModule, DxDateBoxModule,
   DxNumberBoxModule,
   DxScrollViewModule,
   DxSelectBoxModule,
@@ -17,18 +17,19 @@ import {toSignal} from "@angular/core/rxjs-interop";
 import {CatalogPreviewService} from "../../services/catalog-form.service";
 
 @Component({
-    imports: [
-        DxAccordionModule,
-        TitleCasePipe,
-        DxSelectBoxModule,
-        DxNumberBoxModule,
-        DxTextBoxModule,
-        DxCheckBoxModule,
-        DxTagBoxModule,
-        ItemComponentCatalogComponent,
-        DxScrollViewModule,
-        DxButtonModule,
-    ],
+  imports: [
+    DxAccordionModule,
+    TitleCasePipe,
+    DxSelectBoxModule,
+    DxNumberBoxModule,
+    DxTextBoxModule,
+    DxCheckBoxModule,
+    DxTagBoxModule,
+    ItemComponentCatalogComponent,
+    DxScrollViewModule,
+    DxButtonModule,
+    DxDateBoxModule,
+  ],
     providers: [CatalogPreviewService],
     templateUrl: './preview-config.component.html',
     styleUrl: './preview-config.component.scss',
