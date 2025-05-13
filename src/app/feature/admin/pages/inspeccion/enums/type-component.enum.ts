@@ -2,8 +2,9 @@ export enum TypeComponentEnum {
   Qualitative = 'QUA',
   Quantitative = 'QUN',
   Catalog = 'CAT',
+  Decision = "DEC",
   Text = 'TEX',
-  Date = 'DAT',
+  Date = 'DTE',
 }
 
-export type TypeComponent = 'QUA' | 'QUN' | 'CAT' | 'TEX' | 'DAT';
+export type TypeComponent = 'QUA' | 'QUN' | 'CAT' | 'TEX' | 'DTE' | 'DEC';

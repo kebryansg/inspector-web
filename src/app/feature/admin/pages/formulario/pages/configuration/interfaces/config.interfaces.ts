@@ -1,3 +1,5 @@
+import {TypeComponent} from "../../../../inspeccion/enums/type-component.enum";
+
 export interface ISeccion {
   ID: number;
   Descripcion: string;
@@ -32,6 +34,7 @@ export interface ITipoComponente {
   Valor: Array<AtributoClass | number> | null;
   Format: null | string;
   Estado: 'ACT';
+  Code: TypeComponent;
   Configuracion: number;
 }
 
