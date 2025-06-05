@@ -20,8 +20,9 @@ RUN pnpm run build:prod:vps
 
 # Stage 3: Use the Nginx image to serve the built Angular application
 FROM nginx:alpine-slim
-COPY --from=builder /app/dist/inspector-web-frontend/browser /usr/share/nginx/html/inspector
-COPY --from=builder /app/dist/inspector-web-frontend/browser/index.html /usr/share/nginx/html/index.html
+COPY --from=builder /app/dist/inspector-web-frontend/browser /usr/share/nginx/html
+#COPY --from=builder /app/dist/inspector-web-frontend/browser /usr/share/nginx/html/inspector
+#COPY --from=builder /app/dist/inspector-web-frontend/browser/index.html /usr/share/nginx/html/index.html
 COPY ./nginx-custom.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

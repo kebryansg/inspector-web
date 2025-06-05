@@ -88,8 +88,6 @@
             },
             "production-vps": {
               "optimization": true,
-              "deployUrl": "/inspector/",
-              "baseHref": "/inspector/",
               "namedChunks": false,
               "extractLicenses": true,
               "fileReplacements": [
