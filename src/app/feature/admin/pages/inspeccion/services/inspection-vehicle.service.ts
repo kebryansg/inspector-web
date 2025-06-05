@@ -25,6 +25,12 @@ export class InspectionVehicleService implements InspectionServiceBase<Inspectio
     return this.httpClient.post<boolean>(this.urlBase, body, {params});
   }
 
+  assigmentInspector(idInspection: number, idInspector: number): Promise<boolean> {
+    return lastValueFrom(
+      this.httpClient.put<boolean>(this.urlBase + '/assign-inspector', {idInspection, idInspector})
+    );
+  }
+
   getFilesAttachment(id: number): Observable<{
     id: string,
     path: string,

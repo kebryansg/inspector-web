@@ -1,11 +1,10 @@
 import {ChangeDetectionStrategy, Component, inject, OnInit, ViewChild} from '@angular/core';
-import {CardComponent} from "../../../../../../../shared/components/card/card.component";
+import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxDataGridComponent, DxDataGridModule} from "devextreme-angular";
-import {lastValueFrom, Observable} from "rxjs";
-import {CatalogoService} from "../../../../../services/catalogo.service";
+import {lastValueFrom} from "rxjs";
 import DataSource from "devextreme/data/data_source";
-import {headersParams} from "../../../../../../../shared/utils/data-grid.util";
-import {isNotEmpty} from "../../../../../../../shared/utils/empty.util";
+import {headersParams} from "@utils/data-grid.util";
+import {isNotEmpty} from "@utils/empty.util";
 import {debounceTime, map} from "rxjs/operators";
 import {MyInspectionService} from "../../../services/my-inspection.service";
 
@@ -25,7 +24,6 @@ export class MyInspectionsComponent implements OnInit {
 
   gridDataSource: any;
   lsStatus = this.inspectionService.status;
-  lsColaborador$: Observable<any> = inject(CatalogoService).obtenerInspector();
 
   @ViewChild('dataGridComponent', {static: true}) dataGridComponent!: DxDataGridComponent;
 

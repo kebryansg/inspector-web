@@ -5,7 +5,7 @@ import {CardComponent} from "@standalone-shared/card/card.component";
 import {DxDataGridComponent, DxDataGridModule, DxDropDownButtonModule, DxTemplateModule} from "devextreme-angular";
 import {DxiColumnModule, DxoLookupModule, DxoPagerModule, DxoPagingModule, DxoRemoteOperationsModule} from "devextreme-angular/ui/nested";
 import {StatusPipe} from "../../../../../../../pipes/status-inspection.pipe";
-import {lastValueFrom, Observable, switchMap, throwError} from "rxjs";
+import {filter, lastValueFrom, Observable, switchMap, throwError} from "rxjs";
 import {CatalogoService} from "../../../../../services/catalogo.service";
 import {ItemAction} from "../../../const/item-action.const";
 import {InspectionVehicleService} from "../../../services/inspection-vehicle.service";
@@ -15,12 +15,14 @@ import {headersParams} from "@utils/data-grid.util";
 import {isNotEmpty} from "@utils/empty.util";
 import {debounceTime, map} from "rxjs/operators";
 import {TypeInspection} from "../../../enums/type-inspection.enum";
-import {InspectionVehicle} from "../../../interfaces/inspection.interface";
+import {InspectionConstruction, InspectionVehicle} from "../../../interfaces/inspection.interface";
 import {NotificationService} from "@service-shared/notification.service";
 import {formatDate} from "devextreme/localization";
 import {FileSaverService} from "ngx-filesaver";
 import {TypeFile} from "../../../enums/type-file.const";
 import {AttachmentService} from "../../../services/attachment.service";
+import {ModalAssignInspectorComponent} from "../../../components/md-assign-inspector/modal-assign-inspector.component";
+import {Dialog} from "@angular/cdk/dialog";
 
 @Component({
     selector: 'app-list-vehicle',
@@ -48,6 +50,7 @@ export class ListVehicleComponent implements OnInit {
   private readonly destroy: DestroyRef = inject(DestroyRef);
   private router: Router = inject(Router);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private modalService: Dialog = inject(Dialog);
 
   private readonly inspectionVehicleService: InspectionVehicleService = inject(InspectionVehicleService);
   private notificationService: NotificationService = inject(NotificationService);
@@ -122,6 +125,9 @@ export class ListVehicleComponent implements OnInit {
   onItemClick($event: any, dataRow: any) {
     const {itemData} = $event;
     switch (itemData.id) {
+      case 'assign_inspector':
+        this.changeInspector(dataRow);
+        break;
       case 'print_request':
         this.printRequest(dataRow)
         break;
@@ -139,6 +145,30 @@ export class ListVehicleComponent implements OnInit {
         break;
     }
 
+  }
+
+  changeInspector(row: InspectionVehicle) {
+    const modalRef = this.modalService.open<number>(ModalAssignInspectorComponent, {
+      data: {
+        titleModal: 'Asignar Colaborador'
+      }
+    });
+
+    modalRef.closed
+      .pipe(
+        filter<any>(result => !!result)
+      )
+      .subscribe((idInspector: number) => {
+        this.inspectionVehicleService.assigmentInspector(row.Id, idInspector)
+          .then((res) => {
+            this.notificationService.showSwalMessage({
+              title: 'Inspector Asignado',
+              icon: 'success',
+              text: 'Se asigno un inspector para esta inspección.'
+            });
+            this.dataGridComponent.instance.refresh();
+          });
+      });
   }
 
   getRequest(row: InspectionVehicle) {

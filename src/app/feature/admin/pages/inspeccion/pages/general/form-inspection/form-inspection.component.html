@@ -105,6 +105,21 @@
                   </div>
                 </div>
               }
+              @case ('DTE') {
+                <div class="dx-field dx-field-top-label">
+                  <div class="dx-field-label">
+                    {{ _component.description }}
+                  </div>
+                  <div class="dx-field-value">
+                    <dx-date-box [width]="'100%'"
+                                 type="date"
+                                 displayFormat="yyyy-MM-dd"
+                                 [inputAttr]="{ 'aria-label': 'Date' }"
+                                 (valueChange)="changeValueComponent(_component.ID, $event)"
+                    />
+                  </div>
+                </div>
+              }
               @case ('DEC') {
                 <dx-check-box class="dx-field-checkbox bold"
                               [width]="'100%'"

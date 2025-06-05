@@ -3,7 +3,7 @@ import {CardComponent} from "@standalone-shared/card/card.component";
 import {
   DxAccordionModule,
   DxButtonModule,
-  DxCheckBoxModule,
+  DxCheckBoxModule, DxDateBoxModule,
   DxFileUploaderComponent,
   DxFileUploaderModule,
   DxNumberBoxModule,
@@ -76,7 +76,8 @@ const TabsWithIconAndText: TabFormEdit[] = [
     ItemInspectionConstructionComponent,
     ItemInspectionVehicleComponent,
     DebounceClickDirective,
-    ItemCatalogComponentComponent
+    ItemCatalogComponentComponent,
+    DxDateBoxModule
   ],
     templateUrl: './form-inspection.component.html',
     styleUrl: './form-inspection.component.scss',
