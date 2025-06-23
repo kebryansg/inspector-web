@@ -32,17 +32,23 @@
                 [allowSorting]="false"
                 cellTemplate="cellOptionsTemplate"
     />
-    <dxi-column dataField="Nombre" caption="Nombre"/>
-    <dxi-column dataField="MAC" caption="MAC"/>
+    <dxi-column dataField="Nombre"
+                caption="Nombre"
+    />
+    <dxi-column dataField="MAC"
+                caption="MAC"
+    />
     <dxi-column dataField="Autorizado"
                 caption="Autorizado"
                 [allowFiltering]="false"
                 dataType="boolean"
+                [sortOrder]="'asc'"
     />
     <dxi-column dataField="created_at"
                 caption="Fecha Creación"
                 dataType="datetime"
                 format="yyyy, MMMM dd"
+                [sortOrder]="'desc'"
     />
     <dxi-column dataField="updated_at"
                 caption="Última Modificación"
