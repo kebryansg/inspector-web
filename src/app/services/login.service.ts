@@ -1,5 +1,5 @@
-import {inject, Injectable} from '@angular/core';
-import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import {inject, Injectable, signal} from '@angular/core';
+import {HttpClient, HttpErrorResponse} from "@angular/common/http";
 import {catchError, lastValueFrom, Observable, of, tap} from "rxjs";
 import {KeyLocalStorage} from "../feature/auth/enums/key-storage.enum";
 import {environment} from "@environments/environment";
@@ -10,6 +10,8 @@ import {map} from "rxjs/operators";
   providedIn: 'root'
 })
 export class LoginService {
+
+  existsLogin = signal(false);
 
   httpClient = inject(HttpClient);
 
@@ -55,10 +57,12 @@ export class LoginService {
   logout() {
     localStorage.removeItem(KeyLocalStorage.Token);
     localStorage.removeItem(KeyLocalStorage.TokenType);
+    this.existsLogin.set(false);
   }
 
   existLogin(): boolean {
-    return !!localStorage.getItem(KeyLocalStorage.Token);
+    this.existsLogin.set(!!localStorage.getItem(KeyLocalStorage.Token));
+    return this.existsLogin();
   }
 
   setToken(typeToken: string, token: string) {

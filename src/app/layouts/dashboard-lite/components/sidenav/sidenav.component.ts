@@ -16,22 +16,22 @@ interface SideNavToggle {
 }
 
 @Component({
-    selector: 'app-sidenav',
-    changeDetection: ChangeDetectionStrategy.OnPush,
+  selector: 'app-sidenav',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [NgClass, RouterLink, RouterLinkActive, NgIf, SublevelMenuComponent, TitleCasePipe],
-    templateUrl: './sidenav.component.html',
-    styleUrls: ['./sidenav.component.scss'],
-    animations: [
-        fadeInOut,
-        trigger('rotate', [
-            transition(':enter', [
-                animate('1000ms', keyframes([
-                    style({ transform: 'rotate(0deg)', offset: '0' }),
-                    style({ transform: 'rotate(2turn)', offset: '1' })
-                ]))
-            ])
-        ])
-    ]
+  templateUrl: './sidenav.component.html',
+  styleUrls: ['./sidenav.component.scss'],
+  animations: [
+    fadeInOut,
+    trigger('rotate', [
+      transition(':enter', [
+        animate('1000ms', keyframes([
+          style({transform: 'rotate(0deg)', offset: '0'}),
+          style({transform: 'rotate(2turn)', offset: '1'})
+        ]))
+      ])
+    ])
+  ]
 })
 export class SidenavComponent implements OnInit {
   public router: Router = inject(Router);

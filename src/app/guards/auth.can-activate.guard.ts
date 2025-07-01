@@ -3,8 +3,8 @@ import {inject} from "@angular/core";
 import {LoginService} from "../services/login.service";
 
 export const authGuard: CanActivateFn = (
-  route: ActivatedRouteSnapshot,
-  state: RouterStateSnapshot
+  _route: ActivatedRouteSnapshot,
+  _state: RouterStateSnapshot
 ) => {
   return inject(LoginService).existLogin()
     ? true

@@ -1,6 +1,6 @@
-import {APP_INITIALIZER, ApplicationConfig, importProvidersFrom} from "@angular/core";
+import {ApplicationConfig, importProvidersFrom, provideAppInitializer} from "@angular/core";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import { provideHttpClient, withInterceptors } from "@angular/common/http";
+import {provideHttpClient, withInterceptors} from "@angular/common/http";
 import {TokenInterceptor} from "./feature/admin/interceptors/token.interceptor";
 import {provideRouter, withComponentInputBinding} from "@angular/router";
 import {routes} from "./app-routing";
@@ -22,6 +22,17 @@ export const appConfig: ApplicationConfig = {
     ),
     provideRouter(routes, withComponentInputBinding()),
 
+    provideAppInitializer(
+      () => {
+        loadMessages(esMessages);
+        locale(navigator.language);
+        config({
+          licenseKey,
+          defaultCurrency: 'USD'
+        });
+      }
+    ),
+
     importProvidersFrom([
       DialogModule
     ]),
@@ -32,16 +43,5 @@ export const appConfig: ApplicationConfig = {
         container: ModalContainerComponent,
       }
     },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: () => {
-        loadMessages(esMessages);
-        locale(navigator.language);
-        config({
-          licenseKey,
-          defaultCurrency: 'USD'
-        });
-      }
-    }
   ]
 }
